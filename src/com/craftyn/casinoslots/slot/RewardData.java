@@ -56,7 +56,6 @@ public class RewardData {
 			
 			// Kill action
 			else if(a[0].equalsIgnoreCase("kill")) {
-				
 				p.setHealth(0);
 			}
 			
@@ -79,6 +78,12 @@ public class RewardData {
 			// Smite action
 			else if(a[0].equalsIgnoreCase("smite")) {
 				p.getWorld().strikeLightning(p.getLocation());
+			}
+			
+			// Fire action
+			else if(a[0].equalsIgnoreCase("fire")) {
+				//Haven't tested this, just adding more actions
+				p.setFireTicks(20);
 			}
 			
 			// Broadcast action

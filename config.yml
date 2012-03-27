@@ -1,0 +1,99 @@
+# AnCasino v2.1
+# @author: Darazo <darazo.dawning@gmail.com>
+# @license: GPLv3
+# 
+# Instructions for this configuration file can be found at the BukkitDev page:
+# http://dev.bukkit.org/server-mods/ancasino/
+options:
+  track-statistics: true
+  allow-diagonal-winnings: true
+  enable-slot-protection: true
+  chat:
+    display-plugin-prefix: true
+    plugin-prefix-color: '&c'
+    chat-color: '&a'
+types:
+  default:
+    cost: 100
+    create-cost: 1000
+    reel:
+    - 42,43
+    - 41,24
+    - 57,15
+    - 46,18
+    - 103,19
+    - 49,4
+    - 3,10
+    rewards:
+      '42':
+        message: Winner - 3 iron blocks! $175 awarded.
+        money: 175.0
+      '41':
+        message: Winner - 3 gold blocks! $300 awarded.
+        money: 300.0
+      '57':
+        message: Winner - 3 diamond blocks! $750 awarded.
+        money: 750.0
+      '46':
+        action: kill
+        message: Winne-
+        money: 0.0
+      '103':
+        action:
+        - give 103 64
+        message: Winner - 3 ..melons? Nom.
+        money: 0.0
+    messages:
+      insufficient-funds: You can't afford to use this.
+      in-use: This slot machine is already in use.
+      no-win: No luck this time.
+      start: '[cost] removed from your account. Let''s roll!'
+      help:
+      - 'Instructions:'
+      - Get 3 in a row in order to win. $100 per spin.
+      - '3 iron blocks: $175'
+      - '3 gold blocks: $300'
+      - '3 diamond blocks: $750'
+      - '3 melon blocks: stack of melons'
+  level1:
+    cost: 50
+    create-cost: 1000
+    reel:
+    - 16,24
+    - 15,15
+    - 74,11
+    - 46,5
+    - 21,5
+    - 1,10
+    rewards:
+      '16':
+        message: Winner - 3 coal ores! 30 mirs awarded.
+        money: 60.0
+      '15':
+        message: Winner - 3 iron ores! 40 mirs awarded.
+        money: 70.0
+      '74':
+        message: Winner - 3 redstone ores! 75 mirs awarded.
+        money: 95.0
+      '46':
+        action: kill
+        message: Winne-
+        money: 0.0
+      '21':
+        message: Winner - 3 lapis lazuli ores! 100 mirs awarded.
+        money: 115.0
+      '1':
+        message: No luck this time.
+        money: 0.0
+    messages:
+      insufficient-funds: You can't afford to use this.
+      in-use: This slot machine is already in use.
+      no-win: No luck this time.
+      start: '[cost] removed from your account. Let''s roll!'
+      help:
+      - 'Instructions:'
+      - Get 3 in a row in order to win. 50 mirs per spin.
+      - '3 coal ores: 30 mirs'
+      - '3 iron ores: 40 mirs'
+      - '3 redstone ores: 75 mirs'
+      - '3 lapis lazuli ores: 100 mirs'

@@ -1,0 +1,25 @@
+name: CasinoSlots
+main: com.craftyn.casinoslots
+version: 2.1.1
+description: Real slot machines for your server.
+softdepend: [Vault]
+commands:
+    casino:
+        description: CasinoSlots
+        usage: Displays the command guide.
+permissions:
+    casinoslots.*:
+        description: Gives access to all CasinoSlots commands.
+        children:
+            casinoslots.admin: true
+            casinoslots.use: true
+            casinoslots.create: true
+    casinoslots.admin:
+        description: All CasinoSlots commands and permissions
+        default: op
+    casinoslots.use.*:
+        description: Allows you to use slot machines.
+        default: true
+    casinoslots.create:
+        description: User permissions for slot management
+        default: true

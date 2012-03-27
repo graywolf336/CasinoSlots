@@ -26,7 +26,7 @@ public class CasinoAddManaged extends AnCommand {
 		}
 		
 		// Valid command format
-		if(args.length >= 2 && args.length <= 3) {
+		if(args.length == 3) {
 						
 			// Slot does not exist
 			if(!plugin.slotData.isSlot(args[1])) {

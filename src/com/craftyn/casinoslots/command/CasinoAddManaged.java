@@ -34,12 +34,7 @@ public class CasinoAddManaged extends AnCommand {
 				this.name = args[1];
 								
 					// Valid type
-				if(args.length < 3) {
-					
-					this.type = "default";
-				}
-				
-				else if(plugin.typeData.isType(args[2])) {
+				if(plugin.typeData.isType(args[2])) {
 					String typeName = args[2];
 					
 					// Has type permission

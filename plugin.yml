@@ -1,5 +1,5 @@
 name: CasinoSlots
-main: com.craftyn.casinoslots
+main: com.craftyn.casinoslots.CasinoSlots
 version: 2.1.1
 description: Real slot machines for your server.
 softdepend: [Vault]

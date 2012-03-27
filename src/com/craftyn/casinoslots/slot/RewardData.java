@@ -6,6 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import com.craftyn.casinoslots.CasinoSlots;
 
@@ -84,6 +86,17 @@ public class RewardData {
 			else if(a[0].equalsIgnoreCase("fire")) {
 				//Haven't tested this, just adding more actions
 				p.setFireTicks(20);
+			}
+			
+			// goBlind action
+			else if(a[0].equalsIgnoreCase("goblind")) {
+				p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 300, 90));
+			}
+			
+			// DrugUp action
+			else if (a[0].equalsIgnoreCase("drugup")) {
+				p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 900, 200));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 10));
 			}
 			
 			// Broadcast action

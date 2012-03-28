@@ -22,6 +22,8 @@ import com.craftyn.casinoslots.util.StatData;
 public class CasinoSlots extends JavaPlugin{
 	
 	protected CasinoSlots plugin;
+	public Economy economy = null;
+	private final Logger logger = Logger.getLogger("Minecraft");
 	
 	public String consolePrefix = "[CasinoSlots]";
 	public String prefix;
@@ -36,9 +38,6 @@ public class CasinoSlots extends JavaPlugin{
 	public StatData statsData = new StatData(this);
 	public RewardData rewardData = new RewardData(this);
 	public Permissions permission = new Permissions(this);
-	
-	public Economy economy = null;
-	public final Logger logger = Logger.getLogger("Minecraft");
 
 	public void onDisable() {		
 		configData.save();
@@ -53,31 +52,26 @@ public class CasinoSlots extends JavaPlugin{
 	}
 
 	public void onEnable() {
-		
-		configData.load();
-		prefix = configData.prefix;
-		
 		PluginManager pm = this.getServer().getPluginManager();
 		
-		pm.registerEvents(this.playerListener, this);
-		pm.registerEvents(this.blockListener, this);
-		
-		getCommand("casino").setExecutor(commandExecutor);
-		
 		if(!pm.isPluginEnabled("Vault")) {
-			
 			this.logger.warning(consolePrefix +" Vault is required in order to use this plugin.");
 			this.logger.warning(consolePrefix +" dev.bukkit.org/server-mods/vault/");
 			pm.disablePlugin(this);
-		}
-		else {
-			
+		} else {
 			if(!setupEconomy()) {
 				this.logger.warning(consolePrefix + " An economy plugin is required in order to use this plugin.");
 				pm.disablePlugin(this);
 			}
 		}
 		
+		configData.load();
+		prefix = configData.prefix;
+		
+		pm.registerEvents(this.playerListener, this);
+		pm.registerEvents(this.blockListener, this);
+		
+		getCommand("casino").setExecutor(commandExecutor);
 	}
 	
 	// Sends a properly formatted message
@@ -106,8 +100,6 @@ public class CasinoSlots extends JavaPlugin{
         if (economyProvider != null) {
             economy = economyProvider.getProvider();
         }
-        
         return (economy != null); 
     }
-
 }

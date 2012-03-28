@@ -113,7 +113,7 @@ public class AnCommandExecutor implements CommandExecutor{
 		
 		// No commands by console
 		else {
-			plugin.logger.info("This command cannot be executed as console.");
+			plugin.log("This command cannot be executed as console.");
 		}
 		return true;
 	}

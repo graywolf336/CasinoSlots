@@ -148,6 +148,7 @@ public class TypeData {
 	
 	// Returns map of messages
 	private HashMap<String, String> getMessages(String type) {
+		String currency = plugin.economy.currencyNamePlural();
 		
 		HashMap<String, String> messages = new HashMap<String, String>();
 		Double cost = plugin.configData.config.getDouble("types." + type +".cost");
@@ -161,7 +162,7 @@ public class TypeData {
 		for(Map.Entry<String, String> entry : messages.entrySet()) {
 			String message = entry.getValue();
 			String key = entry.getKey();
-			message = message.replaceAll("\\[cost\\]", ""+ cost + " " + plugin.economy.currencyNamePlural());
+			message = message.replaceAll("\\[cost\\]", ""+ cost + " " + currency);
 			messages.put(key, message);
 		}
 		

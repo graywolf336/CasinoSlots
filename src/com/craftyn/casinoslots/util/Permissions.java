@@ -10,10 +10,10 @@ public class Permissions {
 	
 	protected CasinoSlots plugin;
 	
-	private String admin = "ancasino.admin";
-	private String create = "ancasino.create";
-	private String manage = "ancasino.manage";
-	private String use = "ancasino.use";
+	private String admin = "casinoslots.admin";
+	private String create = "casinoslots.create";
+	private String manage = "casinoslots.manage";
+	private String use = "casinoslots.use";
 	
 	// Initialize permissions
 	public Permissions(CasinoSlots plugin) {

@@ -23,6 +23,7 @@ public class CasinoSlots extends JavaPlugin{
 	
 	protected CasinoSlots plugin;
 	
+	public String consolePrefix = "[CasinoSlots]";
 	public String prefix;
 	
 	private AnPlayerListener playerListener = new AnPlayerListener(this);
@@ -54,7 +55,7 @@ public class CasinoSlots extends JavaPlugin{
 	public void onEnable() {
 		
 		configData.load();
-		prefix =  configData.config.getString("options.chat.plugin-prefix");
+		prefix = configData.prefix;
 		
 		PluginManager pm = this.getServer().getPluginManager();
 		
@@ -65,14 +66,14 @@ public class CasinoSlots extends JavaPlugin{
 		
 		if(!pm.isPluginEnabled("Vault")) {
 			
-			this.logger.warning(prefix +" Vault is required in order to use this plugin.");
-			this.logger.warning(prefix +" dev.bukkit.org/server-mods/vault/");
+			this.logger.warning(consolePrefix +" Vault is required in order to use this plugin.");
+			this.logger.warning(consolePrefix +" dev.bukkit.org/server-mods/vault/");
 			pm.disablePlugin(this);
 		}
 		else {
 			
 			if(!setupEconomy()) {
-				this.logger.warning(prefix + " An economy plugin is required in order to use this plugin.");
+				this.logger.warning(consolePrefix + " An economy plugin is required in order to use this plugin.");
 				pm.disablePlugin(this);
 			}
 		}
@@ -85,6 +86,11 @@ public class CasinoSlots extends JavaPlugin{
 		message = configData.prefixColor + prefix + configData.chatColor + " " + message;
 		message = message.replaceAll("(?i)&([a-f0-9])", "\u00A7$1");
 		player.sendMessage(message);	
+	}
+	
+	// Sends a properly formatted message to the console
+	public void log(String message) {
+		logger.info(consolePrefix + " " + message);
 	}
 	
 	//saves the files

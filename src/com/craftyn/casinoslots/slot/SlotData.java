@@ -82,7 +82,7 @@ public class SlotData {
 				}
 			}
 		}
-		plugin.logger.info(plugin.prefix + " Loaded " + i + " slot machines.");
+		plugin.log("Loaded " + i + " slot machines.");
 	}
 	
 	// Writes slot machine data to disk

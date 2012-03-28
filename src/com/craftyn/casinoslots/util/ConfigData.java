@@ -19,7 +19,7 @@ public class ConfigData {
 	public File slotsFile;
 	public File statsFile;
 	
-	public String prefixColor, chatColor;
+	public String prefixColor, chatColor, prefix;
 	public Boolean displayPrefix, trackStats, allowDiagonals, protection;
 	
 	// Initialize ConfigData
@@ -32,7 +32,9 @@ public class ConfigData {
 		
 		config = plugin.getConfig();
 		config.options().copyDefaults(true);
-				
+		
+		setGlobals();
+		
 		statsFile = new File(plugin.getDataFolder(), "stats.yml");
 		stats = YamlConfiguration.loadConfiguration(statsFile);
 		
@@ -52,6 +54,19 @@ public class ConfigData {
 		saveSlots();
 		saveStats();
 		
+	}
+	
+	// Set up global settings
+	private void setGlobals() {
+		
+		this.prefixColor = config.getString("options.chat.plugin-prefix-color", "&c");
+		this.prefix = config.getString("options.chat.plugin-prefix", "[Casino]");
+		this.chatColor = config.getString("options.chat.chat-color", "&a");
+		this.displayPrefix = config.getBoolean("options.chat.display-plugin-prefix", true);
+		
+		this.trackStats = config.getBoolean("options.track-statistics", true);
+		this.allowDiagonals = config.getBoolean("options.allow-diagonal-winnings", false);
+		this.protection = config.getBoolean("options.enable-slot-protection", true);
 	}
 	
 	// Save slots data

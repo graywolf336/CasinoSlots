@@ -71,7 +71,7 @@ public class TypeData {
 				}
 			}
 		}
-		plugin.logger.info(plugin.prefix + " Loaded " + i + " types.");
+		plugin.log("Loaded " + i + " types.");
 	}
 	
 	// Load type into memory

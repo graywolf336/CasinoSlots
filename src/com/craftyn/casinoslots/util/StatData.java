@@ -91,11 +91,11 @@ public class StatData {
 					i++;
 				}
 			}
-			plugin.logger.info(plugin.prefix +" Loaded statistics for " + i + " types.");
+			plugin.log("Loaded statistics for " + i + " types.");
 			
 		}
 		else {
-			plugin.logger.info(plugin.prefix +" Not tracking statistics.");
+			plugin.log("Not tracking statistics.");
 		}
 	}
 	

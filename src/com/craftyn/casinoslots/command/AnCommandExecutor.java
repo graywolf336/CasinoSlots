@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.slot.SlotMachine;
 
 public class AnCommandExecutor implements CommandExecutor{
 	
@@ -76,23 +75,7 @@ public class AnCommandExecutor implements CommandExecutor{
 				
 				// casino toggle
 				else if(args[0].equalsIgnoreCase("toggle")) {
-					if (args.length < 2) {
-						plugin.sendMessage(player, "Please type which slot you want to toggle.");
-						return true;
-					}
-					// Slot exists
-					if(plugin.slotData.isSlot(args[1])) {
-						SlotMachine slot = plugin.slotData.getSlot(args[1]);
-						slot.toggleBusy();
-						plugin.sendMessage(player, "Slot machine toggled.");
-						return true;
-					}
-					
-					// Slot does not exist
-					else {
-						plugin.sendMessage(player, "Invalid slot machine.");
-						return true;
-					}
+					cmd = new CasinoToggle(plugin, args, player);
 				}
 				
 				// invalid command

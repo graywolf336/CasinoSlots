@@ -1,5 +1,6 @@
 package com.craftyn.casinoslots.listeners;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -92,13 +93,17 @@ public class AnPlayerListener implements Listener {
 									}
 								}
 								plugin.sendMessage(player, slot.getName() +":");
-								plugin.sendMessage(player, "Type: " + slot.getType());
-								plugin.sendMessage(player, "Owner: " + slot.getOwner());
-								plugin.sendMessage(player, "Managed: " + slot.isManaged().toString());
+								plugin.sendMessage(player, "    Type: " + slot.getType());
+								plugin.sendMessage(player, "    Owner: " + slot.getOwner());
+								plugin.sendMessage(player, "    Managed: " + slot.isManaged().toString());
 								if(slot.isManaged()) {
-									plugin.sendMessage(player, "Enabled: " + slot.isEnabled().toString());
-									plugin.sendMessage(player, "Funds: " + slot.getFunds() + " " + plugin.economy.currencyNamePlural());
-									plugin.sendMessage(player, "Funds required: " + plugin.typeData.getMaxPrize(slot.getType()));
+									if (slot.isEnabled()) {
+										plugin.sendMessage(player, "    Enabled: " + slot.isEnabled().toString());
+									}else {
+										plugin.sendMessage(player, "    Enabled: " + ChatColor.RED + slot.isEnabled().toString());
+									}
+									plugin.sendMessage(player, "    Funds: " + slot.getFunds() + " " + plugin.economy.currencyNamePlural());
+									plugin.sendMessage(player, "    Funds required: " + plugin.typeData.getMaxPrize(slot.getType()));
 								}
 							}
 						}

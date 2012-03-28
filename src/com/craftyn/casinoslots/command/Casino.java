@@ -22,6 +22,10 @@ public class Casino extends AnCommand {
 			sendMessage("/casino remove - Remove an existing slot machine");
 			sendMessage("/casino stats - Global usage statistics");
 			sendMessage("/casino type - Manage slot machine types");
+			sendMessage("/casino toggle - Toggles the state of a slot");
+			sendMessage("/casino setowner - Sets the owner of a managed slot");
+			sendMessage("/casino deposit - Deposit money to a managed slot");
+			sendMessage("/casino withdraw - Withdraw money from a managed slot");
 		}
 		
 		else if(plugin.permission.canCreate(player)) {

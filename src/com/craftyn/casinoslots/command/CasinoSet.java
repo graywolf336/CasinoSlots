@@ -25,7 +25,8 @@ public class CasinoSet extends AnCommand {
 					String owner = args[2];
 					slot.setOwner(owner);
 					sendMessage(owner + " is now the owner of the " + args[1] + " slot machine.");
-					plugin.saveFiles();
+					plugin.slotData.saveSlot(slot);
+					plugin.configData.saveSlots();
 				}
 				// No access
 				else {

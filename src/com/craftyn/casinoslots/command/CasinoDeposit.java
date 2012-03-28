@@ -38,7 +38,10 @@ public class CasinoDeposit extends AnCommand {
 					slot.deposit(amount);
 					sendMessage(amount +  " deposited to " + args[1] + ".");
 					sendMessage(args[1] + " now has " + slot.getFunds() + " in it's account.");
-					plugin.saveFiles();
+					plugin.slotData.saveSlot(slot);
+					plugin.configData.saveSlots();
+					//plugin.configData.slots.set(slot.getName() + ".funds", slot.getFunds());
+					//plugin.configData.save();
 				}
 				// No access
 				else {

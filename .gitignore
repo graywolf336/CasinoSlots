@@ -36,3 +36,6 @@ Thumbs.db
 # folders #
 ###########
 bin/
+.settings/
+.classpath
+.project

@@ -97,7 +97,7 @@ public class AnPlayerListener implements Listener {
 								plugin.sendMessage(player, "Managed: " + slot.isManaged().toString());
 								if(slot.isManaged()) {
 									plugin.sendMessage(player, "Enabled: " + slot.isEnabled().toString());
-									plugin.sendMessage(player, "Funds: " + slot.getFunds());
+									plugin.sendMessage(player, "Funds: " + slot.getFunds() + " " + plugin.economy.currencyNamePlural());
 									plugin.sendMessage(player, "Funds required: " + plugin.typeData.getMaxPrize(slot.getType()));
 								}
 							}

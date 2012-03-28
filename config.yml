@@ -62,7 +62,7 @@ types:
     reel:
     - 46,1
     - 124,1
-    - 90,1
+    - 74,1
     - 51,1
     - 103,1
     rewards:
@@ -74,10 +74,10 @@ types:
         action: kill
         message: Winne-
         money: 0.0
-      '90':
+      '74':
         action: drugup
         message: Winne- Kids, drugs are bad!
-      '51':
+      '87':
         action: fire
         message: Winne- Fire hurts! Don't mess with hit.
         money: 0.0
@@ -96,5 +96,5 @@ types:
       - '3 tnt blocks: Death!'
       - '3 on redstone lamps: You go Blind!'
       - '3 melon blocks: stack of melons'
-      - '3 portal blocks: Get drugged'
-      - '3 fires: Catch on fire'
+      - '3 redstone: Get drugged'
+      - '3 nether brick: Catch on fire'

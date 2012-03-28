@@ -82,7 +82,7 @@ types:
         message: Winne- Fire hurts! Don't mess with hit.
         money: 0.0
       '103':
-        action: give 103 64
+        action: give 103 3
         message: Winner - 3 ..melons? Nom.
         money: 0.0
     messages:

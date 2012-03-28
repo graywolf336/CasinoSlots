@@ -64,8 +64,6 @@ public class Game {
 		plugin.economy.withdrawPlayer(player.getName(), cost);
 		if(slot.isManaged()) {
 			slot.deposit(cost);
-			plugin.slotData.saveSlot(slot);
-			plugin.configData.saveSlots();
 		}
 		
 		// Start playing

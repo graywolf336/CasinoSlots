@@ -38,8 +38,6 @@ public class CasinoWithdraw extends AnCommand {
 					slot.withdraw(amount);
 					sendMessage(amount +  " withdrew from " + args[1] + ".");
 					sendMessage(args[1] + " now has " + slot.getFunds() + " in it's account.");
-					plugin.slotData.saveSlot(slot);
-					plugin.configData.saveSlots();
 				}
 				// No access
 				else {

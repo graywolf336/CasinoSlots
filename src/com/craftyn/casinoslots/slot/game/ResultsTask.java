@@ -51,9 +51,6 @@ public class ResultsTask implements Runnable {
 				if(slot.getFunds() < max) {
 					slot.setEnabled(false);
 				}
-				
-				game.plugin.slotData.saveSlot(slot);
-				game.plugin.configData.saveSlots();
 			}
 		}
 		

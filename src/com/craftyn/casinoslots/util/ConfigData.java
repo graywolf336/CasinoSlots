@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.craftyn.casinoslots.slot.SlotMachine;
 
 public class ConfigData {
 	
@@ -71,8 +72,20 @@ public class ConfigData {
 	
 	// Save slots data
 	public void saveSlots() {
+		Collection<SlotMachine> slots = plugin.slotData.getSlots();
+		if(slots != null && !slots.isEmpty()) {
+			for (SlotMachine slot : slots) {
+				String path = "slots." + slot.getName() + ".";
+				this.slots.set(path + "name", slot.getName());
+				this.slots.set(path + "type", slot.getType());
+				this.slots.set(path + "owner", slot.getOwner());
+				this.slots.set(path + "world", slot.getWorld());
+				this.slots.set(path + "managed", slot.isManaged());
+				this.slots.set(path + "funds", slot.getFunds());
+			}
+		}
 		try {
-			slots.save(slotsFile);
+			this.slots.save(slotsFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

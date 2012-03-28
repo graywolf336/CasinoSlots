@@ -41,8 +41,7 @@ types:
         message: Winne-
         money: 0.0
       '103':
-        action:
-        - give 103 64
+        action: give 103 64
         message: Winner - 3 ..melons? Nom.
         money: 0.0
     messages:
@@ -57,3 +56,45 @@ types:
       - '3 gold blocks: $300'
       - '3 diamond blocks: $750'
       - '3 melon blocks: stack of melons'
+  actionslot:
+    cost: 100
+    create-cost: 1000
+    reel:
+    - 46,1
+    - 124, 1
+    - 90, 1
+    - 51, 1
+    - 103, 1
+    rewards:
+      '124':
+        action: goblind
+        message: Winne- You can't see now!
+        money: 0.0
+      '46':
+        action: kill
+        message: Winne-
+        money: 0.0
+      '90':
+        action: drugup
+        message: Winne- Kids, drugs are bad!
+      '51':
+        action: fire
+        message: Winne- Fire hurts! Don't mess with hit.
+        money: 0.0
+      '103':
+        action: give 103 64
+        message: Winner - 3 ..melons? Nom.
+        money: 0.0
+    messages:
+      insufficient-funds: You can't afford to use this.
+      in-use: This slot machine is already in use.
+      no-win: No luck this time.
+      start: '[cost] removed from your account. Let''s roll!'
+      help:
+      - 'Instructions:'
+      - Get 3 in a row in order to win. $100 per spin.
+      - '3 tnt blocks: Death!'
+      - '3 on redstone lamps: You go Blind!'
+      - '3 melon blocks: stack of melons'
+      - '3 portal blocks: Get drugged'
+      - '3 fires: Catch on fire'

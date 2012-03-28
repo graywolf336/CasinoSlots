@@ -61,10 +61,10 @@ types:
     create-cost: 1000
     reel:
     - 46,1
-    - 124, 1
-    - 90, 1
-    - 51, 1
-    - 103, 1
+    - 124,1
+    - 90,1
+    - 51,1
+    - 103,1
     rewards:
       '124':
         action: goblind

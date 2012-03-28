@@ -61,12 +61,12 @@ types:
     create-cost: 1000
     reel:
     - 46,1
-    - 124,1
+    - 89,1
     - 74,1
     - 87,1
     - 103,1
     rewards:
-      '124':
+      '89':
         action: goblind
         message: Winne- You can't see now!
         money: 0.0

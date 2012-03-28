@@ -85,7 +85,7 @@ public class RewardData {
 			// Fire action
 			else if(a[0].equalsIgnoreCase("fire")) {
 				//Haven't tested this, just adding more actions
-				p.setFireTicks(20);
+				p.setFireTicks(120);
 			}
 			
 			// goBlind action

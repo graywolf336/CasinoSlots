@@ -23,7 +23,7 @@ public class CasinoSlots extends JavaPlugin{
 	
 	protected CasinoSlots plugin;
 	
-	public String prefix = "[Casino]";
+	public String prefix;
 	
 	private AnPlayerListener playerListener = new AnPlayerListener(this);
 	private AnBlockListener blockListener = new AnBlockListener(this);
@@ -54,6 +54,7 @@ public class CasinoSlots extends JavaPlugin{
 	public void onEnable() {
 		
 		configData.load();
+		prefix =  configData.config.getString("options.chat.plugin-prefix");
 		
 		PluginManager pm = this.getServer().getPluginManager();
 		

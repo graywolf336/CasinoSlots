@@ -126,6 +126,10 @@ public class ResultsTask implements Runnable {
 				
 				int id = current.get(0).getTypeId();
 				reward = game.getType().getReward(id);
+				// Break loop if and don't reward for something that doesn't have a reward.
+				if (reward == null) {
+					break;
+				}
 				results.add(reward);
 			}	
 		}

@@ -23,7 +23,7 @@ public class Permissions {
 	// Returns true if player has admin permissions
 	public Boolean isAdmin(Player player) {
 		
-		if(player.isOp() || player.hasPermission(admin) ) {
+		if(player.isOp() || player.hasPermission(admin) || player.hasPermission(admin + ".*")) {
 			return true;
 		}
 		return false;
@@ -32,7 +32,7 @@ public class Permissions {
 	// Returns true if player can create slots
 	public Boolean canCreate(Player player) {
 			
-		if(isAdmin(player) || player.hasPermission(create)) {
+		if(isAdmin(player) || player.hasPermission(create) || player.hasPermission(create + ".*")) {
 			return true;
 		}
 		return false;
@@ -42,7 +42,7 @@ public class Permissions {
 	public Boolean canCreate(Player player, Type type) {
 		
 		String name = type.getName();
-		if(isAdmin(player) || player.hasPermission(create +"."+ name)) {
+		if(isAdmin(player) || player.hasPermission(create +"."+ name) || player.hasPermission(create + ".*")) {
 			return true;
 		}
 		return false;
@@ -51,7 +51,7 @@ public class Permissions {
 	// Returns true if player can create slots with the type
 	public Boolean canCreate(Player player, String type) {
 		
-		if(isAdmin(player) || player.hasPermission(create +"."+ type)) {
+		if(isAdmin(player) || player.hasPermission(create + "." + type) || player.hasPermission(create + ".*")) {
 			return true;
 		}
 		return false;
@@ -70,7 +70,7 @@ public class Permissions {
 	public Boolean canUse(Player player, Type type) {
 		
 		String name = type.getName();
-		if(isAdmin(player) || player.hasPermission(use +"."+ name)) {
+		if(isAdmin(player) || player.hasPermission(use +"."+ name) || player.hasPermission(use + ".*")) {
 			return true;
 		}
 		return false;

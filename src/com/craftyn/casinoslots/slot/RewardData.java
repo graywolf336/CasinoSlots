@@ -24,15 +24,15 @@ public class RewardData {
 		
 		if(reward.message != null) {
 			plugin.sendMessage(player, reward.message);
-		}else return;
+		}
 		
 		if(reward.money != null) {
 			plugin.economy.depositPlayer(player.getName(), reward.money);
-		}else return;
+		}
 		
 		if(reward.action != null && !reward.action.isEmpty()) {
 			executeAction(reward.action, player);
-		}else return;
+		}
 	}
 		
 	// Parses reward actions

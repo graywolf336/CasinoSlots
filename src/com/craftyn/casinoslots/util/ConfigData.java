@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -45,7 +46,6 @@ public class ConfigData {
 		plugin.slotData.loadSlots();
 		plugin.typeData.loadTypes();
 		plugin.statsData.loadStats();
-		
 	}
 	
 	// Save all config data

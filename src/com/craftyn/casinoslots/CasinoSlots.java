@@ -24,6 +24,7 @@ public class CasinoSlots extends JavaPlugin{
 	protected CasinoSlots plugin;
 	public Economy economy = null;
 	private final Logger logger = Logger.getLogger("Minecraft");
+	PluginManager pm = null;
 	
 	public String consolePrefix = "[CasinoSlots]";
 	public String prefix;
@@ -52,8 +53,7 @@ public class CasinoSlots extends JavaPlugin{
 	}
 
 	public void onEnable() {
-		PluginManager pm = this.getServer().getPluginManager();
-		
+		pm = this.getServer().getPluginManager();
 		if(!pm.isPluginEnabled("Vault")) {
 			this.logger.warning(consolePrefix +" Vault is required in order to use this plugin.");
 			this.logger.warning(consolePrefix +" dev.bukkit.org/server-mods/vault/");
@@ -72,6 +72,15 @@ public class CasinoSlots extends JavaPlugin{
 		pm.registerEvents(this.blockListener, this);
 		
 		getCommand("casino").setExecutor(commandExecutor);
+	}
+	
+	// Provides a way to shutdown the server from some other class
+	public void disablePlugin() {
+		if (pm == null) {
+			log("Sorry couldn't disable the plugin for some odd reason. :(");
+		}else {
+			pm.disablePlugin(this);
+		}
 	}
 	
 	// Sends a properly formatted message

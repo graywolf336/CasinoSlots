@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import com.craftyn.casinoslots.CasinoSlots;
 
@@ -14,6 +15,7 @@ public class TypeData {
 	
 	protected CasinoSlots plugin;
 	private HashMap<String, Type> types;
+	private final Logger logger = Logger.getLogger("Minecraft");
 	
 	// Initialize TypeData
 	public TypeData(CasinoSlots plugin) {
@@ -66,8 +68,16 @@ public class TypeData {
 			Set<String> types = plugin.configData.config.getConfigurationSection("types").getKeys(false);
 			if(!types.isEmpty()) {
 				for(String name : types) {
-					loadType(name);
-					i++;
+					if (!plugin.configData.config.contains("types." + name + ".messages")) {
+						plugin.log("Please make sure your slots in the config file contains 'messages:'.");
+						//If there is no "messages", disables the plugin and forces them to check their config
+						logger.warning("[CasinoSlots]" + " PLEASE CHECK ONE OF YOUR CONFIG FILES");
+						plugin.disablePlugin();
+						return;
+					}else {
+						loadType(name);
+						i++;
+					}
 				}
 			}
 		}
@@ -100,8 +110,15 @@ public class TypeData {
 		for(String m : reel) {
 			String[] mSplit = m.split("\\,");
 			int i = Integer.parseInt(mSplit[1]);
+			
 			while(i > 0) {
-				parsedReel.add(Integer.parseInt(mSplit[0]));
+				String[] itemSplit = mSplit[0].split(":");
+				if (itemSplit.length == 2) {
+					plugin.log("Sorry only regular blocks with no 'damage' value are supported right now.");
+					parsedReel.add(Integer.parseInt(itemSplit[0]));
+				}else {
+					parsedReel.add(Integer.parseInt(itemSplit[0]));
+				}
 				i--;
 			}
 		}
@@ -113,8 +130,8 @@ public class TypeData {
 		
 		String path = "types." + type + ".rewards." + id + ".";
 		
-		String message = plugin.configData.config.getString(path + "message");
-		Double money = plugin.configData.config.getDouble(path + "money");
+		String message = plugin.configData.config.getString(path + "message", "Award given!");
+		Double money = plugin.configData.config.getDouble(path + "money", 0.0);
 		List<String> action = null;
 		
 		if(plugin.configData.config.isSet(path + "action")) {
@@ -138,7 +155,14 @@ public class TypeData {
 		Map<Integer, Reward> rewards = new HashMap<Integer, Reward>();
 		
 		for(String itemId : ids) {
-			Integer id = Integer.parseInt(itemId);
+			Integer id = 1; //setting this to 1 just in case something is wrong
+			String[] itemSplit = itemId.split(":");
+			if (itemSplit.length == 2) {
+				plugin.log("Sorry only regular blocks with no 'damage' value are supported right now.");
+				id = Integer.parseInt(itemSplit[0]);
+			}else {
+				id = Integer.parseInt(itemSplit[0]);
+			}
 			Reward reward = getReward(type, id);
 			rewards.put(id, reward);
 		}
@@ -152,11 +176,11 @@ public class TypeData {
 		
 		HashMap<String, String> messages = new HashMap<String, String>();
 		Double cost = plugin.configData.config.getDouble("types." + type +".cost");
-		
-		messages.put("noFunds", plugin.configData.config.getString("types." + type +".messages.insufficient-funds"));
-		messages.put("inUse", plugin.configData.config.getString("types." + type +".messages.in-use"));
-		messages.put("noWin", plugin.configData.config.getString("types." + type +".messages.no-win"));
-		messages.put("start", plugin.configData.config.getString("types." + type +".messages.start"));
+
+		messages.put("noFunds", plugin.configData.config.getString("types." + type +".messages.insufficient-funds", "You can't afford to use this."));
+		messages.put("inUse", plugin.configData.config.getString("types." + type +".messages.in-use", "This slot machine is already in use."));
+		messages.put("noWin", plugin.configData.config.getString("types." + type +".messages.no-win", "No luck this time."));
+		messages.put("start", plugin.configData.config.getString("types." + type +".messages.start", "[cost] removed from your account. Lets roll!"));
 		
 		// Parse shortcodes
 		for(Map.Entry<String, String> entry : messages.entrySet()) {

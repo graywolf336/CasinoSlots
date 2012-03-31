@@ -1,5 +1,5 @@
 # Instructions for this configuration file can be found at the BukkitDev page:
-# http://dev.bukkit.org/server-mods/CasinoSlots/
+# http://dev.bukkit.org/server-mods/casino-slots/pages/info/config/
 options:
   track-statistics: true
   allow-diagonal-winnings: true

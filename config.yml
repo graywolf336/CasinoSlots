@@ -40,6 +40,7 @@ types:
         message: Winner - 3 ..melons? Nom.
         money: 0.0
     messages:
+      insufficient-permission: Sorry, you can't play this slot.
       insufficient-funds: You can't afford to use this.
       in-use: This slot machine is already in use.
       no-win: No luck this time.
@@ -81,6 +82,7 @@ types:
         message: Winner - 3 ..melons? Nom.
         money: 0.0
     messages:
+      insufficient-permission: You can't play this one, that's too sad - we really wanted you to win.
       insufficient-funds: You can't afford to use this.
       in-use: This slot machine is already in use.
       no-win: No luck this time.

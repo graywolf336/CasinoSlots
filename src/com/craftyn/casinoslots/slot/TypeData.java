@@ -177,6 +177,7 @@ public class TypeData {
 		HashMap<String, String> messages = new HashMap<String, String>();
 		Double cost = plugin.configData.config.getDouble("types." + type +".cost");
 
+		messages.put("noPermission", plugin.configData.config.getString("types." + type +".messages.insufficient-permission", "You don't have permission to use this slot."));
 		messages.put("noFunds", plugin.configData.config.getString("types." + type +".messages.insufficient-funds", "You can't afford to use this."));
 		messages.put("inUse", plugin.configData.config.getString("types." + type +".messages.in-use", "This slot machine is already in use."));
 		messages.put("noWin", plugin.configData.config.getString("types." + type +".messages.no-win", "No luck this time."));

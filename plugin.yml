@@ -17,9 +17,9 @@ permissions:
     casinoslots.admin:
         description: All CasinoSlots commands and permissions
         default: op
-    casinoslots.use.*:
+    casinoslots.use:
         description: Allows you to use slot machines.
         default: true
     casinoslots.create:
         description: User permissions for slot management
-        default: true
+        default: op

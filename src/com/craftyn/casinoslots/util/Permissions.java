@@ -70,7 +70,7 @@ public class Permissions {
 	public Boolean canUse(Player player, Type type) {
 		
 		String name = type.getName();
-		if(isAdmin(player) || player.hasPermission(use +"."+ name) || player.hasPermission(use + ".*")) {
+		if(isAdmin(player) || player.hasPermission(use +"."+ name) || player.hasPermission(use + ".*") || player.hasPermission(use)) {
 			return true;
 		}
 		return false;

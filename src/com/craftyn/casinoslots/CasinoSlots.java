@@ -23,6 +23,7 @@ public class CasinoSlots extends JavaPlugin{
 	
 	protected CasinoSlots plugin;
 	public Economy economy = null;
+	public String currency = null;
 	private final Logger logger = Logger.getLogger("Minecraft");
 	PluginManager pm = null;
 	
@@ -84,8 +85,7 @@ public class CasinoSlots extends JavaPlugin{
 	}
 	
 	// Sends a properly formatted message
-	public void sendMessage(Player player, String message) {
-		
+	public void sendMessage(Player player, String message) {		
 		message = configData.prefixColor + prefix + configData.chatColor + " " + message;
 		message = message.replaceAll("(?i)&([a-f0-9])", "\u00A7$1");
 		player.sendMessage(message);	
@@ -103,11 +103,11 @@ public class CasinoSlots extends JavaPlugin{
 	}
 	
 	// Registers economy with Vault
-	private Boolean setupEconomy() {
-		
+	private Boolean setupEconomy() {		
         RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         if (economyProvider != null) {
             economy = economyProvider.getProvider();
+            currency = economy.currencyNamePlural(); 
         }
         return (economy != null); 
     }

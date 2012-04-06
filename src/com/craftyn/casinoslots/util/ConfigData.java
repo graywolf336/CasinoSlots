@@ -87,6 +87,7 @@ public class ConfigData {
 		try {
 			this.slots.save(slotsFile);
 		} catch (IOException e) {
+			plugin.log("There was a problem saying your slots.yml file.");
 			e.printStackTrace();
 		}
 	}

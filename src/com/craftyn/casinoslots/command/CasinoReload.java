@@ -20,7 +20,7 @@ public class CasinoReload extends AnCommand {
 			return true;
 		}
 		
-		sendMessage("This is currently disabled as it appeared to do nothing.");
+		sendMessage("This is currently disabled as it was a memory leak.");
 		
 		/*plugin.log("Testing");
 		

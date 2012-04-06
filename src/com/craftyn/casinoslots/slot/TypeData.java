@@ -42,12 +42,10 @@ public class TypeData {
 		plugin.saveConfig();
 	}
 	
-	public void removeType(String type) {
-		
+	public void removeType(String type) {		
 		types.remove(type);
 		plugin.configData.config.set("types." + type, null);
-		plugin.saveConfig();
-		
+		plugin.saveConfig();		
 	}
 	
 	// Check if a type exists
@@ -59,8 +57,7 @@ public class TypeData {
 	}
 	
 	// Load all types into memory
-	public void loadTypes() {
-		
+	public void loadTypes() {		
 		this.types = new HashMap<String, Type>();
 		Integer i = 0;
 		
@@ -85,8 +82,7 @@ public class TypeData {
 	}
 	
 	// Load type into memory
-	private void loadType(String name) {
-		
+	private void loadType(String name) {		
 		String path = "types." + name +".";
 		
 		Double cost = plugin.configData.config.getDouble(path + "cost");
@@ -102,8 +98,7 @@ public class TypeData {
 	}
 	
 	// Returns the parsed reel of a type
-	private ArrayList<Integer> getReel(String type) {
-		
+	private ArrayList<Integer> getReel(String type) {		
 		List<String> reel = plugin.configData.config.getStringList("types." + type + ".reel");
 		
 		ArrayList<Integer> parsedReel = new ArrayList<Integer>();
@@ -126,8 +121,7 @@ public class TypeData {
 	}
 	
 	// Returns reward of id
-	public Reward getReward(String type, Integer id) {
-		
+	public Reward getReward(String type, Integer id) {		
 		String path = "types." + type + ".rewards." + id + ".";
 		
 		String message = plugin.configData.config.getString(path + "message", "Award given!");
@@ -145,8 +139,7 @@ public class TypeData {
 		}
 		
 		Reward reward = new Reward(message, money, action);
-		return reward;
-		
+		return reward;		
 	}
 	
 	// Rreturns Map of all rewards for this type
@@ -165,15 +158,12 @@ public class TypeData {
 			}
 			Reward reward = getReward(type, id);
 			rewards.put(id, reward);
-		}
-		
+		}		
 		return rewards;
 	}
 	
 	// Returns map of messages
-	private HashMap<String, String> getMessages(String type) {
-		//String currency = plugin.economy.currencyNamePlural();
-		
+	private HashMap<String, String> getMessages(String type) {		
 		HashMap<String, String> messages = new HashMap<String, String>();
 		Double cost = plugin.configData.config.getDouble("types." + type +".cost");
 
@@ -187,16 +177,14 @@ public class TypeData {
 		for(Map.Entry<String, String> entry : messages.entrySet()) {
 			String message = entry.getValue();
 			String key = entry.getKey();
-			message = message.replaceAll("\\[cost\\]", ""+ cost/* + " " + currency*/);
+			message = message.replaceAll("\\[cost\\]", ""+ cost);
 			messages.put(key, message);
-		}
-		
+		}		
 		return messages;
 	}
 	
 	// Returns value of the highest money reward
-	public Double getMaxPrize(String type) {
-		
+	public Double getMaxPrize(String type) {		
 		Map<Integer, Reward> rewards = getRewards(type);
 		Double max = 0.0;
 		
@@ -210,9 +198,7 @@ public class TypeData {
 		return max;
 	}
 	
-	public void newType(String name) {
-		
-		String path = "types." + name + ".";
+	public void newType(String name) {String path = "types." + name + ".";
 		List<String> reel = Arrays.asList("42,10", "41,5", "57,2");
 		List<String> help = Arrays.asList("Instructions:", "Get 3 in a row to win.", "3 iron blocks: $250", "3 gold blocks: $500", "3 diamond blocks: $1200");
 		
@@ -239,7 +225,5 @@ public class TypeData {
 		
 		plugin.saveConfig();
 		loadType(name);
-		
 	}
-
 }

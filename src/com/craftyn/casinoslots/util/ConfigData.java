@@ -31,7 +31,6 @@ public class ConfigData {
 	
 	// Load all config data
 	public void load() {
-		
 		config = plugin.getConfig();
 		config.options().copyDefaults(true);
 		
@@ -57,7 +56,6 @@ public class ConfigData {
 	
 	// Set up global settings
 	private void setGlobals() {
-		
 		this.prefixColor = config.getString("options.chat.plugin-prefix-color", "&c");
 		this.prefix = config.getString("options.chat.plugin-prefix", "[Casino]");
 		this.chatColor = config.getString("options.chat.chat-color", "&a");
@@ -71,6 +69,7 @@ public class ConfigData {
 	// Save slots data
 	public void saveSlots() {
 		Collection<SlotMachine> slots = plugin.slotData.getSlots();
+		
 		if(slots != null && !slots.isEmpty()) {
 			for (SlotMachine slot : slots) {
 				String path = "slots." + slot.getName() + ".";
@@ -82,6 +81,7 @@ public class ConfigData {
 				this.slots.set(path + "funds", slot.getFunds());
 			}
 		}
+		
 		try {
 			this.slots.save(slotsFile);
 		} catch (IOException e) {
@@ -92,7 +92,6 @@ public class ConfigData {
 	
 	// Save stats data
 	public void saveStats() {
-		
 		Collection<Stat> stats = plugin.statsData.getStats();
 		if(stats != null && !stats.isEmpty()) {
 			for(Stat stat : stats) {
@@ -117,7 +116,6 @@ public class ConfigData {
 	
 	// Set default values for new type
 	public void setTypeDefaults(String name) {
-		
 		config.set("types."+ name +".cost", 100);
 		config.set("types."+ name +".create-cost", 1000);
 		
@@ -142,5 +140,4 @@ public class ConfigData {
 		
 		plugin.saveConfig();
 	}
-
 }

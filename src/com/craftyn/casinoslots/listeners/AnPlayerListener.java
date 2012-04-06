@@ -59,8 +59,7 @@ public class AnPlayerListener implements Listener {
 										//Let's go!
 										Game game = new Game(slot, player, plugin);
 										game.play();
-										return;
-										
+										return;										
 									}
 									
 									// Slot is busy
@@ -73,14 +72,13 @@ public class AnPlayerListener implements Listener {
 								else {
 									plugin.sendMessage(player, type.getMessages().get("noFunds"));
 								}
-							}
+							}		
 							
 							// Player does not have type permission
 							else {
 								plugin.sendMessage(player, type.getMessages().get("noPermission"));
 							}
-							
-						}
+						}// End Left click
 						
 						// Right click event
 						else if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -112,12 +110,10 @@ public class AnPlayerListener implements Listener {
 						break;
 					}
 				}
-				
 			}
 			
 			// Creating slots
-			if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isCreatingSlots(player)) {
-				
+			if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isCreatingSlots(player)) {				
 				BlockFace face = event.getBlockFace();
 				
 				if(face != BlockFace.DOWN && face != BlockFace.UP) {
@@ -145,5 +141,4 @@ public class AnPlayerListener implements Listener {
 			}
 		}
 	}
-
 }

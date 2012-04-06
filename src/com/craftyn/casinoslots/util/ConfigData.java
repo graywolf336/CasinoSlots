@@ -50,11 +50,9 @@ public class ConfigData {
 	
 	// Save all config data
 	public void save() {
-		
 		plugin.saveConfig();
 		saveSlots();
 		saveStats();
-		
 	}
 	
 	// Set up global settings

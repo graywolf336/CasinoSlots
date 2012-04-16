@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
 
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -24,6 +25,7 @@ public class CasinoSlots extends JavaPlugin{
 	protected CasinoSlots plugin;
 	public Economy economy = null;
 	public String currency = null;
+	public Server server;
 	private final Logger logger = Logger.getLogger("Minecraft");
 	PluginManager pm = null;
 	
@@ -54,6 +56,7 @@ public class CasinoSlots extends JavaPlugin{
 	}
 
 	public void onEnable() {
+		server = this.getServer();
 		pm = this.getServer().getPluginManager();
 		if(!pm.isPluginEnabled("Vault")) {
 			this.logger.warning(consolePrefix +" Vault is required in order to use this plugin.");

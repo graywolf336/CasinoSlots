@@ -99,6 +99,11 @@ public class RewardData {
 				p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 10));
 			}
 			
+			//command
+			else if (a[0].equalsIgnoreCase("command")) {
+				//TODO - Figure this out :)
+			}
+			
 			// Broadcast action
 			else if(a[0].equalsIgnoreCase("broadcast")) {
 				

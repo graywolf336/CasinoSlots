@@ -73,7 +73,7 @@ public class CasinoAdd extends AnCommand {
 				
 				// Good to go
 				this.world = player.getWorld().getName();
-				SlotMachine slot = new SlotMachine(name, type, owner, world, false);
+				SlotMachine slot = new SlotMachine(name, type, owner, world, false, false);
 				plugin.slotData.toggleCreatingSlots(player, slot);
 				sendMessage("Punch a block to serve as the base for this slot machine.");
 			}

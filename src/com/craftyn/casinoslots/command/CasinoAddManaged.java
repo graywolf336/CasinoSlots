@@ -66,7 +66,7 @@ public class CasinoAddManaged extends AnCommand {
 				
 				// Good to go
 				this.world = player.getWorld().getName();
-				SlotMachine slot = new SlotMachine(name, type, owner, world, true);
+				SlotMachine slot = new SlotMachine(name, type, owner, world, true, false);
 				plugin.slotData.toggleCreatingSlots(player, slot);
 				plugin.sendMessage(player, "Punch a block to serve as the base for this slot machine.");
 			}

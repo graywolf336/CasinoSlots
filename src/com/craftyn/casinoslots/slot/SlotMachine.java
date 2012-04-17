@@ -8,7 +8,7 @@ import org.bukkit.block.Block;
 public class SlotMachine {
 	
 	private String name, type, owner, world;
-	private Boolean managed, busy = false, enabled = true;
+	private Boolean managed, busy = false, enabled = true, item;
 	private ArrayList<Block> blocks;
 	private Block controller;
 	private Double funds;
@@ -28,13 +28,14 @@ public class SlotMachine {
 	}
 	
 	// New slot machine constructor
-	public SlotMachine(String name, String type, String owner, String world, Boolean managed) {
+	public SlotMachine(String name, String type, String owner, String world, Boolean managed, Boolean item) {
 		
 		this.name = name;
 		this.type = type;
 		this.owner = owner;
 		this.world = world;
 		this.managed = managed;
+		this.item = item;
 		this.funds = 0.0;
 		
 		if(isManaged()) {
@@ -60,6 +61,11 @@ public class SlotMachine {
 	// Returns if slot machine is managed
 	public Boolean isManaged() {
 		return this.managed;
+	}
+	
+	// Returns if slot machine is item machine, aka paid with items
+	public Boolean isItem() {
+		return this.item;
 	}
 	
 	// Returns world name of slot machine

@@ -50,7 +50,7 @@ public class CasinoAddItem extends AnCommand {
 				
 				//see if the itemID is an int
 				try {
-					cmditemID = Integer.parseInt(args[4]);
+					cmditemID = Integer.parseInt(args[3]);
 				} catch (NumberFormatException e) {
 					plugin.sendMessage(player, "The item id that it will cost has to be a number.");
 					return true;
@@ -58,7 +58,7 @@ public class CasinoAddItem extends AnCommand {
 				
 				//see if the amount is an int
 				try {
-					cmditemAMT = Integer.parseInt(args[5]);
+					cmditemAMT = Integer.parseInt(args[4]);
 				} catch (NumberFormatException e) {
 					plugin.sendMessage(player, "The amount of items that it will cost has to be a number.");
 					return true;

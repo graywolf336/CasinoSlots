@@ -30,6 +30,7 @@ public class AnPlayerListener implements Listener {
 		
 		// Check if plugin is enabled
 		if(plugin.isEnabled()) {
+			Double cost;
 			Player player = event.getPlayer();
 			Block b = event.getClickedBlock();
 			if(b == null) return;
@@ -52,7 +53,13 @@ public class AnPlayerListener implements Listener {
 						}
 						
 						//Set the cost of it!
-						Double cost = type.getCost();
+						if (!slot.isItem()) {
+							cost = type.getCost();
+						}else {
+							// Since it's a item cost, we're going to go ahead and set the cost of it to Zero so it's not double charge
+							cost = 0.00;
+						}
+						
 						
 						// Left click event
 						if(event.getAction() == Action.LEFT_CLICK_BLOCK) {

@@ -85,28 +85,6 @@ public class AnPlayerListener implements Listener {
 												}
 												return;
 											}
-											
-											/*// Does the player have any of the itemID in hand
-											if(player.getItemInHand().getTypeId() == itemID) {
-												if (player.getItemInHand().getAmount() >= itemAmt) {
-													// Get the amount and id, to do simple subtraction
-													int amtHand, leftOver;
-													amtHand = player.getItemInHand().getAmount();
-													leftOver = amtHand - itemAmt;
-													
-													player.getItemInHand().setAmount(leftOver);
-													
-													//Let's go!
-													Game game = new Game(slot, player, plugin);
-													game.play();
-													return;	
-												}else {
-													plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemID + " in your hand to play.");
-												}
-											}else {
-												plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemID + " in your hand to play.");
-												return;
-											}*/
 										}else {
 											// Player has enough money
 											Double cost = type.getCost();

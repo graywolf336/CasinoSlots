@@ -15,7 +15,7 @@ public class SlotMachine {
 	private Double funds;
 	
 	// Complete slot machine constructor
-	public SlotMachine(String name, String type, String owner, String world, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds) {
+	public SlotMachine(String name, String type, String owner, String world, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, int itemID, int itemAmount) {
 		
 		this.name = name;
 		this.type = type;

@@ -42,6 +42,15 @@ public class AnPlayerListener implements Listener {
 					// Match found
 					if(b.equals(slot.getController())) {
 						Type type = plugin.typeData.getType(slot.getType());
+						
+						// Check to see if the type is valid, if it's not then display an error to both the player and the console.
+						if (type == null) {
+							plugin.sendMessage(player, "Sorry that seems to be a messed up CasinoSlot, please contact your server administrator.");
+							plugin.error("There's an incorrect type of Casino in your server somewhere, ask " + player.getDisplayName() + " which one they just tried to play.");
+							return;
+						}
+						
+						//Set the cost of it!
 						Double cost = type.getCost();
 						
 						// Left click event

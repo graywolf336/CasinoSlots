@@ -103,7 +103,7 @@ public class RewardData {
 			//command
 			else if (a[0].equalsIgnoreCase("command")) {
 				//TODO - Figure this out :)
-				CommandSender sender = null;
+				CommandSender sender = plugin.server.getConsoleSender();
 				plugin.server.dispatchCommand(sender, " ");
 			}
 			

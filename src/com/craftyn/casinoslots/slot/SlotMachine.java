@@ -9,6 +9,7 @@ public class SlotMachine {
 	
 	private String name, type, owner, world;
 	private Boolean managed, busy = false, enabled = true, item;
+	private int itemID, itemAMT;
 	private ArrayList<Block> blocks;
 	private Block controller;
 	private Double funds;
@@ -28,7 +29,7 @@ public class SlotMachine {
 	}
 	
 	// New slot machine constructor
-	public SlotMachine(String name, String type, String owner, String world, Boolean managed, Boolean item) {
+	public SlotMachine(String name, String type, String owner, String world, Boolean managed, Boolean item, int itemId, int itemAmt) {
 		
 		this.name = name;
 		this.type = type;
@@ -36,6 +37,8 @@ public class SlotMachine {
 		this.world = world;
 		this.managed = managed;
 		this.item = item;
+		this.itemID = itemId;
+		this.itemAMT = itemAmt;
 		this.funds = 0.0;
 		
 		if(isManaged()) {
@@ -66,6 +69,16 @@ public class SlotMachine {
 	// Returns if slot machine is item machine, aka paid with items
 	public Boolean isItem() {
 		return this.item;
+	}
+	
+	// Returns which item it costs
+	public int getItem() {
+		return this.itemID;
+	}
+	
+	// Returns who many of the items it costs
+	public int getItemAmount() {
+		return this.itemAMT;
 	}
 	
 	// Returns world name of slot machine

@@ -13,7 +13,7 @@ public class CasinoAddManaged extends AnCommand {
 	private String world;
 	
 	// Command for adding unmanaged slot machine
-	public CasinoAddManaged(CasinoSlots plugin, String[] args, Player player) {
+	public CasinoAddManaged (CasinoSlots plugin, String[] args, Player player) {
 		super(plugin, args, player);
 	}
 	
@@ -66,7 +66,7 @@ public class CasinoAddManaged extends AnCommand {
 				
 				// Good to go
 				this.world = player.getWorld().getName();
-				SlotMachine slot = new SlotMachine(name, type, owner, world, true, false);
+				SlotMachine slot = new SlotMachine(name, type, owner, world, true, false, 0, 0);
 				plugin.slotData.toggleCreatingSlots(player, slot);
 				plugin.sendMessage(player, "Punch a block to serve as the base for this slot machine.");
 			}

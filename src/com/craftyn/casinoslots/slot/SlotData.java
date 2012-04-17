@@ -103,6 +103,7 @@ public class SlotData {
 		plugin.configData.slots.set(path + "owner", slot.getOwner());
 		plugin.configData.slots.set(path + "world", slot.getWorld());
 		plugin.configData.slots.set(path + "managed", slot.isManaged());
+		plugin.configData.slots.set(path + "item", slot.isItem());
 		plugin.configData.slots.set(path + "funds", slot.getFunds());
 		plugin.configData.slots.set(path + "controller", cXyz);
 		plugin.configData.slots.set(path + "location", xyz);

@@ -100,7 +100,7 @@ public class CasinoSlots extends JavaPlugin{
 	}
 	
 	public void error(String message) {
-		logger.severe(consolePrefix + " " + message);
+		logger.warning(consolePrefix + " " + message);
 	}
 	
 	//saves the files

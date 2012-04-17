@@ -33,6 +33,11 @@ public class AnCommandExecutor implements CommandExecutor{
 					cmd = new CasinoAddManaged(plugin, args, player);
 				}
 				
+				// casino additem
+				else if(args[0].equalsIgnoreCase("additem")) {
+					cmd = new CasinoAddManaged(plugin, args, player);
+				}
+				
 				// casino remove
 				else if(args[0].equalsIgnoreCase("remove")) {
 					cmd = new CasinoRemove(plugin, args, player);

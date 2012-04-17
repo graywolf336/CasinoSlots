@@ -78,7 +78,11 @@ public class AnPlayerListener implements Listener {
 												game.play();
 												return;	
 											}else {
-												plugin.sendMessage(player, "Sorry, you need to have " + itemAmt + itemMat.toString() + "'s in your inventory to play.");
+												if (itemAmt == 1) {
+													plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemMat.toString() + " in your inventory to play.");
+												}else {
+													plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemMat.toString() + "'s in your inventory to play.");
+												}
 												return;
 											}
 											

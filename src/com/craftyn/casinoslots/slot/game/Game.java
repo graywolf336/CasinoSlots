@@ -77,7 +77,11 @@ public class Game {
 		}else {
 			int itemAmt = slot.getItemAmount();
 			Material itemMat = new ItemStack(slot.getItem()).getType();
-			plugin.sendMessage(player, itemAmt + " " + itemMat + " removed from your inventory.");
+			if (itemAmt == 1) {
+				plugin.sendMessage(player, itemAmt + " " + itemMat.toString() + " removed from your inventory.");
+			}else {
+				plugin.sendMessage(player, itemAmt + " " + itemMat.toString() + "'s removed from your inventory.");
+			}
 		}
 		
 		

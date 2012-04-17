@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
@@ -45,8 +46,8 @@ public class AnPlayerListener implements Listener {
 						
 						// Check to see if the type is valid, if it's not then display an error to both the player and the console.
 						if (type == null) {
-							plugin.sendMessage(player, "Sorry that seems to be a messed up CasinoSlot, please contact your server administrator.");
-							plugin.error("There's an incorrect type of Casino in your server somewhere, ask " + player.getDisplayName() + " which one they just tried to play.");
+							plugin.sendMessage(player, "Sorry, that seems to be a messed up CasinoSlot, please contact your server administrator.");
+							plugin.error("There is an incorrect type of Casino in your server somewhere, ask " + player.getDisplayName() + " which one they just tried to play.");
 							return;
 						}
 						
@@ -65,10 +66,33 @@ public class AnPlayerListener implements Listener {
 									// Slot is not busy
 									if(!slot.isBusy()) {
 										
-										//Let's go!
-										Game game = new Game(slot, player, plugin);
-										game.play();
-										return;										
+										// See if the slot is an item game
+										if(slot.isItem()) {
+											// Get the information about the item cost
+											int itemID, itemAmt;
+											itemID = slot.getItem();
+											itemAmt = slot.getItemAmount();
+											
+											// Does the player have any of this and this amount in their inventory?
+											if(player.getInventory().contains(itemID, itemAmt)) {
+												//Player does, now let's take it and roll!
+												ItemStack price = new ItemStack(itemID, itemAmt);
+												player.getInventory().remove(price);
+												
+												//Let's go!
+												Game game = new Game(slot, player, plugin);
+												game.play();
+												return;	
+											}else {
+												plugin.sendMessage(player, "Sorry, you need to have " + itemAmt + " of " + itemID + " in your inventory to play.");
+												return;
+											}
+										}else {
+											//Let's go!
+											Game game = new Game(slot, player, plugin);
+											game.play();
+											return;	
+										}								
 									}
 									
 									// Slot is busy

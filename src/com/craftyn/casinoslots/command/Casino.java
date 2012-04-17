@@ -16,6 +16,7 @@ public class Casino extends AnCommand {
 			sendMessage("Command guide:");
 			sendMessage("/casino add - Add a new slot machine");
 			sendMessage("/casino addmanaged - Add a new managed slot machine");
+			sendMessage("/casino additem - Add a new managed slot machine");
 			sendMessage("/casino deposit - Deposit money to a managed slot");
 			sendMessage("/casino list - List slot machines and types");
 			sendMessage("/casino reload - Reload config files from disk");
@@ -32,6 +33,7 @@ public class Casino extends AnCommand {
 			sendMessage("Command guide:");
 			sendMessage("/casino add - Add a new slot machine");
 			sendMessage("/casino addmanaged - Add a new managed slot machine");
+			sendMessage("/casino additem - Add a new managed slot machine");
 			sendMessage("/casino deposit - Deposit money to a managed slot");
 			sendMessage("/casino list - List slot machines and types");
 			sendMessage("/casino setowner - Sets the owner of a managed slot");

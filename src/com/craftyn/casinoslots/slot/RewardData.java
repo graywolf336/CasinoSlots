@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -102,6 +103,8 @@ public class RewardData {
 			//command
 			else if (a[0].equalsIgnoreCase("command")) {
 				//TODO - Figure this out :)
+				CommandSender sender = null;
+				plugin.server.dispatchCommand(sender, " ");
 			}
 			
 			// Broadcast action

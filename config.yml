@@ -56,11 +56,12 @@ types:
     cost: 150
     create-cost: 1000
     reel:
-    - 46,1
     - 89,2
+    - 46,1
     - 74,1
     - 87,1
     - 103,1
+    - 45,1
     rewards:
       '89':
         action: goblind
@@ -80,6 +81,11 @@ types:
       '103':
         action: give 103 3
         message: Winner - 3 ..melons? Nom.
+        money: 0.0
+      '45':
+        action:
+        - command give [player] 336 1
+        message: Winner - A command has been executed!
         money: 0.0
     messages:
       insufficient-permission: You can't play this one, that's too sad - we really wanted you to win.

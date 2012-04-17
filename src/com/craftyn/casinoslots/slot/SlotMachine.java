@@ -15,7 +15,7 @@ public class SlotMachine {
 	private Double funds;
 	
 	// Complete slot machine constructor
-	public SlotMachine(String name, String type, String owner, String world, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, int itemID, int itemAmount) {
+	public SlotMachine(String name, String type, String owner, String world, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
 		
 		this.name = name;
 		this.type = type;
@@ -25,7 +25,9 @@ public class SlotMachine {
 		this.blocks = blocks;
 		this.controller = controller;
 		this.funds = funds;
-		
+		this.item = item;
+		this.itemID = itemID;
+		this.itemAMT = itemAmount;
 	}
 	
 	// New slot machine constructor
@@ -36,10 +38,10 @@ public class SlotMachine {
 		this.owner = owner;
 		this.world = world;
 		this.managed = managed;
+		this.funds = 0.0;
 		this.item = item;
 		this.itemID = itemId;
 		this.itemAMT = itemAmt;
-		this.funds = 0.0;
 		
 		if(isManaged()) {
 			enabled = false;

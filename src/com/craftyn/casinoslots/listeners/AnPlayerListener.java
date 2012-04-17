@@ -143,6 +143,11 @@ public class AnPlayerListener implements Listener {
 									plugin.sendMessage(player, "    Funds: " + slot.getFunds() + " " + plugin.economy.currencyNamePlural());
 									plugin.sendMessage(player, "    Funds required: " + plugin.typeData.getMaxPrize(slot.getType()));
 								}
+								plugin.sendMessage(player, "    Item: " + slot.isItem().toString());
+								if(slot.isItem()) {
+									plugin.sendMessage(player, "    itemID: " + slot.getItem());
+									plugin.sendMessage(player, "    itemAmount: " + slot.getItemAmount());
+								}
 							}
 						}
 						

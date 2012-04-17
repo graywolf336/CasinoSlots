@@ -1,6 +1,7 @@
 package com.craftyn.casinoslots.slot;
 
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -9,12 +10,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import com.craftyn.casinoslots.CasinoSlots;
 
 public class RewardData {
 	
 	private CasinoSlots plugin;
+	private static final Random random = new Random();
 	
 	public RewardData(CasinoSlots plugin) {
 		this.plugin = plugin;
@@ -100,11 +103,60 @@ public class RewardData {
 				p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 10));
 			}
 			
+			else if (a[0].equalsIgnoreCase("slap")) {
+				// special thanks to CommandBook for this code, loved it enough to add it. Source:
+				// https://github.com/sk89q/commandbook/blob/master/src/main/java/com/sk89q/commandbook/FunComponent.java#L204
+				p.setVelocity(new Vector(random.nextDouble() * 2.0 - 1, random.nextDouble() * 1, random.nextDouble() * 2.0 - 1));
+			}
+			
+			else if (a[0].equalsIgnoreCase("rocket")) {
+				// Special thanks to CommandBook for this code, loved it enough to add it. Source:
+				// https://github.com/sk89q/commandbook/blob/master/src/main/java/com/sk89q/commandbook/FunComponent.java#L282
+				p.setVelocity(new Vector(0, 20, 0));
+			}
+			
 			//command
 			else if (a[0].equalsIgnoreCase("command")) {
-				//TODO - Figure this out :)
+				//Check to make sure that the action "command" is greater than 1
+				if (a.length < 2) {
+					plugin.error("The command action needs something other than 'command' for it to run.");
+					return;
+				}
+				
+				//Initialize the command
+				String command = null;
+				
+				//Set the sender of the command as the console
 				CommandSender sender = plugin.server.getConsoleSender();
-				plugin.server.dispatchCommand(sender, " ");
+				
+				for(String bit : a) {
+					//Strip the "command"
+					if (bit.equalsIgnoreCase("command")) {
+						continue;
+					}
+					
+					//Strip the "null"
+					if (bit.equalsIgnoreCase(a[1])) {
+						command = bit;
+						continue;
+					}
+					
+					//Strip [player] and make it equal the player who played the slot
+					if (bit.equalsIgnoreCase("[player]")) {
+						bit = p.getName();
+					}
+					command = command + " " + bit;
+				}
+				
+				//Check to make sure the command isn't actually null
+				if (command != null) {
+					plugin.server.dispatchCommand(sender, command);
+					return;
+				}else {
+					// if it is, then return an error in the console and don't do anything.
+					plugin.error("Couldn't find a command to do, please check your config.yml file.");
+					return;
+				}
 			}
 			
 			// Broadcast action
@@ -116,7 +168,7 @@ public class RewardData {
 				}
 				
 				message = message.replaceAll("(?i)&([a-f0-9])", "\u00A7$1");
-				plugin.getServer().broadcastMessage(message);
+				plugin.server.broadcastMessage(message);
 			}
 		}
 		

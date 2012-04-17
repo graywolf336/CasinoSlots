@@ -1,6 +1,8 @@
 package com.craftyn.casinoslots.slot.game;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import com.craftyn.casinoslots.CasinoSlots;
@@ -70,7 +72,14 @@ public class Game {
 		
 		// Start playing
 		slot.toggleBusy();
-		plugin.sendMessage(player, getType().getMessages().get("start"));
+		if(!slot.isItem()) {
+			plugin.sendMessage(player, getType().getMessages().get("start"));
+		}else {
+			int itemAmt = slot.getItemAmount();
+			Material itemMat = new ItemStack(slot.getItem()).getType();
+			plugin.sendMessage(player, itemAmt + " " + itemMat + " removed from your inventory.");
+		}
+		
 		
 		// Initiate tasks
 		for(Integer i = 0; i < 3; i++) {

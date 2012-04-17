@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
@@ -66,7 +67,22 @@ public class AnPlayerListener implements Listener {
 											itemID = slot.getItem();
 											itemAmt = slot.getItemAmount();
 											
-											// Does the player have any of the itemID in hand
+											Material itemMat = new ItemStack(itemID).getType();
+											ItemStack cost = new ItemStack(itemMat , itemAmt);
+											
+											if(player.getInventory().contains(slot.getItem(), itemAmt)) {
+												player.getInventory().removeItem(cost);
+												
+												//Let's go!
+												Game game = new Game(slot, player, plugin);
+												game.play();
+												return;	
+											}else {
+												plugin.sendMessage(player, "Sorry, you need to have " + itemAmt + itemMat.toString() + "'s in your inventory to play.");
+												return;
+											}
+											
+											/*// Does the player have any of the itemID in hand
 											if(player.getItemInHand().getTypeId() == itemID) {
 												if (player.getItemInHand().getAmount() >= itemAmt) {
 													// Get the amount and id, to do simple subtraction
@@ -86,7 +102,7 @@ public class AnPlayerListener implements Listener {
 											}else {
 												plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemID + " in your hand to play.");
 												return;
-											}
+											}*/
 										}else {
 											// Player has enough money
 											Double cost = type.getCost();

@@ -60,10 +60,12 @@ public class Game {
 		}
 		
 		// Cost
-		Double cost = getType().getCost();
-		plugin.economy.withdrawPlayer(player.getName(), cost);
-		if(slot.isManaged()) {
-			slot.deposit(cost);
+		if (!slot.isItem()) {
+			Double cost = getType().getCost();
+			plugin.economy.withdrawPlayer(player.getName(), cost);
+			if(slot.isManaged()) {
+				slot.deposit(cost);
+			}
 		}
 		
 		// Start playing

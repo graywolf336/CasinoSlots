@@ -9,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
@@ -30,7 +29,6 @@ public class AnPlayerListener implements Listener {
 		
 		// Check if plugin is enabled
 		if(plugin.isEnabled()) {
-			Double cost;
 			Player player = event.getPlayer();
 			Block b = event.getClickedBlock();
 			if(b == null) return;
@@ -52,23 +50,11 @@ public class AnPlayerListener implements Listener {
 							return;
 						}
 						
-						//Set the cost of it!
-						if (!slot.isItem()) {
-							cost = type.getCost();
-						}else {
-							// Since it's a item cost, we're going to go ahead and set the cost of it to Zero so it's not double charge
-							cost = 0.00;
-						}
-						
-						
 						// Left click event
 						if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
 							
 							//  Player has permission
 							if(plugin.permission.canUse(player, type)) {
-								
-								// Player has enough money
-								if(plugin.economy.has(player.getName(), cost)) {
 									
 									// Slot is not busy
 									if(!slot.isBusy()) {
@@ -80,25 +66,42 @@ public class AnPlayerListener implements Listener {
 											itemID = slot.getItem();
 											itemAmt = slot.getItemAmount();
 											
-											// Does the player have any of this and this amount in their inventory?
-											if(player.getInventory().contains(itemID, itemAmt)) {
-												//Player does, now let's take it and roll!
-												ItemStack price = new ItemStack(itemID, itemAmt);
-												player.getInventory().remove(price);
-												
+											// Does the player have any of the itemID in hand
+											if(player.getItemInHand().getTypeId() == itemID) {
+												if (player.getItemInHand().getAmount() >= itemAmt) {
+													// Get the amount and id, to do simple subtraction
+													int amtHand, leftOver;
+													amtHand = player.getItemInHand().getAmount();
+													leftOver = amtHand - itemAmt;
+													
+													player.getItemInHand().setAmount(leftOver);
+													
+													//Let's go!
+													Game game = new Game(slot, player, plugin);
+													game.play();
+													return;	
+												}else {
+													plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemID + " in your hand to play.");
+												}
+											}else {
+												plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemID + " in your hand to play.");
+												return;
+											}
+										}else {
+											// Player has enough money
+											Double cost = type.getCost();
+											if(plugin.economy.has(player.getName(), cost)) {
 												//Let's go!
 												Game game = new Game(slot, player, plugin);
 												game.play();
 												return;	
-											}else {
-												plugin.sendMessage(player, "Sorry, you need to have " + itemAmt + " of " + itemID + " in your inventory to play.");
-												return;
 											}
-										}else {
-											//Let's go!
-											Game game = new Game(slot, player, plugin);
-											game.play();
-											return;	
+											
+											// Player does not have enough money
+											else {
+												plugin.sendMessage(player, type.getMessages().get("noFunds"));
+											}
+											
 										}								
 									}
 									
@@ -106,12 +109,6 @@ public class AnPlayerListener implements Listener {
 									else {
 										plugin.sendMessage(player, type.getMessages().get("inUse"));
 									}
-								}
-								
-								// Player does not have enough money
-								else {
-									plugin.sendMessage(player, type.getMessages().get("noFunds"));
-								}
 							}		
 							
 							// Player does not have type permission
@@ -145,8 +142,8 @@ public class AnPlayerListener implements Listener {
 								}
 								plugin.sendMessage(player, "    Item: " + slot.isItem().toString());
 								if(slot.isItem()) {
-									plugin.sendMessage(player, "    itemID: " + slot.getItem());
-									plugin.sendMessage(player, "    itemAmount: " + slot.getItemAmount());
+									plugin.sendMessage(player, "        itemID: " + slot.getItem());
+									plugin.sendMessage(player, "        itemAmount: " + slot.getItemAmount());
 								}
 							}
 						}

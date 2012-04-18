@@ -36,6 +36,7 @@ public class CasinoDeposit extends AnCommand {
 						return true;
 					}
 					slot.deposit(amount);
+					plugin.economy.withdrawPlayer(player.getName().toString(), amount);
 					sendMessage(amount +  " deposited to " + args[1] + ".");
 					sendMessage(args[1] + " now has " + slot.getFunds() + " in it's account.");
 				}

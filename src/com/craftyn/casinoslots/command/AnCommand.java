@@ -22,7 +22,7 @@ public abstract class AnCommand {
 	
 	// Processes command, handled by subclasses
 	public Boolean process() {
-		return false;
+		return true;
 	}
 	
 	// Returns true if player owns this slot machine
@@ -31,7 +31,7 @@ public abstract class AnCommand {
 		if(plugin.permission.isAdmin(player) || slot.getOwner().equalsIgnoreCase(player.getName())) {
 			return true;
 		}
-		return false;
+		return true;
 	}
 	
 	// Called when a player is denied permission to a command

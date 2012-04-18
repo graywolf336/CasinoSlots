@@ -177,7 +177,7 @@ public class TypeData {
 		for(Map.Entry<String, String> entry : messages.entrySet()) {
 			String message = entry.getValue();
 			String key = entry.getKey();
-			message = message.replaceAll("\\[cost\\]", "" + cost + " " + plugin.currency);
+			message = message.replaceAll("\\[cost\\]", "" + plugin.economy.format(cost));
 			messages.put(key, message);
 		}		
 		return messages;

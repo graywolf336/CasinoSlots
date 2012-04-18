@@ -24,7 +24,6 @@ public class CasinoSlots extends JavaPlugin{
 	
 	protected CasinoSlots plugin;
 	public Economy economy = null;
-	public String currency = null;
 	public Server server;
 	private final Logger logger = Logger.getLogger("Minecraft");
 	PluginManager pm = null;
@@ -114,7 +113,6 @@ public class CasinoSlots extends JavaPlugin{
         RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         if (economyProvider != null) {
             economy = economyProvider.getProvider();
-            currency = economy.currencyNamePlural(); 
         }
         return (economy != null); 
     }

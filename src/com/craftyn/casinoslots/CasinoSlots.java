@@ -24,6 +24,7 @@ public class CasinoSlots extends JavaPlugin{
 	
 	protected CasinoSlots plugin;
 	public Economy economy = null;
+	public boolean isiConomy = false;
 	public Server server;
 	private final Logger logger = Logger.getLogger("Minecraft");
 	PluginManager pm = null;
@@ -42,29 +43,33 @@ public class CasinoSlots extends JavaPlugin{
 	public RewardData rewardData = new RewardData(this);
 	public Permissions permission = new Permissions(this);
 
-	public void onDisable() {		
-		configData.save();
-		configData.saveSlots();
-		
-		this.configData = null;
-		this.slotData = null;
-		this.typeData = null;
-		this.statsData = null;
-		this.rewardData = null;
-		this.permission = null;
+	public void onDisable() {
+		if (economy != null) {
+			configData.save();
+			configData.saveSlots();
+			
+			this.configData = null;
+			this.slotData = null;
+			this.typeData = null;
+			this.statsData = null;
+			this.rewardData = null;
+			this.permission = null;
+		}
 	}
 
 	public void onEnable() {
 		server = this.getServer();
 		pm = this.getServer().getPluginManager();
 		if(!pm.isPluginEnabled("Vault")) {
-			this.logger.warning(consolePrefix +" Vault is required in order to use this plugin.");
-			this.logger.warning(consolePrefix +" dev.bukkit.org/server-mods/vault/");
+			error("Vault is required in order to use this plugin.");
+			error("dev.bukkit.org/server-mods/vault/");
 			pm.disablePlugin(this);
+			return;
 		} else {
 			if(!setupEconomy()) {
-				this.logger.warning(consolePrefix + " An economy plugin is required in order to use this plugin.");
+				error("An economy plugin is required in order to use this plugin.");
 				pm.disablePlugin(this);
+				return;
 			}
 		}
 		
@@ -113,6 +118,9 @@ public class CasinoSlots extends JavaPlugin{
         RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         if (economyProvider != null) {
             economy = economyProvider.getProvider();
+            if (economy.getName().equalsIgnoreCase("iConomy 6")) {
+            	isiConomy = true;
+            }
         }
         return (economy != null); 
     }

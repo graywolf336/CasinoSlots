@@ -24,7 +24,6 @@ public class CasinoSlots extends JavaPlugin{
 	
 	protected CasinoSlots plugin;
 	public Economy economy = null;
-	public boolean isiConomy = false;
 	public Server server;
 	private final Logger logger = Logger.getLogger("Minecraft");
 	PluginManager pm = null;
@@ -118,9 +117,6 @@ public class CasinoSlots extends JavaPlugin{
         RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         if (economyProvider != null) {
             economy = economyProvider.getProvider();
-            if (economy.getName().equalsIgnoreCase("iConomy 6")) {
-            	isiConomy = true;
-            }
         }
         return (economy != null); 
     }

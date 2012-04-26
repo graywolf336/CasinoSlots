@@ -88,7 +88,7 @@ public class ResultsTask implements Runnable {
 		// checks horizontal matches
 		for(int i = 0; i < 5; i++) {
 			Reward reward;
-			ArrayList<Integer> currentId = new ArrayList<Integer>();
+			ArrayList<String> currentId = new ArrayList<String>();
 			List<Block> current = null;
 			if(i < 3) {
 				int start = 0 + 3 * i;
@@ -117,15 +117,17 @@ public class ResultsTask implements Runnable {
 			}
 			
 			for(Block b : current) {
-				currentId.add(b.getTypeId());
+				currentId.add(b.getTypeId() + ":" + b.getData());
+				System.out.println(b.getTypeId() + ":" + b.getData());
 			}
 			
 			// Check for matches, deploy rewards
-			Set<Integer> currentSet = new HashSet<Integer>(currentId);
+			Set<String> currentSet = new HashSet<String>(currentId);
 			if(currentSet.size() == 1) {
 				
 				int id = current.get(0).getTypeId();
-				reward = game.getType().getReward(id);
+				byte data = current.get(0).getData();
+				reward = game.getType().getReward(id + ":" + data);
 				
 					// Break loop if and don't reward for something that doesn't have a reward.
 					if (reward == null) {

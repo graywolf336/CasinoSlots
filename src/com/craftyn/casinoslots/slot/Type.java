@@ -15,10 +15,10 @@ public class Type {
 	private ArrayList<String> reel;
 	private Map<String, String> messages;
 	private List<String> helpMessages;
-	private Map<Integer, Reward> rewards;
+	private Map<String, Reward> rewards;
 	
 	// Initialize new type
-	public Type(String name, Double cost, Double createCost, ArrayList<String> reel, Map<String, String> messages, List<String> helpMessages, Map<Integer, Reward> rewards) {
+	public Type(String name, Double cost, Double createCost, ArrayList<String> reel, Map<String, String> messages, List<String> helpMessages, Map<String, Reward> rewards) {
 		
 		this.name = name;
 		this.cost = cost;
@@ -60,7 +60,7 @@ public class Type {
 	}
 	
 	// Returns type reward of id
-	public Reward getReward(Integer id) {
+	public Reward getReward(String id) {
 		return this.rewards.get(id);
 	}
 	

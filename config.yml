@@ -56,14 +56,14 @@ types:
     cost: 150
     create-cost: 1000
     reel:
-    - 89,2
+    - 35,3,2
     - 46,1
     - 74,1
     - 87,1
     - 103,1
     - 45,1
     rewards:
-      '89':
+      '35,3':
         action: goblind
         message: Winne- You can't see now!
         money: 0.0
@@ -76,7 +76,7 @@ types:
         message: Winne- Kids, drugs are bad!
       '87':
         action: fire
-        message: Winne- Fire hurts! Don't mess with hit.
+        message: Winne- Fire hurts! Don't mess with it.
         money: 0.0
       '103':
         action: give 103 3

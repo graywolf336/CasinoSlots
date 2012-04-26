@@ -22,7 +22,7 @@ public class TypeData {
 		this.plugin = plugin;
 	}
 	
-	// Returns a typr
+	// Returns a type
 	public Type getType(String name) {
 		return types.get(name);
 	}
@@ -91,7 +91,7 @@ public class TypeData {
 		
 		Map<String, String> messages = getMessages(name);
 		List<String> helpMessages = plugin.configData.config.getStringList(path + "messages.help");
-		Map<Integer, Reward> rewards = getRewards(name);
+		Map<String, Reward> rewards = getRewards(name);
 		
 		Type type = new Type(name, cost, createCost, reel, messages, helpMessages, rewards);
 		this.types.put(name, type);
@@ -124,7 +124,7 @@ public class TypeData {
 	}
 	
 	// Returns reward of id
-	public Reward getReward(String type, Integer id) {		
+	public Reward getReward(String type, String id) {		
 		String path = "types." + type + ".rewards." + id + ".";
 		
 		String message = plugin.configData.config.getString(path + "message", "Award given!");
@@ -146,21 +146,24 @@ public class TypeData {
 	}
 	
 	// Rreturns Map of all rewards for this type
-	public Map<Integer, Reward> getRewards(String type) {
+	public Map<String, Reward> getRewards(String type) {
 		Set<String> ids = plugin.configData.config.getConfigurationSection("types." + type +".rewards").getKeys(false);
-		Map<Integer, Reward> rewards = new HashMap<Integer, Reward>();
+		Map<String, Reward> rewards = new HashMap<String, Reward>();
 		
 		for(String itemId : ids) {
-			Integer id = 1; //setting this to 1 just in case something is wrong
-			String[] itemSplit = itemId.split(":");
+			int id = 1; //setting this to 1 just in case something is wrong
+			byte data = 0;
+			String[] itemSplit = itemId.split("\\,");
 			if (itemSplit.length == 2) {
-				plugin.log("Sorry only regular blocks with no 'damage' value are supported right now.");
 				id = Integer.parseInt(itemSplit[0]);
+				data = Byte.parseByte(itemSplit[1]);
+				plugin.log("The data is: " + id + ":" + data);
 			}else {
 				id = Integer.parseInt(itemSplit[0]);
 			}
-			Reward reward = getReward(type, id);
-			rewards.put(id, reward);
+			
+			Reward reward = getReward(type, id + "," + data);
+			rewards.put(id + ":" + data, reward);
 		}		
 		return rewards;
 	}
@@ -188,10 +191,10 @@ public class TypeData {
 	
 	// Returns value of the highest money reward
 	public Double getMaxPrize(String type) {		
-		Map<Integer, Reward> rewards = getRewards(type);
+		Map<String, Reward> rewards = getRewards(type);
 		Double max = 0.0;
 		
-		for(Map.Entry<Integer, Reward> entry : rewards.entrySet()) {
+		for(Map.Entry<String, Reward> entry : rewards.entrySet()) {
 			Reward reward = entry.getValue();
 			Double money = reward.getMoney();
 			if(money > max) {

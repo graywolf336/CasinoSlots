@@ -124,8 +124,17 @@ public class TypeData {
 	}
 	
 	// Returns reward of id
-	public Reward getReward(String type, String id) {		
-		String path = "types." + type + ".rewards." + id + ".";
+	public Reward getReward(String type, String id) {
+		// Split the id so that a damage value is optional
+		String blockId = String.valueOf(0);
+		String[] idSplit = id.split("\\,");
+			if (Integer.parseInt(idSplit[1]) == 0) {
+				blockId = idSplit[0];
+			}else {
+				blockId = id;
+			}
+		
+		String path = "types." + type + ".rewards." + blockId + ".";
 		
 		String message = plugin.configData.config.getString(path + "message", "Award given!");
 		Double money = plugin.configData.config.getDouble(path + "money", 0.0);

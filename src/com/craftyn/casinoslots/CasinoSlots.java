@@ -44,7 +44,7 @@ public class CasinoSlots extends JavaPlugin{
 
 	public void onDisable() {
 		if (economy != null) {
-			configData.save();
+			//configData.save();
 			configData.saveSlots();
 			
 			this.configData = null;

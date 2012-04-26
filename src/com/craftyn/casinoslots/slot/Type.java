@@ -12,13 +12,13 @@ public class Type {
 	
 	private String name;
 	private Double cost, createCost;
-	private ArrayList<Integer> reel;
+	private ArrayList<String> reel;
 	private Map<String, String> messages;
 	private List<String> helpMessages;
 	private Map<Integer, Reward> rewards;
 	
 	// Initialize new type
-	public Type(String name, Double cost, Double createCost, ArrayList<Integer> reel, Map<String, String> messages, List<String> helpMessages, Map<Integer, Reward> rewards) {
+	public Type(String name, Double cost, Double createCost, ArrayList<String> reel, Map<String, String> messages, List<String> helpMessages, Map<Integer, Reward> rewards) {
 		
 		this.name = name;
 		this.cost = cost;
@@ -45,7 +45,7 @@ public class Type {
 	}
 	
 	// Returns type reel
-	public ArrayList<Integer> getReel() {
+	public ArrayList<String> getReel() {
 		return this.reel;
 	}
 	

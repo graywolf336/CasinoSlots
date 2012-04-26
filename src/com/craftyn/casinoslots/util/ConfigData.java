@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -15,7 +16,7 @@ public class ConfigData {
 	
 	protected CasinoSlots plugin;
 	
-	public FileConfiguration config;
+	public Configuration config;
 	public FileConfiguration slots;
 	public FileConfiguration stats;
 	public File slotsFile;
@@ -31,7 +32,14 @@ public class ConfigData {
 	
 	// Load all config data
 	public void load() {
-		config = plugin.getConfig();
+		//sort of kind of a way to see if this is the first time the plugin has ran, if it is load the config saves and then save them immeditally.
+		boolean firstload = false;
+			if (config == null) {
+				firstload = true;
+			}
+			
+			
+		config = plugin.getConfig().getRoot();
 		config.options().copyDefaults(true);
 		
 		setGlobals();
@@ -45,6 +53,8 @@ public class ConfigData {
 		plugin.slotData.loadSlots();
 		plugin.typeData.loadTypes();
 		plugin.statsData.loadStats();
+		
+		if (firstload) save();
 	}
 	
 	// Save all config data

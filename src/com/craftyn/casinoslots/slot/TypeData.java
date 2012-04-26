@@ -87,7 +87,7 @@ public class TypeData {
 		
 		Double cost = plugin.configData.config.getDouble(path + "cost");
 		Double createCost = plugin.configData.config.getDouble(path + "create-cost");
-		ArrayList<Integer> reel = getReel(name);
+		ArrayList<String> reel = getReel(name);
 		
 		Map<String, String> messages = getMessages(name);
 		List<String> helpMessages = plugin.configData.config.getStringList(path + "messages.help");
@@ -98,21 +98,24 @@ public class TypeData {
 	}
 	
 	// Returns the parsed reel of a type
-	private ArrayList<Integer> getReel(String type) {		
+	private ArrayList<String> getReel(String type) {		
 		List<String> reel = plugin.configData.config.getStringList("types." + type + ".reel");
 		
-		ArrayList<Integer> parsedReel = new ArrayList<Integer>();
+		ArrayList<String> parsedReel = new ArrayList<String>();
 		for(String m : reel) {
 			String[] mSplit = m.split("\\,");
-			int i = Integer.parseInt(mSplit[1]);
+			int i = 1;
+			if (mSplit.length == 3) {
+				i = Integer.parseInt(mSplit[2]);
+			}else {
+				i = Integer.parseInt(mSplit[1]);
+			}
 			
 			while(i > 0) {
-				String[] itemSplit = mSplit[0].split(":");
-				if (itemSplit.length == 2) {
-					plugin.log("Sorry only regular blocks with no 'damage' value are supported right now.");
-					parsedReel.add(Integer.parseInt(itemSplit[0]));
-				}else {
-					parsedReel.add(Integer.parseInt(itemSplit[0]));
+				if (mSplit.length == 3) {
+					parsedReel.add(mSplit[0] + ":" + mSplit[1]);
+				}else {				
+					parsedReel.add(mSplit[0]);
 				}
 				i--;
 			}
@@ -198,7 +201,8 @@ public class TypeData {
 		return max;
 	}
 	
-	public void newType(String name) {String path = "types." + name + ".";
+	public void newType(String name) {
+		String path = "types." + name + ".";
 		List<String> reel = Arrays.asList("42,10", "41,5", "57,2");
 		List<String> help = Arrays.asList("Instructions:", "Get 3 in a row to win.", "3 iron blocks: $250", "3 gold blocks: $500", "3 diamond blocks: $1200");
 		

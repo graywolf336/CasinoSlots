@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.Instrument;
+import org.bukkit.Location;
+import org.bukkit.Note;
+import org.bukkit.Note.Tone;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -134,6 +138,11 @@ public class ResultsTask implements Runnable {
 					}
 				
 				results.add(reward);
+				
+				//Play some sounds on rewards!
+				Location location = game.getSlot().getController().getLocation();
+				game.getPlayer().playNote(location, Instrument.PIANO, new Note((byte) 0, Tone.G, false));
+				game.getPlayer().playNote(location, Instrument.PIANO, new Note((byte) 0, Tone.E, false));
 			}	
 		}
 		

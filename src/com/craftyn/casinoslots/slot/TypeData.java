@@ -166,7 +166,6 @@ public class TypeData {
 			if (itemSplit.length == 2) {
 				id = Integer.parseInt(itemSplit[0]);
 				data = Byte.parseByte(itemSplit[1]);
-				plugin.log("The data is: " + id + ":" + data);
 			}else {
 				id = Integer.parseInt(itemSplit[0]);
 			}

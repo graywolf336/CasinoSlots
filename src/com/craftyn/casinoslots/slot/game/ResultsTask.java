@@ -118,7 +118,6 @@ public class ResultsTask implements Runnable {
 			
 			for(Block b : current) {
 				currentId.add(b.getTypeId() + ":" + b.getData());
-				System.out.println(b.getTypeId() + ":" + b.getData());
 			}
 			
 			// Check for matches, deploy rewards

@@ -95,7 +95,7 @@ types:
       start: '[cost] removed from your account. Let''s roll!'
       help:
       - 'Instructions:'
-      - Get 3 in a row in order to win. $100 per spin.
+      - Get 3 in a row in order to win. $150 per spin.
       - '3 tnt blocks: Death!'
       - '3 on redstone lamps: You go Blind!'
       - '3 melon blocks: stack of melons'

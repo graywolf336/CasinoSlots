@@ -1,5 +1,7 @@
 package com.craftyn.casinoslots.listeners;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -117,7 +119,7 @@ public class AnPlayerListener implements Listener {
 						
 						// Right click event
 						else if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-							if(plugin.permission.isOwner(player, slot)) {
+							if(plugin.permission.isOwner(player, slot) || plugin.permission.isAdmin(player)) {
 								if (slot.isManaged()) {
 									if(slot.getFunds() >= plugin.typeData.getMaxPrize(slot.getType())) {
 										slot.setEnabled(true);
@@ -142,6 +144,26 @@ public class AnPlayerListener implements Listener {
 								if(slot.isItem()) {
 									plugin.sendMessage(player, "        itemID: " + slot.getItem());
 									plugin.sendMessage(player, "        itemAmount: " + slot.getItemAmount());
+								}
+							}
+							
+							//Player isn't the owner of the slot, so display the help
+							else {
+								//Get the amount of help messages
+								int helpCount = type.getHelpMessages().size();
+								List<String> message = type.getHelpMessages();
+								
+								//initiate the varible for the loop
+								int counter = 0;
+								
+								//Start the loop for the HelpMessages
+								while (counter < helpCount) {
+									if (counter == 0) {
+										plugin.sendMessage(player, message.get(counter));
+									}else {
+										plugin.sendMessage(player, "   " + message.get(counter));
+									}
+									counter++;
 								}
 							}
 						}

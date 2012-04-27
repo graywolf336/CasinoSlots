@@ -202,17 +202,7 @@ public class RewardData {
 				
 				//Broadcast the message
 				plugin.server.broadcastMessage(message);
-				
-				//String message = a[1];
-				//for(Integer i = 2; i < a.length; i++) {
-				//	message = message + " " + a[i];
-				//}
-				//
-				//message = message.replaceAll("(?i)&([a-f0-9])", "\u00A7$1");
-				//plugin.server.broadcastMessage(message);
 			}
-		}
-		
+		}	
 	}
-
 }

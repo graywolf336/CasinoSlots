@@ -24,7 +24,7 @@ public class RewardData {
 	}
 	
 	// Sends reward to player
-	public void send(Player player, Reward reward) {
+	public void send(Player player, Reward reward, Type type) {
 		
 		if(reward.message != null) {
 			plugin.sendMessage(player, reward.message);
@@ -35,12 +35,12 @@ public class RewardData {
 		}
 		
 		if(reward.action != null && !reward.action.isEmpty()) {
-			executeAction(reward.action, player);
+			executeAction(reward.action, player, type);
 		}
 	}
 		
 	// Parses reward actions
-	private void executeAction(List<String> actionList, Player p) {
+	private void executeAction(List<String> actionList, Player p, Type type) {
 		
 		for(String action : actionList) {
 			
@@ -135,7 +135,7 @@ public class RewardData {
 						continue;
 					}
 					
-					//Strip the "null"
+					//Replace the "null" with the word after command
 					if (bit.equalsIgnoreCase(a[1])) {
 						command = bit;
 						continue;
@@ -145,6 +145,8 @@ public class RewardData {
 					if (bit.equalsIgnoreCase("[player]")) {
 						bit = p.getName();
 					}
+					
+					// Add the current bit to the command
 					command = command + " " + bit;
 				}
 				
@@ -161,14 +163,53 @@ public class RewardData {
 			
 			// Broadcast action
 			else if(a[0].equalsIgnoreCase("broadcast")) {
-				
-				String message = a[1];
-				for(Integer i = 2; i < a.length; i++) {
-					message = message + " " + a[i];
+				//Check to make sure that there is actually something to broadcast
+				if (a.length < 2) {
+					plugin.error("The broadcast action needs something other than 'broadcast' for it to run.");
+					return;
 				}
 				
+				//Initiate the message to broadcast
+				String message = null;
+				
+				//Start the loop for the message
+				for(String bit : a) {
+					//Strip the "broadcast"
+					if (bit.equalsIgnoreCase("broadcast")) continue;
+					
+					//Replace the "null" with the word right after 'broadcast'
+					if (bit.equalsIgnoreCase(a[1])) {
+						message = bit;
+						continue;
+					}
+					
+					//Strip [player] and make bit equal to the player who played the slot
+					if (bit.equalsIgnoreCase("[player]")) {
+						bit = p.getName();
+					}
+					
+					//Strip [cost] and make bit equal to the player who played the slot
+					if (bit.equalsIgnoreCase("[cost]")) {
+						bit = String.valueOf(type.getCost());
+					}
+					
+					//Add onto the message that is going to be broadcasted
+					message = message + " " + bit;
+				}
+				
+				//Convert all color codes so that Minecraft shows them as color
 				message = message.replaceAll("(?i)&([a-f0-9])", "\u00A7$1");
+				
+				//Broadcast the message
 				plugin.server.broadcastMessage(message);
+				
+				//String message = a[1];
+				//for(Integer i = 2; i < a.length; i++) {
+				//	message = message + " " + a[i];
+				//}
+				//
+				//message = message.replaceAll("(?i)&([a-f0-9])", "\u00A7$1");
+				//plugin.server.broadcastMessage(message);
 			}
 		}
 		

@@ -38,7 +38,7 @@ public class ResultsTask implements Runnable {
 			
 			// Send the rewards
 			for(Reward reward : results) {
-				game.plugin.rewardData.send(player, reward);
+				game.plugin.rewardData.send(player, reward, type);
 				won += reward.getMoney();
 			}
 			

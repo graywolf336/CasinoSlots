@@ -35,10 +35,17 @@ public class CasinoDeposit extends AnCommand {
 						sendMessage("Third arugment must be a number.");
 						return true;
 					}
-					slot.deposit(amount);
-					plugin.economy.withdrawPlayer(player.getName(), amount);
-					sendMessage(amount +  " deposited to " + args[1] + ".");
-					sendMessage(args[1] + " now has " + slot.getFunds() + " in it's account.");
+					
+					double pAccount = plugin.economy.getBalance(player.getName());
+					if (amount > pAccount) {
+						sendMessage("You can't deposit that much since you don't have that much.");
+						return true;
+					}else {
+						slot.deposit(amount);
+						plugin.economy.withdrawPlayer(player.getName(), amount);
+						sendMessage(amount +  " deposited to " + args[1] + ".");
+						sendMessage(args[1] + " now has " + slot.getFunds() + " in it's account.");
+					}
 				}
 				// No access
 				else {

@@ -35,10 +35,16 @@ public class CasinoWithdraw extends AnCommand {
 						sendMessage("Third arugment must be a number.");
 						return true;
 					}
-					slot.withdraw(amount);
-					plugin.economy.depositPlayer(player.getName(), amount);
-					sendMessage(amount +  " withdrew from " + args[1] + ".");
-					sendMessage(args[1] + " now has " + slot.getFunds() + " in it's account.");
+					
+					if (amount > slot.getFunds()) {
+						sendMessage("You can't withdraw more than is in the slot's account.");
+						return true;
+					}else {
+						slot.withdraw(amount);
+						plugin.economy.depositPlayer(player.getName(), amount);
+						sendMessage(amount +  " withdrew from " + args[1] + ".");
+						sendMessage(args[1] + " now has " + slot.getFunds() + " in it's account.");
+					}
 				}
 				// No access
 				else {
@@ -55,7 +61,7 @@ public class CasinoWithdraw extends AnCommand {
 		// Incorrect command format
 		else {
 			sendMessage("Usage:");
-			sendMessage("/casino deposit <slotname> <amount>");
+			sendMessage("/casino withdraw <slotname> <amount>");
 		}
 		return true;
 	}

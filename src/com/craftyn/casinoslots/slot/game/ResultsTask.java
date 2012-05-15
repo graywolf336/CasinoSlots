@@ -128,6 +128,7 @@ public class ResultsTask implements Runnable {
 			Set<String> currentSet = new HashSet<String>(currentId);
 			if(currentSet.size() == 1) {
 				
+				// Added for the damage value blocks and rewards
 				int id = current.get(0).getTypeId();
 				byte data = current.get(0).getData();
 				reward = game.getType().getReward(id + ":" + data);

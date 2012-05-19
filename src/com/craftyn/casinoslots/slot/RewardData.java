@@ -49,13 +49,17 @@ public class RewardData {
 			// Give action
 			if(a[0].equalsIgnoreCase("give")) {
 				
-				String[] itemData = a[1].split(":");
+				String[] itemData = a[1].split("\\,");
+				
 				int item = Integer.parseInt(itemData[0]);
+				
 				byte data = 0;
 				short damage = 0;
+				
 				if(itemData.length == 2) {
 					data = (byte) Integer.parseInt(itemData[1]);
 				}
+				
 				int n = Integer.parseInt(a[2]);
 				p.getInventory().addItem(new ItemStack(item, n, damage, data));
 			}

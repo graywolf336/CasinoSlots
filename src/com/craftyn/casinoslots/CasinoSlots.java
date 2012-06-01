@@ -90,18 +90,32 @@ public class CasinoSlots extends JavaPlugin{
 		}
 	}
 	
-	// Sends a properly formatted message
+	/**
+	 * Sends a properly formatted message to the player.
+	 *
+	 * @param player The player to send the message to
+	 * @param message The message to send to the player
+	 */
 	public void sendMessage(Player player, String message) {		
 		message = configData.prefixColor + prefix + configData.chatColor + " " + message;
 		message = message.replaceAll("(?i)&([a-f0-9])", "\u00A7$1");
-		player.sendMessage(message);	
+		player.sendMessage(message);
 	}
 	
-	// Sends a properly formatted message to the console
+	/**
+	 * Logs a properly formatted message to the console with a info prefix.
+	 *
+	 * @param message The info message to log.
+	 */
 	public void log(String message) {
 		logger.info(consolePrefix + " " + message);
 	}
 	
+	/**
+	 * Logs a properly formatted message to the console with a error prefix.
+	 *
+	 * @param message The warning message to log.
+	 */
 	public void error(String message) {
 		logger.warning(consolePrefix + " " + message);
 	}

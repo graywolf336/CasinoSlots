@@ -8,11 +8,20 @@ import com.craftyn.casinoslots.slot.SlotMachine;
 public class CasinoAddManaged extends AnCommand {
 	
 	private String name;
+
 	private String type;
+
 	private String owner;
+
 	private String world;
 	
-	// Command for adding unmanaged slot machine
+	/**
+	 * Instantiates a new managed CasinoSlot.
+	 *
+	 * @param plugin  The plugin.
+	 * @param args    The args sent with the command.
+	 * @param player  The player doing the command.
+	 */
 	public CasinoAddManaged (CasinoSlots plugin, String[] args, Player player) {
 		super(plugin, args, player);
 	}
@@ -20,7 +29,7 @@ public class CasinoAddManaged extends AnCommand {
 	public Boolean process() {
 		
 		// Permissions
-		if(!plugin.permission.canCreate(player) || !plugin.permission.canManage(player)) {
+		if(!plugin.permission.canCreate(player) || !plugin.permission.canCreateManaged(player)) {
 			noPermission();
 			return true;
 		}
@@ -38,7 +47,7 @@ public class CasinoAddManaged extends AnCommand {
 					String typeName = args[2];
 					
 					// Has type permission
-					if(plugin.permission.canCreate(player, typeName)) {
+					if(plugin.permission.canCreateManaged(player, typeName)) {
 						this.type = typeName;
 						this.owner = player.getName();
 					}
@@ -58,8 +67,7 @@ public class CasinoAddManaged extends AnCommand {
 				Double createCost = plugin.typeData.getType(type).getCreateCost();
 				if(plugin.economy.has(owner, createCost)) {
 					plugin.economy.withdrawPlayer(owner, createCost);
-				}
-				else {
+				} else {
 					sendMessage("You can't afford to create this slot machine. Cost: " + createCost);
 					return true;
 				}

@@ -14,7 +14,21 @@ public class SlotMachine {
 	private Block controller;
 	private Double funds;
 	
-	// Complete slot machine constructor
+	/**
+	 * Instantiates a new slot machine, usually from the config.
+	 *
+	 * @param name       The name of the slot machine.
+	 * @param type       The type of the slot machine being created.
+	 * @param owner      The owner of the slot machine.
+	 * @param world      The world in which the slot machine exists.
+	 * @param managed    If it is managed or not (true or false).
+	 * @param blocks     An ArrayList of the blocks of the slot machine.
+	 * @param controller The block of the controller.
+	 * @param funds      Amount of money that the slot machine has.
+	 * @param item       If it is an item slot or not (true or false).
+	 * @param itemID     The item id that it accepts (should be set to 0 if false).
+	 * @param itemAmount The amount of the item that it takes from the player.
+	 */
 	public SlotMachine(String name, String type, String owner, String world, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
 		
 		this.name = name;
@@ -30,7 +44,18 @@ public class SlotMachine {
 		this.itemAMT = itemAmount;
 	}
 	
-	// New slot machine constructor
+	/**
+	 * Instantiates a new slot machine, usually from a command.
+	 *
+	 * @param name     The name of the slot machine as a string.
+	 * @param type     The type of the slot machine being created as a string.
+	 * @param owner    The owner of the slot machine as a string.
+	 * @param world    The world in which the slot machine exists.
+	 * @param managed  If it is managed or not (true or false).
+	 * @param item     If it is an item slot or not (true or false).
+	 * @param itemId   The item id that it accepts (should be set to 0 if false).
+	 * @param itemAmt  The amount of the item that it takes from the player.
+	 */
 	public SlotMachine(String name, String type, String owner, String world, Boolean managed, Boolean item, int itemId, int itemAmt) {
 		
 		this.name = name;

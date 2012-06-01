@@ -15,7 +15,7 @@ public class AnCommandExecutor implements CommandExecutor{
 	public AnCommandExecutor(CasinoSlots plugin) {
 		this.plugin = plugin;
 	}
-
+	
 	public boolean onCommand(CommandSender sender, Command command, String commandlabel, final String[] args) {
 		
 		if(sender instanceof Player) {

@@ -40,6 +40,11 @@ public abstract class AnCommand {
 	}
 	
 	// Sends a message to the player
+	/**
+	 * Sends a message to the player who did the command.
+	 *
+	 * @param message The message to send to the player.
+	 */
 	public void sendMessage(String message) {
 		plugin.sendMessage(player, message);
 	}

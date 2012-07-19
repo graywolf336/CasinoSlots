@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.craftyn.casinoslots.command.AnCommandExecutor;
 import com.craftyn.casinoslots.listeners.AnBlockListener;
+import com.craftyn.casinoslots.listeners.AnChunkListener;
 import com.craftyn.casinoslots.listeners.AnPlayerListener;
 import com.craftyn.casinoslots.slot.RewardData;
 import com.craftyn.casinoslots.slot.SlotData;
@@ -33,6 +34,7 @@ public class CasinoSlots extends JavaPlugin {
 	
 	private AnPlayerListener playerListener = new AnPlayerListener(this);
 	private AnBlockListener blockListener = new AnBlockListener(this);
+	private AnChunkListener chunkListener = new AnChunkListener(this);
 	private AnCommandExecutor commandExecutor = new AnCommandExecutor(this);
 	
 	public ConfigData configData = new ConfigData(this);
@@ -77,6 +79,8 @@ public class CasinoSlots extends JavaPlugin {
 		
 		pm.registerEvents(this.playerListener, this);
 		pm.registerEvents(this.blockListener, this);
+		pm.registerEvents(chunkListener, this);
+		
 		
 		getCommand("casino").setExecutor(commandExecutor);
 	}

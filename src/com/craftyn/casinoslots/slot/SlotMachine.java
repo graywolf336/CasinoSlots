@@ -7,7 +7,7 @@ import org.bukkit.block.Block;
 
 public class SlotMachine {
 	
-	private String name, type, owner, world;
+	private String name, type, owner, world, chunk;
 	private Boolean managed, busy = false, enabled = true, item;
 	private int itemID, itemAMT;
 	private ArrayList<Block> blocks;
@@ -29,12 +29,13 @@ public class SlotMachine {
 	 * @param itemID     The item id that it accepts (should be set to 0 if false).
 	 * @param itemAmount The amount of the item that it takes from the player.
 	 */
-	public SlotMachine(String name, String type, String owner, String world, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
+	public SlotMachine(String name, String type, String owner, String world, String chunk, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
 		
 		this.name = name;
 		this.type = type;
 		this.owner = owner;
 		this.world = world;
+		this.chunk = chunk;
 		this.managed = managed;
 		this.blocks = blocks;
 		this.controller = controller;
@@ -111,6 +112,15 @@ public class SlotMachine {
 	// Returns world name of slot machine
 	public String getWorld() {
 		return this.world;
+	}
+	
+	/**
+	 * Returns the chunk's X and Z of the selected slot in a comma separated string.
+	 * 
+	 * @return chunkXZ
+	 */
+	public String getChunkXZ() {
+		return this.chunk;
 	}
 	
 	// Check if slot is in use

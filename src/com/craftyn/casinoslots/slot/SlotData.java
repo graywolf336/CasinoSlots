@@ -144,13 +144,10 @@ public class SlotData {
 		for(String coord : xyz) {
 			String[] b = coord.split("\\,");
 			Location loc = new Location(world, Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]));
-			if (loc.getBlock() == null) {
-				plugin.error("There was a problem loading your slots, please remove the slot '" + name + "' from your files and restart your server.");
-				plugin.disablePlugin();
-				break;
-			}else {
+			
 				blocks.add(loc.getBlock());
-			}
+				
+				loc.getChunk().load();
 		}
 		
 		return blocks;

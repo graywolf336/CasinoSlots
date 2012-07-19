@@ -20,7 +20,7 @@ import com.craftyn.casinoslots.util.ConfigData;
 import com.craftyn.casinoslots.util.Permissions;
 import com.craftyn.casinoslots.util.StatData;
 
-public class CasinoSlots extends JavaPlugin{
+public class CasinoSlots extends JavaPlugin {
 	
 	protected CasinoSlots plugin;
 	public Economy economy = null;

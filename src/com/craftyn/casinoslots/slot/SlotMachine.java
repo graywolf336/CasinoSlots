@@ -21,6 +21,7 @@ public class SlotMachine {
 	 * @param type       The type of the slot machine being created.
 	 * @param owner      The owner of the slot machine.
 	 * @param world      The world in which the slot machine exists.
+	 * @param chunk		 The chunk in which the controller block is in.
 	 * @param managed    If it is managed or not (true or false).
 	 * @param blocks     An ArrayList of the blocks of the slot machine.
 	 * @param controller The block of the controller.

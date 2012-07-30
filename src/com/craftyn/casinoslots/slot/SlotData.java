@@ -165,11 +165,11 @@ public class SlotData {
 	}
 	
 	/**
-	 * Returns the chunk's X and Z in a string that has them comma seperated.
+	 * Returns the chunk's X and Z in a string that has them comma separated.
 	 * 
 	 * @param name The name of the slot
 	 * 
-	 * @return The chunk X and Z via a string that is seperated via a comma.
+	 * @return The chunk X and Z via a string that is separated via a comma.
 	 */
 	private String getChunkXZ(String name) {
 		String location = plugin.configData.slots.getString("slots." + name + ".controller");
@@ -194,6 +194,7 @@ public class SlotData {
 		Location loc = new Location(world, Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]));
 		
 		Block controller = loc.getBlock();
+		loc.getChunk().load();
 		return controller;
 		
 	}

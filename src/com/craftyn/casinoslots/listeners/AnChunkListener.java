@@ -30,17 +30,16 @@ public class AnChunkListener implements Listener {
 	    	int sZ = Integer.parseInt(sC[1]);
 	    	String world = slot.getWorld();
 	    	
-	    	if (w == world) {
+	    	if (w.equalsIgnoreCase(world)) {
 	    		if (x == sX && z == sZ) {
 	    			event.setCancelled(true);
-	    			plugin.log("Stopped unloading of chunk at: " + x + ", " + z);
+	    			plugin.log("Kept chunk: (" + x + ", " + z + " " + world + ") for CasinoSlot - " + slot.getName() + " - loaded.");
 	    		}else {
-	    			return;
+	    			continue;
 	    		}
 	    	}else {
-	    		return;
+	    		continue;
 	    	}
-	    	
 	    }
 	}
 }

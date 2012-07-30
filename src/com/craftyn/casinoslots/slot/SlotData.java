@@ -195,7 +195,7 @@ public class SlotData {
 		
 		Block controller = loc.getBlock();
 		loc.getChunk().load();
-		plugin.log("Loaded the chunk (" + loc.getChunk().getX() + "," + loc.getChunk().getZ() + " in " + loc.getWorld().getName() + ") for the slot " + name);
+		plugin.log("Loaded chunk (" + loc.getChunk().getX() + "," + loc.getChunk().getZ() + " " + loc.getWorld().getName() + ") for the slot " + name);
 		return controller;
 		
 	}

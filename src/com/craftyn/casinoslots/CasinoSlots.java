@@ -86,7 +86,7 @@ public class CasinoSlots extends JavaPlugin {
 		pm.registerEvents(blockListener, this);
 		pm.registerEvents(chunkListener, this);
 		pm.registerEvents(redstone, this);
-		pm.registerEvents(entity, plugin);
+		pm.registerEvents(entity, this);
 		
 		
 		getCommand("casino").setExecutor(commandExecutor);

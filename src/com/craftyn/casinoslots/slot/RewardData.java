@@ -76,6 +76,15 @@ public class RewardData {
 				p.giveExp(exp);
 			}
 			
+			// addxplvl action
+			else if(a[0].equalsIgnoreCase("addxplvl")) {
+				
+				int exp = Integer.parseInt(a[1]);
+				int oldLvl = p.getLevel();
+				int newLvl = oldLvl+exp;
+				p.setLevel(newLvl);
+			}
+			
 			// Tpto action
 			else if(a[0].equalsIgnoreCase("tpto")) {
 				
@@ -93,12 +102,22 @@ public class RewardData {
 			// Fire action
 			else if(a[0].equalsIgnoreCase("fire")) {
 				//Haven't tested this, just adding more actions
-				p.setFireTicks(120);
+				if(a.length == 2) {
+					int ticks = Integer.parseInt(a[1]);
+					p.setFireTicks(ticks);
+				}else {
+					p.setFireTicks(120);
+				}
 			}
 			
 			// goBlind action
 			else if(a[0].equalsIgnoreCase("goblind")) {
-				p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 300, 90));
+				if(a.length == 2) {
+					int ticks = Integer.parseInt(a[1]);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, ticks, 90));
+				}else {
+					p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 300, 90));
+				}
 			}
 			
 			// DrugUp action
@@ -116,7 +135,7 @@ public class RewardData {
 			else if (a[0].equalsIgnoreCase("rocket")) {
 				// Special thanks to CommandBook for this code, loved it enough to add it. Source:
 				// https://github.com/sk89q/commandbook/blob/master/src/main/java/com/sk89q/commandbook/FunComponent.java#L282
-				p.setVelocity(new Vector(0, 20, 0));
+				p.setVelocity(new Vector(0, 30, 0));
 			}
 			
 			//command

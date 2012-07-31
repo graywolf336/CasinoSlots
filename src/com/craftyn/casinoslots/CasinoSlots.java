@@ -27,10 +27,11 @@ public class CasinoSlots extends JavaPlugin {
 	public Economy economy = null;
 	public Server server;
 	private final Logger logger = Logger.getLogger("Minecraft");
-	PluginManager pm = null;
+	private PluginManager pm = null;
 	
 	public String consolePrefix = "[CasinoSlots]";
 	public String prefix;
+	public String pluginVer;
 	
 	private AnPlayerListener playerListener = new AnPlayerListener(this);
 	private AnBlockListener blockListener = new AnBlockListener(this);
@@ -83,6 +84,7 @@ public class CasinoSlots extends JavaPlugin {
 		
 		
 		getCommand("casino").setExecutor(commandExecutor);
+		pluginVer = getDescription().getVersion();
 	}
 	
 	// Provides a way to shutdown the server from some other class

@@ -83,6 +83,11 @@ public class AnCommandExecutor implements CommandExecutor{
 					cmd = new CasinoToggle(plugin, args, player);
 				}
 				
+				// casino ver
+				else if(args[0].equalsIgnoreCase("ver") || args[0].equalsIgnoreCase("version")) {
+					cmd = new CasinoVer(plugin, args, player);
+				}
+				
 				// invalid command
 				else {
 					plugin.sendMessage(player, "Incorrect command syntax, see /casino for help.");

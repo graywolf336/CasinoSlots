@@ -155,6 +155,16 @@ public class RewardData {
 				}
 			}
 			
+			// hulkup action
+			else if (a[0].equalsIgnoreCase("hulkup")) {
+				if(a.length == 2) {
+					int ticks = Integer.parseInt(a[1]);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, ticks, 15));
+				}else {
+					p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 15));
+				}
+			}
+			
 			// DrugUp action
 			else if (a[0].equalsIgnoreCase("drugup")) {
 				p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 900, 200));

@@ -15,7 +15,6 @@ import com.craftyn.casinoslots.listeners.AnBlockListener;
 import com.craftyn.casinoslots.listeners.AnChunkListener;
 import com.craftyn.casinoslots.listeners.AnPlayerListener;
 import com.craftyn.casinoslots.listeners.EntityListener;
-import com.craftyn.casinoslots.listeners.RedstoneListener;
 import com.craftyn.casinoslots.slot.RewardData;
 import com.craftyn.casinoslots.slot.SlotData;
 import com.craftyn.casinoslots.slot.TypeData;
@@ -38,7 +37,6 @@ public class CasinoSlots extends JavaPlugin {
 	private AnPlayerListener playerListener = new AnPlayerListener(this);
 	private AnBlockListener blockListener = new AnBlockListener(this);
 	private AnChunkListener chunkListener = new AnChunkListener(this);
-	private RedstoneListener redstone = new RedstoneListener(this);
 	private EntityListener entity = new EntityListener(this);
 	private AnCommandExecutor commandExecutor = new AnCommandExecutor(this);
 	
@@ -85,7 +83,6 @@ public class CasinoSlots extends JavaPlugin {
 		pm.registerEvents(playerListener, this);
 		pm.registerEvents(blockListener, this);
 		pm.registerEvents(chunkListener, this);
-		pm.registerEvents(redstone, this);
 		pm.registerEvents(entity, this);
 		
 		

@@ -146,6 +146,16 @@ public class RewardData {
 				}
 			}
 			
+			// digfast action
+			else if (a[0].equalsIgnoreCase("digfast")) {
+				if(a.length == 2) {
+					int ticks = Integer.parseInt(a[1]);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, ticks, 2));
+				}else {
+					p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 400, 2));
+				}
+			}
+			
 			else if (a[0].equalsIgnoreCase("slap")) {
 				// special thanks to CommandBook for this code, loved it enough to add it. Source:
 				// https://github.com/sk89q/commandbook/blob/master/src/main/java/com/sk89q/commandbook/FunComponent.java#L204

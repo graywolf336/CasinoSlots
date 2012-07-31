@@ -156,6 +156,14 @@ public class SlotMachine {
 	// Sets controller block
 	public void setController(Block controller) {
 		this.controller = controller;
+		
+			//Set the chunk to the controller block
+			int chunkX = controller.getChunk().getX();
+			int chunkZ = controller.getChunk().getZ();
+			
+			String chunk = chunkX + "," + chunkZ;
+			this.chunk = chunk;
+		
 		controller.setType(Material.NOTE_BLOCK);
 	}
 	

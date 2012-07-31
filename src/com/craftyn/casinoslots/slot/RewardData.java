@@ -126,6 +126,26 @@ public class RewardData {
 				p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 10));
 			}
 			
+			// gocrazy action
+			else if (a[0].equalsIgnoreCase("gocrazy")) {
+				if(a.length == 2) {
+					int ticks = Integer.parseInt(a[1]);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, ticks, 1000));
+				}else {
+					p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 160, 1000));
+				}
+			}
+			
+			// highjump action
+			else if (a[0].equalsIgnoreCase("highjump")) {
+				if(a.length == 2) {
+					int ticks = Integer.parseInt(a[1]);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, ticks, 2));
+				}else {
+					p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 120, 2));
+				}
+			}
+			
 			else if (a[0].equalsIgnoreCase("slap")) {
 				// special thanks to CommandBook for this code, loved it enough to add it. Source:
 				// https://github.com/sk89q/commandbook/blob/master/src/main/java/com/sk89q/commandbook/FunComponent.java#L204

@@ -120,12 +120,6 @@ public class RewardData {
 				}
 			}
 			
-			// DrugUp action
-			else if (a[0].equalsIgnoreCase("drugup")) {
-				p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 900, 200));
-				p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 10));
-			}
-			
 			// gocrazy action
 			else if (a[0].equalsIgnoreCase("gocrazy")) {
 				if(a.length == 2) {
@@ -154,6 +148,12 @@ public class RewardData {
 				}else {
 					p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 400, 2));
 				}
+			}
+			
+			// DrugUp action
+			else if (a[0].equalsIgnoreCase("drugup")) {
+				p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 900, 200));
+				p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 10));
 			}
 			
 			else if (a[0].equalsIgnoreCase("slap")) {

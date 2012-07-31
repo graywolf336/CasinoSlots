@@ -1,5 +1,6 @@
 package com.craftyn.casinoslots.command;
 
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
@@ -36,7 +37,7 @@ public class CasinoAdd extends AnCommand {
 					// Valid type
 				if(args.length < 3) {
 					
-					this.type = "default";
+					type = "default";
 				}
 				
 				else if(plugin.typeData.isType(args[2])) {
@@ -48,7 +49,7 @@ public class CasinoAdd extends AnCommand {
 						return true;
 					}
 					else {
-						this.type = typeName;
+						type = typeName;
 					}
 				}
 				
@@ -58,7 +59,7 @@ public class CasinoAdd extends AnCommand {
 					return true;
 				}
 				
-				this.owner = player.getName();
+				owner = player.getName();
 				
 				// Creation cost
 				Double createCost = plugin.typeData.getType(type).getCreateCost();
@@ -72,8 +73,13 @@ public class CasinoAdd extends AnCommand {
 				}
 				
 				// Good to go
-				this.world = player.getWorld().getName();
-				SlotMachine slot = new SlotMachine(name, type, owner, world, false, false, 0, 0);
+				world = player.getWorld().getName();
+					Block loc = player.getLocation().getBlock();
+					int chunkX = loc.getChunk().getX();
+					int chunkZ = loc.getChunk().getZ();
+					
+					String chunk = chunkX + "," + chunkZ;
+				SlotMachine slot = new SlotMachine(name, type, owner, world, chunk, false, false, 0, 0);
 				plugin.slotData.toggleCreatingSlots(player, slot);
 				sendMessage("Punch a block to serve as the base for this slot machine.");
 			}

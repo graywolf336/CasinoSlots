@@ -58,12 +58,13 @@ public class SlotMachine {
 	 * @param itemId   The item id that it accepts (should be set to 0 if false).
 	 * @param itemAmt  The amount of the item that it takes from the player.
 	 */
-	public SlotMachine(String name, String type, String owner, String world, Boolean managed, Boolean item, int itemId, int itemAmt) {
+	public SlotMachine(String name, String type, String owner, String world, String chunk, Boolean managed, Boolean item, int itemId, int itemAmt) {
 		
 		this.name = name;
 		this.type = type;
 		this.owner = owner;
 		this.world = world;
+		this.chunk = chunk;
 		this.managed = managed;
 		this.funds = 0.0;
 		this.item = item;
@@ -155,15 +156,7 @@ public class SlotMachine {
 	
 	// Sets controller block
 	public void setController(Block controller) {
-		this.controller = controller;
-		
-			//Set the chunk to the controller block
-			int chunkX = controller.getChunk().getX();
-			int chunkZ = controller.getChunk().getZ();
-			
-			String chunk = chunkX + "," + chunkZ;
-			this.chunk = chunk;
-		
+		this.controller = controller;		
 		controller.setType(Material.NOTE_BLOCK);
 	}
 	

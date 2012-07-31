@@ -69,6 +69,11 @@ public class RewardData {
 				p.setHealth(0);
 			}
 			
+			// Kick action
+			else if(a[0].equalsIgnoreCase("kick")) {
+				p.kickPlayer("You cheated the Casino!");
+			}
+			
 			// Addxp action
 			else if(a[0].equalsIgnoreCase("addxp")) {
 				
@@ -76,7 +81,7 @@ public class RewardData {
 				p.giveExp(exp);
 			}
 			
-			// addxplvl action
+			// AddXPlvl action
 			else if(a[0].equalsIgnoreCase("addxplvl")) {
 				
 				int exp = Integer.parseInt(a[1]);

@@ -1,0 +1,102 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.craftyn</groupId>
+  <artifactId>casinoslots</artifactId>
+  <version>2.4.5-SNAPSHOT</version>
+  <name>InventoryClickTest</name>
+  <description>Real CasinoSlots in Minecraft.</description>
+  <url>http://dev.bukkit.org/server-mods/casino-slots/</url>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <ciManagement>
+  	<system>jenkins</system>
+  	<url>http://graywolfsolutions.com:8080</url>
+  </ciManagement>
+  
+  <scm>
+  	<url>https://github.com/graywolf336/CasinoSlots</url>
+  	<developerConnection>scm:git:git:@github.com:graywolf336/CasinoSlots.git</developerConnection>
+  	<connection>scm:git:git://github.com/graywolf336/CasinoSlots.git</connection>
+  </scm>
+  
+  <repositories>
+    <repository>
+      <id>bukkit-repo</id>
+      <url>http://repo.bukkit.org/content/groups/public</url>
+    </repository>
+    <repository>
+      <id>spout-repo</id>
+      <url>http://nexus.spout.org/content/groups/public/</url>
+    </repository>
+  </repositories>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.bukkit</groupId>
+      <artifactId>bukkit</artifactId>
+      <version>RELEASE</version>
+      <type>jar</type>
+    </dependency>
+    
+    <dependency>
+      <groupId>net.milkbowl</groupId>
+      <artifactId>vault</artifactId>
+      <version>RELEASE</version>
+      <type>jar</type>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <directory>target</directory>
+    <outputDirectory>target/classes</outputDirectory>
+    <finalName>CasinoSlots</finalName>
+    <sourceDirectory>${basedir}/src</sourceDirectory>
+    <defaultGoal>clean install</defaultGoal>
+    
+    <resources>
+      <resource>
+        <targetPath>.</targetPath>
+        <filtering>true</filtering>
+        <directory>${basedir}/</directory>
+        <includes>
+          <include>plugin.yml</include>
+          <include>config.yml</include>
+        </includes>
+      </resource>
+    </resources>
+    
+    <!-- Plugins -->
+    <plugins>
+      <!-- Compile plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+      </plugin>
+
+      <!-- Assembly -->
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-2</version><!--$NO-MVN-MAN-VER$-->
+        <configuration>
+          <descriptor>${basedir}/src/main/assembly/default.xml</descriptor>
+        </configuration>
+      </plugin>
+
+      <!-- Release -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.2.2</version><!--$NO-MVN-MAN-VER$-->
+        <configuration>
+          <preparationGoals>assembly:assembly</preparationGoals>
+          <goals>assembly:assembly</goals>
+          <tagNameFormat>@{project.version}</tagNameFormat>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

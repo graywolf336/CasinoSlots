@@ -124,7 +124,10 @@ public class ConfigData {
 		}
 	}
 	
-	// Set default values for new type
+	/**
+	 * For the command to add a new type, the parameter it takes is for the name of the new type.
+	 * @param name
+	 */
 	public void setTypeDefaults(String name) {
 		config.set("types."+ name +".cost", 100);
 		config.set("types."+ name +".create-cost", 1000);

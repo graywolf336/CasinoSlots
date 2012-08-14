@@ -177,6 +177,9 @@ public class SlotData {
 		String[] b = location.split("\\,");
 		Location loc = new Location(world, Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]));
 		
+		loc.getChunk().load();
+		plugin.log("Loaded chunk (" + loc.getChunk().getX() + "," + loc.getChunk().getZ() + " " + loc.getWorld().getName() + ") for the slot " + name);
+		
 		int chunkX = loc.getChunk().getX();
 		int chunkZ = loc.getChunk().getZ();
 		
@@ -194,8 +197,7 @@ public class SlotData {
 		Location loc = new Location(world, Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]));
 		
 		Block controller = loc.getBlock();
-		loc.getChunk().load();
-		plugin.log("Loaded chunk (" + loc.getChunk().getX() + "," + loc.getChunk().getZ() + " " + loc.getWorld().getName() + ") for the slot " + name);
+
 		return controller;
 		
 	}

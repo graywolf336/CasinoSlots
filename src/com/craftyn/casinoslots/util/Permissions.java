@@ -43,7 +43,6 @@ public class Permissions {
 	 * </ul>
 	 * 
 	 * @param player The Player that is attempting to create a lot
-	 * @param type   The Type of the slot that the Player is attempting to create
 	 * @return       True if the player can create that slot, false if the player can't
 	 */
 	public Boolean canCreate(Player player) {			
@@ -58,9 +57,11 @@ public class Permissions {
 	 * Returns true if the player can create a slot with the type.
 	 * 
 	 * The following are the permissions it checks:
-	 *  - {@link isAdmin}
-	 *  - casinoslots.create. type
-	 *  - casinoslots.create.*
+	 *  <ul>
+	 *  	<li>{@link isAdmin}</li>
+	 *  	<li>casinoslots.create. type</li>
+	 *  	<li>casinoslots.create.*</li>
+	 *  </ul>
 	 * 
 	 * @param player The Player that is attempting to create a lot
 	 * @param type   The Type of the slot that the Player is attempting to create
@@ -92,11 +93,20 @@ public class Permissions {
 	/**
 	 * Returns true if the player can create a managed slot.
 	 * 
+	 * The player must either have:
+	 * <ul>
+	 * 	<li>{@link isAdmin}</li>
+	 *  <li>casinoslots.create.managed.*</li>
+	 *  <li>casinoslots.create.managed</li>
+	 *  <li>casinoslots.create.*</li>
+	 *  <li>casinoslots.create</li>
+	 * </ul>
+	 * 
 	 * @param player The Player that is attempting to create a lot.
 	 * @return       True if the player can create managed; false if the player can't.
 	 */
 	public Boolean canCreateManaged(Player player) {		
-		if(isAdmin(player) || player.hasPermission(create + ".managed") || player.hasPermission(create + ".*")) {
+		if(isAdmin(player) || player.hasPermission(create + ".managed.*") || player.hasPermission(create + ".managed") || player.hasPermission(create + ".*") || player.hasPermission(create)) {
 			return true;
 		}
 		return false;
@@ -110,15 +120,17 @@ public class Permissions {
 	 * 	<li>{@link isAdmin}</li>
 	 *  <li>casinoslots.create.managed.{@value type}</li>
 	 *  <li>casinoslots.create.managed.*</li>
+	 *  <li>casinoslots.create.managed</li>
 	 *  <li>casinoslots.create.*</li>
 	 *  <li>casinoslots.create</li>
+	 * </ul>
 	 * 
-	 * @param player
-	 * @param type
-	 * @return
+	 * @param player	Is the player that tries to create the slot
+	 * @param type		Type is the name of the type of slot
+	 * @return			True if the player can create a managed slot; false if the player can't
 	 */
 	public Boolean canCreateManaged(Player player, String type) {		
-		if(isAdmin(player) || player.hasPermission(create + ".managed." + type)|| player.hasPermission(create + ".managed.*") || player.hasPermission(create + ".*") || player.hasPermission(create)) {
+		if(isAdmin(player) || player.hasPermission(create + ".managed." + type)|| player.hasPermission(create + ".managed.*") || player.hasPermission(create + ".managed") || player.hasPermission(create + ".*") || player.hasPermission(create)) {
 			return true;
 		}
 		return false;

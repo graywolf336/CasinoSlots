@@ -30,7 +30,7 @@ public class CasinoAddManaged extends AnCommand {
 	public Boolean process() {
 		
 		// Permissions
-		if(!plugin.permission.canCreate(player) || !plugin.permission.canCreateManaged(player)) {
+		if(!plugin.permission.canCreateManaged(player)) {
 			noPermission();
 			return true;
 		}

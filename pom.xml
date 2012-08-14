@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.craftyn</groupId>
   <artifactId>casinoslots</artifactId>
-  <version>2.4.5-SNAPSHOT</version>
-  <name>InventoryClickTest</name>
+  <version>2.4.6-SNAPSHOT</version>
+  <name>CasinoSlots</name>
   <description>Real CasinoSlots in Minecraft.</description>
   <url>http://dev.bukkit.org/server-mods/casino-slots/</url>
   
@@ -52,7 +52,6 @@
   <build>
     <directory>target</directory>
     <outputDirectory>target/classes</outputDirectory>
-    <finalName>CasinoSlots</finalName>
     <sourceDirectory>${basedir}/src</sourceDirectory>
     <defaultGoal>clean install</defaultGoal>
     

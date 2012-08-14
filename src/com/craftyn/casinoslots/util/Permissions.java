@@ -102,8 +102,23 @@ public class Permissions {
 		return false;
 	}
 	
+	/**
+	 * Returns true if the player can build a managed slot, false if not.
+	 * 
+	 * The player must either have:
+	 * <ul>
+	 * 	<li>{@link isAdmin}</li>
+	 *  <li>casinoslots.create.managed.{@value type}</li>
+	 *  <li>casinoslots.create.managed.*</li>
+	 *  <li>casinoslots.create.*</li>
+	 *  <li>casinoslots.create</li>
+	 * 
+	 * @param player
+	 * @param type
+	 * @return
+	 */
 	public Boolean canCreateManaged(Player player, String type) {		
-		if(isAdmin(player) || player.hasPermission(create + ".managed." + type)|| player.hasPermission(create + ".managed.*") || player.hasPermission(create + ".*")) {
+		if(isAdmin(player) || player.hasPermission(create + ".managed." + type)|| player.hasPermission(create + ".managed.*") || player.hasPermission(create + ".*") || player.hasPermission(create)) {
 			return true;
 		}
 		return false;

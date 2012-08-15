@@ -138,10 +138,13 @@ public class SlotData {
 		int itemID = plugin.configData.slots.getInt(path + "itemID", 0);
 		int itemAmt = plugin.configData.slots.getInt(path + "itemAmt", 0);
 		ArrayList<Block> blocks = getBlocks(name);
-		String chunk = getChunkXZ(name);
 		Block controller = getController(name);
 		
-		SlotMachine slot = new SlotMachine(name, type, owner, world, chunk, managed, blocks, controller, funds, item, itemID, itemAmt);
+		//Get the chunks
+		String rChunk = getRchunk(blocks);
+		String cChunk = getCchunk(controller);
+		
+		SlotMachine slot = new SlotMachine(name, type, owner, world, rChunk, cChunk, managed, blocks, controller, funds, item, itemID, itemAmt);
 		addSlot(slot);
 	}
 	
@@ -164,30 +167,6 @@ public class SlotData {
 		return blocks;
 	}
 	
-	/**
-	 * Returns the chunk's X and Z in a string that has them comma separated.
-	 * 
-	 * @param name The name of the slot
-	 * 
-	 * @return The chunk X and Z via a string that is separated via a comma.
-	 */
-	private String getChunkXZ(String name) {
-		String location = plugin.configData.slots.getString("slots." + name + ".controller");
-		World world = Bukkit.getWorld(plugin.configData.slots.getString("slots." + name + ".world"));
-		String[] b = location.split("\\,");
-		Location loc = new Location(world, Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]));
-		
-		loc.getChunk().load();
-		plugin.log("Loaded chunk (" + loc.getChunk().getX() + "," + loc.getChunk().getZ() + " " + loc.getWorld().getName() + ") for the slot " + name);
-		
-		int chunkX = loc.getChunk().getX();
-		int chunkZ = loc.getChunk().getZ();
-		
-		String chunk = chunkX + "," + chunkZ;
-		
-		return chunk;
-	}
-	
 	// Gets controller block from disk
 	private Block getController(String name) {
 		
@@ -202,11 +181,26 @@ public class SlotData {
 		
 	}
 	
+	private String getRchunk(ArrayList<Block> blocks) {
+		Block b = blocks.get(1);
+		String c = b.getChunk().getX() + "," + b.getChunk().getZ();
+		
+		return c;
+	}
+	
+	private String getCchunk (Block c) {
+		String chunk = c.getChunk().getX() + "," + c.getChunk().getZ();
+		
+		return chunk;
+	}
+	
 	// Creates the slot machine in the world
 	public void createReel(Player player, BlockFace face, SlotMachine slot) {
 		
 		Block center = player.getTargetBlock(null, 0);
 		ArrayList<Block> blocks = new ArrayList<Block>();
+		
+		slot.setReelChunk(center.getChunk().getX() + "," + center.getChunk().getZ());
 		
 		for(int i = 0; i < 3; i++) {
 			blocks.add(center.getRelative(getDirection(face, "left"), 2));

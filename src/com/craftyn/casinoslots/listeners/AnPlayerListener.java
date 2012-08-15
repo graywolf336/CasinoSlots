@@ -34,9 +34,37 @@ public class AnPlayerListener implements Listener {
 		if(plugin.isEnabled()) {
 			Player player = event.getPlayer();
 			Block b = event.getClickedBlock();
+			
 			if(b == null) return;
+			
+			// Creating slots
+			if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isCreatingSlots(player)) {				
+				BlockFace face = event.getBlockFace();
 				
-			// Left clicked note block
+				if(face != BlockFace.DOWN && face != BlockFace.UP) {
+					SlotMachine slot = plugin.slotData.creatingSlots.get(player);
+					plugin.slotData.createReel(player, face, slot);					
+					plugin.slotData.toggleCreatingSlots(player, slot);
+					plugin.slotData.togglePlacingController(player, slot);
+					plugin.sendMessage(player, "Punch a block to serve as the controller for this slot machine.");
+				}
+				else {
+					plugin.sendMessage(player, "Only sides of blocks are valid targets for this operation.");
+				}
+			}
+			
+			// Placing controller
+			else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPlacingController(player)) {
+				
+				SlotMachine slot = plugin.slotData.placingController.get(player);
+				slot.setController(b);
+				plugin.slotData.togglePlacingController(player, slot);
+				plugin.slotData.addSlot(slot);
+				plugin.slotData.saveSlot(slot);
+				plugin.sendMessage(player, "Slot machine set up successfully!");
+			}
+				
+			//Left clicked or right clicked a note block
 			if(b.getType() == Material.NOTE_BLOCK) {
 					
 				// Look for matching controller block
@@ -46,12 +74,8 @@ public class AnPlayerListener implements Listener {
 					if(b.equals(slot.getController())) {
 						Type type = plugin.typeData.getType(slot.getType());
 						
-						// Check to see if the type is valid, if it's not then display an error to both the player and the console.
-						if (type == null) {
-							plugin.sendMessage(player, "Sorry, that seems to be a messed up CasinoSlot, please contact your server administrator.");
-							plugin.error("There is an incorrect type of Casino in your server somewhere, ask " + player.getDisplayName() + " which one they just tried to play.");
-							return;
-						}
+						//Checks if the type given is null or not and informs the player and the console.
+						if (typeIsNull(player, type)) return;
 						
 						// Left click event
 						if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
@@ -173,34 +197,26 @@ public class AnPlayerListener implements Listener {
 					}
 				}
 			}
-			
-			// Creating slots
-			if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isCreatingSlots(player)) {				
-				BlockFace face = event.getBlockFace();
-				
-				if(face != BlockFace.DOWN && face != BlockFace.UP) {
-					SlotMachine slot = plugin.slotData.creatingSlots.get(player);
-					plugin.slotData.createReel(player, face, slot);
-					
-					plugin.slotData.toggleCreatingSlots(player, slot);
-					plugin.slotData.togglePlacingController(player, slot);
-					plugin.sendMessage(player, "Punch a block to serve as the controller for this slot machine.");
-				}
-				else {
-					plugin.sendMessage(player, "Only sides of blocks are valid targets for this operation.");
-				}
-			}
-			
-			// Placing controller
-			else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPlacingController(player)) {
-				
-				SlotMachine slot = plugin.slotData.placingController.get(player);
-				slot.setController(b);
-				plugin.slotData.togglePlacingController(player, slot);
-				plugin.slotData.addSlot(slot);
-				plugin.slotData.saveSlot(slot);
-				plugin.sendMessage(player, "Slot machine set up successfully!");
-			}
 		}
+	}
+	
+	/**
+	 * Checks if the type passed is null or not, returns true if so and tells the player and console.
+	 * 
+	 * @param player	The player who is attempting to play this type.
+	 * @param type		The type that is being checked.
+	 * @return			True if the type is null or false if the type isn't null
+	 */
+	
+	private boolean typeIsNull (Player player, Type type) {
+		// Check to see if the type is valid, if it's not then display an error to both the player and the console.
+		if (type == null) {
+			plugin.sendMessage(player, "Sorry, that seems to be a messed up CasinoSlot, please contact your server administrator.");
+			plugin.error("There is an incorrect type of Casino in your server somewhere, ask " + player.getDisplayName() + " which one they just tried to play.");
+			return true;
+		}else {
+			return false;
+		}
+		
 	}
 }

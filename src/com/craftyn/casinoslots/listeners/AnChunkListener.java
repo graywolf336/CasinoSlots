@@ -24,14 +24,26 @@ public class AnChunkListener implements Listener {
 	    int z = c.getZ();
 	    
 	    for(SlotMachine slot : plugin.slotData.getSlots()) {
-	    	String chunk = slot.getChunkXZ();
-	    	String[] sC = chunk.split("\\,");
-	    	int sX = Integer.parseInt(sC[0]);
-	    	int sZ = Integer.parseInt(sC[1]);
+	    	String reelChunk = slot.getReelChunk();
+	    	String conChunk = slot.getControllerChunk();
+	    	
+	    	//Split the reel chunk up
+	    	String[] rChunk = reelChunk.split("\\,");
+	    	int rX = Integer.parseInt(rChunk[0]);
+	    	int rZ = Integer.parseInt(rChunk[1]);
+	    	
+	    	//Split the controller chunk up
+	    	String[] cChunk = conChunk.split("\\,");
+	    	int cX = Integer.parseInt(cChunk[0]);
+	    	int cZ = Integer.parseInt(cChunk[1]);
+	    	
 	    	String world = slot.getWorld();
 	    	
 	    	if (w.equalsIgnoreCase(world)) {
-	    		if (x == sX && z == sZ) {
+	    		if (x == rX && z == rZ) {
+	    			event.setCancelled(true);
+	    			plugin.log("Kept chunk: (" + x + ", " + z + " " + world + ") for CasinoSlot - " + slot.getName() + " - loaded.");
+	    		}else if (x == cX && z == cZ) {
 	    			event.setCancelled(true);
 	    			plugin.log("Kept chunk: (" + x + ", " + z + " " + world + ") for CasinoSlot - " + slot.getName() + " - loaded.");
 	    		}else {

@@ -1,6 +1,5 @@
 package com.craftyn.casinoslots.command;
 
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
@@ -73,14 +72,8 @@ public class CasinoAddManaged extends AnCommand {
 					return true;
 				}
 				
-				// Good to go
-				this.world = player.getWorld().getName();
-					Block loc = player.getLocation().getBlock();
-					int chunkX = loc.getChunk().getX();
-					int chunkZ = loc.getChunk().getZ();
-					
-					String chunk = chunkX + "," + chunkZ;
-				SlotMachine slot = new SlotMachine(name, type, owner, world, chunk, true, false, 0, 0);
+				//Good to start punching the blocks to create the slot.
+				SlotMachine slot = new SlotMachine(name, type, owner, world, true, false, 0, 0);
 				plugin.slotData.toggleCreatingSlots(player, slot);
 				plugin.sendMessage(player, "Punch a block to serve as the base for this slot machine.");
 			}

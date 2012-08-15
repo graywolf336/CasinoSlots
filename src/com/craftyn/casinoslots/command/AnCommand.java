@@ -39,7 +39,6 @@ public abstract class AnCommand {
 		plugin.sendMessage(player, "You don't have permission to do this.");
 	}
 	
-	// Sends a message to the player
 	/**
 	 * Sends a message to the player who did the command.
 	 *

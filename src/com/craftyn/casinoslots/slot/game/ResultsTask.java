@@ -7,9 +7,11 @@ import java.util.Set;
 
 import org.bukkit.Instrument;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Note;
 import org.bukkit.Note.Tone;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.slot.Reward;
@@ -54,6 +56,16 @@ public class ResultsTask implements Runnable {
 				Double max = game.plugin.typeData.getMaxPrize(type.getName());
 				if(slot.getFunds() < max) {
 					slot.setEnabled(false);
+				}
+			}
+			
+			if(!(slot.getSignLoc() == null)) {
+				Location loc = slot.getSignLoc();
+				if (loc.getBlock().getType().equals(Material.WALL_SIGN) || loc.getBlock().getType().equals(Material.SIGN_POST)) {
+					Sign sign = (Sign) loc.getBlock().getState();
+					sign.setLine(3, player.getDisplayName());
+				}else {
+					game.plugin.error("The block stored for the sign is NOT a sign, please remove it.");
 				}
 			}
 		}

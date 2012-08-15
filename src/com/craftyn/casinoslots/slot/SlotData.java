@@ -113,6 +113,7 @@ public class SlotData {
 		plugin.configData.slots.set(path + "type", slot.getType());
 		plugin.configData.slots.set(path + "owner", slot.getOwner());
 		plugin.configData.slots.set(path + "world", slot.getWorld());
+		plugin.configData.slots.set(path + "sign", slot.getSignLoc());
 		plugin.configData.slots.set(path + "managed", slot.isManaged());
 		plugin.configData.slots.set(path + "funds", slot.getFunds());
 		plugin.configData.slots.set(path + "item", slot.isItem());
@@ -133,6 +134,7 @@ public class SlotData {
 		String type = plugin.configData.slots.getString(path + "type");
 		String owner = plugin.configData.slots.getString(path + "owner");
 		String world = plugin.configData.slots.getString(path + "world");
+		Location signLoc = (Location) plugin.configData.slots.get(path + "sign");
 		Boolean managed = plugin.configData.slots.getBoolean(path + "managed");
 		Double funds = plugin.configData.slots.getDouble(path + "funds");
 		Boolean item = plugin.configData.slots.getBoolean(path + "item", false);
@@ -145,7 +147,7 @@ public class SlotData {
 		String rChunk = getRchunk(blocks);
 		String cChunk = getCchunk(controller);
 		
-		SlotMachine slot = new SlotMachine(name, type, owner, world, rChunk, cChunk, managed, blocks, controller, funds, item, itemID, itemAmt);
+		SlotMachine slot = new SlotMachine(name, type, owner, world, rChunk, cChunk, signLoc, managed, blocks, controller, funds, item, itemID, itemAmt);
 		addSlot(slot);
 	}
 	

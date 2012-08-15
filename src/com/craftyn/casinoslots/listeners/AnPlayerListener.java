@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -68,9 +69,16 @@ public class AnPlayerListener implements Listener {
 			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPunchingSign(player)) {
 				if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
 					SlotMachine slot = plugin.slotData.punchingSign.get(player);
-					plugin.sendMessage(player, "Yay for clicking a sign!");
-					plugin.slotData.togglePunchingSign(player, slot);
 					
+					Sign sign = (Sign) b.getState();
+					sign.setLine(0, "The Last");
+					sign.setLine(1, "Winner:");
+					
+					slot.setSignLoc(b.getLocation());
+					
+					plugin.sendMessage(player, "Successfully stored the location of the sign!");
+					
+					plugin.slotData.togglePunchingSign(player, slot);
 					event.setCancelled(true);
 				}else {
 					plugin.sendMessage(player, "Please make sure you are punching a sign on the wall or sign standing up. Try again.");

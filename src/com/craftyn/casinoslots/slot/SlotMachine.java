@@ -2,6 +2,7 @@ package com.craftyn.casinoslots.slot;
 
 import java.util.ArrayList;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
@@ -13,6 +14,7 @@ public class SlotMachine {
 	private ArrayList<Block> blocks;
 	private Block controller;
 	private Double funds;
+	private Location signLoc = null;
 	
 	/**
 	 * Instantiates a new slot machine, usually from the config.
@@ -31,7 +33,7 @@ public class SlotMachine {
 	 * @param itemID     		The item id that it accepts (should be set to 0 if false).
 	 * @param itemAmount 		The amount of the item that it takes from the player.
 	 */
-	public SlotMachine(String name, String type, String owner, String world, String reelChunk, String controllerChunk, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
+	public SlotMachine(String name, String type, String owner, String world, String reelChunk, String controllerChunk, Location signLocation, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
 		
 		this.name = name;
 		this.type = type;
@@ -39,6 +41,7 @@ public class SlotMachine {
 		this.world = world;
 		this.reelChunk = reelChunk;
 		this.controllerChunk = controllerChunk;
+		this.signLoc = signLocation;
 		this.managed = managed;
 		this.blocks = blocks;
 		this.controller = controller;
@@ -159,6 +162,10 @@ public class SlotMachine {
 		return this.controllerChunk;
 	}
 	
+	public Location getSignLoc() {
+		return this.signLoc;
+	}
+	
 	// Sets reel blocks
 	public void setBlocks(ArrayList<Block> blocks) {
 		this.blocks = blocks;
@@ -187,6 +194,10 @@ public class SlotMachine {
 	 */
 	public void setControllerChunk(String chunk) {
 		this.controllerChunk = chunk;
+	}
+	
+	public void setSignLoc(Location loc) {
+		this.signLoc = loc;
 	}
 	
 	// Sets type

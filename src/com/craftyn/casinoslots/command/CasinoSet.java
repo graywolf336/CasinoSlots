@@ -18,29 +18,16 @@ public class CasinoSet extends AnCommand {
 			if (args[3].equalsIgnoreCase("sign")) {
 
 				// Slot exists
-				if(plugin.slotData.isSlot(args[1])) {
-					SlotMachine slot = plugin.slotData.getSlot(args[1]);
-					
-					// Can access slot
-					if(isOwner(slot)) {
-						String owner = args[2];
-						slot.setOwner(owner);
-						sendMessage(owner + " is now the owner of the " + args[1] + " slot machine.");
-					}
-					// No access
-					else {
-						sendMessage("You do not own this slot machine.");
-					}
-				}
-				
-				// Slot does not exist
-				else {
+				if(plugin.slotData.isSlot(args[2])) {
+					SlotMachine slot = plugin.slotData.getSlot(args[2]);
+					plugin.slotData.togglePunchingSign(player, slot);
+					sendMessage("Please punch the sign that you want us to know about.");
+				}else {
+					// Slot does not exist
 					sendMessage("Invalid slot machine.");
 				}
-			}
-			
-			// Incorrect command format
-			else {
+			}else {
+				// Incorrect command format
 				sendMessage("Usage:");
 				sendMessage("/casino set sign <slotname>");
 			}
@@ -49,6 +36,7 @@ public class CasinoSet extends AnCommand {
 		// Incorrect command format
 		else {
 			sendMessage("Usage:");
+			//                    0   1      2
 			sendMessage("/casino set sign <slotname>");
 		}
 		

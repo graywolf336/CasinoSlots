@@ -87,7 +87,6 @@ public class ConfigData {
 				this.slots.set(path + "type", slot.getType());
 				this.slots.set(path + "owner", slot.getOwner());
 				this.slots.set(path + "world", slot.getWorld());
-				this.slots.set(path + "sign", slot.getSignLoc());
 				this.slots.set(path + "managed", slot.isManaged());
 				this.slots.set(path + "funds", slot.getFunds());
 			}

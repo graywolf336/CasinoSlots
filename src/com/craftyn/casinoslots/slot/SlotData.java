@@ -109,11 +109,14 @@ public class SlotData {
 		Block con = slot.getController();
 		String cXyz = con.getX() + "," + con.getY() + "," + con.getZ();
 		
+		Block sign = slot.getSign();
+		String sXyz = sign.getX() + "," + sign.getY() + "," + sign.getZ();
+		
 		plugin.configData.slots.set(path + "name", slot.getName());
 		plugin.configData.slots.set(path + "type", slot.getType());
 		plugin.configData.slots.set(path + "owner", slot.getOwner());
 		plugin.configData.slots.set(path + "world", slot.getWorld());
-		plugin.configData.slots.set(path + "sign", slot.getSignLoc());
+		plugin.configData.slots.set(path + "sign", sXyz);
 		plugin.configData.slots.set(path + "managed", slot.isManaged());
 		plugin.configData.slots.set(path + "funds", slot.getFunds());
 		plugin.configData.slots.set(path + "item", slot.isItem());
@@ -134,7 +137,6 @@ public class SlotData {
 		String type = plugin.configData.slots.getString(path + "type");
 		String owner = plugin.configData.slots.getString(path + "owner");
 		String world = plugin.configData.slots.getString(path + "world");
-		Location signLoc = (Location) plugin.configData.slots.get(path + "sign");
 		Boolean managed = plugin.configData.slots.getBoolean(path + "managed");
 		Double funds = plugin.configData.slots.getDouble(path + "funds");
 		Boolean item = plugin.configData.slots.getBoolean(path + "item", false);
@@ -142,15 +144,16 @@ public class SlotData {
 		int itemAmt = plugin.configData.slots.getInt(path + "itemAmt", 0);
 		ArrayList<Block> blocks = getBlocks(name);
 		Block controller = getController(name);
+		Block sign = getSign(name);
 		
 		//Get the chunks
 		String rChunk = getRchunk(blocks);
 		String cChunk = getCchunk(controller);
 		
-		SlotMachine slot = new SlotMachine(name, type, owner, world, rChunk, cChunk, signLoc, managed, blocks, controller, funds, item, itemID, itemAmt);
+		SlotMachine slot = new SlotMachine(name, type, owner, world, rChunk, cChunk, sign, managed, blocks, controller, funds, item, itemID, itemAmt);
 		addSlot(slot);
 	}
-	
+
 	// Gets reel blocks location from disk
 	private ArrayList<Block> getBlocks(String name) {
 		
@@ -188,6 +191,22 @@ public class SlotData {
 
 		return controller;
 		
+	}
+	
+	private Block getSign(String name) {
+		String location = plugin.configData.slots.getString("slots." + name + ".sign");
+		
+		if(location == null) {
+			return null;
+		}
+		
+		World world = Bukkit.getWorld(plugin.configData.slots.getString("slots." + name + ".world"));
+		String[] b = location.split("\\,");
+		Location loc = new Location(world, Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]));
+		
+		Block sign = loc.getBlock();
+
+		return sign;
 	}
 	
 	private String getRchunk(ArrayList<Block> blocks) {

@@ -67,14 +67,17 @@ public class AnPlayerListener implements Listener {
 				event.setCancelled(true);
 				return;
 			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPunchingSign(player)) {
+				//setting the sign
+				
 				if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
 					SlotMachine slot = plugin.slotData.punchingSign.get(player);
 					
 					Sign sign = (Sign) b.getState();
 					sign.setLine(0, "The Last");
 					sign.setLine(1, "Winner:");
+					sign.update(true);
 					
-					slot.setSignLoc(b.getLocation());
+					slot.setSign(b);
 					
 					plugin.sendMessage(player, "Successfully stored the location of the sign!");
 					

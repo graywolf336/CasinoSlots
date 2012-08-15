@@ -59,10 +59,10 @@ public class ResultsTask implements Runnable {
 				}
 			}
 			
-			if(!(slot.getSignLoc() == null)) {
-				Location loc = slot.getSignLoc();
-				if (loc.getBlock().getType().equals(Material.WALL_SIGN) || loc.getBlock().getType().equals(Material.SIGN_POST)) {
-					Sign sign = (Sign) loc.getBlock().getState();
+			if(!(slot.getSign() == null)) {
+				Block b = slot.getSign();
+				if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
+					Sign sign = (Sign) b.getState();
 					sign.setLine(3, player.getDisplayName());
 				}else {
 					game.plugin.error("The block stored for the sign is NOT a sign, please remove it.");

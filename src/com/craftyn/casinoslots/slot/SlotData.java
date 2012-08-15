@@ -155,10 +155,15 @@ public class SlotData {
 		ArrayList<Block> blocks = new ArrayList<Block>();
 		World world = Bukkit.getWorld(plugin.configData.slots.getString("slots." + name + ".world", "world"));
 		
+		if (world == null) {
+			plugin.error("The world for the slot '" + name + "' was null, please fix this and restart the server.");
+			plugin.disablePlugin();
+		}
+		
 		for(String coord : xyz) {
 			String[] b = coord.split("\\,");
 			Location loc = new Location(world, Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]));
-			
+		
 				blocks.add(loc.getBlock());
 				
 				loc.getChunk().load();

@@ -47,9 +47,12 @@ public class AnPlayerListener implements Listener {
 					plugin.slotData.toggleCreatingSlots(player, slot);
 					plugin.slotData.togglePlacingController(player, slot);
 					plugin.sendMessage(player, "Punch a block to serve as the controller for this slot machine.");
+					event.setCancelled(true);
+					return;
 				}
 				else {
 					plugin.sendMessage(player, "Only sides of blocks are valid targets for this operation.");
+					return;
 				}
 			}
 			
@@ -62,6 +65,8 @@ public class AnPlayerListener implements Listener {
 				plugin.slotData.addSlot(slot);
 				plugin.slotData.saveSlot(slot);
 				plugin.sendMessage(player, "Slot machine set up successfully!");
+				event.setCancelled(true);
+				return;
 			}
 				
 			//Left clicked or right clicked a note block
@@ -124,6 +129,7 @@ public class AnPlayerListener implements Listener {
 											// Player does not have enough money
 											else {
 												plugin.sendMessage(player, type.getMessages().get("noFunds"));
+												return;
 											}
 											
 										}								
@@ -132,12 +138,14 @@ public class AnPlayerListener implements Listener {
 									// Slot is busy
 									else {
 										plugin.sendMessage(player, type.getMessages().get("inUse"));
+										return;
 									}
 							}		
 							
 							// Player does not have type permission
 							else {
 								plugin.sendMessage(player, type.getMessages().get("noPermission"));
+								return;
 							}
 						}// End Left click
 						

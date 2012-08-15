@@ -44,16 +44,15 @@ public class ResultsTask implements Runnable {
 			SlotMachine slot = game.getSlot();
 			
 			if(!(slot.getSign() == null)) {
-				game.plugin.log("slot sign got called");
 				Block b = slot.getSign();
 				if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
+					game.plugin.log("slot sign got called");
 					Sign sign = (Sign) b.getState();
 					sign.setLine(3, player.getDisplayName());
+					sign.update(true);
 				}else {
 					game.plugin.error("The block stored for the sign is NOT a sign, please remove it.");
 				}
-			}else {
-				game.plugin.log("The else happened");
 			}
 			
 			// Send the rewards

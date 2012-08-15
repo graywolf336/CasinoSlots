@@ -46,7 +46,6 @@ public class ResultsTask implements Runnable {
 			if(!(slot.getSign() == null)) {
 				Block b = slot.getSign();
 				if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
-					game.plugin.log("slot sign got called");
 					Sign sign = (Sign) b.getState();
 					sign.setLine(3, player.getDisplayName());
 					sign.update(true);

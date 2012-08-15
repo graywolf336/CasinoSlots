@@ -79,6 +79,8 @@ public class AnPlayerListener implements Listener {
 					
 					slot.setSign(b);
 					
+					plugin.slotData.saveSlot(slot);
+					
 					plugin.sendMessage(player, "Successfully stored the location of the sign!");
 					
 					plugin.slotData.togglePunchingSign(player, slot);

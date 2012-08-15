@@ -15,7 +15,7 @@ public class CasinoSet extends AnCommand {
 	public Boolean process() {		
 		// Correct command format
 		if(args.length == 3) {
-			if (args[3].equalsIgnoreCase("sign")) {
+			if (args[1].equalsIgnoreCase("sign")) {
 
 				// Slot exists
 				if(plugin.slotData.isSlot(args[2])) {

@@ -72,6 +72,8 @@ public class CasinoAddManaged extends AnCommand {
 					return true;
 				}
 				
+				world = player.getWorld().getName();
+				
 				//Good to start punching the blocks to create the slot.
 				SlotMachine slot = new SlotMachine(name, type, owner, world, true, false, 0, 0);
 				plugin.slotData.toggleCreatingSlots(player, slot);

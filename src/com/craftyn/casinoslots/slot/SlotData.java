@@ -154,7 +154,7 @@ public class SlotData {
 		List<String> xyz = plugin.configData.slots.getStringList("slots." + name + ".location");
 		ArrayList<Block> blocks = new ArrayList<Block>();
 		World world = Bukkit.getWorld(plugin.configData.slots.getString("slots." + name + ".world", "world"));
-		
+				
 		if (world == null) {
 			plugin.error("The world for the slot '" + name + "' was null, please fix this and restart the server.");
 			plugin.disablePlugin();

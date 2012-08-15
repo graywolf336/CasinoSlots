@@ -70,7 +70,9 @@ public class CasinoAdd extends AnCommand {
 					sendMessage("You can't afford to create this slot machine. Cost: " + createCost);
 					return true;
 				}
-									
+				
+				world = player.getWorld().getName();
+				
 				//Good to start punching the blocks to create the slot.
 				SlotMachine slot = new SlotMachine(name, type, owner, world, false, false, 0, 0);
 				plugin.slotData.toggleCreatingSlots(player, slot);

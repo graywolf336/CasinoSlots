@@ -73,6 +73,8 @@ public class CasinoAddItem extends AnCommand {
 					return true;
 				}
 				
+				world = player.getWorld().getName();
+				
 				//Good to start punching the blocks to create the slot.
 				SlotMachine slot = new SlotMachine(name, type, owner, world, false, true, cmditemID, cmditemAMT);
 				plugin.slotData.toggleCreatingSlots(player, slot);

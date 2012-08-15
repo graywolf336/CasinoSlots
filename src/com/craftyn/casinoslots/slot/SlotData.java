@@ -110,7 +110,12 @@ public class SlotData {
 		String cXyz = con.getX() + "," + con.getY() + "," + con.getZ();
 		
 		Block sign = slot.getSign();
-		String sXyz = sign.getX() + "," + sign.getY() + "," + sign.getZ();
+		String sXyz;
+		if (sign == null) {
+			sXyz = null;
+		}else {
+			sXyz = sign.getX() + "," + sign.getY() + "," + sign.getZ();
+		}
 		
 		plugin.configData.slots.set(path + "name", slot.getName());
 		plugin.configData.slots.set(path + "type", slot.getType());

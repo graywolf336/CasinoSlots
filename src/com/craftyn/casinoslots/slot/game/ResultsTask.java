@@ -41,6 +41,20 @@ public class ResultsTask implements Runnable {
 		ArrayList<Reward> results = getResults();
 		
 		if(!results.isEmpty()) {
+			SlotMachine slot = game.getSlot();
+			
+			if(!(slot.getSign() == null)) {
+				game.plugin.log("slot sign got called");
+				Block b = slot.getSign();
+				if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
+					Sign sign = (Sign) b.getState();
+					sign.setLine(3, player.getDisplayName());
+				}else {
+					game.plugin.error("The block stored for the sign is NOT a sign, please remove it.");
+				}
+			}else {
+				game.plugin.log("The else happened");
+			}
 			
 			// Send the rewards
 			for(Reward reward : results) {
@@ -49,23 +63,12 @@ public class ResultsTask implements Runnable {
 			}
 			
 			// Managed
-			SlotMachine slot = game.getSlot();
 			if(slot.isManaged()) {
 				
 				slot.withdraw(won);
 				Double max = game.plugin.typeData.getMaxPrize(type.getName());
 				if(slot.getFunds() < max) {
 					slot.setEnabled(false);
-				}
-			}
-			
-			if(!(slot.getSign() == null)) {
-				Block b = slot.getSign();
-				if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
-					Sign sign = (Sign) b.getState();
-					sign.setLine(3, player.getDisplayName());
-				}else {
-					game.plugin.error("The block stored for the sign is NOT a sign, please remove it.");
 				}
 			}
 		}

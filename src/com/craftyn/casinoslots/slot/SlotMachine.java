@@ -11,7 +11,7 @@ public class SlotMachine {
 	private Boolean managed, busy = false, enabled = true, item;
 	private int itemID, itemAMT;
 	private ArrayList<Block> blocks;
-	private Block controller, sign;
+	private Block controller, sign = null;
 	private Double funds;
 	
 	/**

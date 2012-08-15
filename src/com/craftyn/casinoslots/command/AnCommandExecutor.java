@@ -99,6 +99,7 @@ public class AnCommandExecutor implements CommandExecutor{
 			// no arguments
 			else {
 				cmd = new Casino(plugin, args, player);
+				return true;
 			}
 			
 			return cmd.process();

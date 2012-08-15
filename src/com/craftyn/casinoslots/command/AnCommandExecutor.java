@@ -63,6 +63,11 @@ public class AnCommandExecutor implements CommandExecutor{
 					cmd = new CasinoType(plugin, args, player);
 				}
 				
+				// casino set
+				else if(args[0].equalsIgnoreCase("set")) {
+					cmd = new CasinoSet(plugin, args, player);
+				}
+				
 				// casino setowner
 				else if(args[0].equalsIgnoreCase("setowner")) {
 					cmd = new CasinoSetowner(plugin, args, player);

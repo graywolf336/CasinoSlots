@@ -54,11 +54,9 @@ public class AnPlayerListener implements Listener {
 					plugin.sendMessage(player, "Only sides of blocks are valid targets for this operation.");
 					return;
 				}
-			}
-			
-			// Placing controller
-			else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPlacingController(player)) {
-				
+			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPlacingController(player)) {
+				// Placing controller
+
 				SlotMachine slot = plugin.slotData.placingController.get(player);
 				slot.setController(b);
 				plugin.slotData.togglePlacingController(player, slot);
@@ -67,6 +65,13 @@ public class AnPlayerListener implements Listener {
 				plugin.sendMessage(player, "Slot machine set up successfully!");
 				event.setCancelled(true);
 				return;
+			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPunchingSign(player)) {
+				if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
+					
+				}else {
+					plugin.sendMessage(player, "Please make sure you are punching a sign on the wall or sign standing up.");
+					return;
+				}
 			}
 				
 			//Left clicked or right clicked a note block

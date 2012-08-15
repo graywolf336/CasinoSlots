@@ -22,6 +22,7 @@ public class SlotData {
 	
 	public HashMap<Player, SlotMachine> creatingSlots = new HashMap<Player, SlotMachine>();
 	public HashMap<Player, SlotMachine> placingController = new HashMap<Player, SlotMachine>();
+	public HashMap<Player, SlotMachine> punchingSign = new HashMap<Player, SlotMachine>();
 	
 	
 	// Initialize SlotData
@@ -282,6 +283,16 @@ public class SlotData {
 		return false;
 	}
 	
+	// If a player is placing controller
+	public Boolean isPunchingSign(Player player) {
+		
+		if(punchingSign.containsKey(player)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	// Toggles creating slots
 	public void toggleCreatingSlots(Player player, SlotMachine slot) {
 		
@@ -301,6 +312,16 @@ public class SlotData {
 		}
 		else {
 			this.placingController.put(player, slot);
+		}
+	}
+	
+	// Toggles creating a sign for the slot
+	public void togglePunchingSign(Player player, SlotMachine slot) {
+		
+		if(this.punchingSign.containsKey(player)) {
+			this.punchingSign.remove(player);
+		}else {
+			this.punchingSign.put(player, slot);
 		}
 	}
 

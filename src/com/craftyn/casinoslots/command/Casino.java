@@ -21,6 +21,7 @@ public class Casino extends AnCommand {
 			sendMessage("  /casino list - List slot machines and types");
 			sendMessage("  /casino reload - Reload config files from disk");
 			sendMessage("  /casino remove - Remove an existing slot machine");
+			sendMessage("  /casino set - Enables various options to set");
 			sendMessage("  /casino setowner - Sets the owner of a managed slot");
 			sendMessage("  /casino slot - Manage slot machines");
 			sendMessage("  /casino stats - Global usage statistics");

@@ -158,6 +158,7 @@ public class SlotData {
 		if (world == null) {
 			plugin.error("The world for the slot '" + name + "' was null, please fix this and restart the server.");
 			plugin.disablePlugin();
+			return null;
 		}
 		
 		for(String coord : xyz) {

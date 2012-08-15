@@ -5,10 +5,10 @@ import org.bukkit.entity.Player;
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
 
-public class CasinoSet extends AnCommand {
+public class CasinoSetowner extends AnCommand {
 	
 	// Command for setting the owner of a managed slot machine
-	public CasinoSet(CasinoSlots plugin, String[] args, Player player) {
+	public CasinoSetowner(CasinoSlots plugin, String[] args, Player player) {
 		super(plugin, args, player);
 	}
 	

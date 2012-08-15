@@ -22,7 +22,7 @@ public abstract class AnCommand {
 	
 	// Processes command, handled by subclasses
 	public Boolean process() {
-		return false;
+		return true;
 	}
 	
 	// Returns true if player owns this slot machine

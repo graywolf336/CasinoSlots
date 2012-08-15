@@ -67,9 +67,14 @@ public class AnPlayerListener implements Listener {
 				return;
 			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPunchingSign(player)) {
 				if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
+					SlotMachine slot = plugin.slotData.punchingSign.get(player);
+					plugin.sendMessage(player, "Yay for clicking a sign!");
+					plugin.slotData.togglePunchingSign(player, slot);
 					
+					event.setCancelled(true);
 				}else {
-					plugin.sendMessage(player, "Please make sure you are punching a sign on the wall or sign standing up.");
+					plugin.sendMessage(player, "Please make sure you are punching a sign on the wall or sign standing up. Try again.");
+					event.setCancelled(true);
 					return;
 				}
 			}

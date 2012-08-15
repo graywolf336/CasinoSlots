@@ -129,7 +129,7 @@ public class Permissions {
 	 * @param type		Type is the name of the type of slot
 	 * @return			True if the player can create a managed slot; false if the player can't
 	 */
-	public Boolean canCreateManaged(Player player, String type) {		
+	public Boolean canCreateManagedType(Player player, String type) {		
 		if(isAdmin(player) || player.hasPermission(create + ".managed." + type)|| player.hasPermission(create + ".managed.*") || player.hasPermission(create + ".managed") || player.hasPermission(create + ".*") || player.hasPermission(create)) {
 			return true;
 		}

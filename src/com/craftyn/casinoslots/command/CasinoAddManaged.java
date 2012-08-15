@@ -47,7 +47,7 @@ public class CasinoAddManaged extends AnCommand {
 					String typeName = args[2];
 					
 					// Has type permission
-					if(plugin.permission.canCreateManaged(player, typeName)) {
+					if(plugin.permission.canCreateManagedType(player, typeName)) {
 						this.type = typeName;
 						this.owner = player.getName();
 					}

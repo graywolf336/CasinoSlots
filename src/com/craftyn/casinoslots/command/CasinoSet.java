@@ -14,7 +14,17 @@ public class CasinoSet extends AnCommand {
 	
 	public Boolean process() {		
 		// Correct command format
-		if(args.length == 3) {
+		if (args.length == 2) {
+			if (args[1].equalsIgnoreCase("sign")) {
+				// Incorrect command format
+				sendMessage("Usage:");
+				sendMessage("  /casino set sign <slotname>");
+			}else if (args[1].equalsIgnoreCase("type")) {
+				// Incorrect command format
+				sendMessage("Usage:");
+				sendMessage("  /casino set type <slotname> <type>");
+			}
+		}else if(args.length == 3) {
 			if (args[1].equalsIgnoreCase("sign")) {
 
 				// Slot exists
@@ -26,10 +36,15 @@ public class CasinoSet extends AnCommand {
 					// Slot does not exist
 					sendMessage("Invalid slot machine.");
 				}
+			}else if (args[1].equalsIgnoreCase("type")) {
+				// Incorrect command format
+				sendMessage("Usage:");
+				sendMessage("  /casino set type <slotname> <type>");
 			}else {
 				// Incorrect command format
 				sendMessage("Usage:");
 				sendMessage("  /casino set sign <slotname>");
+				sendMessage("  /casino set type <slotname> <type>");
 			}
 		}else if(args.length == 4) {
 			if (args[1].equalsIgnoreCase("type")) {

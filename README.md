@@ -4,7 +4,8 @@ An updated version of AnCasino started by Darazo
 
 ### Update: 2.5.0 ###
 * Fixed the reels displaying duplicate blocks
-* Readded the reload command
+* Fixed the stats.yml not being saved
+* Re-added the reload command
 
 ### Update: 2.4.9 ###
 * Added /casino set sign <slot>

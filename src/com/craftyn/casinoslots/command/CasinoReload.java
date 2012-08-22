@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import com.craftyn.casinoslots.CasinoSlots;
 
 public class CasinoReload extends AnCommand {
-	//TODO: Redo this whole thing!!!!
 	
 	/**
 	 * Is initiated by a /casino reload, which is intended to reload the config.
@@ -27,15 +26,10 @@ public class CasinoReload extends AnCommand {
 		}
 		
 		plugin.reloadConfig();
-		plugin.log("Testing");
-		
 		
 		plugin.typeData.loadTypes();
-		plugin.log("Testing");
-		
 		
 		plugin.slotData.loadSlots();
-		plugin.log("Testing");
 		
 		
 		sendMessage("Configuration reloaded");

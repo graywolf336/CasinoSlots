@@ -77,6 +77,14 @@ public class SlotData {
 		plugin.configData.saveSlots();
 	}
 	
+	/**
+	 * Provides a way to clear the loaded slots and then load them again from the config.
+	 */
+	public void reloadSlots() {
+		slots.clear();
+		loadSlots();
+	}
+	
 	
 	// Loads all slot machines into memory
 	public void loadSlots() {

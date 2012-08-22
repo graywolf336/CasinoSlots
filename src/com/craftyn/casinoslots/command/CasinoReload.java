@@ -27,9 +27,9 @@ public class CasinoReload extends AnCommand {
 		
 		plugin.reloadConfig();
 		
-		plugin.typeData.loadTypes();
+		plugin.typeData.reloadTypes();
 		
-		plugin.slotData.loadSlots();
+		plugin.slotData.reloadSlots();
 		
 		
 		sendMessage("Configuration reloaded");

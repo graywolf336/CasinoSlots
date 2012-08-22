@@ -48,6 +48,14 @@ public class TypeData {
 		plugin.saveConfig();		
 	}
 	
+	/**
+	 * Provides a way to refresh the types information.
+	 */
+	public void reloadTypes() {
+		types.clear();
+		loadTypes();
+	}
+	
 	// Check if a type exists
 	public Boolean isType(String type) {
 		if(types.containsKey(type)) {

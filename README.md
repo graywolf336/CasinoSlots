@@ -2,7 +2,10 @@
 
 An updated version of AnCasino started by Darazo
 
-### Updates ###
+### Update: 2.5.0 ###
+* Fixed the reels displaying duplicate blocks
+
+### Update: 2.4.9 ###
 * Added /casino set sign <slot>
 ** This makes it so  you can punch and sign and that sign will update with the latest winner
 * Added /casino set type <slotname> <type>

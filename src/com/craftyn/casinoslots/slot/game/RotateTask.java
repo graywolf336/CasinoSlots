@@ -38,6 +38,12 @@ public class RotateTask implements Runnable {
 		byte s2 = 0;
 		String id = getNext();
 		
+		// Prevent silly-looking duplicate blocks
+		while(id.equalsIgnoreCase(last.get(0))) {
+			id = getNext();
+		}
+		
+		//Since the id is not the same (see above) we can go ahead and split it up
 		String[] mSplit = id.split("\\:");
 			if (mSplit.length == 2) {
 				s1 = Integer.parseInt(mSplit[0]);
@@ -45,11 +51,6 @@ public class RotateTask implements Runnable {
 			}else {
 				s1 = Integer.parseInt(mSplit[0]);
 			}
-		
-		// Prevent silly-looking duplicate blocks
-		while(id == last.get(0)) {
-			id = getNext();
-		}
 		
 		// First column
 		blocks.get(column+6).setTypeIdAndData(s1, s2, false);
@@ -87,7 +88,17 @@ public class RotateTask implements Runnable {
 		
 		Random generator = new Random();
 		int id = generator.nextInt(reel.size());
-		return reel.get(id);
 		
+		String nextID = reel.get(id);
+		String[] idSplit = nextID.split("\\:");
+		
+		if (idSplit.length == 2) {
+			return nextID;
+		}else {
+			String newID;
+			newID = Integer.parseInt(idSplit[0]) + ":0";
+			
+			return newID;
+		}
 	}
 }

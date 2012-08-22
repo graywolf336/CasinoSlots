@@ -50,8 +50,8 @@ public class ConfigData {
 		slotsFile = new File(plugin.getDataFolder(), "slots.yml");
 		slots = YamlConfiguration.loadConfiguration(slotsFile);
 		
-		plugin.slotData.loadSlots();
 		plugin.typeData.loadTypes();
+		plugin.slotData.loadSlots();
 		plugin.statsData.loadStats();
 		
 		if (firstload) save();

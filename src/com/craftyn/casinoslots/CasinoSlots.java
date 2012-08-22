@@ -133,6 +133,7 @@ public class CasinoSlots extends JavaPlugin {
 	public void saveFiles() {
 		configData.save();
 		configData.saveSlots();
+		configData.saveStats();
 	}
 	
 	// Registers economy with Vault

@@ -57,7 +57,7 @@ public class TypeData {
 			types.remove(t.getName());
 		}
 		
-		plugin.log(types.size() + " in the types.");
+		plugin.log("There are " + types.size() + " types in the hashmap still.");
 		loadTypes();
 	}
 	

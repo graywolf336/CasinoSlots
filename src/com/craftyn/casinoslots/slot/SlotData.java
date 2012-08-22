@@ -86,7 +86,7 @@ public class SlotData {
 			slots.remove(s.getName());
 		}
 		
-		plugin.log(slots.size() + " is the amount of slot machines.");
+		plugin.log("There are " + slots.size() + " slot machines in the HashMap still.");
 		loadSlots();
 	}
 	

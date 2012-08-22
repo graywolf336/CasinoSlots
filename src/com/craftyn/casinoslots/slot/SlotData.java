@@ -83,9 +83,10 @@ public class SlotData {
 	public void reloadSlots() {
 		for(SlotMachine s : getSlots()) {
 			s.clearSlot();
-			slots.remove(s);
+			slots.remove(s.getName());
 		}
 		
+		plugin.log(slots.size() + " is the amount of slot machines.");
 		loadSlots();
 	}
 	

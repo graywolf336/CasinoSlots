@@ -54,7 +54,7 @@ public class TypeData {
 	public void reloadTypes() {
 		for(Type t : getTypes()) {
 			t.clearType();
-			types.remove(t);
+			types.remove(t.getName());
 		}
 		
 		plugin.log(types.size() + " in the types.");

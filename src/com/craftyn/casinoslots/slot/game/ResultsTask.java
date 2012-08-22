@@ -107,28 +107,24 @@ public class ResultsTask implements Runnable {
 			Reward reward;
 			ArrayList<String> currentId = new ArrayList<String>();
 			List<Block> current = null;
+			
 			if(i < 3) {
 				int start = 0 + 3 * i;
 				int end = 3 + 3 * i;
 				current = blocks.subList(start, end);
-			}
-			
-			//diagonals
-			else {
+			}else {
+				//diagonals
 				if(game.plugin.configData.allowDiagonals) {
 					current = new ArrayList<Block>();
 					for(int j = 0; j < 3; j++) {
 						if(i == 3) {
 							current.add(blocks.get(j*4));
-						}
-						else {
+						}else {
 							current.add(blocks.get(2+(2*j)));
 						}
 					}
-				}
-				
-				// Break loop if diagonals are disabled
-				else {
+				}else {
+					// Break loop if diagonals are disabled
 					break;
 				}
 			}

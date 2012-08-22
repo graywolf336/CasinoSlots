@@ -22,29 +22,6 @@
   	<connection>scm:git:git://github.com/graywolf336/CasinoSlots.git</connection>
   </scm>
   
-  <repositories>
-    <repository>
-      <id>bukkit-repo</id>
-      <url>http://repo.bukkit.org/content/groups/public</url>
-    </repository>
-  </repositories>
-  
-  <dependencies>
-    <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>RELEASE</version>
-      <type>jar</type>
-    </dependency>
-    
-    <dependency>
-      <groupId>net.milkbowl</groupId>
-      <artifactId>vault</artifactId>
-      <version>RELEASE</version>
-      <type>jar</type>
-    </dependency>
-  </dependencies>
-  
   <build>
     <directory>target</directory>
     <outputDirectory>target/classes</outputDirectory>

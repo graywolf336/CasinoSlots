@@ -84,6 +84,7 @@ public class SlotData {
 		for(SlotMachine s : getSlots()) {
 			s.clearSlot();
 		}
+		
 		slots.clear();
 		loadSlots();
 	}

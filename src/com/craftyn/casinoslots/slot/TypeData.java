@@ -55,6 +55,7 @@ public class TypeData {
 		for(Type t : getTypes()) {
 			t.clearType();
 		}
+		
 		types.clear();
 		loadTypes();
 	}

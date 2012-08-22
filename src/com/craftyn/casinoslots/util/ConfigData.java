@@ -64,6 +64,23 @@ public class ConfigData {
 		saveStats();
 	}
 	
+	/**
+	 * Reload all the configs from disk.
+	 * 
+	 * This method reloads the config.yml, sets the slots config to null and then loads it again, and sets the stats file to null and then loads it again.
+	 */
+	public void reloadConfigs() {
+		plugin.reloadConfig();
+		
+		//Set it to null, then reload it
+		slots = null;
+		slots = YamlConfiguration.loadConfiguration(slotsFile);
+		
+		//Set it to null, then reload it.
+		stats = null;
+		stats = YamlConfiguration.loadConfiguration(statsFile);
+	}
+	
 	// Set up global settings
 	private void setGlobals() {
 		this.prefixColor = config.getString("options.chat.plugin-prefix-color", "&c");

@@ -6,6 +6,7 @@ import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -47,21 +48,42 @@ public class RewardData {
 			String[] a = action.split(" ");
 			
 			// Give action
-			if(a[0].equalsIgnoreCase("give")) {
-				
+			if(a[0].equalsIgnoreCase("give")) {				
 				String[] itemData = a[1].split("\\,");
 				
 				int item = Integer.parseInt(itemData[0]);
-				
 				byte data = 0;
 				short damage = 0;
+				ItemStack is = null;
+				int n = Integer.parseInt(a[2]);
 				
 				if(itemData.length == 2) {
 					data = (byte) Integer.parseInt(itemData[1]);
+					is = new ItemStack(item, n, damage, data);
+				}else if (itemData.length == 3) {
+					is = new ItemStack(item, n, damage, data);
+					
+					int enID = Integer.parseInt(itemData[1]);
+					Enchantment enchantment = Enchantment.getById(enID);
+					
+					//check if the enchantment is valid
+					if (enchantment == null) {
+						plugin.severe("There is an invalid enchantment ID for the type " + type.getName());
+						continue;
+					}
+					
+					int enLevel = Integer.parseInt(itemData[2]);
+					if (enLevel > 127) enLevel = 127;
+					if (enLevel < 1) enLevel = enchantment.getMaxLevel();
+					
+					try {
+						is.addUnsafeEnchantment(enchantment, enLevel);
+					} catch (Exception e) {
+						plugin.severe("Enchanting one of your rewards wasn't successful.");
+					}
 				}
 				
-				int n = Integer.parseInt(a[2]);
-				p.getInventory().addItem(new ItemStack(item, n, damage, data));
+				p.getInventory().addItem(is);
 			}
 			
 			// Kill action

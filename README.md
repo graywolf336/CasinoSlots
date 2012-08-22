@@ -6,6 +6,7 @@ An updated version of AnCasino started by Darazo
 * Fixed the reels displaying duplicate blocks
 * Fixed the stats.yml not being saved
 * Re-added the reload command
+* Added the ability to give out enchanted items as rewards.
 
 ### Update: 2.4.9 ###
 * Added /casino set sign <slot>

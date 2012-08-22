@@ -23,8 +23,9 @@ types:
     - 3,5
     rewards:
       '42':
-        message: Winner - 3 iron blocks! $175 awarded.
-        money: 175.0
+        message: Winner - 3 iron blocks! An enchanted iron sword.
+        money: 0.0
+        action: give 267,16,5 1
       '41':
         message: Winner - 3 gold blocks! $300 awarded.
         money: 300.0

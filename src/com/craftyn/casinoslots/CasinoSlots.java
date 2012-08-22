@@ -30,7 +30,7 @@ public class CasinoSlots extends JavaPlugin {
 	private final Logger logger = Logger.getLogger("Minecraft");
 	private PluginManager pm = null;
 	
-	public String consolePrefix = "[CasinoSlots]";
+	public String consolePrefix = "[CasinoSlots] ";
 	public String prefix;
 	public String pluginVer;
 	
@@ -117,7 +117,7 @@ public class CasinoSlots extends JavaPlugin {
 	 * @param message The info message to log.
 	 */
 	public void log(String message) {
-		logger.info(consolePrefix + " " + message);
+		logger.info(consolePrefix + message);
 	}
 	
 	/**
@@ -126,7 +126,16 @@ public class CasinoSlots extends JavaPlugin {
 	 * @param message The warning message to log.
 	 */
 	public void error(String message) {
-		logger.warning(consolePrefix + " " + message);
+		logger.warning(consolePrefix + message);
+	}
+	
+	/**
+	 * Logs a properly formatted message to the console with the severe prefix.
+	 * 
+	 * @param message The warning message to log.
+	 */
+	public void severe(String message) {
+		logger.severe(consolePrefix + message);
 	}
 	
 	//saves the files

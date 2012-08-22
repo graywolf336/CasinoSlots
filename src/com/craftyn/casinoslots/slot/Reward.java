@@ -30,5 +30,4 @@ public class Reward {
 	public List<String> getAction() {
 		return this.action;
 	}
-
 }

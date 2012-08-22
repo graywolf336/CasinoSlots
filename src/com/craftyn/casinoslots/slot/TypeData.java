@@ -52,6 +52,9 @@ public class TypeData {
 	 * Provides a way to refresh the types information.
 	 */
 	public void reloadTypes() {
+		for(Type t : getTypes()) {
+			t.clearType();
+		}
 		types.clear();
 		loadTypes();
 	}

@@ -73,5 +73,18 @@ public class Type {
 	public void setCreateCost(Double createCost) {
 		this.createCost = createCost;
 	}
+	
+	/**
+	 * Clear all the data information about this type.
+	 */
+	public void clearType() {
+		this.name = null;
+		this.cost = null;
+		this.createCost = null;
+		this.reel.clear();
+		this.messages.clear();
+		this.helpMessages.clear();
+		this.rewards.clear();
+	}
 
 }

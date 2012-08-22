@@ -81,6 +81,9 @@ public class SlotData {
 	 * Provides a way to clear the loaded slots and then load them again from the config.
 	 */
 	public void reloadSlots() {
+		for(SlotMachine s : getSlots()) {
+			s.clearSlot();
+		}
 		slots.clear();
 		loadSlots();
 	}

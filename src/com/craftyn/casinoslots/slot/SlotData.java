@@ -83,9 +83,9 @@ public class SlotData {
 	public void reloadSlots() {
 		for(SlotMachine s : getSlots()) {
 			s.clearSlot();
+			slots.remove(s);
 		}
 		
-		slots.clear();
 		loadSlots();
 	}
 	

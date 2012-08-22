@@ -57,7 +57,7 @@ public class TypeData {
 			types.remove(t);
 		}
 		
-		//types.clear();
+		plugin.log(types.size() + " in the types.");
 		loadTypes();
 	}
 	

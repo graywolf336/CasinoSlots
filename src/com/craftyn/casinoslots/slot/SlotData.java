@@ -82,11 +82,11 @@ public class SlotData {
 	 */
 	public void reloadSlots() {
 		for(SlotMachine s : getSlots()) {
-			s.clearSlot();
+			//s.clearSlot();
 			this.slots.remove(s.getName());
 		}
 		
-		plugin.log("There are " + slots.size() + " slot machines in the HashMap still.");
+		plugin.log("There are still " + slots.size() + " slot machines in the HashMap.");
 		plugin.log(slots.toString());
 		loadSlots();
 	}

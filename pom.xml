@@ -22,6 +22,35 @@
   	<connection>scm:git:git://github.com/graywolf336/CasinoSlots.git</connection>
   </scm>
   
+  <dependencies>
+	<dependency>
+		<groupId>net.milkbowl.vault</groupId>
+		<artifactId>Vault</artifactId>
+		<version>1.2.18-SNAPSHOT</version>
+		<type>jar</type>
+		<scope>compile</scope>
+	</dependency>
+
+	<dependency>
+		<groupId>org.bukkit</groupId>
+		<artifactId>bukkit</artifactId>
+		<version>1.3.1-R2.1-SNAPSHOT</version>
+		<type>jar</type>
+		<scope>compile</scope>
+	</dependency>
+  </dependencies>
+  
+  <repositories>
+	<repository>
+		<id>bukkit-repo</id>
+		<url>http://repo.bukkit.org/content/groups/public</url>
+	</repository>
+	<repository>
+		<id>vault-repo</id>
+		<url>http://ci.herocraftonline.com/plugin/repository/everything</url>
+	</repository>
+  </repositories>
+  
   <build>
     <directory>target</directory>
     <outputDirectory>target/classes</outputDirectory>

@@ -140,7 +140,7 @@ public class CasinoSlots extends JavaPlugin {
 	
 	//saves the files
 	public void saveFiles() {
-		configData.save();
+		saveConfig();
 		configData.saveSlots();
 		configData.saveStats();
 	}

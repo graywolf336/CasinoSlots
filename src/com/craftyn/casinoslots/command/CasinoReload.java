@@ -7,7 +7,13 @@ import com.craftyn.casinoslots.CasinoSlots;
 public class CasinoReload extends AnCommand {
 	//TODO: Redo this whole thing!!!!
 	
-	// casino reload command
+	/**
+	 * Is initiated by a /casino reload, which is intended to reload the config.
+	 * 
+	 * @param plugin The main plugin class
+	 * @param args The other arguments passed along with 'reload'
+	 * @param player The one who did the command
+	 */
 	public CasinoReload(CasinoSlots plugin, String[] args, Player player) {
 		super(plugin, args, player);
 	}

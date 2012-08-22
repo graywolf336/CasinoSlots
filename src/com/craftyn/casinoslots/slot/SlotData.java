@@ -81,13 +81,7 @@ public class SlotData {
 	 * Provides a way to clear the loaded slots and then load them again from the config.
 	 */
 	public void reloadSlots() {
-		for(SlotMachine s : getSlots()) {
-			//s.clearSlot();
-			this.slots.remove(s.getName());
-		}
-		
-		plugin.log("There are still " + slots.size() + " slot machines in the HashMap.");
-		plugin.log(slots.toString());
+		slots.clear();
 		loadSlots();
 	}
 	

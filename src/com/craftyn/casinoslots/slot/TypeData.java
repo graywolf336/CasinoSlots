@@ -52,13 +52,7 @@ public class TypeData {
 	 * Provides a way to refresh the types information.
 	 */
 	public void reloadTypes() {
-		for(Type t : getTypes()) {
-			//t.clearType();
-			this.types.remove(t.getName());
-		}
-		
-		plugin.log("There are still " + types.size() + " types in the hashmap.");
-		plugin.log(types.toString());
+		types.clear();
 		loadTypes();
 	}
 	

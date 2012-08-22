@@ -19,8 +19,10 @@ public class ConfigData {
 	public Configuration config;
 	public FileConfiguration slots;
 	public FileConfiguration stats;
-	public File slotsFile;
-	public File statsFile;
+	
+	private File configFile;
+	private File slotsFile;
+	private File statsFile;
 	
 	public String prefixColor, chatColor, prefix;
 	public Boolean displayPrefix, trackStats, allowDiagonals, protection;
@@ -70,7 +72,11 @@ public class ConfigData {
 	 * This method reloads the config.yml, sets the slots config to null and then loads it again, and sets the stats file to null and then loads it again.
 	 */
 	public void reloadConfigs() {
+		plugin.log("Reloading the configs.");
 		plugin.reloadConfig();
+		
+		configFile = new File(plugin.getDataFolder(), "config.yml");
+		config = YamlConfiguration.loadConfiguration(configFile);
 		
 		//Set it to null, then reload it
 		slots = null;

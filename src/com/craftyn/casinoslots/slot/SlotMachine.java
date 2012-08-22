@@ -238,24 +238,4 @@ public class SlotMachine {
 			this.busy = true;
 		}
 	}
-	
-	/**
-	 * Clears all the data in this slot machine, to get ready for the reload.
-	 */
-	public void clearSlot() {
-		this.name = null;
-		this.type = null;
-		this.owner = null;
-		this.world = null;
-		this.reelChunk = null;
-		this.controllerChunk = null;
-		this.sign = null;
-		this.managed = null;
-		this.blocks.clear();
-		this.controller = null;
-		this.funds = 0.0;
-		this.item = null;
-		this.itemID = 0;
-		this.itemAMT = 0;
-	}
 }

@@ -54,10 +54,11 @@ public class TypeData {
 	public void reloadTypes() {
 		for(Type t : getTypes()) {
 			t.clearType();
-			types.remove(t.getName());
+			this.types.remove(t.getName());
 		}
 		
 		plugin.log("There are " + types.size() + " types in the hashmap still.");
+		plugin.log(types.toString());
 		loadTypes();
 	}
 	

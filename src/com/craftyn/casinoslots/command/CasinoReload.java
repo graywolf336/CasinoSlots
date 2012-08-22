@@ -26,9 +26,7 @@ public class CasinoReload extends AnCommand {
 			return true;
 		}
 		
-		sendMessage("This is currently disabled as it was a memory leak.");
-		
-		/*plugin.log("Testing");
+		plugin.log("Testing");
 		
 		plugin.reloadConfig();
 		plugin.log("Testing");
@@ -41,7 +39,7 @@ public class CasinoReload extends AnCommand {
 		plugin.typeData.loadTypes();
 		plugin.log("Testing");
 		
-		sendMessage("Configuration reloaded");*/
+		sendMessage("Configuration reloaded");
 		return true;
 	}
 

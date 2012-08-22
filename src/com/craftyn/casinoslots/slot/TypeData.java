@@ -68,7 +68,7 @@ public class TypeData {
 					if (!plugin.configData.config.contains("types." + name + ".messages")) {
 						plugin.log("Please make sure your slots in the config file contains 'messages:'.");
 						//If there is no "messages", disables the plugin and forces them to check their config
-						logger.warning("[CasinoSlots]" + " PLEASE CHECK ONE OF YOUR CONFIG FILES");
+						logger.severe("[CasinoSlots]" + " PLEASE CHECK ONE OF YOUR CONFIG FILES");
 						plugin.disablePlugin();
 						return;
 					}else {

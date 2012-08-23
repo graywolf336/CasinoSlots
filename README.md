@@ -2,6 +2,9 @@
 
 An updated version of AnCasino started by Darazo
 
+### Update: 2.5.1 ###
+* Fixed the slots.yml file not saving when being changed
+
 ### Update: 2.5.0 ###
 * Fixed the reels displaying duplicate blocks
 * Fixed the stats.yml not being saved

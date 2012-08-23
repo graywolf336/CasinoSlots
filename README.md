@@ -3,6 +3,9 @@
 An updated version of AnCasino started by Darazo
 
 ### Update: 2.5.1 ###
+* Made sure the stats.yml file is being saved upon disabling of the plugin
+
+### Update: 2.5.1 ###
 * Fixed the slots.yml file not saving when being changed
 
 ### Update: 2.5.0 ###

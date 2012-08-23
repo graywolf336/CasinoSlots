@@ -51,6 +51,7 @@ public class CasinoSlots extends JavaPlugin {
 		if (economy != null) {
 			//configData.save();
 			configData.saveSlots();
+			configData.saveStats();
 			
 			this.configData = null;
 			this.slotData = null;

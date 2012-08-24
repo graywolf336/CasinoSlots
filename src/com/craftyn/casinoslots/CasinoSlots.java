@@ -80,6 +80,7 @@ public class CasinoSlots extends JavaPlugin {
 		
 		configData.load();
 		prefix = configData.prefix;
+		if(configData.inDebug()) debug("Debugging enabled.");
 		
 		pm.registerEvents(playerListener, this);
 		pm.registerEvents(blockListener, this);

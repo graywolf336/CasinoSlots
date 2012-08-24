@@ -60,7 +60,8 @@ public class ConfigData {
 		
 		configFile = new File(plugin.getDataFolder(), "config.yml");
 		config = YamlConfiguration.loadConfiguration(configFile);
-		this.debug = config.getBoolean("options.debug");
+		
+		reloadGlobals();
 		
 		//Set it to null, then reload it
 		slots = null;
@@ -69,6 +70,21 @@ public class ConfigData {
 		//Set it to null, then reload it.
 		stats = null;
 		stats = YamlConfiguration.loadConfiguration(statsFile);
+	}
+	
+	/**
+	 * This reloads all the global variables, like debugging, prefix, tracking stats, etc.
+	 */
+	public void reloadGlobals() {
+		this.prefixColor = config.getString("options.chat.plugin-prefix-color");
+		this.prefix = config.getString("options.chat.plugin-prefix");
+		this.chatColor = config.getString("options.chat.chat-color");
+		this.displayPrefix = config.getBoolean("options.chat.display-plugin-prefix");
+		
+		this.debug = config.getBoolean("options.debug");
+		this.trackStats = config.getBoolean("options.track-statistics");
+		this.allowDiagonals = config.getBoolean("options.allow-diagonal-winnings");
+		this.protection = config.getBoolean("options.enable-slot-protection");
 	}
 	
 	// Set up global settings

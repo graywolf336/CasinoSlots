@@ -34,10 +34,7 @@ public class StatData {
 	
 	// Check if stat exists
 	public Boolean isStat(String type) {
-		if(stats.containsKey(type)) {
-			return true;
-		}
-		return false;
+		return stats.containsKey(type);
 	}
 	
 	// Adds a stat

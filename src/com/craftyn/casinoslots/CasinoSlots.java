@@ -31,7 +31,6 @@ public class CasinoSlots extends JavaPlugin {
 	private PluginManager pm = null;
 	
 	public String consolePrefix = "[CasinoSlots] ";
-	public String prefix;
 	public String pluginVer;
 	
 	private AnPlayerListener playerListener = new AnPlayerListener(this);
@@ -79,7 +78,6 @@ public class CasinoSlots extends JavaPlugin {
 		}
 		configData.load();
 		saveConfig();
-		prefix = configData.prefix;
 		if(configData.inDebug()) debug("Debugging enabled.");
 		
 		pm.registerEvents(playerListener, this);
@@ -108,7 +106,7 @@ public class CasinoSlots extends JavaPlugin {
 	 * @param message The message to send to the player
 	 */
 	public void sendMessage(Player player, String message) {		
-		message = configData.prefixColor + prefix + configData.chatColor + " " + message;
+		message = configData.prefixColor + configData.prefix + configData.chatColor + " " + message;
 		message = message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
 		player.sendMessage(message);
 	}

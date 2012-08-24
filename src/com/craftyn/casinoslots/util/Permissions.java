@@ -27,10 +27,7 @@ public class Permissions {
 	 * @return       True if has permission; false if doesn't have permission.
 	 */
 	public Boolean isAdmin(Player player) {		
-		if(player.isOp() || player.hasPermission(admin) || player.hasPermission(admin + ".*")) {
-			return true;
-		}
-		return false;
+		return (player.isOp() || player.hasPermission(admin) || player.hasPermission(admin + ".*"));
 	}
 	
 	/**
@@ -46,11 +43,7 @@ public class Permissions {
 	 * @return       True if the player can create that slot, false if the player can't
 	 */
 	public Boolean canCreate(Player player) {			
-		if(isAdmin(player) || player.hasPermission(create) || player.hasPermission(create + ".*")) {
-			return true;
-		}
-		
-		return false;
+		return (isAdmin(player) || player.hasPermission(create) || player.hasPermission(create + ".*"));
 	}
 	
 	/**
@@ -70,10 +63,7 @@ public class Permissions {
 	public Boolean canCreate(Player player, Type type) {		
 		String name = type.getName();
 		
-		if(isAdmin(player) || player.hasPermission(create + "." + name) || player.hasPermission(create + ".*")) {
-			return true;
-		}
-		return false;
+		return (isAdmin(player) || player.hasPermission(create + "." + name) || player.hasPermission(create + ".*"));
 	}
 	
 	/**
@@ -84,10 +74,7 @@ public class Permissions {
 	 * @return       True if the player can create that slot, false if the player can't
 	 */
 	public Boolean canCreate(Player player, String type) {		
-		if(isAdmin(player) || player.hasPermission(create + "." + type) || player.hasPermission(create + ".*")) {
-			return true;
-		}
-		return false;
+		return (isAdmin(player) || player.hasPermission(create + "." + type) || player.hasPermission(create + ".*"));
 	}
 	
 	/**
@@ -106,10 +93,7 @@ public class Permissions {
 	 * @return       True if the player can create managed; false if the player can't.
 	 */
 	public Boolean canCreateManaged(Player player) {		
-		if(isAdmin(player) || player.hasPermission(create + ".managed.*") || player.hasPermission(create + ".managed") || player.hasPermission(create + ".*") || player.hasPermission(create)) {
-			return true;
-		}
-		return false;
+		return (isAdmin(player) || player.hasPermission(create + ".managed.*") || player.hasPermission(create + ".managed") || player.hasPermission(create + ".*") || player.hasPermission(create));
 	}
 	
 	/**
@@ -130,33 +114,21 @@ public class Permissions {
 	 * @return			True if the player can create a managed slot; false if the player can't
 	 */
 	public Boolean canCreateManagedType(Player player, String type) {		
-		if(isAdmin(player) || player.hasPermission(create + ".managed." + type)|| player.hasPermission(create + ".managed.*") || player.hasPermission(create + ".managed") || player.hasPermission(create + ".*") || player.hasPermission(create)) {
-			return true;
-		}
-		return false;
+		return (isAdmin(player) || player.hasPermission(create + ".managed." + type)|| player.hasPermission(create + ".managed.*") || player.hasPermission(create + ".managed") || player.hasPermission(create + ".*") || player.hasPermission(create));
 	}
 	
 	// Returns true if the player can manage slot machines
 	public Boolean canManage(Player player) {		
-		if(isAdmin(player) || player.hasPermission(manage)) {
-			return true;
-		}
-		return false;
+		return (isAdmin(player) || player.hasPermission(manage));
 	}
 	
 	// Returns true if the player can use the type
 	public Boolean canUse(Player player, Type type) {		
 		String name = type.getName();
-		if(isAdmin(player) || player.hasPermission(use + "." + name) || player.hasPermission(use + ".*") || player.hasPermission(use)) {
-			return true;
-		}
-		return false;
+		return (isAdmin(player) || player.hasPermission(use + "." + name) || player.hasPermission(use + ".*") || player.hasPermission(use));
 	}
 	
 	public Boolean isOwner(Player player, SlotMachine slot) {		
-		if(isAdmin(player) || slot.getOwner().equalsIgnoreCase(player.getName())) {
-			return true;
-		}
-		return false;
+		return (isAdmin(player) || slot.getOwner().equalsIgnoreCase(player.getName()));
 	}
 }

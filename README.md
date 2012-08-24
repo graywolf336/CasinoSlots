@@ -2,6 +2,15 @@
 
 An updated version of AnCasino started by Darazo
 
+### Update: 2.5.2 ###
+* Fixed the stats.yml file being over wrote each restart/reload
+* Fixed the stats.yml displaying incorrect data
+* Fixed the slots.yml not being saved when something was done to it, mostly noticable when using managed slots (thanks LlmDl for noticing this)
+* Fixed the prefix, colors, and all that from not changing when doing a /casino reload
+* Fixed an NPE with the 'give' action.
+* Added support for the new color codes
+* Added a debugging option, I would advise as to not use this...it tends to spam the console a lot.
+
 ### Update: 2.5.1 ###
 * Made sure the stats.yml file is being saved upon disabling of the plugin
 

@@ -10,6 +10,7 @@ An updated version of AnCasino started by Darazo
 * Fixed an NPE with the 'give' action.
 * Added support for the new color codes
 * Added a debugging option, I would advise as to not use this...it tends to spam the console a lot.
+* Simplified the permissions check
 
 ### Update: 2.5.1 ###
 * Made sure the stats.yml file is being saved upon disabling of the plugin

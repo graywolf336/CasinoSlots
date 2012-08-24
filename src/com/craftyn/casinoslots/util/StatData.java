@@ -44,6 +44,12 @@ public class StatData {
 		Double won = stat.getWon();
 		Double lost = stat.getLost();
 		
+		if(plugin.configData.inDebug()) plugin.debug("Adding a new stat for " + type + ":");
+		if(plugin.configData.inDebug()) plugin.debug("   type: " + type);
+		if(plugin.configData.inDebug()) plugin.debug("   spins: " + stat.getSpins());
+		if(plugin.configData.inDebug()) plugin.debug("   won: " + won);
+		if(plugin.configData.inDebug()) plugin.debug("   lost: " + lost);
+		
 		this.stats.put(type, stat);
 		
 		this.globalSpins += 1;

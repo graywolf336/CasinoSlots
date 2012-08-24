@@ -61,7 +61,7 @@ public class StatData {
 	// Loads a stat
 	private void loadStat(String type) {
 		
-		String path = "type." + type +".";
+		String path = "types." + type +".";
 		
 		Integer spins = plugin.configData.stats.getInt(path + "spins");
 		Double won = plugin.configData.stats.getDouble(path + "won");

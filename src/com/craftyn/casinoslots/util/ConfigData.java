@@ -66,6 +66,10 @@ public class ConfigData {
 		saveStats();
 	}
 	
+	public boolean inDebug() {
+		return this.debug;
+	}
+	
 	/**
 	 * Reload all the configs from disk.
 	 * 

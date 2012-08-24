@@ -74,7 +74,7 @@ public class CasinoAdd extends AnCommand {
 				world = player.getWorld().getName();
 				
 				//Good to start punching the blocks to create the slot.
-				SlotMachine slot = new SlotMachine(name, type, owner, world, false, false, 0, 0);
+				SlotMachine slot = new SlotMachine(plugin, name, type, owner, world, false, false, 0, 0);
 				plugin.slotData.toggleCreatingSlots(player, slot);
 				sendMessage("Punch a block to serve as the base for this slot machine.");
 			}

@@ -5,15 +5,17 @@ import java.util.ArrayList;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import com.craftyn.casinoslots.CasinoSlots;
+
 public class SlotMachine {
 	
+	protected CasinoSlots plugin;
 	private String name, type, owner, world, reelChunk, controllerChunk;
 	private Boolean managed, busy = false, enabled = true, item;
 	private int itemID, itemAMT;
 	private ArrayList<Block> blocks;
 	private Block controller, sign = null;
 	private Double funds;
-	
 	/**
 	 * Instantiates a new slot machine, usually from the config.
 	 *
@@ -31,8 +33,9 @@ public class SlotMachine {
 	 * @param itemID     		The item id that it accepts (should be set to 0 if false).
 	 * @param itemAmount 		The amount of the item that it takes from the player.
 	 */
-	public SlotMachine(String name, String type, String owner, String world, String reelChunk, String controllerChunk, Block sign, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
+	public SlotMachine(CasinoSlots pl, String name, String type, String owner, String world, String reelChunk, String controllerChunk, Block sign, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
 		
+		this.plugin = pl;
 		this.name = name;
 		this.type = type;
 		this.owner = owner;
@@ -61,8 +64,9 @@ public class SlotMachine {
 	 * @param itemId   The item id that it accepts (should be set to 0 if false).
 	 * @param itemAmt  The amount of the item that it takes from the player.
 	 */
-	public SlotMachine(String name, String type, String owner, String world, Boolean managed, Boolean item, int itemId, int itemAmt) {
+	public SlotMachine(CasinoSlots pl, String name, String type, String owner, String world, Boolean managed, Boolean item, int itemId, int itemAmt) {
 		
+		this.plugin = pl;
 		this.name = name;
 		this.type = type;
 		this.owner = owner;
@@ -95,11 +99,15 @@ public class SlotMachine {
 	
 	// Returns if slot machine is managed
 	public Boolean isManaged() {
+		if(plugin.configData.inDebug()) plugin.debug("Tested to see if it was a managed slot.");
+		
 		return this.managed;
 	}
 	
 	// Returns if slot machine is item machine, aka paid with items
 	public Boolean isItem() {
+		if(plugin.configData.inDebug()) plugin.debug("Tested to see if it was a item slot.");
+		
 		return this.item;
 	}
 	

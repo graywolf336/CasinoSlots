@@ -163,7 +163,7 @@ public class SlotData {
 		String rChunk = getRchunk(blocks);
 		String cChunk = getCchunk(controller);
 		
-		SlotMachine slot = new SlotMachine(name, type, owner, world, rChunk, cChunk, sign, managed, blocks, controller, funds, item, itemID, itemAmt);
+		SlotMachine slot = new SlotMachine(plugin, name, type, owner, world, rChunk, cChunk, sign, managed, blocks, controller, funds, item, itemID, itemAmt);
 		addSlot(slot);
 	}
 

@@ -66,6 +66,12 @@ public class StatData {
 		this.globalLost += lost;
 		
 		Stat stat = new Stat(type, spins, won, lost);
+		if(plugin.configData.inDebug()) plugin.debug("We added this stat: ");
+		if(plugin.configData.inDebug()) plugin.debug("   type: " + type);
+		if(plugin.configData.inDebug()) plugin.debug("   spins: " + spins);
+		if(plugin.configData.inDebug()) plugin.debug("   won: " + won);
+		if(plugin.configData.inDebug()) plugin.debug("   lost: " + lost);
+		
 		this.stats.put(type, stat);
 	}
 	
@@ -89,6 +95,7 @@ public class StatData {
 				}
 			}
 			plugin.log("Loaded statistics for " + i + " types.");
+			if(plugin.configData.inDebug()) plugin.debug("Here's the stats hashmap: " + stats.toString());
 			
 		}else {
 			plugin.log("Not tracking statistics.");

@@ -36,7 +36,6 @@ public class ResultsTask implements Runnable {
 		String name = type.getName();
 		Double cost = type.getCost();
 		Double won = 0.0;
-		Stat stat;
 		
 		ArrayList<Reward> results = getResults();
 		
@@ -79,11 +78,11 @@ public class ResultsTask implements Runnable {
 		
 		// Register statistics
 		if(game.plugin.configData.trackStats) {
+			Stat stat;
 			if(game.plugin.statsData.isStat(name)) {
 				stat = game.plugin.statsData.getStat(name);
 				stat.add(won, cost);
-			}
-			else {
+			} else {
 				stat = new Stat(name, 1, won, cost);
 			}
 			game.plugin.statsData.addStat(stat);

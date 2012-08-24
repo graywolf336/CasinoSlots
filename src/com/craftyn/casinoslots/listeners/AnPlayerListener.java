@@ -50,8 +50,7 @@ public class AnPlayerListener implements Listener {
 					plugin.sendMessage(player, "Punch a block to serve as the controller for this slot machine.");
 					event.setCancelled(true);
 					return;
-				}
-				else {
+				}else {
 					plugin.sendMessage(player, "Only sides of blocks are valid targets for this operation.");
 					return;
 				}

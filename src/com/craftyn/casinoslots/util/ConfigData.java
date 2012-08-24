@@ -89,7 +89,7 @@ public class ConfigData {
 	
 	// Set up global settings
 	private void setGlobals() {
-		this.prefixColor = config.getString("options.chat.plugin-prefix-color", "&c");
+		this.prefixColor = config.getString("options.chat.plugin-prefix-color", "&c&o");
 		this.prefix = config.getString("options.chat.plugin-prefix", "[Casino]");
 		this.chatColor = config.getString("options.chat.chat-color", "&a");
 		this.displayPrefix = config.getBoolean("options.chat.display-plugin-prefix", true);

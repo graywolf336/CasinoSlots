@@ -95,7 +95,10 @@ public class StatData {
 				}
 			}
 			plugin.log("Loaded statistics for " + i + " types.");
-			if(plugin.configData.inDebug()) plugin.debug("Here's the stats hashmap: " + stats.toString());
+			if(plugin.configData.inDebug()) plugin.debug("The global is: ");
+			if(plugin.configData.inDebug()) plugin.debug("   spins: " + globalSpins);
+			if(plugin.configData.inDebug()) plugin.debug("   won: " + globalWon);
+			if(plugin.configData.inDebug()) plugin.debug("   lost: " + globalLost);
 			
 		}else {
 			plugin.log("Not tracking statistics.");

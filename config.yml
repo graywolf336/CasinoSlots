@@ -8,7 +8,7 @@ options:
   chat:
     display-plugin-prefix: true
     plugin-prefix: '[Casino]'
-    plugin-prefix-color: '&c'
+    plugin-prefix-color: '&c&o'
     chat-color: '&a'
 types:
   default:

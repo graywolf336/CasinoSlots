@@ -48,16 +48,7 @@ public class ConfigData {
 		plugin.typeData.loadTypes();
 		plugin.slotData.loadSlots();
 		plugin.statsData.loadStats();
-		
-		//if (firstload) save();
 	}
-	
-	// Save all config data
-	//public void save() {
-	//	plugin.saveConfig();
-	//	saveSlots();
-	//	saveStats();
-	//}
 	
 	/**
 	 * Reload all the configs from disk.

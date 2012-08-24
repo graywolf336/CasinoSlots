@@ -117,10 +117,11 @@ public class ConfigData {
 		}
 		
 		try {
+				if(debug) plugin.debug("Saving the slots.yml.");
 			this.slots.save(slotsFile);
 		} catch (IOException e) {
 			plugin.severe("There was a problem saving your slots.yml file.");
-			e.printStackTrace();
+				if(debug) e.printStackTrace();
 		}
 	}
 	
@@ -141,10 +142,11 @@ public class ConfigData {
 		this.stats.set("global.lost", plugin.statsData.globalLost);
 		
 		try {
+				if(debug) plugin.debug("Saving the stats.yml.");
 			this.stats.save(statsFile);
 		} catch (IOException e) {
 			plugin.severe("There was a problem saving your stats.yml file.");
-			e.printStackTrace();
+				if(debug) e.printStackTrace();
 		}
 	}
 	

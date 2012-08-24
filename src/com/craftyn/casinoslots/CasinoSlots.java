@@ -112,6 +112,10 @@ public class CasinoSlots extends JavaPlugin {
 		player.sendMessage(message);
 	}
 	
+	public void debug(String message) {
+		logger.finest(consolePrefix + message);
+	}
+	
 	/**
 	 * Logs a properly formatted message to the console with a info prefix.
 	 *

@@ -98,7 +98,7 @@ public class ConfigData {
 		this.chatColor = config.getString("options.chat.chat-color", "&a");
 		this.displayPrefix = config.getBoolean("options.chat.display-plugin-prefix", true);
 		
-		this.debug = config.getBoolean("options.debug", false);
+		this.debug = config.getBoolean("options.debug");
 		this.trackStats = config.getBoolean("options.track-statistics", true);
 		this.allowDiagonals = config.getBoolean("options.allow-diagonal-winnings", false);
 		this.protection = config.getBoolean("options.enable-slot-protection", true);

@@ -208,26 +208,31 @@ public class SlotMachine {
 	
 	// Sets type
 	public void setType(String type) {
+		if(plugin.configData.inDebug()) plugin.debug("We set the type of slot, did it save?");
 		this.type = type;
 	}
 	
 	// Sets managed
 	public void setManaged(Boolean managed) {
+		if(plugin.configData.inDebug()) plugin.debug("We set that it is managed, did it save?");
 		this.managed = managed;
 	}
 	
 	// Sets owner
 	public void setOwner(String owner) {
+		if(plugin.configData.inDebug()) plugin.debug("We set the owner, did it save?");
 		this.owner = owner;
 	}
 	
 	// Deposit the amount into the slot machine
 	public void deposit(Double amount) {
+		if(plugin.configData.inDebug()) plugin.debug("We deposited some money from the slot, did it save?");
 		this.funds += amount;
 	}
 	
 	// Withdraw the amount from the slot machine
 	public void withdraw(Double amount) {
+		if(plugin.configData.inDebug()) plugin.debug("We withdrew some money from the slot, did it save?");
 		this.funds -= amount;
 	}
 	

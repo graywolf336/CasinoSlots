@@ -87,9 +87,9 @@ public class ResultsTask implements Runnable {
 				stat = new Stat(name, 1, won, cost);
 			}
 			game.plugin.statsData.addStat(stat);
-			if(!results.isEmpty()) {
+			//if(!results.isEmpty()) {
 				game.plugin.configData.saveStats();
-			}
+			//}
 		}
 		
 		// All done

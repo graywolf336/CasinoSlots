@@ -93,8 +93,7 @@ public class StatData {
 			}
 			plugin.log("Loaded statistics for " + i + " types.");
 			
-		}
-		else {
+		}else {
 			plugin.log("Not tracking statistics.");
 		}
 	}

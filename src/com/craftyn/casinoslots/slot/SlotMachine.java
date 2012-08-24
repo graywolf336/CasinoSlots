@@ -99,14 +99,14 @@ public class SlotMachine {
 	
 	// Returns if slot machine is managed
 	public Boolean isManaged() {
-		if(plugin.configData.inDebug()) plugin.debug("Tested to see if it was a managed slot.");
+		if(plugin.configData.inDebug()) plugin.debug("Tested to see if it was a managed slot, and I returned: " + this.managed);
 		
 		return this.managed;
 	}
 	
 	// Returns if slot machine is item machine, aka paid with items
 	public Boolean isItem() {
-		if(plugin.configData.inDebug()) plugin.debug("Tested to see if it was a item slot.");
+		if(plugin.configData.inDebug()) plugin.debug("Tested to see if it was a item slot, and I returned: " + this.item);
 		
 		return this.item;
 	}

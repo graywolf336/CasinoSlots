@@ -3,7 +3,7 @@
 options:
   debug: false
   track-statistics: true
-  allow-diagonal-winnings: true
+  allow-diagonal-winnings: false
   enable-slot-protection: true
   chat:
     display-plugin-prefix: true

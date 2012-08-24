@@ -114,7 +114,7 @@ public class CasinoSlots extends JavaPlugin {
 	}
 	
 	public void debug(String message) {
-		logger.finest(consolePrefix + message);
+		logger.info("-debug- " + consolePrefix + message);
 	}
 	
 	/**

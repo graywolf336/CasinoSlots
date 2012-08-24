@@ -109,7 +109,7 @@ public class CasinoSlots extends JavaPlugin {
 	 */
 	public void sendMessage(Player player, String message) {		
 		message = configData.prefixColor + prefix + configData.chatColor + " " + message;
-		message = message.replaceAll("(?i)&([a-f0-9])", "\u00A7$1");
+		message = message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
 		player.sendMessage(message);
 	}
 	

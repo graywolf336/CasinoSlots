@@ -11,7 +11,7 @@ public class StatData {
 	
 	protected CasinoSlots plugin;
 	private HashMap<String, Stat> stats = new HashMap<String, Stat>();
-	public Integer globalSpins;
+	public Integer globalSpins, globalWins;
 	public Double globalWon, globalLost;
 	
 	// Initialize StatData

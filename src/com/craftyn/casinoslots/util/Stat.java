@@ -3,7 +3,7 @@ package com.craftyn.casinoslots.util;
 public class Stat {
 	
 	private String type;
-	private Integer spins;
+	private Integer spins, wins;
 	private Double won, lost;
 	
 	// Initialize new stat object
@@ -24,6 +24,10 @@ public class Stat {
 	// Returns spins
 	public Integer getSpins() {
 		return this.spins;
+	}
+	
+	public Integer getWins() {
+		return this.wins;
 	}
 	
 	// Returns amount won

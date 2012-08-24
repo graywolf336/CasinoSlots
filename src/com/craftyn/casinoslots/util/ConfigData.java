@@ -80,6 +80,7 @@ public class ConfigData {
 		
 		configFile = new File(plugin.getDataFolder(), "config.yml");
 		config = YamlConfiguration.loadConfiguration(configFile);
+		this.debug = config.getBoolean("options.debug", false);
 		
 		//Set it to null, then reload it
 		slots = null;

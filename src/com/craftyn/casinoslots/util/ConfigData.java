@@ -126,11 +126,11 @@ public class ConfigData {
 		this.stats.set("global.lost", plugin.statsData.globalLost);
 		
 		try {
-				if(debug) plugin.debug("Saving the stats.yml.");
+			if(debug) plugin.debug("Saving the stats.yml.");
 			this.stats.save(statsFile);
 		} catch (IOException e) {
 			plugin.severe("There was a problem saving your stats.yml file.");
-				if(debug) e.printStackTrace();
+			if(debug) e.printStackTrace();
 		}
 	}
 	

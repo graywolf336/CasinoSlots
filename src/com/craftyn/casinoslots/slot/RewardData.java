@@ -50,18 +50,20 @@ public class RewardData {
 			// Give action
 			if(a[0].equalsIgnoreCase("give")) {				
 				String[] itemData = a[1].split("\\,");
+				int amount = Integer.parseInt(a[2]);
 				
 				int item = Integer.parseInt(itemData[0]);
 				byte data = 0;
 				short damage = 0;
 				ItemStack is = null;
-				int n = Integer.parseInt(a[2]);
 				
-				if(itemData.length == 2) {
+				if(itemData.length == 1) {
+					is = new ItemStack(item, amount, damage, data);
+				}else if(itemData.length == 2) {
 					data = (byte) Integer.parseInt(itemData[1]);
-					is = new ItemStack(item, n, damage, data);
+					is = new ItemStack(item, amount, damage, data);
 				}else if (itemData.length == 3) {
-					is = new ItemStack(item, n, damage, data);
+					is = new ItemStack(item, amount, damage, data);
 					
 					int enID = Integer.parseInt(itemData[1]);
 					Enchantment enchantment = Enchantment.getById(enID);

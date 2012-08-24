@@ -81,18 +81,29 @@ public class ResultsTask implements Runnable {
 		// Register statistics
 		if(game.plugin.configData.trackStats) {
 			Stat stat;
+			
+			//Already have some stats for this type
 			if(game.plugin.statsData.isStat(name)) {
 				stat = game.plugin.statsData.getStat(name);
-				stat.add(won, cost);
+				if(!results.isEmpty()) {
+					stat.addWon(won, cost);
+					game.plugin.statsData.addWonStat(stat);
+				}else {
+					stat.addLost(won, cost);
+					game.plugin.statsData.addLostStat(stat);
+				}
 			} else {
 				if(game.plugin.configData.inDebug()) game.plugin.debug("The player has won an amount of: " + won);
 				if(game.plugin.configData.inDebug()) game.plugin.debug("The player has lost an amount of: " + cost);
-				stat = new Stat(name, 1, won, cost);
+				if(!results.isEmpty()) {
+					stat = new Stat(name, 1, 1, 0, won, cost);
+					game.plugin.statsData.addWonStat(stat);
+				}else {
+					stat = new Stat(name, 1, 0, 1, won, cost);
+					game.plugin.statsData.addLostStat(stat);
+				}
 			}
-			game.plugin.statsData.addStat(stat);
-			//if(!results.isEmpty()) {
-				game.plugin.configData.saveStats();
-			//}
+			game.plugin.configData.saveStats();
 		}
 		
 		// All done

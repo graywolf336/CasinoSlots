@@ -3,14 +3,16 @@ package com.craftyn.casinoslots.util;
 public class Stat {
 	
 	private String type;
-	private Integer spins, wins;
+	private Integer spins, wins, losts;
 	private Double won, lost;
 	
 	// Initialize new stat object
-	public Stat(String type, Integer spins, Double won, Double lost) {
+	public Stat(String type, Integer spins, Integer wins, Integer losts, Double won, Double lost) {
 		
 		this.type = type;
 		this.spins = spins;
+		this.wins = wins;
+		this.losts = losts;
 		this.won = won;
 		this.lost = lost;
 		
@@ -30,6 +32,10 @@ public class Stat {
 		return this.wins;
 	}
 	
+	public Integer getLosts() {
+		return this.losts;
+	}
+	
 	// Returns amount won
 	public Double getWon() {
 		return this.won;
@@ -41,9 +47,20 @@ public class Stat {
 	}
 	
 	// Update stat with new values
-	public void add(Double won, Double lost) {
+	public void addWon(Double won, Double lost) {
 		
 		this.spins += 1;
+		this.wins += 1;
+		this.won += won;
+		this.lost += lost;
+		
+	}
+	
+	// Update stat with new values
+	public void addLost(Double won, Double lost) {
+		
+		this.spins += 1;
+		this.losts += 1;
 		this.won += won;
 		this.lost += lost;
 		

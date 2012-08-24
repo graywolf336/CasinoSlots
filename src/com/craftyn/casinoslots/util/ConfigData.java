@@ -132,12 +132,16 @@ public class ConfigData {
 			for(Stat stat : stats) {
 				String path = "types." + stat.getType() +".";
 				this.stats.set(path + "spins", stat.getSpins());
+				this.stats.set(path + "wins", stat.getWins());
+				this.stats.set(path + "losts", stat.getLosts());
 				this.stats.set(path + "won", stat.getWon());
 				this.stats.set(path + "lost", stat.getLost());
 			}
 		}
 		
 		this.stats.set("global.spins", plugin.statsData.globalSpins);
+		this.stats.set("global.wins", plugin.statsData.globalWins);
+		this.stats.set("global.losts", plugin.statsData.globalLosts);
 		this.stats.set("global.won", plugin.statsData.globalWon);
 		this.stats.set("global.lost", plugin.statsData.globalLost);
 		

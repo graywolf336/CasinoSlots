@@ -73,7 +73,6 @@ public class ConfigData {
 	 */
 	public void reloadConfigs() {
 		plugin.log("Reloading the configs.");
-		plugin.reloadConfig();
 		
 		configFile = new File(plugin.getDataFolder(), "config.yml");
 		config = YamlConfiguration.loadConfiguration(configFile);

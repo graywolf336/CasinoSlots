@@ -116,7 +116,7 @@ public class ConfigData {
 			for(Stat stat : stats) {
 				String path = "types." + stat.getType() +".";
 				this.stats.set(path + "spins", stat.getSpins());
-				this.stats.set(path + "won", stat.getLost());
+				this.stats.set(path + "won", stat.getWon());
 				this.stats.set(path + "lost", stat.getLost());
 			}
 		}

@@ -4,8 +4,7 @@ public class Stat {
 	
 	private String type;
 	private Integer spins;
-	private Double won;
-	private Double lost;
+	private Double won, lost;
 	
 	// Initialize new stat object
 	public Stat(String type, Integer spins, Double won, Double lost) {

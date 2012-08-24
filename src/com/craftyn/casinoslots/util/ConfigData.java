@@ -34,13 +34,6 @@ public class ConfigData {
 	
 	// Load all config data
 	public void load() {
-		//sort of kind of a way to see if this is the first time the plugin has ran, if it is load the config saves and then save them immeditally.
-		boolean firstload = false;
-			if (config == null) {
-				firstload = true;
-			}
-			
-			
 		config = plugin.getConfig().getRoot();
 		config.options().copyDefaults(true);
 		
@@ -56,15 +49,15 @@ public class ConfigData {
 		plugin.slotData.loadSlots();
 		plugin.statsData.loadStats();
 		
-		if (firstload) save();
+		//if (firstload) save();
 	}
 	
 	// Save all config data
-	public void save() {
-		plugin.saveConfig();
-		saveSlots();
-		saveStats();
-	}
+	//public void save() {
+	//	plugin.saveConfig();
+	//	saveSlots();
+	//	saveStats();
+	//}
 	
 	/**
 	 * Reload all the configs from disk.

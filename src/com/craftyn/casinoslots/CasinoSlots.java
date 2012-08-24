@@ -77,8 +77,8 @@ public class CasinoSlots extends JavaPlugin {
 				return;
 			}
 		}
-		
 		configData.load();
+		saveConfig();
 		prefix = configData.prefix;
 		if(configData.inDebug()) debug("Debugging enabled.");
 		

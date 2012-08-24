@@ -76,6 +76,7 @@ public class ConfigData {
 	 * This reloads all the global variables, like debugging, prefix, tracking stats, etc.
 	 */
 	public void reloadGlobals() {
+		this.prefix = null;
 		this.prefixColor = config.getString("options.chat.plugin-prefix-color");
 		this.prefix = config.getString("options.chat.plugin-prefix");
 		this.chatColor = config.getString("options.chat.chat-color");

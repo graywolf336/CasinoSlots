@@ -226,7 +226,7 @@ public class SlotMachine {
 	
 	// Deposit the amount into the slot machine
 	public void deposit(Double amount) {
-		if(plugin.configData.inDebug()) plugin.debug("We deposited some money from the slot, did it save?");
+		if(plugin.configData.inDebug()) plugin.debug("We deposited some money to the slot, did it save?");
 		this.funds += amount;
 	}
 	

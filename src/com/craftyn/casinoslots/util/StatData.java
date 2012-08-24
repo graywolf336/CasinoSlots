@@ -66,7 +66,7 @@ public class StatData {
 		this.globalLost += lost;
 		
 		Stat stat = new Stat(type, spins, won, lost);
-		if(plugin.configData.inDebug()) plugin.debug("We added this stat: ");
+		if(plugin.configData.inDebug()) plugin.debug("We added a stat for " + type + ":");
 		if(plugin.configData.inDebug()) plugin.debug("   type: " + type);
 		if(plugin.configData.inDebug()) plugin.debug("   spins: " + spins);
 		if(plugin.configData.inDebug()) plugin.debug("   won: " + won);

@@ -4,6 +4,8 @@ A majorly updated version of AnCasino started by Darazo
 
 ### Update: 2.5.3 ###
 * Using the logger provided with Bukkit
+* Added support for withdrawing money from a player's account, if the reward money is negative it withdraws the money from the player
+* Added a check to see if the config exists or not with the config-version property. If the config-version does not equal 1.0, the config will copy over it's default options.
 
 ### Update: 2.5.2 ###
 * Fixed the stats.yml file being over wrote each restart/reload

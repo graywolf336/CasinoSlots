@@ -1,7 +1,9 @@
 # Instructions for this configuration file can be found at the BukkitDev page:
 # http://dev.bukkit.org/server-mods/casino-slots/pages/info/config/
+# If you change the config-version, the defaults will be added. You have been warned.
 options:
   debug: false
+  config-version: 1.0
   track-statistics: true
   allow-diagonal-winnings: false
   enable-slot-protection: true

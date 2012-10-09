@@ -251,7 +251,17 @@ public class SlotData {
 		}
 		
 		for(Block b : blocks) {
-			b.setTypeId(57);
+			if(plugin.configData.inDebug()) {
+				if(blocks.get(0) == b || blocks.get(1) == b || blocks.get(2) == b) {
+					b.setTypeId(57);
+				}else if(blocks.get(3) == b || blocks.get(4) == b || blocks.get(5) == b) {
+					b.setTypeId(42);
+				}else if(blocks.get(6) == b || blocks.get(7) == b || blocks.get(8) == b) {
+					b.setTypeId(41);
+				}
+					
+			}else
+				b.setTypeId(57);
 		}
 		
 		slot.setBlocks(blocks);

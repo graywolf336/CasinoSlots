@@ -38,8 +38,8 @@ public class PlayerListener implements Listener {
 			
 			if(b == null) return;
 			
-			// Creating slots
-			if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isCreatingSlots(player)) {				
+			if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isCreatingSlots(player)) {
+				// Creating slots
 				BlockFace face = event.getBlockFace();
 				
 				if(face != BlockFace.DOWN && face != BlockFace.UP) {
@@ -237,7 +237,6 @@ public class PlayerListener implements Listener {
 	 * @param type		The type that is being checked.
 	 * @return			True if the type is null or false if the type isn't null
 	 */
-	
 	private boolean typeIsNull (Player player, Type type) {
 		// Check to see if the type is valid, if it's not then display an error to both the player and the console.
 		if (type == null) {

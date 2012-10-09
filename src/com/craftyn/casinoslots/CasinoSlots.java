@@ -9,9 +9,9 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.craftyn.casinoslots.command.AnCommandExecutor;
-import com.craftyn.casinoslots.listeners.AnBlockListener;
-import com.craftyn.casinoslots.listeners.AnChunkListener;
-import com.craftyn.casinoslots.listeners.AnPlayerListener;
+import com.craftyn.casinoslots.listeners.BlockListener;
+import com.craftyn.casinoslots.listeners.ChunkListener;
+import com.craftyn.casinoslots.listeners.PlayerListener;
 import com.craftyn.casinoslots.listeners.EntityListener;
 import com.craftyn.casinoslots.slot.RewardData;
 import com.craftyn.casinoslots.slot.SlotData;
@@ -29,9 +29,9 @@ public class CasinoSlots extends JavaPlugin {
 	
 	public String pluginVer;
 	
-	private AnPlayerListener playerListener = new AnPlayerListener(this);
-	private AnBlockListener blockListener = new AnBlockListener(this);
-	private AnChunkListener chunkListener = new AnChunkListener(this);
+	private PlayerListener playerListener = new PlayerListener(this);
+	private BlockListener blockListener = new BlockListener(this);
+	private ChunkListener chunkListener = new ChunkListener(this);
 	private EntityListener entity = new EntityListener(this);
 	private AnCommandExecutor commandExecutor = new AnCommandExecutor(this);
 	

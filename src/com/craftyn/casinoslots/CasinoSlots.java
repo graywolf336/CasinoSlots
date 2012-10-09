@@ -1,7 +1,5 @@
 package com.craftyn.casinoslots;
 
-import java.util.logging.Logger;
-
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Server;
@@ -27,10 +25,8 @@ public class CasinoSlots extends JavaPlugin {
 	protected CasinoSlots plugin;
 	public Economy economy = null;
 	public Server server;
-	private final Logger logger = Logger.getLogger("Minecraft");
 	private PluginManager pm = null;
 	
-	public String consolePrefix = "[CasinoSlots] ";
 	public String pluginVer;
 	
 	private AnPlayerListener playerListener = new AnPlayerListener(this);
@@ -112,7 +108,7 @@ public class CasinoSlots extends JavaPlugin {
 	}
 	
 	public void debug(String message) {
-		logger.info("-debug- " + consolePrefix + message);
+		getLogger().info("-debug- " + message);
 	}
 	
 	/**
@@ -121,7 +117,7 @@ public class CasinoSlots extends JavaPlugin {
 	 * @param message The info message to log.
 	 */
 	public void log(String message) {
-		logger.info(consolePrefix + message);
+		getLogger().info(message);
 	}
 	
 	/**
@@ -130,7 +126,7 @@ public class CasinoSlots extends JavaPlugin {
 	 * @param message The warning message to log.
 	 */
 	public void error(String message) {
-		logger.warning(consolePrefix + message);
+		getLogger().warning(message);
 	}
 	
 	/**
@@ -139,14 +135,7 @@ public class CasinoSlots extends JavaPlugin {
 	 * @param message The warning message to log.
 	 */
 	public void severe(String message) {
-		logger.severe(consolePrefix + message);
-	}
-	
-	//saves the files
-	public void saveFiles() {
-		saveConfig();
-		configData.saveSlots();
-		configData.saveStats();
+		getLogger().severe(message);
 	}
 	
 	// Registers economy with Vault

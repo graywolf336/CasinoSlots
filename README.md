@@ -2,6 +2,9 @@
 
 A majorly updated version of AnCasino started by Darazo
 
+### Update: 2.5.3 ###
+* Using the logger provided with Bukkit
+
 ### Update: 2.5.2 ###
 * Fixed the stats.yml file being over wrote each restart/reload
 * Fixed the stats.yml displaying incorrect data

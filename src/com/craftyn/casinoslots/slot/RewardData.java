@@ -32,7 +32,10 @@ public class RewardData {
 		}
 		
 		if(reward.money != null) {
-			plugin.economy.depositPlayer(player.getName(), reward.money);
+			if(reward.money < 0)
+				plugin.economy.withdrawPlayer(player.getName(), Math.abs(reward.money));
+			else
+				plugin.economy.depositPlayer(player.getName(), reward.money);
 		}
 		
 		if(reward.action != null && !reward.action.isEmpty()) {

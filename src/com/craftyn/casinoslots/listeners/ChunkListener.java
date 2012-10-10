@@ -42,10 +42,10 @@ public class ChunkListener implements Listener {
 	    	if (w.equalsIgnoreCase(world)) {
 	    		if (x == rX && z == rZ) {
 	    			event.setCancelled(true);
-	    			plugin.log("Kept chunk: (" + x + ", " + z + " " + world + ") for CasinoSlot - " + slot.getName() + " - loaded.");
+	    			if(plugin.configData.displayChunk || plugin.configData.debug) plugin.log("Kept chunk: (" + x + ", " + z + " " + world + ") for CasinoSlot - " + slot.getName() + " - loaded.");
 	    		}else if (x == cX && z == cZ) {
 	    			event.setCancelled(true);
-	    			plugin.log("Kept chunk: (" + x + ", " + z + " " + world + ") for CasinoSlot - " + slot.getName() + " - loaded.");
+	    			if(plugin.configData.displayChunk || plugin.configData.debug) plugin.log("Kept chunk: (" + x + ", " + z + " " + world + ") for CasinoSlot - " + slot.getName() + " - loaded.");
 	    		}else {
 	    			continue;
 	    		}

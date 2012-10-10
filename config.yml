@@ -7,6 +7,7 @@ options:
   track-statistics: true
   allow-diagonal-winnings: false
   enable-slot-protection: true
+  enable-chunk-messages: false
   chat:
     display-plugin-prefix: true
     plugin-prefix: '[Casino]'

@@ -25,7 +25,7 @@ public class ConfigData {
 	private File statsFile;
 	
 	public String prefixColor, chatColor, prefix;
-	public Boolean displayPrefix, trackStats, allowDiagonals, protection, debug;
+	public Boolean displayPrefix, trackStats, allowDiagonals, protection, debug, displayChunk;
 	
 	// Initialize ConfigData
 	public ConfigData(CasinoSlots plugin) {
@@ -86,6 +86,7 @@ public class ConfigData {
 		this.trackStats = config.getBoolean("options.track-statistics");
 		this.allowDiagonals = config.getBoolean("options.allow-diagonal-winnings");
 		this.protection = config.getBoolean("options.enable-slot-protection");
+		this.displayChunk = config.getBoolean("options.enable-chunk-messages");
 	}
 	
 	// Set up global settings
@@ -99,6 +100,7 @@ public class ConfigData {
 		this.trackStats = config.getBoolean("options.track-statistics", true);
 		this.allowDiagonals = config.getBoolean("options.allow-diagonal-winnings", false);
 		this.protection = config.getBoolean("options.enable-slot-protection", true);
+		this.displayChunk = config.getBoolean("options.enable-chunk-messages", false);
 	}
 	
 	// Save slots data

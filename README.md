@@ -7,6 +7,7 @@ A majorly updated version of AnCasino started by Darazo
 * Added support for withdrawing money from a player's account, if the reward money is negative it withdraws the money from the player
 * Added a check to see if the config exists or not with the config-version property. If the config-version does not equal 1.0, the config will copy over it's default options.
 * Added config option to display the information when we kept a chunk loaded, this defaults to false.
+* Fixed the chunk listener from testing the same chunk over and over.
 
 ### Update: 2.5.2 ###
 * Fixed the stats.yml file being over wrote each restart/reload

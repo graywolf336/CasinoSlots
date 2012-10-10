@@ -283,7 +283,7 @@ public class RewardData {
 						bit = p.getName();
 					}
 					
-					//Strip [cost] and make bit equal to the player who played the slot
+					//Strip [cost] and make bit equal to the cost of playing the slot
 					if (bit.equalsIgnoreCase("[cost]")) {
 						bit = String.valueOf(type.getCost());
 					}
@@ -293,7 +293,7 @@ public class RewardData {
 				}
 				
 				//Convert all color codes so that Minecraft shows them as color
-				message = message.replaceAll("(?i)&([a-f0-9])", "\u00A7$1");
+				message = message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
 				
 				//Broadcast the message
 				plugin.server.broadcastMessage(message);

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import com.craftyn.casinoslots.CasinoSlots;
 
@@ -15,7 +14,6 @@ public class TypeData {
 	
 	protected CasinoSlots plugin;
 	private HashMap<String, Type> types;
-	private final Logger logger = Logger.getLogger("Minecraft");
 	
 	// Initialize TypeData
 	public TypeData(CasinoSlots plugin) {
@@ -76,7 +74,7 @@ public class TypeData {
 					if (!plugin.configData.config.contains("types." + name + ".messages")) {
 						plugin.log("Please make sure your slots in the config file contains 'messages:'.");
 						//If there is no "messages", disables the plugin and forces them to check their config
-						logger.severe("[CasinoSlots]" + " PLEASE CHECK ONE OF YOUR CONFIG FILES");
+						plugin.error("[CasinoSlots]" + " PLEASE CHECK ONE OF YOUR CONFIG FILES");
 						plugin.disablePlugin();
 						return;
 					}else {
@@ -150,9 +148,10 @@ public class TypeData {
 		
 		if(plugin.configData.config.isSet(path + "action")) {
 			if(plugin.configData.config.isList(path + "action")) {
+				if(plugin.configData.inDebug()) plugin.debug("The reward does have the 'action' as a list, so store and get it.");
 				action = plugin.configData.config.getStringList(path + "action");
-			}
-			else {
+			}else {
+				if(plugin.configData.inDebug()) plugin.debug("The reward does have the 'action' but it is only a string, so we get it as a string and store it as a list");
 				String a = plugin.configData.config.getString(path + "action");
 				action = Arrays.asList(a);
 			}
@@ -162,7 +161,7 @@ public class TypeData {
 		return reward;		
 	}
 	
-	// Rreturns Map of all rewards for this type
+	// Returns Map of all rewards for this type
 	public Map<String, Reward> getRewards(String type) {
 		Set<String> ids = plugin.configData.config.getConfigurationSection("types." + type +".rewards").getKeys(false);
 		Map<String, Reward> rewards = new HashMap<String, Reward>();

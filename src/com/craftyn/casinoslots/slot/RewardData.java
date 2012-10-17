@@ -46,8 +46,10 @@ public class RewardData {
 	// Parses reward actions
 	private void executeAction(List<String> actionList, Player p, Type type) {
 		plugin.log("The size of the actionList is: " + actionList.size());
+		int i = 0;
+		
 		for(String action : actionList) {
-			
+			i += 1;
 			String[] a = action.split(" ");
 			
 			// Give action
@@ -215,7 +217,7 @@ public class RewardData {
 				//Check to make sure that the action "command" is greater than 1
 				if (a.length < 2) {
 					plugin.error("The command action needs something other than 'command' for it to run.");
-					return;
+					continue;
 				}
 				
 				//Initialize the command
@@ -248,11 +250,11 @@ public class RewardData {
 				//Check to make sure the command isn't actually null
 				if (command != null) {
 					plugin.server.dispatchCommand(sender, command);
-					return;
+					continue;
 				}else {
 					// if it is, then return an error in the console and don't do anything.
 					plugin.error("Couldn't find a command to do, please check your config.yml file.");
-					return;
+					continue;
 				}
 			}
 			
@@ -261,7 +263,7 @@ public class RewardData {
 				//Check to make sure that there is actually something to broadcast
 				if (a.length < 2) {
 					plugin.error("The broadcast action needs something other than 'broadcast' for it to run.");
-					return;
+					continue;
 				}
 				
 				//Initiate the message to broadcast
@@ -298,6 +300,8 @@ public class RewardData {
 				//Broadcast the message
 				plugin.server.broadcastMessage(message);
 			}
-		}	
+		}
+		
+		if(plugin.configData.inDebug()) plugin.debug("We ran through the action list " + i + " times.");
 	}
 }

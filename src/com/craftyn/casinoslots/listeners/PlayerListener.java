@@ -149,7 +149,7 @@ public class PlayerListener implements Listener {
 											switch(item.length) {
 												case 1:
 													plugin.severe("Type " + type.getName() + " has an incorrect itemCost, please fix!");
-													player.sendMessage("Please inform the administrator that the this slot machine has an incorrect configuration, thanks.");
+													player.sendMessage("Please inform the administrator that this slot machine has an incorrect configuration, thanks.");
 													return;
 												case 2:
 													try {
@@ -157,7 +157,7 @@ public class PlayerListener implements Listener {
 														amt = Integer.parseInt(item[1]);
 													}catch (NumberFormatException e) {
 														plugin.severe("Type " + type.getName() + " has an incorrect itemCost, please fix.");
-														player.sendMessage("Please inform the administrator that the this slot machine has an incorrect configuration, thanks.");
+														player.sendMessage("Please inform the administrator that this slot machine has an incorrect configuration, thanks.");
 														return;
 													}
 													
@@ -181,7 +181,7 @@ public class PlayerListener implements Listener {
 														amt = Integer.parseInt(item[2]);
 													}catch (NumberFormatException e) {
 														plugin.severe("Type " + type.getName() + " has an incorrect itemCost, please fix.");
-														player.sendMessage("Please inform the administrator that the this slot machine has an incorrect configuration, thanks.");
+														player.sendMessage("Please inform the administrator that this slot machine has an incorrect configuration, thanks.");
 														return;
 													}
 													
@@ -201,7 +201,7 @@ public class PlayerListener implements Listener {
 													}
 												default:
 													plugin.severe("Type " + type.getName() + " has an incorrect itemCost, please fix!");
-													player.sendMessage("Please inform the administrator that the this slot machine has an incorrect configuration, thanks.");
+													player.sendMessage("Please inform the administrator that this slot machine has an incorrect configuration, thanks.");
 													return;
 											}
 											

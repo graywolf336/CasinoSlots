@@ -7,6 +7,8 @@ A majorly updated version of AnCasino started by Darazo
 * Added support for withdrawing money from a player's account, if the reward money is negative it withdraws the money from the player
 * Added a check to see if the config exists or not with the config-version property. If the config-version does not equal 1.0, the config will copy over it's default options.
 * Added config option to display the information when we kept a chunk loaded, this defaults to false.
+* Added an option to allow types to __also__ cost items
+* Added another /casino set option, this time to set the __additional__ item the type costs.
 * Fixed the chunk listener from testing the same chunk over and over.
 * Fixed the broadcast action not including the latest colors.
 * Fixed the action list not being acting like a list

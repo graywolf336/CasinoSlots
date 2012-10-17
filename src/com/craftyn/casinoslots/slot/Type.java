@@ -10,18 +10,19 @@ public class Type {
 	
 	protected CasinoSlots plugin;
 	
-	private String name;
-	private Double cost, createCost;
+	private String name, itemCost = String.valueOf(0);
+	private Double cost = Double.valueOf(0), createCost = Double.valueOf(0);
 	private ArrayList<String> reel;
 	private Map<String, String> messages;
 	private List<String> helpMessages;
 	private Map<String, Reward> rewards;
 	
 	// Initialize new type
-	public Type(String name, Double cost, Double createCost, ArrayList<String> reel, Map<String, String> messages, List<String> helpMessages, Map<String, Reward> rewards) {
+	public Type(String name, Double cost, String itemCost, Double createCost, ArrayList<String> reel, Map<String, String> messages, List<String> helpMessages, Map<String, Reward> rewards) {
 		
 		this.name = name;
 		this.cost = cost;
+		this.itemCost = itemCost;
 		this.createCost = createCost;
 		this.reel = reel;
 		this.messages = messages;
@@ -38,6 +39,11 @@ public class Type {
 	// Returns type use cost
 	public Double getCost() {
 		return this.cost;
+	}
+	
+	/** Gets the item that this type costs to use. */
+	public String getItemCost() {
+		return this.itemCost;
 	}
 	
 	public Double getCreateCost() {
@@ -67,6 +73,11 @@ public class Type {
 	// Set type use cost
 	public void setCost(Double cost) {
 		this.cost = cost;
+	}
+	
+	/** Sets the item that this slot costs to use. */
+	public void setItemCost(String itemCost) {
+		this.itemCost = itemCost;
 	}
 	
 	// Set type use cost

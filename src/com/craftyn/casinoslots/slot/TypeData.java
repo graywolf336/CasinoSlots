@@ -92,6 +92,7 @@ public class TypeData {
 		String path = "types." + name +".";
 		
 		Double cost = plugin.configData.config.getDouble(path + "cost");
+		String itemCost = plugin.configData.config.getString(path + "item-cost", "0");
 		Double createCost = plugin.configData.config.getDouble(path + "create-cost");
 		ArrayList<String> reel = getReel(name);
 		
@@ -99,7 +100,7 @@ public class TypeData {
 		List<String> helpMessages = plugin.configData.config.getStringList(path + "messages.help");
 		Map<String, Reward> rewards = getRewards(name);
 		
-		Type type = new Type(name, cost, createCost, reel, messages, helpMessages, rewards);
+		Type type = new Type(name, cost, itemCost, createCost, reel, messages, helpMessages, rewards);
 		this.types.put(name, type);
 	}
 	
@@ -217,6 +218,13 @@ public class TypeData {
 			}
 		}
 		return max;
+	}
+	
+	/** Sets the item cost that this type also costs, in addition to economy money and saves the config. */
+	public void setItemCost(Type type, String itemCost) {
+		String path = "types." + type.getName() + ".itemCost";
+		plugin.configData.config.set(path, itemCost);
+		plugin.saveConfig();
 	}
 	
 	public void newType(String name) {

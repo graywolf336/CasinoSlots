@@ -110,62 +110,111 @@ public class PlayerListener implements Listener {
 							//  Player has permission
 							if(plugin.permission.canUse(player, type)) {
 									
-									// Slot is not busy
-									if(!slot.isBusy()) {
-										
-										// See if the slot is an item game
-										if(slot.isItem()) {
-											// Get the information about the item cost
-											int itemID, itemAmt;
-											itemID = slot.getItem();
-											itemAmt = slot.getItemAmount();
-											
-											Material itemMat = new ItemStack(itemID).getType();
-											ItemStack cost = new ItemStack(itemMat , itemAmt);
-											
-											if(player.getInventory().contains(slot.getItem(), itemAmt)) {
-												player.getInventory().removeItem(cost);
-												
-												//Let's go!
-												Game game = new Game(slot, player, plugin);
-												game.play();
-												return;	
-											}else {
-												if (itemAmt == 1) {
-													plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemMat.toString().toLowerCase() + " in your inventory to play.");
-												}else {
-													plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemMat.toString().toLowerCase() + "es in your inventory to play.");
-												}
-												return;
-											}
-										}else {
-											// Player has enough money
-											Double cost = type.getCost();
-											if(plugin.economy.has(player.getName(), cost)) {
-												//Let's go!
-												Game game = new Game(slot, player, plugin);
-												game.play();
-												return;	
-											}
-											
-											// Player does not have enough money
-											else {
-												plugin.sendMessage(player, type.getMessages().get("noFunds"));
-												return;
-											}
-											
-										}								
-									}
+								// Slot is not busy
+								if(!slot.isBusy()) {
 									
-									// Slot is busy
-									else {
-										plugin.sendMessage(player, type.getMessages().get("inUse"));
-										return;
-									}
-							}		
-							
-							// Player does not have type permission
-							else {
+									// See if the slot is an item game
+									if(slot.isItem()) {
+										// Get the information about the item cost
+										int itemID, itemAmt;
+										itemID = slot.getItem();
+										itemAmt = slot.getItemAmount();
+										
+										Material itemMat = new ItemStack(itemID).getType();
+										ItemStack cost = new ItemStack(itemMat, itemAmt);
+										
+										if(player.getInventory().contains(itemID, itemAmt)) {
+											player.getInventory().removeItem(cost);
+											
+											//Let's go!
+											Game game = new Game(slot, player, plugin);
+											game.play();
+											return;	
+										}else {
+											if (itemAmt == 1) {
+												plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemMat.toString().toLowerCase() + " in your inventory to play.");
+											}else {
+												plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemMat.toString().toLowerCase() + "es in your inventory to play.");
+											}
+											return;
+										}
+									}else {
+										if(!type.getItemCost().equalsIgnoreCase("0")) {
+											String[] item = type.getItemCost().split("\\,");
+											int id, amt;
+											byte data;
+											Material itemMat;
+											ItemStack cost;
+											
+											switch(item.length) {
+												case 1:
+													plugin.severe("Type " + type.getName() + " has an incorrect itemCost, please fix!");
+													player.sendMessage("Please inform the administrator that the this slot machine has an incorrect configuration, thanks.");
+													return;
+												case 2:
+													try {
+														id = Integer.parseInt(item[0]);
+														amt = Integer.parseInt(item[1]);
+													}catch (NumberFormatException e) {
+														plugin.severe("Type " + type.getName() + " has an incorrect itemCost, please fix.");
+														player.sendMessage("Please inform the administrator that the this slot machine has an incorrect configuration, thanks.");
+														return;
+													}
+													
+													itemMat = new ItemStack(id).getType();
+													cost = new ItemStack(itemMat, amt);
+													
+													if(player.getInventory().contains(cost)) {
+														player.getInventory().removeItem(cost);
+														break;
+													}else {
+														if (amt == 1) {
+															plugin.sendMessage(player, "Sorry, you need to have at least " + amt + " " + itemMat.toString().toLowerCase() + " in your inventory to play.");
+														}else {
+															plugin.sendMessage(player, "Sorry, you need to have at least " + amt + " " + itemMat.toString().toLowerCase() + "es in your inventory to play.");
+														} return;
+													}
+												case 3:
+													try {
+														id = Integer.parseInt(item[0]);
+														data = Byte.parseByte(item[1]);
+														amt = Integer.parseInt(item[2]);
+													}catch (NumberFormatException e) {
+														plugin.severe("Type " + type.getName() + " has an incorrect itemCost, please fix.");
+														player.sendMessage("Please inform the administrator that the this slot machine has an incorrect configuration, thanks.");
+														return;
+													}
+													
+													itemMat = new ItemStack(id).getType();
+													cost = new ItemStack(itemMat, amt);
+													cost.getData().setData(data);
+													
+													if(player.getInventory().contains(cost)) {
+														player.getInventory().removeItem(cost);
+														break;
+													}else {
+														if (amt == 1) {
+															plugin.sendMessage(player, "Sorry, you need to have at least " + amt + " " + itemMat.toString().toLowerCase() + " in your inventory to play.");
+														}else {
+															plugin.sendMessage(player, "Sorry, you need to have at least " + amt + " " + itemMat.toString().toLowerCase() + "es in your inventory to play.");
+														} return;
+													}
+												default:
+													plugin.severe("Type " + type.getName() + " has an incorrect itemCost, please fix!");
+													player.sendMessage("Please inform the administrator that the this slot machine has an incorrect configuration, thanks.");
+													return;
+											}
+											
+											chargeAndPlay(type, slot, player);
+										}else {
+											chargeAndPlay(type, slot, player);
+										}
+									}								
+								} else {// Slot is busy
+									plugin.sendMessage(player, type.getMessages().get("inUse"));
+									return;
+								}
+							} else {// Player does not have type permission
 								plugin.sendMessage(player, type.getMessages().get("noPermission"));
 								return;
 							}
@@ -247,5 +296,26 @@ public class PlayerListener implements Listener {
 			return false;
 		}
 		
+	}
+	
+	/**
+	 * Charges the player money and starts the rolling of the slot.
+	 * 
+	 * @param type The type of the slot the player is wanting to play.
+	 * @param slot The slot the player is wanting to roll.
+	 * @param player The player wanting to play!
+	 */
+	private void chargeAndPlay(Type type, SlotMachine slot, Player player) {
+		// Player has enough money
+		Double cost = type.getCost();
+		if(plugin.economy.has(player.getName(), cost)) {
+			//Let's go!
+			Game game = new Game(slot, player, plugin);
+			game.play();
+			return;	
+		}else {// Player does not have enough money
+			plugin.sendMessage(player, type.getMessages().get("noFunds"));
+			return;
+		}
 	}
 }

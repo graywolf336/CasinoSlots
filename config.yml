@@ -8,6 +8,8 @@ options:
   allow-diagonal-winnings: false
   enable-slot-protection: true
   enable-chunk-messages: false
+  enable-towny-check: false
+  enable-worldguard-check: false
   chat:
     display-plugin-prefix: true
     plugin-prefix: '[Casino]'

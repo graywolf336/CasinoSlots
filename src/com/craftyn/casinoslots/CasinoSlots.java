@@ -4,6 +4,7 @@ import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,14 +21,18 @@ import com.craftyn.casinoslots.util.ConfigData;
 import com.craftyn.casinoslots.util.Permissions;
 import com.craftyn.casinoslots.util.StatData;
 
+import com.palmergames.bukkit.towny.Towny;
+
 public class CasinoSlots extends JavaPlugin {
 	
 	protected CasinoSlots plugin;
 	public Economy economy = null;
 	public Server server;
 	private PluginManager pm = null;
+	private Towny towny = null;
 	
 	public String pluginVer;
+	public boolean useTowny = false, useWorldGuard = false;
 	
 	private PlayerListener playerListener = new PlayerListener(this);
 	private BlockListener blockListener = new BlockListener(this);
@@ -54,6 +59,8 @@ public class CasinoSlots extends JavaPlugin {
 			this.statsData = null;
 			this.rewardData = null;
 			this.permission = null;
+			
+			this.towny = null;
 		}
 	}
 
@@ -75,7 +82,14 @@ public class CasinoSlots extends JavaPlugin {
 		
 		configData.load();
 		saveConfig();
-		if(configData.inDebug()) debug("Debugging enabled.");
+		
+		if(useTowny) {
+			checkPlugins();
+			if(towny == null) {
+				useTowny = false;
+				error("Towny was not found even though you had it enabled, disabling checks.");
+			}
+		}
 		
 		pm.registerEvents(playerListener, this);
 		pm.registerEvents(blockListener, this);
@@ -94,6 +108,16 @@ public class CasinoSlots extends JavaPlugin {
 		}else {
 			pm.disablePlugin(this);
 		}
+	}
+	
+	private void checkPlugins() {
+        Plugin test;
+
+        test = pm.getPlugin("Towny");
+        if (test != null && test instanceof Towny) {
+        	towny = (Towny)test;
+        }
+
 	}
 	
 	/**

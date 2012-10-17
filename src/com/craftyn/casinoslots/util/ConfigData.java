@@ -87,6 +87,9 @@ public class ConfigData {
 		this.allowDiagonals = config.getBoolean("options.allow-diagonal-winnings");
 		this.protection = config.getBoolean("options.enable-slot-protection");
 		this.displayChunk = config.getBoolean("options.enable-chunk-messages");
+		
+		plugin.useTowny = config.getBoolean("options.enable-towny-check", false);
+		plugin.useWorldGuard = config.getBoolean("options.enable-worldguard-check", false);
 	}
 	
 	// Set up global settings
@@ -97,10 +100,15 @@ public class ConfigData {
 		this.displayPrefix = config.getBoolean("options.chat.display-plugin-prefix", true);
 		
 		this.debug = config.getBoolean("options.debug", false);
+		if(inDebug()) plugin.debug("Debugging enabled.");
+		
 		this.trackStats = config.getBoolean("options.track-statistics", true);
 		this.allowDiagonals = config.getBoolean("options.allow-diagonal-winnings", false);
 		this.protection = config.getBoolean("options.enable-slot-protection", true);
 		this.displayChunk = config.getBoolean("options.enable-chunk-messages", false);
+		
+		plugin.useTowny = config.getBoolean("options.enable-towny-check", false);
+		plugin.useWorldGuard = config.getBoolean("options.enable-worldguard-check", false);
 	}
 	
 	// Save slots data

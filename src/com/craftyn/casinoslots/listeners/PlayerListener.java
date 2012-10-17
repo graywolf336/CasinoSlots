@@ -19,6 +19,11 @@ import com.craftyn.casinoslots.slot.SlotMachine;
 import com.craftyn.casinoslots.slot.Type;
 import com.craftyn.casinoslots.slot.game.Game;
 
+import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
+import com.palmergames.bukkit.towny.object.Resident;
+import com.palmergames.bukkit.towny.object.TownBlock;
+import com.palmergames.bukkit.towny.object.TownyUniverse;
+
 public class PlayerListener implements Listener {
 	
 	protected CasinoSlots plugin;
@@ -33,12 +38,18 @@ public class PlayerListener implements Listener {
 		
 		// Check if plugin is enabled
 		if(plugin.isEnabled()) {
-			Player player = event.getPlayer();
 			Block b = event.getClickedBlock();
-			
 			if(b == null) return;
 			
+			Player player = event.getPlayer();
+			
 			if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isCreatingSlots(player)) {
+				if(plugin.useTowny) {
+					if(!checkSlotsTowny(b, player.getName())) {
+						plugin.sendMessage(player, "You do not have permission for the plots where the slot would be, please check and try again.");
+						return;
+					}
+				}
 				// Creating slots
 				BlockFace face = event.getBlockFace();
 				
@@ -56,7 +67,14 @@ public class PlayerListener implements Listener {
 				}
 			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPlacingController(player)) {
 				// Placing controller
-
+				
+				if(plugin.useTowny) {
+					if(!checkSingleTowny(b, player.getName())) {
+						plugin.sendMessage(player, "You do not have permission for the plot the controller would be, please check and try again.");
+						return;
+					}
+				}
+				
 				SlotMachine slot = plugin.slotData.placingController.get(player);
 				slot.setController(b);
 				plugin.slotData.togglePlacingController(player, slot);
@@ -67,6 +85,13 @@ public class PlayerListener implements Listener {
 				return;
 			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPunchingSign(player)) {
 				//setting the sign
+				
+				if(plugin.useTowny) {
+					if(!checkSingleTowny(b, player.getName())) {
+						plugin.sendMessage(player, "You do not have permission for the plot the sign is at, please check and try again.");
+						return;
+					}
+				}
 				
 				if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
 					SlotMachine slot = plugin.slotData.punchingSign.get(player);
@@ -279,6 +304,60 @@ public class PlayerListener implements Listener {
 		}
 	}
 	
+	/**
+	 * Since the Towny check was enabled, we need to check if the player is the owner of the block.
+	 * 
+	 * @param check The soon to be controller block to check.
+	 * @param player The name of the player to check, normal case.
+	 * @return True if the player can "build", false if not.
+	 */
+	private boolean checkSingleTowny(Block check, String player) {
+		Resident res = null, resC = null;
+		TownBlock tbC = TownyUniverse.getTownBlock(check.getLocation());
+		
+		try {
+			res = TownyUniverse.getDataSource().getResident(player);
+			resC = tbC.getResident();
+		} catch (NotRegisteredException e) {return false;}
+		
+		if(plugin.configData.inDebug()) plugin.debug("The single block we're check resident is: " + resC.getName());
+		
+		if(res.equals(resC))
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Since the Towny check was enabled, we need to check if the player is the owner of the block and the other two.
+	 * 
+	 * @param check The center block to check.
+	 * @param player The name of the player to check, normal case.
+	 * @return True if the player can "build", false if not.
+	 */
+	private boolean checkSlotsTowny(Block check, String player) {
+		Resident res = null, resL = null, resC = null, resR = null;
+		TownBlock tbL = TownyUniverse.getTownBlock(check.getRelative(0, -2, 0).getLocation());
+		TownBlock tbC = TownyUniverse.getTownBlock(check.getLocation());
+		TownBlock tbR = TownyUniverse.getTownBlock(check.getRelative(0, 2, 0).getLocation());
+		
+		try {
+			res = TownyUniverse.getDataSource().getResident(player);
+			resL = tbL.getResident();
+			resC = tbC.getResident();
+			resR = tbR.getResident();
+		} catch (NotRegisteredException e) {return false;}
+		
+		if(plugin.configData.inDebug()) plugin.debug("The left block resident is: " + resL.getName());
+		if(plugin.configData.inDebug()) plugin.debug("The center block resident is: " + resC.getName());
+		if(plugin.configData.inDebug()) plugin.debug("The right block resident is: " + resR.getName());
+		
+		if(res.equals(resL) && res.equals(resC) && res.equals(resR))
+			return true;
+		else
+			return false;
+	}
+
 	/**
 	 * Checks if the type passed is null or not, returns true if so and tells the player and console.
 	 * 

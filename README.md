@@ -9,6 +9,8 @@ A majorly updated version of AnCasino started by Darazo
 * Added config option to display the information when we kept a chunk loaded, this defaults to false.
 * Added an option to allow types to __also__ cost items
 * Added another /casino set option, this time to set the __additional__ item the type costs.
+* Added an option to check Towny if the player creating a slot has permission for the plot(s) the slot will be on
+* Added an option to check World Guard if the player has permission to build where the slot will be
 * Fixed the chunk listener from testing the same chunk over and over.
 * Fixed the broadcast action not including the latest colors.
 * Fixed the action list not being acting like a list

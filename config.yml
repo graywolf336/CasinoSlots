@@ -8,8 +8,14 @@ options:
   allow-diagonal-winnings: false
   enable-slot-protection: true
   enable-chunk-messages: false
-  enable-towny-check: false
   enable-worldguard-check: false
+  towny-checks:
+    enabled: false
+    only-mayors: true
+    no-mayor: You must be a mayor to create a Casino Slot.
+    only-towns: true
+    no-town: To create a slot you must be part of a town.
+    no-ownership: You don't own the plot where that would be at, please make sure you are the owner and then try again.
   chat:
     display-plugin-prefix: true
     plugin-prefix: '[Casino]'

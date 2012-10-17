@@ -45,8 +45,28 @@ public class PlayerListener implements Listener {
 			
 			if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isCreatingSlots(player)) {
 				if(plugin.useTowny) {
+					if(plugin.configData.onlyTowns) {
+						if(!checkTown(player)) {
+							SlotMachine slot = plugin.slotData.creatingSlots.get(player);
+							plugin.slotData.toggleCreatingSlots(player, slot);
+							plugin.sendMessage(player, plugin.configData.noTown);
+							return;
+						}
+					}
+					
+					if(plugin.configData.onlyMayors) {
+						if(!checkMayor(player)) {
+							SlotMachine slot = plugin.slotData.creatingSlots.get(player);
+							plugin.slotData.toggleCreatingSlots(player, slot);
+							plugin.sendMessage(player, plugin.configData.noMayor);
+							return;
+						}
+					}
+					
 					if(!checkSlotsTowny(b, player.getName())) {
-						plugin.sendMessage(player, "You do not have permission for the plots where the slot would be, please check and try again.");
+						SlotMachine slot = plugin.slotData.creatingSlots.get(player);
+						plugin.slotData.toggleCreatingSlots(player, slot);
+						plugin.sendMessage(player, plugin.configData.noOwnership);
 						return;
 					}
 				}
@@ -69,8 +89,28 @@ public class PlayerListener implements Listener {
 				// Placing controller
 				
 				if(plugin.useTowny) {
+					if(plugin.configData.onlyTowns) {
+						if(!checkTown(player)) {
+							SlotMachine slot = plugin.slotData.placingController.get(player);
+							plugin.slotData.togglePlacingController(player, slot);
+							plugin.sendMessage(player, plugin.configData.noTown);
+							return;
+						}
+					}
+					
+					if(plugin.configData.onlyMayors) {
+						if(!checkMayor(player)) {
+							SlotMachine slot = plugin.slotData.placingController.get(player);
+							plugin.slotData.togglePlacingController(player, slot);
+							plugin.sendMessage(player, plugin.configData.noMayor);
+							return;
+						}
+					}
+					
 					if(!checkSingleTowny(b, player.getName())) {
-						plugin.sendMessage(player, "You do not have permission for the plot the controller would be, please check and try again.");
+						SlotMachine slot = plugin.slotData.placingController.get(player);
+						plugin.slotData.togglePlacingController(player, slot);
+						plugin.sendMessage(player, plugin.configData.noOwnership);
 						return;
 					}
 				}
@@ -87,8 +127,28 @@ public class PlayerListener implements Listener {
 				//setting the sign
 				
 				if(plugin.useTowny) {
+					if(plugin.configData.onlyTowns) {
+						if(!checkTown(player)) {
+							SlotMachine slot = plugin.slotData.punchingSign.get(player);
+							plugin.slotData.togglePunchingSign(player, slot);
+							plugin.sendMessage(player, plugin.configData.noTown);
+							return;
+						}
+					}
+					
+					if(plugin.configData.onlyMayors) {
+						if(!checkMayor(player)) {
+							SlotMachine slot = plugin.slotData.punchingSign.get(player);
+							plugin.slotData.togglePunchingSign(player, slot);
+							plugin.sendMessage(player, plugin.configData.noMayor);
+							return;
+						}
+					}
+					
 					if(!checkSingleTowny(b, player.getName())) {
-						plugin.sendMessage(player, "You do not have permission for the plot the sign is at, please check and try again.");
+						SlotMachine slot = plugin.slotData.punchingSign.get(player);
+						plugin.slotData.togglePunchingSign(player, slot);
+						plugin.sendMessage(player, plugin.configData.noOwnership);
 						return;
 					}
 				}
@@ -304,6 +364,48 @@ public class PlayerListener implements Listener {
 		}
 	}
 	
+	/**
+	 * Checks if the player is part of a town, if towny checking is enabled.
+	 * 
+	 * <p>
+	 * 
+	 * This will always return true if the player is a CasinoSlots admin.
+	 * 
+	 * @param player The player to check.
+	 * @return True if the player is part of a town (or admin), false if not.
+	 */
+	private boolean checkTown(Player player) {
+		if(plugin.permission.isAdmin(player)) return true;
+		Resident res = null;
+		
+		try {
+			res = TownyUniverse.getDataSource().getResident(player.getName());
+		} catch (NotRegisteredException e) {return false;}
+		
+		return res.hasTown();
+	}
+	
+	/**
+	 * Checks if the player is a mayor, if towny checking is enabled.
+	 * 
+	 * <p>
+	 * 
+	 * This will always return true if the player is a CasinoSlots admin.
+	 * 
+	 * @param player The player to check.
+	 * @return True if the player is a king (or admin), false if not.
+	 */
+	private boolean checkMayor(Player player) {
+		if(plugin.permission.isAdmin(player)) return true;
+		Resident res = null;
+		
+		try {
+			res = TownyUniverse.getDataSource().getResident(player.getName());
+		} catch (NotRegisteredException e) {return false;}
+		
+		return res.isMayor();
+	}
+
 	/**
 	 * Since the Towny check was enabled, we need to check if the player is the owner of the block.
 	 * 

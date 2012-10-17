@@ -27,6 +27,10 @@ public class ConfigData {
 	public String prefixColor, chatColor, prefix;
 	public Boolean displayPrefix, trackStats, allowDiagonals, protection, debug, displayChunk;
 	
+	//towny stuff
+	public Boolean onlyMayors, onlyTowns;
+	public String noMayor, noTown, noOwnership;
+	
 	// Initialize ConfigData
 	public ConfigData(CasinoSlots plugin) {
 		this.plugin = plugin;
@@ -88,8 +92,15 @@ public class ConfigData {
 		this.protection = config.getBoolean("options.enable-slot-protection");
 		this.displayChunk = config.getBoolean("options.enable-chunk-messages");
 		
-		plugin.useTowny = config.getBoolean("options.enable-towny-check", false);
 		plugin.useWorldGuard = config.getBoolean("options.enable-worldguard-check", false);
+		plugin.useTowny = config.getBoolean("options.towny-checks.enabled", false);
+		if(plugin.useTowny) {
+			this.onlyMayors = config.getBoolean("options.towny-checks.only-mayors", true);
+			this.noMayor = config.getString("options.towny-checks.no-mayor", "You must be a mayor to create a Casino Slot.");
+			this.onlyTowns = config.getBoolean("options.towny-checks.only-towns", true);
+			this.noTown = config.getString("options.towny-checks.no-town", "To create a slot you must be part of a town.");
+			this.noMayor = config.getString("options.towny-checks.no-ownership", "You don't own the plot where that would be at, please make sure you are the owner and then try again.");
+		}
 	}
 	
 	// Set up global settings
@@ -107,8 +118,15 @@ public class ConfigData {
 		this.protection = config.getBoolean("options.enable-slot-protection", true);
 		this.displayChunk = config.getBoolean("options.enable-chunk-messages", false);
 		
-		plugin.useTowny = config.getBoolean("options.enable-towny-check", false);
 		plugin.useWorldGuard = config.getBoolean("options.enable-worldguard-check", false);
+		plugin.useTowny = config.getBoolean("options.towny-checks.enabled", false);
+		if(plugin.useTowny) {
+			this.onlyMayors = config.getBoolean("options.towny-checks.only-mayors", true);
+			this.noMayor = config.getString("options.towny-checks.no-mayor", "You must be a mayor to create a Casino Slot.");
+			this.onlyTowns = config.getBoolean("options.towny-checks.only-towns", true);
+			this.noTown = config.getString("options.towny-checks.no-town", "To create a slot you must be part of a town.");
+			this.noMayor = config.getString("options.towny-checks.no-ownership", "You don't own the plot where that would be at, please make sure you are the owner and then try again.");
+		}
 	}
 	
 	// Save slots data

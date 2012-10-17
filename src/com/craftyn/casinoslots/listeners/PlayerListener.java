@@ -315,6 +315,9 @@ public class PlayerListener implements Listener {
 		Resident res = null, resC = null;
 		TownBlock tbC = TownyUniverse.getTownBlock(check.getLocation());
 		
+		if(tbC == null)
+			return false;
+		
 		try {
 			res = TownyUniverse.getDataSource().getResident(player);
 			resC = tbC.getResident();
@@ -340,6 +343,9 @@ public class PlayerListener implements Listener {
 		TownBlock tbL = TownyUniverse.getTownBlock(check.getRelative(0, -2, 0).getLocation());
 		TownBlock tbC = TownyUniverse.getTownBlock(check.getLocation());
 		TownBlock tbR = TownyUniverse.getTownBlock(check.getRelative(0, 2, 0).getLocation());
+		
+		if(tbL == null || tbC == null || tbR == null)
+			return false;
 		
 		try {
 			res = TownyUniverse.getDataSource().getResident(player);

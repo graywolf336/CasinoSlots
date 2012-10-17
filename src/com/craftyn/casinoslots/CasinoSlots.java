@@ -88,6 +88,8 @@ public class CasinoSlots extends JavaPlugin {
 			if(towny == null) {
 				useTowny = false;
 				error("Towny was not found even though you had it enabled, disabling checks.");
+			}else {
+				log("Towny checking enabled.");
 			}
 		}
 		

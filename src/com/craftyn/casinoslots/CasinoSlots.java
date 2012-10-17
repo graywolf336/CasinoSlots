@@ -20,6 +20,7 @@ import com.craftyn.casinoslots.slot.TypeData;
 import com.craftyn.casinoslots.util.ConfigData;
 import com.craftyn.casinoslots.util.Permissions;
 import com.craftyn.casinoslots.util.StatData;
+import com.craftyn.casinoslots.util.TownyChecks;
 
 import com.palmergames.bukkit.towny.Towny;
 
@@ -46,6 +47,7 @@ public class CasinoSlots extends JavaPlugin {
 	public StatData statsData = new StatData(this);
 	public RewardData rewardData = new RewardData(this);
 	public Permissions permission = new Permissions(this);
+	public TownyChecks townyChecks = null;
 
 	public void onDisable() {
 		if (economy != null) {
@@ -59,6 +61,7 @@ public class CasinoSlots extends JavaPlugin {
 			this.statsData = null;
 			this.rewardData = null;
 			this.permission = null;
+			this.townyChecks = null;
 			
 			this.towny = null;
 		}
@@ -89,6 +92,7 @@ public class CasinoSlots extends JavaPlugin {
 				useTowny = false;
 				error("Towny was not found even though you had it enabled, disabling checks.");
 			}else {
+				townyChecks = new TownyChecks(this);
 				log("Towny checking enabled.");
 			}
 		}

@@ -8,11 +8,8 @@ import com.craftyn.casinoslots.slot.SlotMachine;
 public class CasinoAddManaged extends AnCommand {
 	
 	private String name;
-
 	private String type;
-
 	private String owner;
-
 	private String world;
 	
 	/**
@@ -32,6 +29,23 @@ public class CasinoAddManaged extends AnCommand {
 		if(!plugin.permission.canCreateManaged(player)) {
 			noPermission();
 			return true;
+		}
+		
+		//Check for simple player things before they try to add a slot
+		if(plugin.useTowny) {
+			if(plugin.configData.onlyTowns) {
+				if(!plugin.townyChecks.checkTown(player)) {
+					plugin.sendMessage(player, plugin.configData.noTown);
+					return true;
+				}
+			}
+			
+			if(plugin.configData.onlyMayors) {
+				if(!plugin.townyChecks.checkMayor(player)) {
+					plugin.sendMessage(player, plugin.configData.noMayor);
+					return true;
+				}
+			}
 		}
 		
 		// Valid command format

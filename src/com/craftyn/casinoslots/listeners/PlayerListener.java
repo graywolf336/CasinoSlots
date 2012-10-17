@@ -134,7 +134,7 @@ public class PlayerListener implements Listener {
 											if (itemAmt == 1) {
 												plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemMat.toString().toLowerCase() + " in your inventory to play.");
 											}else {
-												plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemMat.toString().toLowerCase() + "es in your inventory to play.");
+												plugin.sendMessage(player, "Sorry, you need to have at least " + itemAmt + " " + itemMat.toString().toLowerCase() + "s in your inventory to play.");
 											}
 											return;
 										}
@@ -164,14 +164,14 @@ public class PlayerListener implements Listener {
 													itemMat = new ItemStack(id).getType();
 													cost = new ItemStack(itemMat, amt);
 													
-													if(player.getInventory().contains(cost)) {
+													if(player.getInventory().contains(id, amt)) {
 														player.getInventory().removeItem(cost);
 														break;
 													}else {
 														if (amt == 1) {
 															plugin.sendMessage(player, "Sorry, you need to have at least " + amt + " " + itemMat.toString().toLowerCase() + " in your inventory to play.");
 														}else {
-															plugin.sendMessage(player, "Sorry, you need to have at least " + amt + " " + itemMat.toString().toLowerCase() + "es in your inventory to play.");
+															plugin.sendMessage(player, "Sorry, you need to have at least " + amt + " " + itemMat.toString().toLowerCase() + "s in your inventory to play.");
 														} return;
 													}
 												case 3:
@@ -189,14 +189,14 @@ public class PlayerListener implements Listener {
 													cost = new ItemStack(itemMat, amt);
 													cost.getData().setData(data);
 													
-													if(player.getInventory().contains(cost)) {
+													if(player.getInventory().contains(id, amt)) {
 														player.getInventory().removeItem(cost);
 														break;
 													}else {
 														if (amt == 1) {
 															plugin.sendMessage(player, "Sorry, you need to have at least " + amt + " " + itemMat.toString().toLowerCase() + " in your inventory to play.");
 														}else {
-															plugin.sendMessage(player, "Sorry, you need to have at least " + amt + " " + itemMat.toString().toLowerCase() + "es in your inventory to play.");
+															plugin.sendMessage(player, "Sorry, you need to have at least " + amt + " " + itemMat.toString().toLowerCase() + "s in your inventory to play.");
 														} return;
 													}
 												default:

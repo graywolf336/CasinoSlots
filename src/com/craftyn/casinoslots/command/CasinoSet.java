@@ -85,6 +85,7 @@ public class CasinoSet extends AnCommand {
 								Type t = plugin.typeData.getType(args[2]);
 								t.setItemCost(args[3]);
 								plugin.typeData.setItemCost(t, args[3]);
+								sendMessage("itemCost successfully set for the type " + t.getName() + ".");
 							}else {
 								//can not be air
 								sendMessage("Please set the itemCost to be something other than air.");

@@ -12,78 +12,73 @@ public class CasinoSet extends AnCommand {
 		super(plugin, args, player);
 	}
 	
-	public Boolean process() {		
-		// Correct command format
-		if (args.length == 2) {
-			if (args[1].equalsIgnoreCase("sign")) {
-				// Incorrect command format
-				sendMessage("Usage:");
-				sendMessage("  /casino set sign <slotname>");
-			}else if (args[1].equalsIgnoreCase("type")) {
-				// Incorrect command format
-				sendMessage("Usage:");
-				sendMessage("  /casino set type <slotname> <type>");
-			}
-		}else if(args.length == 3) {
-			if (args[1].equalsIgnoreCase("sign")) {
-
-				// Slot exists
-				if(plugin.slotData.isSlot(args[2])) {
-					SlotMachine slot = plugin.slotData.getSlot(args[2]);
-					plugin.slotData.togglePunchingSign(player, slot);
-					sendMessage("Please punch the sign that you want us to know about.");
-				}else {
-					// Slot does not exist
-					sendMessage("Invalid slot machine.");
-				}
-			}else if (args[1].equalsIgnoreCase("type")) {
-				// Incorrect command format
-				sendMessage("Usage:");
-				sendMessage("  /casino set type <slotname> <type>");
-			}else {
-				// Incorrect command format
-				sendMessage("Usage:");
-				sendMessage("  /casino set sign <slotname>");
-				sendMessage("  /casino set type <slotname> <type>");
-			}
-		}else if(args.length == 4) {
-			if (args[1].equalsIgnoreCase("type")) {
-				
-				// Slot exists
-				if(plugin.slotData.isSlot(args[2])) {
-					if(plugin.typeData.isType(args[3])) {
+	public Boolean process() {
+		switch(args.length) {
+			case 2:
+				if (args[1].equalsIgnoreCase("sign")) {
+					// Incorrect command format
+					sendMessage("Usage:");
+					sendMessage("  /casino set sign <slotname>");
+				}else if (args[1].equalsIgnoreCase("type")) {
+					// Incorrect command format
+					sendMessage("Usage:");
+					sendMessage("  /casino set type <slotname> <type>");
+				} return true;
+			case 3:
+				if (args[1].equalsIgnoreCase("sign")) {
+	
+					// Slot exists
+					if(plugin.slotData.isSlot(args[2])) {
 						SlotMachine slot = plugin.slotData.getSlot(args[2]);
-						String typeName = args[3];
-						
-						String oldType = slot.getType();
-						slot.setType(typeName);
-						plugin.slotData.saveSlot(slot);
-						sendMessage("Type successfully changed from '" + oldType + "' to '" + typeName + "'.");
-						
+						plugin.slotData.togglePunchingSign(player, slot);
+						sendMessage("Please punch the sign that you want us to know about.");
 					}else {
-						// Type does not exist
-						sendMessage("Invalid type of a slot machine.");
+						// Slot does not exist
+						sendMessage("Invalid slot machine.");
+					}
+				}else if (args[1].equalsIgnoreCase("type")) {
+					// Incorrect command format
+					sendMessage("Usage:");
+					sendMessage("  /casino set type <slotname> <type>");
+				}else {
+					// Incorrect command format
+					sendMessage("Usage:");
+					sendMessage("  /casino set sign <slotname>");
+					sendMessage("  /casino set type <slotname> <type>");
+				} return true;
+			case 4:
+				if (args[1].equalsIgnoreCase("type")) {
+					
+					// Slot exists
+					if(plugin.slotData.isSlot(args[2])) {
+						if(plugin.typeData.isType(args[3])) {
+							SlotMachine slot = plugin.slotData.getSlot(args[2]);
+							String typeName = args[3];
+							
+							String oldType = slot.getType();
+							slot.setType(typeName);
+							plugin.slotData.saveSlot(slot);
+							sendMessage("Type successfully changed from '" + oldType + "' to '" + typeName + "'.");
+							
+						}else {
+							// Type does not exist
+							sendMessage("Invalid type of a slot machine.");
+						}
+					}else {
+						// Slot does not exist
+						sendMessage("Invalid slot machine.");
 					}
 				}else {
-					// Slot does not exist
-					sendMessage("Invalid slot machine.");
-				}
-			}else {
-				// Incorrect command format
+					// Incorrect command format
+					sendMessage("Usage:");
+					sendMessage("  /casino set type <slotname> <type>");
+				} return true;
+			default:
 				sendMessage("Usage:");
+				//                      0   1      2          3
+				sendMessage("  /casino set sign <slotname>");
 				sendMessage("  /casino set type <slotname> <type>");
-			}
+				return true;
 		}
-		
-		// Incorrect command format
-		else {
-			sendMessage("Usage:");
-			//                      0   1      2          3
-			sendMessage("  /casino set sign <slotname>");
-			sendMessage("  /casino set type <slotname> <type>");
-		}
-		
-		return true;
 	}
-
 }

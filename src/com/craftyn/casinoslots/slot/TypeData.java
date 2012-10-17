@@ -92,7 +92,7 @@ public class TypeData {
 		String path = "types." + name +".";
 		
 		Double cost = plugin.configData.config.getDouble(path + "cost");
-		String itemCost = plugin.configData.config.getString(path + "item-cost", "0");
+		String itemCost = plugin.configData.config.getString(path + "itemCost", "0");
 		Double createCost = plugin.configData.config.getDouble(path + "create-cost");
 		ArrayList<String> reel = getReel(name);
 		

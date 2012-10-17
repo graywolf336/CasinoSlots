@@ -45,11 +45,8 @@ public class RewardData {
 		
 	// Parses reward actions
 	private void executeAction(List<String> actionList, Player p, Type type) {
-		plugin.log("The size of the actionList is: " + actionList.size());
-		int i = 0;
-		
+		plugin.log("The size of the actionList is: " + actionList.size());		
 		for(String action : actionList) {
-			i += 1;
 			String[] a = action.split(" ");
 			
 			// Give action
@@ -301,7 +298,5 @@ public class RewardData {
 				plugin.server.broadcastMessage(message);
 			}
 		}
-		
-		if(plugin.configData.inDebug()) plugin.debug("We ran through the action list " + i + " times.");
 	}
 }

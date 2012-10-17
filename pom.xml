@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.craftyn</groupId>
   <artifactId>casinoslots</artifactId>
-  <version>2.5.3-SNAPSHOT</version>
+  <version>2.5.5-SNAPSHOT</version>
   <name>CasinoSlots</name>
   <description>Real CasinoSlots in Minecraft.</description>
   <url>http://dev.bukkit.org/server-mods/casino-slots/</url>
@@ -46,6 +46,13 @@
       <artifactId>vault</artifactId>
       <version>RELEASE</version>
       <type>jar</type>
+    </dependency>
+    
+    <dependency>
+    	<groupId>com.palmergames.bukkit</groupId>
+        <artifactId>towny</artifactId>
+        <scope>system</scope>
+        <systemPath>${basedir}/libs/Towny.jar</systemPath>
     </dependency>
   </dependencies>
   

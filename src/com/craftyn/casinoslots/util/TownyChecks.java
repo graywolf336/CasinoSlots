@@ -17,10 +17,6 @@ public class TownyChecks {
 		this.plugin = plugin;
 	}
 	
-	public boolean something() {
-		return false;
-	}
-	
 	/**
 	 * Checks if the player is part of a town, if towny checking is enabled.
 	 * 

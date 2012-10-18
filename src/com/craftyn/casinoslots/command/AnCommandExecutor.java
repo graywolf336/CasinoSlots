@@ -18,23 +18,29 @@ public class AnCommandExecutor implements CommandExecutor{
 	
 	public boolean onCommand(CommandSender sender, Command command, String commandlabel, final String[] args) {
 		
-		// casino reload
-		if(args[0].equalsIgnoreCase("reload")) {
-			cmd = new CasinoReload(plugin, args, sender);
-			return cmd.process();
-		}
-		
-		// casino stats
-		else if(args[0].equalsIgnoreCase("stats")) {
-			cmd = new CasinoStats(plugin, args, sender);
-			return cmd.process();
-		}
-		
-		if(sender instanceof Player) {
-			Player player = (Player) sender;
+		// Valid command format
+		if(args.length >= 1) {
+			// casino reload
+			if(args[0].equalsIgnoreCase("reload")) {
+				cmd = new CasinoReload(plugin, args, sender);
+				return cmd.process();
+			}
 			
-			// Valid command format
-			if(args.length >= 1) {
+			// casino stats
+			else if(args[0].equalsIgnoreCase("stats")) {
+				cmd = new CasinoStats(plugin, args, sender);
+				return cmd.process();
+			}
+			
+			// casino list
+			else if(args[0].equalsIgnoreCase("list")) {
+				cmd = new CasinoList(plugin, args, sender);
+				return cmd.process();
+			}
+			
+			else if(sender instanceof Player) {
+				Player player = (Player) sender;
+	
 				// casino add
 				if(args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("create")) {
 					cmd = new CasinoAdd(plugin, args, player);
@@ -53,11 +59,6 @@ public class AnCommandExecutor implements CommandExecutor{
 				// casino remove
 				else if(args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("delete")) {
 					cmd = new CasinoRemove(plugin, args, player);
-				}
-				
-				// casino list
-				else if(args[0].equalsIgnoreCase("list")) {
-					cmd = new CasinoList(plugin, args, player);
 				}
 								
 				// casino type
@@ -101,21 +102,21 @@ public class AnCommandExecutor implements CommandExecutor{
 					return true;
 				}
 				
+				return cmd.process();
 			}
 			
-			// no arguments
+			// No commands by console
 			else {
-				cmd = new Casino(plugin, args, player);
+				plugin.log("This command cannot be executed as console.");
+				return true;
 			}
-			
-			return cmd.process();
 		}
 		
-		// No commands by console
+		// no arguments
 		else {
-			plugin.log("This command cannot be executed as console.");
+			cmd = new Casino(plugin, args, sender);
+			return cmd.process();
 		}
-		return true;
 	}
 
 }

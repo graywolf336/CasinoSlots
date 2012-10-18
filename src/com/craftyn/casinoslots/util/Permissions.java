@@ -60,7 +60,7 @@ public class Permissions {
 	 * @param type   The Type of the slot that the Player is attempting to create
 	 * @return       True if the player can create that slot, false if the player can't
 	 */
-	public Boolean canCreate(Player player, Type type) {		
+	public Boolean canCreate(Player player, Type type) {
 		String name = type.getName();
 		
 		return (isAdmin(player) || player.hasPermission(create + "." + name) || player.hasPermission(create + ".*"));

@@ -1,16 +1,24 @@
 package com.craftyn.casinoslots.command;
 
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 import com.craftyn.casinoslots.CasinoSlots;
 
 public class Casino extends AnCommand {
 	
-	public Casino(CasinoSlots plugin, String[] args, Player player) {
-		super(plugin, args, player);
+	public Casino(CasinoSlots plugin, String[] args, CommandSender sender) {
+		super(plugin, args, sender);
 	}
 	
 	public Boolean process() {
+		
+		if(player == null) {
+			senderSendMessage("Command guide:");
+			senderSendMessage("  /casino list - List slot machines and types");
+			senderSendMessage("  /casino reload - Reload config files from disk");
+			senderSendMessage("  /casino stats - Global usage statistics");
+			return true;
+		}
 		
 		if(plugin.permission.isAdmin(player)) {
 			sendMessage("Command guide:");
@@ -43,6 +51,14 @@ public class Casino extends AnCommand {
 			sendMessage("  /casino remove - Remove an existing slot machine");
 			sendMessage("  /casino withdraw - Withdraw money from a managed slot");
 		}
+		
+		else if(plugin.permission.canCreateManaged(player)) {
+			sendMessage("Command guide:");
+			sendMessage("  /casino addmanaged - Add a new managed slot machine");
+			sendMessage("  /casino deposit - Deposit money to a managed slot");
+			sendMessage("  /casino withdraw - Withdraw money from a managed slot");
+		}
+		
 		else {
 			noPermission();
 		}

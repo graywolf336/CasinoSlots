@@ -17,6 +17,7 @@ public class Casino extends AnCommand {
 			senderSendMessage("  /casino list - List slot machines and types");
 			senderSendMessage("  /casino reload - Reload config files from disk");
 			senderSendMessage("  /casino stats - Global usage statistics");
+			senderSendMessage("  /casino version - To get the current version of the plugin.");
 			return true;
 		}
 		

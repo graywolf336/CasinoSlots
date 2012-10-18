@@ -1,6 +1,7 @@
 package com.craftyn.casinoslots.util;
 
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
@@ -90,14 +91,15 @@ public class TownyChecks {
 	 * Since the Towny check was enabled, we need to check if the player is the owner of the block and the other two.
 	 * 
 	 * @param check The center block to check.
+	 * @param face 
 	 * @param player The name of the player to check, normal case.
 	 * @return True if the player can "build", false if not.
 	 */
-	public boolean checkSlotsTowny(Block check, String player) {
+	public boolean checkSlotsTowny(Block check, BlockFace face, String player) {
 		Resident res = null, resL = null, resC = null, resR = null;
-		TownBlock tbL = TownyUniverse.getTownBlock(check.getRelative(0, -2, 0).getLocation());
+		TownBlock tbL = TownyUniverse.getTownBlock(check.getRelative(getDirection(face, "left"), 2).getLocation());
 		TownBlock tbC = TownyUniverse.getTownBlock(check.getLocation());
-		TownBlock tbR = TownyUniverse.getTownBlock(check.getRelative(0, 2, 0).getLocation());
+		TownBlock tbR = TownyUniverse.getTownBlock(check.getRelative(getDirection(face, "left"), 2).getLocation());
 		
 		if(tbL == null || tbC == null || tbR == null)
 			return false;
@@ -118,4 +120,36 @@ public class TownyChecks {
 		else
 			return false;
 	}
+	
+	// Used for orienting the slot machine correctly
+	private BlockFace getDirection(BlockFace face, String direction) {
+		if(face == BlockFace.NORTH) {
+			if(direction.equalsIgnoreCase("left")) {
+				return BlockFace.EAST;
+			} else if(direction.equalsIgnoreCase("right")) {
+				return BlockFace.WEST;
+			}
+		} else if(face == BlockFace.SOUTH) {
+			if(direction.equalsIgnoreCase("left")) {
+				return BlockFace.WEST;
+			} else if(direction.equalsIgnoreCase("right")) {
+				return BlockFace.EAST;
+			}
+		} else if(face == BlockFace.WEST) {
+			if(direction.equalsIgnoreCase("left")) {
+				return BlockFace.SOUTH;
+			} else if(direction.equalsIgnoreCase("right")) {
+				return BlockFace.NORTH;
+			}
+		} else if(face == BlockFace.EAST) {
+			if(direction.equalsIgnoreCase("left")) {
+				return BlockFace.NORTH;
+			} else if(direction.equalsIgnoreCase("right")) {
+				return BlockFace.SOUTH;
+			}
+		}
+		
+		return BlockFace.SELF;
+	}
+
 }

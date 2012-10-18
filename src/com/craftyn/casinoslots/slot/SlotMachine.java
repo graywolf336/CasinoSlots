@@ -236,19 +236,16 @@ public class SlotMachine {
 		this.funds -= amount;
 	}
 	
-	// Set disabled state
+	/** Sets the enabled state. */
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
 	
-	// Set use status
+	/** Sets the use of the slot machine. */
 	public void toggleBusy() {
-		
-		if(busy) {
+		if(busy)
 			this.busy = false;
-		}
-		else {
+		else
 			this.busy = true;
-		}
 	}
 }

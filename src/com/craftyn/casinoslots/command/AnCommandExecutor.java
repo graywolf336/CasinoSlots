@@ -38,6 +38,12 @@ public class AnCommandExecutor implements CommandExecutor{
 				return cmd.process();
 			}
 			
+			// casino ver
+			else if(args[0].equalsIgnoreCase("ver") || args[0].equalsIgnoreCase("version")) {
+				cmd = new CasinoVer(plugin, args, sender);
+				return cmd.process();
+			}
+			
 			else if(sender instanceof Player) {
 				Player player = (Player) sender;
 	
@@ -89,11 +95,6 @@ public class AnCommandExecutor implements CommandExecutor{
 				// casino toggle
 				else if(args[0].equalsIgnoreCase("toggle")) {
 					cmd = new CasinoToggle(plugin, args, player);
-				}
-				
-				// casino ver
-				else if(args[0].equalsIgnoreCase("ver") || args[0].equalsIgnoreCase("version")) {
-					cmd = new CasinoVer(plugin, args, player);
 				}
 				
 				// invalid command

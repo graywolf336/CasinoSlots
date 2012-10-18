@@ -25,6 +25,7 @@ A majorly updated version of AnCasino started by Darazo
 * Fixed the console not being able to do __/casino stats__
 * Fixed the console not being able to do __/casino__
 * Fixed the console __/casino__ to only display what the console can do
+* Fixed players with create managed permissions see the commands they are allowed
 
 ### Update: 2.5.2 ###
 * Fixed the stats.yml file being over wrote each restart/reload

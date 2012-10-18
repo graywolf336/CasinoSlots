@@ -28,6 +28,12 @@ public class CasinoSet extends AnCommand {
 					// Incorrect command format
 					sendMessage("Usage:");
 					sendMessage("  /casino set type <slotname> <type>");
+				}else {
+					sendMessage("Usage:");
+					//                      0   1         2       3
+					sendMessage("  /casino set sign <slotname>");
+					sendMessage("  /casion set itemcost <type> <itemid,damage,amount>");
+					sendMessage("  /casino set type <slotname> <type>");
 				} return true;
 			case 3:
 				if (args[1].equalsIgnoreCase("sign")) {

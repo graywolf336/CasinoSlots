@@ -20,7 +20,8 @@ A majorly updated version of AnCasino started by Darazo
 * Fixed the chunk listener from testing the same chunk over and over.
 * Fixed the broadcast action not including the latest colors.
 * Fixed the action list not being acting like a list
-* Fixed the console not being able to do /casino reload
+* Fixed the console not being able to do __/casino reload__
+* Fixed the console not being able to do __/casino stats__
 
 ### Update: 2.5.2 ###
 * Fixed the stats.yml file being over wrote each restart/reload

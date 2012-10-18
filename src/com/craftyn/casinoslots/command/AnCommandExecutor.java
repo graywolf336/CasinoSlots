@@ -24,6 +24,12 @@ public class AnCommandExecutor implements CommandExecutor{
 			return cmd.process();
 		}
 		
+		// casino stats
+		else if(args[0].equalsIgnoreCase("stats")) {
+			cmd = new CasinoStats(plugin, args, sender);
+			return cmd.process();
+		}
+		
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			
@@ -53,12 +59,7 @@ public class AnCommandExecutor implements CommandExecutor{
 				else if(args[0].equalsIgnoreCase("list")) {
 					cmd = new CasinoList(plugin, args, player);
 				}
-				
-				// casino stats
-				else if(args[0].equalsIgnoreCase("stats")) {
-					cmd = new CasinoStats(plugin, args, player);
-				}
-				
+								
 				// casino type
 				else if(args[0].equalsIgnoreCase("type")) {
 					cmd = new CasinoType(plugin, args, player);

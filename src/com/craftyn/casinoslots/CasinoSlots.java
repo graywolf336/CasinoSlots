@@ -88,7 +88,7 @@ public class CasinoSlots extends JavaPlugin {
 		configData.load();
 		saveConfig();
 		
-		if(configData.inDebug()) debug("Use World Guard checks?" + useWorldGuard);
+		if(configData.inDebug()) debug("Use World Guard checks? " + useWorldGuard);
 		if(useWorldGuard) {
 			checkWorldGuard();
 			if(worldGuard == null) {

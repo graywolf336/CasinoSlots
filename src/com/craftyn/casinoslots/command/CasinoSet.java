@@ -14,6 +14,11 @@ public class CasinoSet extends AnCommand {
 	}
 	
 	public Boolean process() {
+		if(!plugin.permission.isAdmin(player)) {
+			noPermission();
+			return true;
+		}
+		
 		switch(args.length) {
 			case 2:
 				if (args[1].equalsIgnoreCase("sign")) {
@@ -28,7 +33,17 @@ public class CasinoSet extends AnCommand {
 					// Incorrect command format
 					sendMessage("Usage:");
 					sendMessage("  /casino set type <slotname> <type>");
-				}else {
+				}else if(args[1].equalsIgnoreCase("debug")) {
+					if(plugin.configData.inDebug()) {
+						plugin.configData.debug = false;
+						sendMessage("Debugging disabled.");
+						return true;
+					}else {
+						plugin.configData.debug = true;
+						sendMessage("Debugging enabled.");
+						return true;
+					}
+				} else {
 					sendMessage("Usage:");
 					//                      0   1         2       3
 					sendMessage("  /casino set sign <slotname>");

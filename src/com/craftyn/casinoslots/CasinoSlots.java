@@ -86,6 +86,8 @@ public class CasinoSlots extends JavaPlugin {
 		configData.load();
 		saveConfig();
 		
+		if(configData.inDebug()) debug("Use towny checks? " + useTowny);
+		if(configData.inDebug()) debug("Based upon the above    {^} what is below? {V}");
 		if(useTowny) {
 			checkPlugins();
 			if(towny == null) {

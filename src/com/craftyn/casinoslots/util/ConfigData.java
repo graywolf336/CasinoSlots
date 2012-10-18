@@ -99,7 +99,7 @@ public class ConfigData {
 			this.noMayor = config.getString("options.towny-checks.no-mayor", "You must be a mayor to create a Casino Slot.");
 			this.onlyTowns = config.getBoolean("options.towny-checks.only-towns", true);
 			this.noTown = config.getString("options.towny-checks.no-town", "To create a slot you must be part of a town.");
-			this.noMayor = config.getString("options.towny-checks.no-ownership", "You don't own the plot where that would be at, please make sure you are the owner and then try again.");
+			this.noOwnership = config.getString("options.towny-checks.no-ownership", "You don't own the plot where that would be at, please make sure you are the owner and then try again.");
 		}
 	}
 	
@@ -125,7 +125,7 @@ public class ConfigData {
 			this.noMayor = config.getString("options.towny-checks.no-mayor", "You must be a mayor to create a Casino Slot.");
 			this.onlyTowns = config.getBoolean("options.towny-checks.only-towns", true);
 			this.noTown = config.getString("options.towny-checks.no-town", "To create a slot you must be part of a town.");
-			this.noMayor = config.getString("options.towny-checks.no-ownership", "You don't own the plot where that would be at, please make sure you are the owner and then try again.");
+			this.noOwnership = config.getString("options.towny-checks.no-ownership", "You don't own the plot where that would be at, please make sure you are the owner and then try again.");
 		}
 	}
 	

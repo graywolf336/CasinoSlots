@@ -42,16 +42,16 @@ public class PlayerListener implements Listener {
 				// Creating slots
 				BlockFace face = event.getBlockFace();
 				
-				if(plugin.useTowny) {					
-					if(!plugin.townyChecks.checkSlotsTowny(b, face, player.getName())) {
-						SlotMachine slot = plugin.slotData.creatingSlots.get(player);
-						plugin.slotData.toggleCreatingSlots(player, slot);
-						plugin.sendMessage(player, plugin.configData.noOwnership);
-						return;
-					}
-				}
-				
 				if(face != BlockFace.DOWN && face != BlockFace.UP) {
+					if(plugin.useTowny) {					
+						if(!plugin.townyChecks.checkSlotsTowny(b, face, player.getName())) {
+							SlotMachine slot = plugin.slotData.creatingSlots.get(player);
+							plugin.slotData.toggleCreatingSlots(player, slot);
+							plugin.sendMessage(player, plugin.configData.noOwnership);
+							return;
+						}
+					}
+					
 					SlotMachine slot = plugin.slotData.creatingSlots.get(player);
 					plugin.slotData.createReel(player, face, slot);					
 					plugin.slotData.toggleCreatingSlots(player, slot);

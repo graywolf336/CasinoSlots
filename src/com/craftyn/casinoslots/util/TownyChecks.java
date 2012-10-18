@@ -101,6 +101,10 @@ public class TownyChecks {
 		TownBlock tbC = TownyUniverse.getTownBlock(check.getLocation());
 		TownBlock tbR = TownyUniverse.getTownBlock(check.getRelative(getDirection(face, "left"), 2).getLocation());
 		
+		if(plugin.configData.inDebug()) plugin.debug("Does the left block have a town: " + tbL.hasTown());
+		if(plugin.configData.inDebug()) plugin.debug("Does the center block have a town: " + tbC.hasTown());
+		if(plugin.configData.inDebug()) plugin.debug("Does the right block have a town: " + tbR.hasTown());
+		
 		if(tbL == null || tbC == null || tbR == null)
 			return false;
 		

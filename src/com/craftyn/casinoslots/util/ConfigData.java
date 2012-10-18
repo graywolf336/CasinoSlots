@@ -39,8 +39,10 @@ public class ConfigData {
 	// Load all config data
 	public void load() {
 		config = plugin.getConfig().getRoot();
-		if(config.getDouble("options.config-version", 0.9) != 1.0)
+		if(config.getDouble("options.config-version", 0.9) != 1.0) {
 			config.options().copyDefaults(true);
+			config.set("options.config-version", 1.0);
+		}
 		
 		setGlobals();
 		

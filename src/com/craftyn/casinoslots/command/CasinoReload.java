@@ -20,9 +20,11 @@ public class CasinoReload extends AnCommand {
 	public Boolean process() {
 		
 		// Permissions
-		if(!plugin.permission.isAdmin(player)) {
-			noPermission();
-			return true;
+		if(player != null) {
+			if(!plugin.permission.isAdmin(player)) {
+				noPermission();
+				return true;
+			}
 		}
 		
 		plugin.configData.reloadConfigs();

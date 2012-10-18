@@ -49,6 +49,13 @@
     </dependency>
     
     <dependency>
+      <groupId>com.sk89q</groupId>
+      <artifactId>worldguard</artifactId>
+      <version>RELEASE</version>
+      <type>jar</type>
+    </dependency>
+    
+    <dependency>
     	<groupId>com.palmergames.bukkit</groupId>
         <artifactId>towny</artifactId>
         <version>0.82.0.0</version>

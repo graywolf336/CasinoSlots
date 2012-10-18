@@ -52,6 +52,15 @@ public class PlayerListener implements Listener {
 						}
 					}
 					
+					if(plugin.useWorldGuard) {
+						if(!plugin.getWorldGuard().canBuild(player, b)) {
+							SlotMachine slot = plugin.slotData.creatingSlots.get(player);
+							plugin.slotData.toggleCreatingSlots(player, slot);
+							player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
+							return;
+						}
+					}
+					
 					SlotMachine slot = plugin.slotData.creatingSlots.get(player);
 					plugin.slotData.createReel(player, face, slot);					
 					plugin.slotData.toggleCreatingSlots(player, slot);
@@ -75,6 +84,15 @@ public class PlayerListener implements Listener {
 					}
 				}
 				
+				if(plugin.useWorldGuard) {
+					if(!plugin.getWorldGuard().canBuild(player, b)) {
+						SlotMachine slot = plugin.slotData.placingController.get(player);
+						plugin.slotData.togglePlacingController(player, slot);
+						player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
+						return;
+					}
+				}
+				
 				SlotMachine slot = plugin.slotData.placingController.get(player);
 				slot.setController(b);
 				plugin.slotData.togglePlacingController(player, slot);
@@ -91,6 +109,15 @@ public class PlayerListener implements Listener {
 						SlotMachine slot = plugin.slotData.punchingSign.get(player);
 						plugin.slotData.togglePunchingSign(player, slot);
 						plugin.sendMessage(player, plugin.configData.noOwnership);
+						return;
+					}
+				}
+				
+				if(plugin.useWorldGuard) {
+					if(!plugin.getWorldGuard().canBuild(player, b)) {
+						SlotMachine slot = plugin.slotData.placingController.get(player);
+						plugin.slotData.togglePunchingSign(player, slot);
+						player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
 						return;
 					}
 				}

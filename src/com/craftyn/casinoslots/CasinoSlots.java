@@ -23,6 +23,7 @@ import com.craftyn.casinoslots.util.StatData;
 import com.craftyn.casinoslots.util.TownyChecks;
 
 import com.palmergames.bukkit.towny.Towny;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class CasinoSlots extends JavaPlugin {
 	
@@ -31,6 +32,7 @@ public class CasinoSlots extends JavaPlugin {
 	public Server server;
 	private PluginManager pm = null;
 	private Towny towny = null;
+	private WorldGuardPlugin worldGuard = null;
 	
 	public String pluginVer;
 	public boolean useTowny = false, useWorldGuard = false;
@@ -86,13 +88,26 @@ public class CasinoSlots extends JavaPlugin {
 		configData.load();
 		saveConfig();
 		
-		if(configData.inDebug()) debug("Use towny checks? " + useTowny);
+		if(configData.inDebug()) debug("Use World Guard checks?" + useWorldGuard);
+		if(useWorldGuard) {
+			checkWorldGuard();
+			if(worldGuard == null) {
+				useWorldGuard = false;
+				error("World Guard was not found even though you had it enabled, disabling checks.");
+				if(configData.inDebug()) debug("Use World Guard checks now? " + useWorldGuard);
+			}else {
+				log("World Guard checking enabled.");
+			}
+		}
+		
+		if(configData.inDebug()) debug("Use Towny checks? " + useTowny);
 		if(configData.inDebug()) debug("Based upon the above {^} what is below? {V}");
 		if(useTowny) {
-			checkPlugins();
+			checkTowny();
 			if(towny == null) {
 				useTowny = false;
 				error("Towny was not found even though you had it enabled, disabling checks.");
+				if(configData.inDebug()) debug("Use Towny checks now? " + useTowny);
 			}else {
 				townyChecks = new TownyChecks(this);
 				log("Towny checking enabled.");
@@ -118,14 +133,19 @@ public class CasinoSlots extends JavaPlugin {
 		}
 	}
 	
-	private void checkPlugins() {
-        Plugin test;
-
-        test = pm.getPlugin("Towny");
-        if (test != null && test instanceof Towny) {
-        	towny = (Towny)test;
+	private void checkWorldGuard() {
+		Plugin pl = pm.getPlugin("WorldGuard");
+		
+		if (pl != null && pl instanceof WorldGuardPlugin) {
+			worldGuard = (WorldGuardPlugin) pl;
+		}
+	}
+	
+	private void checkTowny() {
+        Plugin pl = pm.getPlugin("Towny");
+        if (pl != null && pl instanceof Towny) {
+        	towny = (Towny)pl;
         }
-
 	}
 	
 	/**
@@ -179,4 +199,9 @@ public class CasinoSlots extends JavaPlugin {
         }
         return (economy != null); 
     }
+	
+	/** Returns the instance of World Guard. */
+	public WorldGuardPlugin getWorldGuard() {
+		return worldGuard;
+	}
 }

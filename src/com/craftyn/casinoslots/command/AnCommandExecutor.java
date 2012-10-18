@@ -18,6 +18,11 @@ public class AnCommandExecutor implements CommandExecutor{
 	
 	public boolean onCommand(CommandSender sender, Command command, String commandlabel, final String[] args) {
 		
+		// casino reload
+		if(args[0].equalsIgnoreCase("reload")) {
+			cmd = new CasinoReload(plugin, args, sender);
+		}
+		
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			
@@ -46,11 +51,6 @@ public class AnCommandExecutor implements CommandExecutor{
 				// casino list
 				else if(args[0].equalsIgnoreCase("list")) {
 					cmd = new CasinoList(plugin, args, player);
-				}
-				
-				// casino reload
-				else if(args[0].equalsIgnoreCase("reload")) {
-					cmd = new CasinoReload(plugin, args, player);
 				}
 				
 				// casino stats

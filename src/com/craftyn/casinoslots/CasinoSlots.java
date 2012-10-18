@@ -3,6 +3,7 @@ package com.craftyn.casinoslots;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Server;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -158,6 +159,18 @@ public class CasinoSlots extends JavaPlugin {
 		message = configData.prefixColor + configData.prefix + configData.chatColor + " " + message;
 		message = message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
 		player.sendMessage(message);
+	}
+	
+	/**
+	 * Sends a properly formatted message to the command sender.
+	 *
+	 * @param sender The command sender to send the message to
+	 * @param message The message to send to the player
+	 */
+	public void sendMessage(CommandSender sender, String message) {		
+		message = configData.prefixColor + configData.prefix + configData.chatColor + " " + message;
+		message = message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
+		sender.sendMessage(message);
 	}
 	
 	public void debug(String message) {

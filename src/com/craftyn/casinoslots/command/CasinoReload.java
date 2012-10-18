@@ -1,6 +1,6 @@
 package com.craftyn.casinoslots.command;
 
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 import com.craftyn.casinoslots.CasinoSlots;
 
@@ -13,8 +13,8 @@ public class CasinoReload extends AnCommand {
 	 * @param args The other arguments passed along with 'reload'
 	 * @param player The one who did the command
 	 */
-	public CasinoReload(CasinoSlots plugin, String[] args, Player player) {
-		super(plugin, args, player);
+	public CasinoReload(CasinoSlots plugin, String[] args, CommandSender sender) {
+		super(plugin, args, sender);
 	}
 	
 	public Boolean process() {
@@ -31,8 +31,8 @@ public class CasinoReload extends AnCommand {
 		
 		plugin.slotData.reloadSlots();
 		
-		if(plugin.configData.inDebug()) sendMessage("Debugging enabled.");
-		sendMessage("Configuration reloaded");
+		if(plugin.configData.inDebug()) senderSendMessage("Debugging enabled.");
+		senderSendMessage("Configuration reloaded");
 		return true;
 	}
 

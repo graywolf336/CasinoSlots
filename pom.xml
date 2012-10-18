@@ -27,9 +27,15 @@
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public</url>
     </repository>
+    
     <repository>
       <id>spout-repo</id>
       <url>http://nexus.spout.org/content/groups/public/</url>
+    </repository>
+    
+    <repository>
+      <id>sk89q-repo</id>
+      <url>http://maven.sk89q.com/repo/</url>
     </repository>
   </repositories>
   
@@ -51,7 +57,7 @@
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldguard</artifactId>
-      <version>RELEASE</version>
+      <version>5.6-SNAPSHOT</version>
       <type>jar</type>
     </dependency>
     

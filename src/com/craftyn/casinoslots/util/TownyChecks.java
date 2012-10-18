@@ -110,10 +110,35 @@ public class TownyChecks {
 		
 		try {
 			res = TownyUniverse.getDataSource().getResident(player);
+			if(plugin.configData.inDebug()) plugin.debug("Got the Towny Resident for the player: " + player);
+		} catch (NotRegisteredException e) {
+			if(plugin.configData.inDebug()) plugin.debug("The player's resident isn't registered: " + player);
+			return false;
+		}
+		
+		try {
 			resL = tbL.getResident();
+			if(plugin.configData.inDebug()) plugin.debug("Got the resident for the left block.");
+		}catch (NotRegisteredException e) {
+			if(plugin.configData.inDebug()) plugin.debug("The left block isn't registered.");
+			return false;
+		}
+		
+		try {
 			resC = tbC.getResident();
+			if(plugin.configData.inDebug()) plugin.debug("Got the resident for the center block.");
+		}catch (NotRegisteredException e) {
+			if(plugin.configData.inDebug()) plugin.debug("The center block isn't registered.");
+			return false;
+		}
+		
+		try {
 			resR = tbR.getResident();
-		} catch (NotRegisteredException e) {return false;}
+			if(plugin.configData.inDebug()) plugin.debug("Got the resident for the right block.");
+		}catch (NotRegisteredException e) {
+			if(plugin.configData.inDebug()) plugin.debug("The right block isn't registered.");
+			return false;
+		}
 		
 		if(plugin.configData.inDebug()) plugin.debug("The left block resident is: " + resL.getName());
 		if(plugin.configData.inDebug()) plugin.debug("The center block resident is: " + resC.getName());

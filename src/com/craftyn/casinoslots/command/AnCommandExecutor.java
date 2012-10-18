@@ -21,6 +21,7 @@ public class AnCommandExecutor implements CommandExecutor{
 		// casino reload
 		if(args[0].equalsIgnoreCase("reload")) {
 			cmd = new CasinoReload(plugin, args, sender);
+			return cmd.process();
 		}
 		
 		if(sender instanceof Player) {

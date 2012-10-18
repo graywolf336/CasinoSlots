@@ -30,22 +30,22 @@ public class AnCommandExecutor implements CommandExecutor{
 			// Valid command format
 			if(args.length >= 1) {
 				// casino add
-				if(args[0].equalsIgnoreCase("add")) {
+				if(args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("create")) {
 					cmd = new CasinoAdd(plugin, args, player);
 				}
 				
 				// casino addmanaged
-				else if(args[0].equalsIgnoreCase("addmanaged")) {
+				else if(args[0].equalsIgnoreCase("addmanaged") || args[0].equalsIgnoreCase("createmanaged")) {
 					cmd = new CasinoAddManaged(plugin, args, player);
 				}
 				
 				// casino additem
-				else if(args[0].equalsIgnoreCase("additem")) {
+				else if(args[0].equalsIgnoreCase("additem") || args[0].equalsIgnoreCase("createitem")) {
 					cmd = new CasinoAddItem(plugin, args, player);
 				}
 				
 				// casino remove
-				else if(args[0].equalsIgnoreCase("remove")) {
+				else if(args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("delete")) {
 					cmd = new CasinoRemove(plugin, args, player);
 				}
 				

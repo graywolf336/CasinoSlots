@@ -45,7 +45,7 @@ public class RewardData {
 		
 	// Parses reward actions
 	private void executeAction(List<String> actionList, Player p, Type type) {
-		plugin.log("The size of the actionList is: " + actionList.size());		
+		if(plugin.configData.inDebug()) plugin.debug("The size of the actionList is: " + actionList.size());		
 		for(String action : actionList) {
 			String[] a = action.split(" ");
 			

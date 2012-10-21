@@ -31,6 +31,7 @@ A majorly updated version of AnCasino started by Darazo
 * Fixed players with create managed permissions see the commands they are allowed
 * Fixed players being able to toggle if a slot is enabled or not even if they didn't have permission
 * Fixed __/casino set__ being open to all players.
+* Fixed a NPE when an Explosion had null blocks
 
 ### Update: 2.5.2 ###
 * Fixed the stats.yml file being over wrote each restart/reload

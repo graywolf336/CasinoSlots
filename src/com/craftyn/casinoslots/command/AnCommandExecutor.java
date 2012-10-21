@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
 
-public class AnCommandExecutor implements CommandExecutor{
+public class AnCommandExecutor implements CommandExecutor {
 	
 	protected CasinoSlots plugin;
 	private AnCommand cmd;

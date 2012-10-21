@@ -20,6 +20,7 @@ public class EntityListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityExplode(EntityExplodeEvent event){
 		if(event.isCancelled()) return;
+		if(event.blockList() == null) return;
 		
 		int x;
 		Block b;

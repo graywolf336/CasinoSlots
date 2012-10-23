@@ -127,12 +127,17 @@ public class RewardData {
 			
 			// Smite action
 			else if(a[0].equalsIgnoreCase("smite")) {
-				p.getWorld().strikeLightning(p.getLocation());
+				if(a.length == 2) {
+					int times = Integer.parseInt(a[1]);
+					for(int i = 1; i < times; i++) {
+						p.getWorld().strikeLightning(p.getLocation());
+					}
+				}else
+					p.getWorld().strikeLightning(p.getLocation());
 			}
 			
 			// Fire action
 			else if(a[0].equalsIgnoreCase("fire")) {
-				//Haven't tested this, just adding more actions
 				if(a.length == 2) {
 					int ticks = Integer.parseInt(a[1]);
 					p.setFireTicks(ticks);

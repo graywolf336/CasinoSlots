@@ -18,6 +18,9 @@ A majorly updated version of AnCasino started by Darazo
 * Added an alias to the adds, you can now do __/casion create__
 * Added an alias to remove, can now do __/casino delete__
 * Added an option to smite the player more than once with that action reward (see: http://dev.bukkit.org/server-mods/casino-slots/pages/info/actions)
+* Added more variables for the broadcast message
+** **[type]** The name of the type of the slot machine.
+** **[moneyown]** The amount of money won!
 * Added __/casino set debug__ to toggle if we're in debugging or not, note: This isn't in /casino set as debugging is very spamming to the console and it is only temporary.
 * Fixed the chunk listener from testing the same chunk over and over.
 * Fixed the broadcast action not including the latest colors.

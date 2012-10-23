@@ -39,12 +39,12 @@ public class RewardData {
 		}
 		
 		if(reward.action != null && !reward.action.isEmpty()) {
-			executeAction(reward.action, player, type);
+			executeAction(reward.action, player, type, reward);
 		}
 	}
 		
 	// Parses reward actions
-	private void executeAction(List<String> actionList, Player p, Type type) {
+	private void executeAction(List<String> actionList, Player p, Type type, Reward reward) {
 		if(plugin.configData.inDebug()) plugin.debug("The size of the actionList is: " + actionList.size());		
 		for(String action : actionList) {
 			String[] a = action.split(" ");
@@ -290,6 +290,15 @@ public class RewardData {
 					//Strip [cost] and make bit equal to the cost of playing the slot
 					if (bit.equalsIgnoreCase("[cost]")) {
 						bit = String.valueOf(type.getCost());
+					}
+					
+					//Strip [type] and make the bit equal to the name of the type won
+					if (bit.equalsIgnoreCase("[type]")) {
+						bit = type.getName();
+					}
+					
+					if(bit.equalsIgnoreCase("[moneywon]")) {
+						bit = String.valueOf(reward.money);
 					}
 					
 					//Add onto the message that is going to be broadcasted

@@ -77,7 +77,7 @@ public class AnSlot extends AnCommand {
 		// Set slot managed
 		else if(args[2].equalsIgnoreCase("setmanaged") && args.length == 3) {
 			
-			if(plugin.permission.canManage(player)) {
+			if(plugin.permission.canCreateManagedType(player, slot.getType())) {
 				
 				if(slot.isManaged()) {
 					slot.setManaged(false);

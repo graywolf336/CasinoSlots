@@ -1,5 +1,6 @@
 package com.craftyn.casinoslots.command;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
@@ -24,12 +25,6 @@ public class CasinoAddManaged extends AnCommand {
 	}
 	
 	public Boolean process() {
-		
-		// Permissions
-		if(!plugin.permission.canCreateManaged(player)) {
-			noPermission();
-			return true;
-		}
 		
 		//Check for simple player things before they try to add a slot
 		if(plugin.useTowny) {
@@ -64,9 +59,8 @@ public class CasinoAddManaged extends AnCommand {
 					if(plugin.permission.canCreateManagedType(player, typeName)) {
 						this.type = typeName;
 						this.owner = player.getName();
-					}
-					else {
-						plugin.sendMessage(player, "Invalid type " + typeName);
+					} else {
+						plugin.sendMessage(player, ChatColor.RED + "You do not have permission to create a managed slot.");
 						return true;
 					}
 				}

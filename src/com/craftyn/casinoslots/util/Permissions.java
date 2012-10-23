@@ -12,7 +12,6 @@ public class Permissions {
 	
 	private String admin = "casinoslots.admin";
 	private String create = "casinoslots.create";
-	private String manage = "casinoslots.manage";
 	private String use = "casinoslots.use";
 	
 	// Initialize permissions
@@ -117,9 +116,25 @@ public class Permissions {
 		return (isAdmin(player) || player.hasPermission(create + ".managed." + type)|| player.hasPermission(create + ".managed.*") || player.hasPermission(create + ".managed") || player.hasPermission(create + ".*") || player.hasPermission(create));
 	}
 	
-	// Returns true if the player can manage slot machines
-	public Boolean canManage(Player player) {		
-		return (isAdmin(player) || player.hasPermission(manage));
+	/**
+	 * Returns true if the player can build an item slot, false if not.
+	 * 
+	 * The player must either have:
+	 * <ul>
+	 * 	<li>{@link isAdmin}</li>
+	 *  <li>casinoslots.create.items.{@value type}</li>
+	 *  <li>casinoslots.create.items.*</li>
+	 *  <li>casinoslots.create.items</li>
+	 *  <li>casinoslots.create.*</li>
+	 *  <li>casinoslots.create</li>
+	 * </ul>
+	 * 
+	 * @param player	Is the player that tries to create the slot
+	 * @param type		Type is the name of the type of slot
+	 * @return			True if the player can create an item slot; false if the player can't
+	 */
+	public Boolean canCreateItemsType(Player player, String type) {		
+		return (isAdmin(player) || player.hasPermission(create + ".items." + type)|| player.hasPermission(create + ".items.*") || player.hasPermission(create + ".items") || player.hasPermission(create + ".*") || player.hasPermission(create));
 	}
 	
 	// Returns true if the player can use the type

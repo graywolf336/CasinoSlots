@@ -1,5 +1,6 @@
 package com.craftyn.casinoslots.command;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
@@ -16,13 +17,6 @@ public class CasinoAddItem extends AnCommand {
 	}
 	
 	public Boolean process() {
-		
-		// Permissions
-		if(!plugin.permission.canCreate(player) || !plugin.permission.canManage(player)) {
-			noPermission();
-			return true;
-		}
-		
 		//Check for simple player things before they try to add a slot
 		if(plugin.useTowny) {
 			if(plugin.configData.onlyTowns) {
@@ -52,11 +46,11 @@ public class CasinoAddItem extends AnCommand {
 					String typeName = args[2];
 					
 					// Has type permission
-					if(plugin.permission.canCreate(player, typeName)) {
+					if(plugin.permission.canCreateItemsType(player, typeName)) {
 						this.type = typeName;
 						this.owner = player.getName();
-					} else {
-						plugin.sendMessage(player, "Invalid type " + typeName);
+					} else {//doesn't have permission
+						plugin.sendMessage(player, ChatColor.RED + "You do not have permission to create an item slot.");
 						return true;
 					}
 				} // Invalid type

@@ -6,16 +6,16 @@ A majorly updated version of AnCasino started by Darazo
 * Using the logger provided with Bukkit
 * Added support for withdrawing money from a player's account, if the reward money is negative it withdraws the money from the player
 * Added a check to see if the config exists or not with the config-version property. If the config-version does not equal 1.0, the config will copy over it's default options.
-* Added config option to display the information when we kept a chunk loaded, this defaults to false.
+* Added config option to display the information when we kept a chunk loaded, this defaults to false. (see: http://dev.bukkit.org/server-mods/casino-slots/pages/info/config/)
 * Added an option to allow types to __also__ cost items
 * Added another /casino set option, this time to set the __additional__ item the type costs.
-* Added an options to check Towny
+* Added an option to check Towny
 ** If enabled, will check if the player is a mayor, has a town, and is the resident of a town
 ** Option to allow only mayors to create them
 ** Option to allow only players who are part of a town to create them
 ** Configurable messages for only mayors creating them, only players with towns, and the messages they see whenever they don't have ownership of the plot where the things would be.
 * Added an option to check World Guard if the player has permission to build where the slot will be
-* Added an alias to the adds, you can now do __/casion create__
+* Added an alias to the adds, you can now do __/casino create__
 * Added an alias to remove, can now do __/casino delete__
 * Added an option to smite the player more than once with that action reward (see: http://dev.bukkit.org/server-mods/casino-slots/pages/info/actions)
 * Added more variables for the broadcast message
@@ -35,8 +35,8 @@ A majorly updated version of AnCasino started by Darazo
 * Fixed players with create managed permissions see the commands they are allowed
 * Fixed players being able to toggle if a slot is enabled or not even if they didn't have permission
 * Fixed __/casino set__ being open to all players.
-* Fixed a NPE when an Explosion had null blocks
-* Fixed permissions not working correctly, now you can give players casinoslots.create.managed.<type> and they'll be able to create that type
+* Fixed a NPE when an Explosion had no blocks
+* Fixed permissions not working correctly, now you can give players casinoslots.create.managed.<type> and they'll be able to create that type (http://dev.bukkit.org/server-mods/casino-slots/pages/info/permissions/)
 
 ### Update: 2.5.2 ###
 * Fixed the stats.yml file being over wrote each restart/reload

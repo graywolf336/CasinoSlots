@@ -9,6 +9,7 @@ import org.bukkit.Instrument;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Note;
+import org.bukkit.Sound;
 import org.bukkit.Note.Tone;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -168,6 +169,10 @@ public class ResultsTask implements Runnable {
 				Location location = game.getSlot().getController().getLocation();
 				game.getPlayer().playNote(location, Instrument.PIANO, new Note((byte) 0, Tone.G, false));
 				game.getPlayer().playNote(location, Instrument.PIANO, new Note((byte) 0, Tone.E, false));
+				if(game.plugin.enableSounds) {
+					game.getPlayer().playSound(location, Sound.NOTE_PIANO, 100F, 1);//Tone G
+					game.getPlayer().playSound(location, Sound.NOTE_PIANO, 100F, 10);//Tone E
+				}
 			}	
 		}
 		

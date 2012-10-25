@@ -36,7 +36,7 @@ public class CasinoSlots extends JavaPlugin {
 	private WorldGuardPlugin worldGuard = null;
 	
 	public String pluginVer;
-	public boolean useTowny = false, useWorldGuard = false;
+	public boolean useTowny = false, useWorldGuard = false, enableSounds = true;
 	
 	private PlayerListener playerListener = new PlayerListener(this);
 	private BlockListener blockListener = new BlockListener(this);
@@ -88,6 +88,11 @@ public class CasinoSlots extends JavaPlugin {
 		
 		configData.load();
 		saveConfig();
+		
+		if(configData.getBukkitVersion() < 2377) {
+			enableSounds = false;
+			error("Disabling sound support because your config value for the version is lower than the Recommended Build which enabled sounds.");
+		}
 		
 		if(configData.inDebug()) debug("Use World Guard checks? " + useWorldGuard);
 		if(useWorldGuard) {

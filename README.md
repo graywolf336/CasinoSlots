@@ -37,6 +37,8 @@ A majorly updated version of AnCasino started by Darazo
 * Fixed __/casino set__ being open to all players.
 * Fixed a NPE when an Explosion had no blocks
 * Fixed permissions not working correctly, now you can give players casinoslots.create.managed.<type> and they'll be able to create that type (http://dev.bukkit.org/server-mods/casino-slots/pages/info/permissions/)
+* Fixed sounds not playing, now using the new API for sounds
+** Note to people using tekkit, you will need to change the __bukkit-version__ to something smaller than 2377 or else you will get errors.
 
 ### Update: 2.5.2 ###
 * Fixed the stats.yml file being over wrote each restart/reload

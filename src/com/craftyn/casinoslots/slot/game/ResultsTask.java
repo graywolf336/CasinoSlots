@@ -170,8 +170,8 @@ public class ResultsTask implements Runnable {
 				game.getPlayer().playNote(location, Instrument.PIANO, new Note((byte) 0, Tone.G, false));
 				game.getPlayer().playNote(location, Instrument.PIANO, new Note((byte) 0, Tone.E, false));
 				if(game.plugin.enableSounds) {
-					game.getPlayer().playSound(location, Sound.NOTE_PIANO, 100F, 1);//Tone G
-					game.getPlayer().playSound(location, Sound.NOTE_PIANO, 100F, 10);//Tone E
+					game.getPlayer().playSound(location, Sound.NOTE_PIANO, 100F, 0.80F);
+					game.getPlayer().playSound(location, Sound.NOTE_PIANO, 100F, 0.85F);
 				}
 			}	
 		}

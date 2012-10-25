@@ -4,7 +4,7 @@
 options:
   debug: false
   config-version: 1.0
-  bukkit-version: '2377' #Changing this to something lower will disable sounds
+  bukkit-version: 2377 #Changing this to something lower will disable sounds
   track-statistics: true
   allow-diagonal-winnings: false
   enable-slot-protection: true

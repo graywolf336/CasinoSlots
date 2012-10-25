@@ -133,7 +133,7 @@ public class ConfigData {
 	
 	/** Returns the int in the config about the version of bukkit they want to use. */
 	public int getBukkitVersion() {
-		return config.getInt("options.bukkit-version");
+		return config.getInt("options.bukkit-version", 2377);
 	}
 	
 	// Save slots data

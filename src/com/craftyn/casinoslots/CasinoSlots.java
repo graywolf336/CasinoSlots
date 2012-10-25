@@ -92,8 +92,6 @@ public class CasinoSlots extends JavaPlugin {
 		if(configData.getBukkitVersion() < 2377) {
 			enableSounds = false;
 			error("Disabling sound support because your config value for the version is lower than the Recommended Build which enabled sounds.");
-		}else {
-			log("Hi from version: " + configData.getBukkitVersion());
 		}
 		
 		if(configData.inDebug()) debug("Use World Guard checks? " + useWorldGuard);

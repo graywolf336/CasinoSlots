@@ -98,6 +98,7 @@ types:
         money: 0.0
       '45':
         action:
+        - gocrazy
         - command give [player] 336 1
         message: Winner - A command has been executed!
         money: 0.0

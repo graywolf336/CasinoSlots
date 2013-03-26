@@ -55,17 +55,13 @@ public class RewardData {
 				int amount = Integer.parseInt(a[2]);
 				
 				int item = Integer.parseInt(itemData[0]);
-				byte data = 0;
 				short damage = 0;
 				ItemStack is = null;
 				
-				if(itemData.length == 1) {
-					is = new ItemStack(item, amount, damage, data);
-				}else if(itemData.length == 2) {
-					data = (byte) Integer.parseInt(itemData[1]);
-					is = new ItemStack(item, amount, damage, data);
+				if(itemData.length == 1 || itemData.length == 2) {
+					is = new ItemStack(item, amount, damage);
 				}else if (itemData.length == 3) {
-					is = new ItemStack(item, amount, damage, data);
+					is = new ItemStack(item, amount, damage);
 					
 					int enID = Integer.parseInt(itemData[1]);
 					Enchantment enchantment = Enchantment.getById(enID);

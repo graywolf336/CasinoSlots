@@ -19,7 +19,6 @@ public class RotateTask implements Runnable {
 	}
 	
 	// The task itself
-	@Override
 	public void run() {
 		rotateColumn(i);	
 	}

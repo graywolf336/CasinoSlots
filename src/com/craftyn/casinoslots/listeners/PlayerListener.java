@@ -53,7 +53,11 @@ public class PlayerListener implements Listener {
 					}
 					
 					if(plugin.useWorldGuard) {
-						if(!plugin.getWorldGuard().canBuild(player, b)) {
+						if(!plugin
+								.getWorldGuard()
+								.canBuild(
+										player,
+										b)) {
 							SlotMachine slot = plugin.slotData.creatingSlots.get(player);
 							plugin.slotData.toggleCreatingSlots(player, slot);
 							player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");

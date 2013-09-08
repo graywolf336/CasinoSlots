@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -70,9 +71,9 @@ public class SlotData {
 		
 		this.slots.remove(slot.getName());
 		for(Block b : slot.getBlocks()) {
-			b.setTypeId(0);
+			b.setType(Material.AIR);
 		}
-		slot.getController().setTypeId(0);
+		slot.getController().setType(Material.AIR);
 		plugin.configData.slots.set("slots." + slot.getName(), null);
 		plugin.configData.saveSlots();
 	}

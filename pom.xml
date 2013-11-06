@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.craftyn</groupId>
-	<artifactId>casinoslots</artifactId>
+	<artifactId>CasinoSlots</artifactId>
 	<version>2.5.6</version>
-	<name>CasinoSlots</name>
+	<name>Casino Slots</name>
 	<description>Real CasinoSlots in Minecraft.</description>
 	<url>http://dev.bukkit.org/server-mods/casino-slots/</url>
 

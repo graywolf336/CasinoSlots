@@ -3,6 +3,7 @@ package com.craftyn.casinoslots.slot;
 import java.util.List;
 import java.util.Random;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -218,35 +219,15 @@ public class RewardData {
 					continue;
 				}
 				
-				//Initialize the command
-				String command = null;
+				//Generate the command
+				String command = action.substring(8);
+				command = command.replaceAll("[player]", p.getName());
 				
 				//Set the sender of the command as the console
 				CommandSender sender = plugin.server.getConsoleSender();
 				
-				for(String bit : a) {
-					//Strip the "command"
-					if (bit.equalsIgnoreCase("command")) {
-						continue;
-					}
-					
-					//Replace the "null" with the word after command
-					if (bit.equalsIgnoreCase(a[1])) {
-						command = bit;
-						continue;
-					}
-					
-					//Strip [player] and make it equal the player who played the slot
-					if (bit.equalsIgnoreCase("[player]")) {
-						bit = p.getName();
-					}
-					
-					// Add the current bit to the command
-					command = command + " " + bit;
-				}
-				
 				//Check to make sure the command isn't actually null
-				if (command != null) {
+				if (!command.isEmpty()) {
 					plugin.server.dispatchCommand(sender, command);
 					continue;
 				}else {
@@ -264,48 +245,16 @@ public class RewardData {
 					continue;
 				}
 				
-				//Initiate the message to broadcast
-				String message = null;
-				
-				//Start the loop for the message
-				for(String bit : a) {
-					//Strip the "broadcast"
-					if (bit.equalsIgnoreCase("broadcast")) continue;
-					
-					//Replace the "null" with the word right after 'broadcast'
-					if (bit.equalsIgnoreCase(a[1])) {
-						message = bit;
-						continue;
-					}
-					
-					//Strip [player] and make bit equal to the player who played the slot
-					if (bit.equalsIgnoreCase("[player]")) {
-						bit = p.getName();
-					}
-					
-					//Strip [cost] and make bit equal to the cost of playing the slot
-					if (bit.equalsIgnoreCase("[cost]")) {
-						bit = String.valueOf(type.getCost());
-					}
-					
-					//Strip [type] and make the bit equal to the name of the type won
-					if (bit.equalsIgnoreCase("[type]")) {
-						bit = type.getName();
-					}
-					
-					if(bit.equalsIgnoreCase("[moneywon]")) {
-						bit = String.valueOf(reward.money);
-					}
-					
-					//Add onto the message that is going to be broadcasted
-					message = message + " " + bit;
-				}
-				
-				//Convert all color codes so that Minecraft shows them as color
-				message = message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
+				//Set the message to broadcast to everything after "broadcast ", which is 10.
+				String msg = action.substring(10);
+				msg = msg.replaceAll("[cost]", type.getCost().toString());
+				msg = msg.replaceAll("[moneywon]", reward.money.toString());
+				msg = msg.replaceAll("[player]", p.getDisplayName());
+				msg = msg.replaceAll("[type]", type.getName());
+				msg = ChatColor.translateAlternateColorCodes('&', msg);
 				
 				//Broadcast the message
-				plugin.server.broadcastMessage(message);
+				plugin.server.broadcastMessage(msg);
 			}
 		}
 	}

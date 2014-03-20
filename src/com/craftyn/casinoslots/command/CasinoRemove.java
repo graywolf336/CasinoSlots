@@ -1,6 +1,6 @@
 package com.craftyn.casinoslots.command;
 
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
@@ -8,16 +8,18 @@ import com.craftyn.casinoslots.slot.SlotMachine;
 public class CasinoRemove extends AnCommand {
 	
 	// Command for removing slot machine
-	public CasinoRemove(CasinoSlots plugin, String[] args, Player player) {
-		super(plugin, args, player);
+	public CasinoRemove(CasinoSlots plugin, String[] args, CommandSender sender) {
+		super(plugin, args, sender);
 	}
 	
 	public Boolean process() {
 		
 		// Permissions
-		if(!plugin.permission.canCreate(player)) {
-			noPermission();
-			return true;
+		if(player != null) {
+			if(!plugin.permission.canCreate(player)) {
+				noPermission();
+				return true;
+			}
 		}
 		
 		// Correct command format
@@ -30,7 +32,7 @@ public class CasinoRemove extends AnCommand {
 				// Can access slot
 				if(isOwner(slot)) {
 					plugin.slotData.removeSlot(slot);
-					sendMessage("Slot machine removed.");
+					senderSendMessage("Slot machine removed.");
 				}
 				// No access
 				else {
@@ -40,14 +42,14 @@ public class CasinoRemove extends AnCommand {
 			
 			// Slot does not exist
 			else {
-				sendMessage("Invalid slot machine.");
+				senderSendMessage("Invalid slot machine.");
 			}
 		}
 		
 		// Incorrect command format
 		else {
-			sendMessage("Usage:");
-			sendMessage("/casino remove <name>");
+			senderSendMessage("Usage:");
+			senderSendMessage("/casino remove <name>");
 		}
 		return true;
 	}

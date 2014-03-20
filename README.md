@@ -2,6 +2,10 @@
 
 A majorly updated version of AnCasino started by Darazo
 
+### Update: 2.5.7 ###
+* Fixed [player] sometimes not being replaced in broadcast and command actions
+* Fixed the console not being able to do __/casino remove__
+
 ### Update: 2.5.6 ###
 * Load the plugin after the worlds
 

@@ -24,7 +24,7 @@ public class StopRotateTask implements Runnable {
 		game.scheduler.cancelTask(task);
 		game.getPlayer().playNote(location, Instrument.PIANO, new Note((byte) 0, Tone.C, false));
 		if(game.plugin.enableSounds)
-			game.getPlayer().playSound(location, Sound.NOTE_PIANO, 100F, 0.75F);
+			game.getPlayer().getWorld().playSound(game.getPlayer().getLocation(), Sound.NOTE_PIANO, 100F, 0.75F);
 	}
 
 }

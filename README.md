@@ -4,7 +4,9 @@ A majorly updated version of AnCasino started by Darazo
 
 ### Update: 2.5.7 ###
 * Fixed [player] sometimes not being replaced in broadcast and command actions
+* Fixed variables not being replaced if there was a color code in front of them
 * Fixed the console not being able to do __/casino remove__
+* Play a sound at location and not just for the playing player
 
 ### Update: 2.5.6 ###
 * Load the plugin after the worlds

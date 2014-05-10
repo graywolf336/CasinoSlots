@@ -96,8 +96,7 @@ public class AnSlot extends AnCommand {
 		
 		// Set slot controller
 		else if(args[2].equalsIgnoreCase("setcontroller") && args.length == 3) {
-			
-			plugin.slotData.togglePlacingController(player, slot);
+			plugin.slotData.togglePlacingController(player.getName(), slot);
 			sendMessage("Punch a new block to serve as this slot machine's controller.");
 		}
 		

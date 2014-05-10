@@ -17,18 +17,19 @@ import org.bukkit.entity.Player;
 import com.craftyn.casinoslots.CasinoSlots;
 
 public class SlotData {
-	
 	private CasinoSlots plugin;
 	private HashMap<String, SlotMachine> slots = new HashMap<String, SlotMachine>();
 	
-	public HashMap<Player, SlotMachine> creatingSlots = new HashMap<Player, SlotMachine>();
-	public HashMap<Player, SlotMachine> placingController = new HashMap<Player, SlotMachine>();
-	public HashMap<Player, SlotMachine> punchingSign = new HashMap<Player, SlotMachine>();
+	private HashMap<String, SlotMachine> creatingSlots;
+	private HashMap<String, SlotMachine> placingController;
+	private HashMap<String, SlotMachine> punchingSign;
 	
-	
-	// Initialize SlotData
 	public SlotData(CasinoSlots plugin) {
 		this.plugin = plugin;
+		
+		this.creatingSlots = new HashMap<String, SlotMachine>();
+		this.placingController = new HashMap<String, SlotMachine>();
+		this.punchingSign = new HashMap<String, SlotMachine>();
 	}
 	
 	// Returns a slot machine
@@ -50,29 +51,37 @@ public class SlotData {
 		return this.slots.size();
 	}
 	
-	// Registers a new slot machine
+	/**
+	 * Adds a slot machine to our storage.
+	 * 
+	 * @param slot machine to add.
+	 */
 	public void addSlot(SlotMachine slot) {
-		
-		String name = slot.getName();
-		this.slots.put(name, slot);
-		
+		plugin.debug("Adding a slot machine: " + slot.getName());
+		this.slots.put(slot.getName(), slot);
 	}
 	
-	// Returns true if slot machine exists
-	public Boolean isSlot(String name) {
-		if(this.slots.containsKey(name)) {
-			return true;
-		}
-		return false;
+	/**
+	 * Checks if the given string is a valid slot machine.
+	 * 
+	 * @param name of the slot machine.
+	 * @return true if it is valid, false if otherwise
+	 */
+	public boolean isSlot(String name) {
+		return this.slots.containsKey(name);
 	}
 	
-	// Removes a slot machine
+	/**
+	 * Removes the slot machine from our records and deletes the blocks associated with it.
+	 * 
+	 * @param slot machine to remove
+	 */
 	public void removeSlot(SlotMachine slot) {
+		plugin.debug("Removing the slot machine: " + slot.getName());
+		for(Block b : slot.getBlocks())
+			b.setType(Material.AIR);
 		
 		this.slots.remove(slot.getName());
-		for(Block b : slot.getBlocks()) {
-			b.setType(Material.AIR);
-		}
 		slot.getController().setType(Material.AIR);
 		plugin.configData.slots.set("slots." + slot.getName(), null);
 		plugin.configData.saveSlots();
@@ -89,8 +98,7 @@ public class SlotData {
 	
 	// Loads all slot machines into memory
 	public void loadSlots() {
-		
-		Integer i = 0;
+		int i = 0;
 		this.slots = new HashMap<String, SlotMachine>();
 		if(plugin.configData.slots.isConfigurationSection("slots")) {
 			Set<String> slots = plugin.configData.slots.getConfigurationSection("slots").getKeys(false);
@@ -184,10 +192,8 @@ public class SlotData {
 		for(String coord : xyz) {
 			String[] b = coord.split("\\,");
 			Location loc = new Location(world, Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]));
-		
-				blocks.add(loc.getBlock());
-				
-				loc.getChunk().load();
+			blocks.add(loc.getBlock());
+			loc.getChunk().load();
 		}
 		
 		return blocks;
@@ -201,10 +207,7 @@ public class SlotData {
 		String[] b = location.split("\\,");
 		Location loc = new Location(world, Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]));
 		
-		Block controller = loc.getBlock();
-
-		return controller;
-		
+		return loc.getBlock();
 	}
 	
 	private Block getSign(String name) {
@@ -218,22 +221,16 @@ public class SlotData {
 		String[] b = location.split("\\,");
 		Location loc = new Location(world, Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]));
 		
-		Block sign = loc.getBlock();
-
-		return sign;
+		return loc.getBlock();
 	}
 	
 	private String getRchunk(ArrayList<Block> blocks) {
 		Block b = blocks.get(1);
-		String c = b.getChunk().getX() + "," + b.getChunk().getZ();
-		
-		return c;
+		return b.getChunk().getX() + "," + b.getChunk().getZ();
 	}
 	
-	private String getCchunk (Block c) {
-		String chunk = c.getChunk().getX() + "," + c.getChunk().getZ();
-		
-		return chunk;
+	private String getCchunk(Block c) {
+		return c.getChunk().getX() + "," + c.getChunk().getZ();
 	}
 	
 	// Creates the slot machine in the world
@@ -254,24 +251,21 @@ public class SlotData {
 		for(Block b : blocks) {
 			if(plugin.configData.inDebug()) {
 				if(blocks.get(0) == b || blocks.get(1) == b || blocks.get(2) == b) {
-					b.setTypeId(57);
+					b.setType(Material.DIAMOND_BLOCK);
 				}else if(blocks.get(3) == b || blocks.get(4) == b || blocks.get(5) == b) {
-					b.setTypeId(42);
+					b.setType(Material.IRON_BLOCK);
 				}else if(blocks.get(6) == b || blocks.get(7) == b || blocks.get(8) == b) {
-					b.setTypeId(41);
+					b.setType(Material.GOLD_BLOCK);
 				}
-					
 			}else
-				b.setTypeId(57);
+				b.setType(Material.DIAMOND_BLOCK);
 		}
 		
 		slot.setBlocks(blocks);
-		
 	}
 	
 	// Used for orienting the slot machine correctly
 	public BlockFace getDirection(BlockFace face, String direction) {
-		
 		if(face == BlockFace.NORTH) {
 			if(direction.equalsIgnoreCase("left")) {
 				return BlockFace.EAST;
@@ -279,24 +273,21 @@ public class SlotData {
 			else if(direction.equalsIgnoreCase("right")) {
 				return BlockFace.WEST;
 			}
-		}
-		else if(face == BlockFace.SOUTH) {
+		}else if(face == BlockFace.SOUTH) {
 			if(direction.equalsIgnoreCase("left")) {
 				return BlockFace.WEST;
 			}
 			else if(direction.equalsIgnoreCase("right")) {
 				return BlockFace.EAST;
 			}
-		}
-		else if(face == BlockFace.WEST) {
+		}else if(face == BlockFace.WEST) {
 			if(direction.equalsIgnoreCase("left")) {
 				return BlockFace.SOUTH;
 			}
 			else if(direction.equalsIgnoreCase("right")) {
 				return BlockFace.NORTH;
 			}
-		}
-		else if(face == BlockFace.EAST) {
+		}else if(face == BlockFace.EAST) {
 			if(direction.equalsIgnoreCase("left")) {
 				return BlockFace.NORTH;
 			}
@@ -304,70 +295,64 @@ public class SlotData {
 				return BlockFace.SOUTH;
 			}
 		}
-		return BlockFace.SELF;
 		
+		return BlockFace.SELF;
 	}
 	
 	// If a player is creating slot machine
-	public Boolean isCreatingSlots(Player player) {
-		
-		if(creatingSlots.containsKey(player)) {
-			return true;
-		}
-		
-		return false;
+	public boolean isCreatingSlots(String player) {
+		return creatingSlots.containsKey(player);
 	}
 	
 	// If a player is placing controller
-	public Boolean isPlacingController(Player player) {
-		
-		if(placingController.containsKey(player)) {
-			return true;
-		}
-		
-		return false;
+	public boolean isPlacingController(String player) {
+		return placingController.containsKey(player);
 	}
 	
 	// If a player is placing controller
-	public Boolean isPunchingSign(Player player) {
-		
-		if(punchingSign.containsKey(player)) {
-			return true;
-		}
-		
-		return false;
+	public boolean isPunchingSign(String player) {
+		return punchingSign.containsKey(player);
 	}
 	
 	// Toggles creating slots
-	public void toggleCreatingSlots(Player player, SlotMachine slot) {
-		
+	public void toggleCreatingSlots(String player, SlotMachine slot) {
 		if(this.creatingSlots.containsKey(player)) {
 			this.creatingSlots.remove(player);
-		}
-		else {
+		} else {
 			this.creatingSlots.put(player, slot);
 		}
 	}
 	
+	/** Gets the slot machine the player is creating, if nothing then will be null. */
+	public SlotMachine getCreatingSlot(String player) {
+		return this.creatingSlots.get(player);
+	}
+	
 	// Toggles placing controller
-	public void togglePlacingController(Player player, SlotMachine slot) {
-		
+	public void togglePlacingController(String player, SlotMachine slot) {
 		if(this.placingController.containsKey(player)) {
 			this.placingController.remove(player);
-		}
-		else {
+		} else {
 			this.placingController.put(player, slot);
 		}
 	}
 	
+	/** Gets the slot machine the player is punching a controller block for. */
+	public SlotMachine getPlacingSlot(String player) {
+		return this.placingController.get(player);
+	}
+	
 	// Toggles creating a sign for the slot
-	public void togglePunchingSign(Player player, SlotMachine slot) {
-		
+	public void togglePunchingSign(String player, SlotMachine slot) {
 		if(this.punchingSign.containsKey(player)) {
 			this.punchingSign.remove(player);
 		}else {
 			this.punchingSign.put(player, slot);
 		}
 	}
-
+	
+	/** Gets the slot machine the player is punching signs for. */
+	public SlotMachine getSignPunchingSlot(String player) {
+		return this.punchingSign.get(player);
+	}
 }

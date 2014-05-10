@@ -56,7 +56,7 @@ public class CasinoSet extends AnCommand {
 					// Slot exists
 					if(plugin.slotData.isSlot(args[2])) {
 						SlotMachine slot = plugin.slotData.getSlot(args[2]);
-						plugin.slotData.togglePunchingSign(player, slot);
+						plugin.slotData.togglePunchingSign(player.getName(), slot);
 						sendMessage("Please punch the sign that you want us to know about.");
 					}else {
 						// Slot does not exist

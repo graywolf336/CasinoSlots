@@ -38,37 +38,33 @@ public class PlayerListener implements Listener {
 			
 			Player player = event.getPlayer();
 			
-			if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isCreatingSlots(player)) {
+			if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isCreatingSlots(player.getName())) {
 				// Creating slots
 				BlockFace face = event.getBlockFace();
 				
 				if(face != BlockFace.DOWN && face != BlockFace.UP) {
 					if(plugin.useTowny) {					
 						if(!plugin.townyChecks.checkSlotsTowny(b, face, player.getName())) {
-							SlotMachine slot = plugin.slotData.creatingSlots.get(player);
-							plugin.slotData.toggleCreatingSlots(player, slot);
+							SlotMachine slot = plugin.slotData.getCreatingSlot(player.getName());
+							plugin.slotData.toggleCreatingSlots(player.getName(), slot);
 							plugin.sendMessage(player, plugin.configData.noOwnership);
 							return;
 						}
 					}
 					
 					if(plugin.useWorldGuard) {
-						if(!plugin
-								.getWorldGuard()
-								.canBuild(
-										player,
-										b)) {
-							SlotMachine slot = plugin.slotData.creatingSlots.get(player);
-							plugin.slotData.toggleCreatingSlots(player, slot);
+						if(!plugin.getWorldGuard().canBuild(player, b)) {
+							SlotMachine slot = plugin.slotData.getCreatingSlot(player.getName());
+							plugin.slotData.toggleCreatingSlots(player.getName(), slot);
 							player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
 							return;
 						}
 					}
 					
-					SlotMachine slot = plugin.slotData.creatingSlots.get(player);
+					SlotMachine slot = plugin.slotData.getCreatingSlot(player.getName());
 					plugin.slotData.createReel(player, face, slot);					
-					plugin.slotData.toggleCreatingSlots(player, slot);
-					plugin.slotData.togglePlacingController(player, slot);
+					plugin.slotData.toggleCreatingSlots(player.getName(), slot);
+					plugin.slotData.togglePlacingController(player.getName(), slot);
 					plugin.sendMessage(player, "Punch a block to serve as the controller for this slot machine.");
 					event.setCancelled(true);
 					return;
@@ -76,13 +72,13 @@ public class PlayerListener implements Listener {
 					plugin.sendMessage(player, "Only sides of blocks are valid targets for this operation.");
 					return;
 				}
-			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPlacingController(player)) {
+			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPlacingController(player.getName())) {
 				// Placing controller
 				
 				if(plugin.useTowny) {					
 					if(!plugin.townyChecks.checkSingleTowny(b, player.getName())) {
-						SlotMachine slot = plugin.slotData.placingController.get(player);
-						plugin.slotData.togglePlacingController(player, slot);
+						SlotMachine slot = plugin.slotData.getPlacingSlot(player.getName());
+						plugin.slotData.togglePlacingController(player.getName(), slot);
 						plugin.sendMessage(player, plugin.configData.noOwnership);
 						return;
 					}
@@ -90,28 +86,28 @@ public class PlayerListener implements Listener {
 				
 				if(plugin.useWorldGuard) {
 					if(!plugin.getWorldGuard().canBuild(player, b)) {
-						SlotMachine slot = plugin.slotData.placingController.get(player);
-						plugin.slotData.togglePlacingController(player, slot);
+						SlotMachine slot = plugin.slotData.getPlacingSlot(player.getName());
+						plugin.slotData.togglePlacingController(player.getName(), slot);
 						player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
 						return;
 					}
 				}
 				
-				SlotMachine slot = plugin.slotData.placingController.get(player);
+				SlotMachine slot = plugin.slotData.getPlacingSlot(player.getName());
 				slot.setController(b);
-				plugin.slotData.togglePlacingController(player, slot);
+				plugin.slotData.togglePlacingController(player.getName(), slot);
 				plugin.slotData.addSlot(slot);
 				plugin.slotData.saveSlot(slot);
 				plugin.sendMessage(player, "Slot machine set up successfully!");
 				event.setCancelled(true);
 				return;
-			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPunchingSign(player)) {
+			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPunchingSign(player.getName())) {
 				//setting the sign
 				
 				if(plugin.useTowny) {
 					if(!plugin.townyChecks.checkSingleTowny(b, player.getName())) {
-						SlotMachine slot = plugin.slotData.punchingSign.get(player);
-						plugin.slotData.togglePunchingSign(player, slot);
+						SlotMachine slot = plugin.slotData.getSignPunchingSlot(player.getName());
+						plugin.slotData.togglePunchingSign(player.getName(), slot);
 						plugin.sendMessage(player, plugin.configData.noOwnership);
 						return;
 					}
@@ -119,15 +115,15 @@ public class PlayerListener implements Listener {
 				
 				if(plugin.useWorldGuard) {
 					if(!plugin.getWorldGuard().canBuild(player, b)) {
-						SlotMachine slot = plugin.slotData.placingController.get(player);
-						plugin.slotData.togglePunchingSign(player, slot);
+						SlotMachine slot = plugin.slotData.getSignPunchingSlot(player.getName());
+						plugin.slotData.togglePunchingSign(player.getName(), slot);
 						player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
 						return;
 					}
 				}
 				
 				if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
-					SlotMachine slot = plugin.slotData.punchingSign.get(player);
+					SlotMachine slot = plugin.slotData.getSignPunchingSlot(player.getName());
 					
 					Sign sign = (Sign) b.getState();
 					sign.setLine(0, "The Last");
@@ -140,7 +136,7 @@ public class PlayerListener implements Listener {
 					
 					plugin.sendMessage(player, "Successfully stored the location of the sign!");
 					
-					plugin.slotData.togglePunchingSign(player, slot);
+					plugin.slotData.togglePunchingSign(player.getName(), slot);
 					event.setCancelled(true);
 				}else {
 					plugin.sendMessage(player, "Please make sure you are punching a sign on the wall or sign standing up. Try again.");

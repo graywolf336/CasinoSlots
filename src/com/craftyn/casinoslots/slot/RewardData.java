@@ -80,7 +80,7 @@ public class RewardData {
 					try {
 						is.addUnsafeEnchantment(enchantment, enLevel);
 					} catch (Exception e) {
-						plugin.severe("Enchanting one of your rewards wasn't successful.");
+						plugin.severe("Enchanting one of your rewards for " + type.getName() + " wasn't successful.");
 					}
 				}
 				
@@ -215,24 +215,25 @@ public class RewardData {
 			else if (a[0].equalsIgnoreCase("command")) {
 				//Check to make sure that the action "command" is greater than 1
 				if (a.length < 2) {
-					plugin.error("The command action needs something other than 'command' for it to run.");
+					plugin.error("The command action for " + type.getName() + " needs something other than 'command' for it to run.");
 					continue;
 				}
 				
 				//Generate the command
 				String command = action.substring(8);
-				command = command.replaceAll("[player]", p.getName());
-				
-				//Set the sender of the command as the console
-				CommandSender sender = plugin.server.getConsoleSender();
+				command = command.replaceAll("[cost]", type.getCost().toString());
+				command = command.replaceAll("[moneywon]", reward.money.toString());
+				command = command.replaceAll("[player]", p.getDisplayName());
+				command = command.replaceAll("[type]", type.getName());
 				
 				//Check to make sure the command isn't actually null
 				if (!command.isEmpty()) {
-					plugin.server.dispatchCommand(sender, command);
+					//Set the sender of the command as the console
+					plugin.server.dispatchCommand(plugin.server.getConsoleSender(), command);
 					continue;
 				}else {
 					// if it is, then return an error in the console and don't do anything.
-					plugin.error("Couldn't find a command to do, please check your config.yml file.");
+					plugin.error("Couldn't find a command to do for " + type.getName() + ", please check your config.yml file.");
 					continue;
 				}
 			}

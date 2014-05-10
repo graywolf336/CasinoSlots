@@ -11,13 +11,13 @@ import java.util.Set;
 import com.craftyn.casinoslots.CasinoSlots;
 
 public class TypeData {
-	
 	protected CasinoSlots plugin;
 	private HashMap<String, Type> types;
 	
 	// Initialize TypeData
 	public TypeData(CasinoSlots plugin) {
 		this.plugin = plugin;
+		this.types = new HashMap<String, Type>();
 	}
 	
 	// Returns a type
@@ -55,11 +55,8 @@ public class TypeData {
 	}
 	
 	// Check if a type exists
-	public Boolean isType(String type) {
-		if(types.containsKey(type)) {
-			return true;
-		}
-		return false;
+	public boolean isType(String type) {
+		return types.containsKey(type);
 	}
 	
 	// Load all types into memory
@@ -84,6 +81,7 @@ public class TypeData {
 				}
 			}
 		}
+		
 		plugin.log("Loaded " + i + " types.");
 	}
 	
@@ -149,10 +147,10 @@ public class TypeData {
 		
 		if(plugin.configData.config.isSet(path + "action")) {
 			if(plugin.configData.config.isList(path + "action")) {
-				if(plugin.configData.inDebug()) plugin.debug("The reward does have the 'action' as a list, so store and get it.");
+				plugin.debug("The reward does have the 'action' as a list, so store and get it.");
 				action = plugin.configData.config.getStringList(path + "action");
 			}else {
-				if(plugin.configData.inDebug()) plugin.debug("The reward does have the 'action' but it is only a string, so we get it as a string and store it as a list");
+				plugin.debug("The reward does have the 'action' but it is only a string, so we get it as a string and store it as a list");
 				String a = plugin.configData.config.getString(path + "action");
 				action = Arrays.asList(a);
 			}

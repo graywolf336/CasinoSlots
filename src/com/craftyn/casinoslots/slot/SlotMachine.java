@@ -99,14 +99,14 @@ public class SlotMachine {
 	
 	// Returns if slot machine is managed
 	public Boolean isManaged() {
-		if(plugin.configData.inDebug()) plugin.debug("Tested to see if it was a managed slot, and I returned: " + this.managed);
+		plugin.debug("Tested to see if it was a managed slot, and I returned: " + this.managed);
 		
 		return this.managed;
 	}
 	
 	// Returns if slot machine is item machine, aka paid with items
 	public Boolean isItem() {
-		if(plugin.configData.inDebug()) plugin.debug("Tested to see if it was a item slot, and I returned: " + this.item);
+		plugin.debug("Tested to see if it was a item slot, and I returned: " + this.item);
 		
 		return this.item;
 	}
@@ -208,44 +208,42 @@ public class SlotMachine {
 	
 	// Sets type
 	public void setType(String type) {
-		if(plugin.configData.inDebug()) plugin.debug("We set the type of slot, did it save?");
+		plugin.debug("We set the type of slot, did it save?");
 		this.type = type;
 	}
 	
 	// Sets managed
 	public void setManaged(Boolean managed) {
-		if(plugin.configData.inDebug()) plugin.debug("We set that it is managed, did it save?");
+		plugin.debug("We set that it is managed, did it save?");
 		this.managed = managed;
 	}
 	
 	// Sets owner
 	public void setOwner(String owner) {
-		if(plugin.configData.inDebug()) plugin.debug("We set the owner, did it save?");
+		plugin.debug("We set the owner, did it save?");
 		this.owner = owner;
 	}
 	
 	// Deposit the amount into the slot machine
 	public void deposit(Double amount) {
-		if(plugin.configData.inDebug()) plugin.debug("We deposited some money to the slot, did it save?");
+		plugin.debug("We deposited some money to the slot, did it save?");
 		this.funds += amount;
 	}
 	
 	// Withdraw the amount from the slot machine
 	public void withdraw(Double amount) {
-		if(plugin.configData.inDebug()) plugin.debug("We withdrew some money from the slot, did it save?");
+		plugin.debug("We withdrew some money from the slot, did it save?");
 		this.funds -= amount;
 	}
 	
 	/** Sets the enabled state. */
-	public void setEnabled(Boolean enabled) {
+	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
 	
 	/** Sets the use of the slot machine. */
-	public void toggleBusy() {
-		if(busy)
-			this.busy = false;
-		else
-			this.busy = true;
+	public boolean toggleBusy() {
+		this.busy = !this.busy;
+		return this.busy;
 	}
 }

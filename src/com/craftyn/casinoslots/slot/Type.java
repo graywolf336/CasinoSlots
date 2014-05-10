@@ -7,7 +7,6 @@ import java.util.Map;
 import com.craftyn.casinoslots.CasinoSlots;
 
 public class Type {
-	
 	protected CasinoSlots plugin;
 	
 	private String name, itemCost = String.valueOf(0);
@@ -19,7 +18,6 @@ public class Type {
 	
 	// Initialize new type
 	public Type(String name, Double cost, String itemCost, Double createCost, ArrayList<String> reel, Map<String, String> messages, List<String> helpMessages, Map<String, Reward> rewards) {
-		
 		this.name = name;
 		this.cost = cost;
 		this.itemCost = itemCost;

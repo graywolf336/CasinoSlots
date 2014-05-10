@@ -57,7 +57,7 @@ public class ResultsTask implements Runnable {
 			for(Reward reward : results) {
 				game.plugin.rewardData.send(player, reward, type);
 				won += reward.getMoney();
-				if(game.plugin.configData.inDebug()) game.plugin.debug("The player has won an amount of: " + won);
+				game.plugin.debug("The player has won an amount of: " + won);
 			}
 			
 			// Managed
@@ -74,7 +74,7 @@ public class ResultsTask implements Runnable {
 		
 		// No win
 		else {
-			if(game.plugin.configData.inDebug()) game.plugin.debug("The player has won an amount of: " + won);
+			game.plugin.debug("The player has won an amount of: " + won);
 			game.plugin.sendMessage(player, type.getMessages().get("noWin"));
 		}
 		
@@ -93,8 +93,8 @@ public class ResultsTask implements Runnable {
 					game.plugin.statsData.addLostStat(stat);
 				}
 			} else {
-				if(game.plugin.configData.inDebug()) game.plugin.debug("The player has won an amount of: " + won);
-				if(game.plugin.configData.inDebug()) game.plugin.debug("The player has lost an amount of: " + cost);
+				game.plugin.debug("The player has won an amount of: " + won);
+				game.plugin.debug("The player has lost an amount of: " + cost);
 				if(!results.isEmpty()) {
 					stat = new Stat(name, 1, 1, 0, won, cost);
 					game.plugin.statsData.addWonStat(stat);

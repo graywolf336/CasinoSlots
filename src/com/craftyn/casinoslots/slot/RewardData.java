@@ -1,15 +1,18 @@
 package com.craftyn.casinoslots.slot;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -51,39 +54,77 @@ public class RewardData {
 			String[] a = action.split(" ");
 			
 			// Give action
-			if(a[0].equalsIgnoreCase("give")) {				
-				String[] itemData = a[1].split("\\,");
-				int amount = Integer.parseInt(a[2]);
-				
-				int item = Integer.parseInt(itemData[0]);
-				short damage = 0;
+			if(a[0].equalsIgnoreCase("give")) {
 				ItemStack is = null;
-				
-				if(itemData.length == 1 || itemData.length == 2) {
-					is = new ItemStack(item, amount, damage);
-				}else if (itemData.length == 3) {
-					is = new ItemStack(item, amount, damage);
-					
-					int enID = Integer.parseInt(itemData[1]);
-					Enchantment enchantment = Enchantment.getById(enID);
-					
-					//check if the enchantment is valid
-					if (enchantment == null) {
-						plugin.severe("There is an invalid enchantment ID for the type " + type.getName());
-						continue;
-					}
-					
-					int enLevel = Integer.parseInt(itemData[2]);
-					if (enLevel > 127) enLevel = 127;
-					if (enLevel < 1) enLevel = enchantment.getMaxLevel();
-					
-					try {
-						is.addUnsafeEnchantment(enchantment, enLevel);
-					} catch (Exception e) {
-						plugin.severe("Enchanting one of your rewards for " + type.getName() + " wasn't successful.");
+
+				if(a.length >= 3) {
+					int amount = Integer.parseInt(a[2]);
+
+					if(a[1].contains(":")) {
+						String[] parts = a[1].split(":");
+						int item = Integer.parseInt(parts[0]);
+						short damage = Short.parseShort(parts[1]);
+
+						is = new ItemStack(item, amount, damage);
+					}else {
+						int item = Integer.parseInt(a[1]);
+
+						is = new ItemStack(item, amount);
 					}
 				}
-				
+
+				if(a.length >= 4) {
+					final String[] metas = new String[a.length - 3];
+					System.arraycopy(a, 3, metas, 0, metas.length);
+
+					for(final String meta : metas) {
+						if(meta.contains(":")) {
+							String[] parts = meta.split(":");
+							String name = parts[0];
+							String value = parts[1];
+
+							if(name.equals("name")) {
+								value = ChatColor.translateAlternateColorCodes('&', value.replace('_', ' '));
+
+								ItemMeta isMeta = is.getItemMeta();
+								isMeta.setDisplayName(value);
+								is.setItemMeta(isMeta);
+							}
+
+							else if(name.equals("lore")) {
+								String[] lore = value.split("\\|");
+								for(int i = 0; i < lore.length; i++)
+									lore[i] = ChatColor.translateAlternateColorCodes('&', lore[i].replace('_', ' '));
+
+								ItemMeta isMeta = is.getItemMeta();
+								isMeta.setLore(Arrays.asList(lore));
+								is.setItemMeta(isMeta);
+							}
+
+							else{
+								int enID = Integer.parseInt(name);
+								Enchantment enchantment = Enchantment.getById(enID);
+
+								//check if the enchantment is valid
+								if(enchantment == null) {
+									plugin.severe("There is an invalid enchantment ID for the type " + type.getName());
+									continue;
+								}
+
+								int enLevel = Integer.parseInt(value);
+								if (enLevel > 127) enLevel = 127;
+								if (enLevel < 1) enLevel = enchantment.getMaxLevel();
+
+								try {
+									is.addUnsafeEnchantment(enchantment, enLevel);
+								} catch (Exception e) {
+									plugin.severe("Enchanting one of your rewards for " + type.getName() + " wasn't successful.");
+								}
+							}
+						}
+					}
+				}
+
 				p.getInventory().addItem(is);
 			}
 			

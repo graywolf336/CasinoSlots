@@ -32,12 +32,12 @@
 
 		<repository>
 			<id>vault-repo</id>
-			<url>http://ci.herocraftonline.com/plugin/repository/everything</url>
+			<url>http://nexus.theyeticave.net/content/repositories/public</url>
 		</repository>
 
 		<repository>
 			<id>sk89q-repo</id>
-			<url>http://maven.sk89q.com/repo/</url>
+			<url>http://maven.sk89q.com/artifactory/libs-release</url>
 		</repository>
 	</repositories>
 

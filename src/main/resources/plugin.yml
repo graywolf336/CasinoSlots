@@ -1,0 +1,31 @@
+name: CasinoSlots
+main: com.craftyn.casinoslots.CasinoSlots
+author: graywolf336
+authors: [Darazo]
+website: http://dev.bukkit.org/bukkit-plugins/casino-slots/
+version: maven-version-number
+description: Real slot machines for your server.
+load: POSTWORLD
+depend: [Vault]
+softdepend: [Multiverse-Core, Towny, WorldEdit, WorldGuard]
+commands:
+    casino:
+        description: CasinoSlots
+        usage: Displays the command guide.
+permissions:
+    casinoslots.*:
+        description: Gives access to all CasinoSlots commands.
+        default: op
+        children:
+            casinoslots.admin:
+                description: All CasinoSlots commands and permissions
+                default: op
+            casinoslots.use:
+                description: Allows you to use slot machines.
+                default: true
+            casinoslots.create:
+                description: User permissions for slot management
+                default: op
+            casinoslots.manage:
+                descripton: User permission to manage slots
+                default: op

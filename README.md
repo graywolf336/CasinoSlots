@@ -5,6 +5,11 @@ A majorly updated version of AnCasino started by Darazo
 
 [![Build Status](http://ci.graywolf336.com/job/CasinoSlots/badge/icon)](http://ci.graywolf336.com/job/CasinoSlots/)
 
+### Update: 2.6.0 ###
+* Added the ability to add name and lore to items, thanks to NeatMonster
+* Cleaned up some code
+* TODO: Adding better api, such as events
+
 ### Update: 2.5.7 ###
 * Fixed [player] sometimes not being replaced in broadcast and command actions
 * Fixed variables not being replaced if there was a color code in front of them

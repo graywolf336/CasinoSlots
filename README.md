@@ -1,6 +1,9 @@
-# CasinoSlots #
+[CasinoSlots](http://ci.graywolf336.com/job/CasinoSlots/) - [JavaDoc](http://ci.graywolf336.com/job/CasinoSlots/javadoc/)
+====
 
 A majorly updated version of AnCasino started by Darazo
+
+[![Build Status](http://ci.graywolf336.com/job/CasinoSlots/badge/icon)](http://ci.graywolf336.com/job/CasinoSlots/)
 
 ### Update: 2.5.7 ###
 * Fixed [player] sometimes not being replaced in broadcast and command actions

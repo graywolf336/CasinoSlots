@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.craftyn.casinoslots.CasinoSlots;
@@ -24,6 +25,16 @@ public class PlayerListener implements Listener {
 	
 	public PlayerListener(CasinoSlots plugin) {
 		this.plugin = plugin;
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void notifyOpsOfUpdate(PlayerJoinEvent event) {
+	    if(plugin.getConfig().getBoolean("options.update-checking.enabled")) {
+            if(event.getPlayer().isOp() && plugin.getUpdate().isAvailable()) {
+                event.getPlayer().sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "An update for Jail is available: " + plugin.getUpdate().getNewVersion());
+                event.getPlayer().sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + plugin.getUpdate().getFileUrl());
+            }
+        }
 	}
 	
 	@EventHandler(ignoreCancelled = true)

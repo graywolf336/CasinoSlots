@@ -18,7 +18,6 @@ public class CasinoReload extends AnCommand {
 	}
 	
 	public Boolean process() {
-		
 		// Permissions
 		if(player != null) {
 			if(!plugin.permission.isAdmin(player)) {
@@ -28,10 +27,9 @@ public class CasinoReload extends AnCommand {
 		}
 		
 		plugin.configData.reloadConfigs();
-		
 		plugin.typeData.reloadTypes();
-		
 		plugin.slotData.reloadSlots();
+		plugin.reloadUpdateCheck();
 		
 		if(plugin.configData.inDebug()) senderSendMessage("Debugging enabled.");
 		senderSendMessage("Configuration reloaded");

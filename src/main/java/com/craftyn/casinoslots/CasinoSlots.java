@@ -21,7 +21,6 @@ import com.craftyn.casinoslots.util.ConfigData;
 import com.craftyn.casinoslots.util.Permissions;
 import com.craftyn.casinoslots.util.StatData;
 import com.craftyn.casinoslots.util.TownyChecks;
-
 import com.palmergames.bukkit.towny.Towny;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
@@ -30,6 +29,8 @@ public class CasinoSlots extends JavaPlugin {
 	private PluginManager pm = null;
 	private Towny towny = null;
 	private WorldGuardPlugin worldGuard = null;
+	private Update update;
+	private int updateCheckTask;
 	
 	public String pluginVer;
 	public boolean useTowny = false, useWorldGuard = false, enableSounds = true;
@@ -123,6 +124,7 @@ public class CasinoSlots extends JavaPlugin {
 		
 		getCommand("casino").setExecutor(commandExecutor);
 		pluginVer = getDescription().getVersion();
+	    reloadUpdateCheck();
 	}
 	
 	// Provides a way to shutdown the server from some other class
@@ -148,6 +150,30 @@ public class CasinoSlots extends JavaPlugin {
         	towny = (Towny)pl;
         }
 	}
+	
+    /** Reloads the update checker, in case they changed a setting about it. */
+    public void reloadUpdateCheck() {
+        getServer().getScheduler().cancelTask(updateCheckTask);
+        update = new Update(this);
+        debug("Updating checking is enabled: " + getConfig().getBoolean("options.update-checking.enabled"));
+        if(getConfig().getBoolean("options.update-checking.enabled")) {
+            try {
+                updateCheckTask = getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+                    public void run() {
+                        update.query();
+                    }
+                }, 100L, getConfig().getInt("options.update-checking.time", 120) * 1200).getTaskId();
+            } catch (Exception e) {
+                e.printStackTrace();
+                getLogger().severe("Was unable to schedule the update checking, please check your time format is correct.");
+            }
+        }
+    }
+    
+    /** Returns the instance of the update checking class. */
+    public Update getUpdate() {
+        return this.update;
+    }
 	
 	/**
 	 * Sends a properly formatted message to the player.

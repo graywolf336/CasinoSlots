@@ -22,6 +22,10 @@ options:
     plugin-prefix: '[Casino]'
     plugin-prefix-color: '&c&o'
     chat-color: '&a'
+  update-checking:
+    enabled: true
+    channel: bukkit # or dev
+    time: 120 #minutes
 types:
   default:
     cost: 100

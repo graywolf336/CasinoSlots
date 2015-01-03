@@ -21,7 +21,7 @@ import com.craftyn.casinoslots.CasinoSlots;
 public class TestPermissionUtil {
     private static TestInstanceCreator creator;
     private static CasinoSlots main;
-    
+
     @BeforeClass
     public static void setUp() throws Exception {
         creator = new TestInstanceCreator();
@@ -36,12 +36,12 @@ public class TestPermissionUtil {
         creator.tearDown();
         main = null;
     }
-    
+
     @Test
     public void verifyPermissionClassExists() {
         assertNotNull("The permission class is null.", main.permission);
     }
-    
+
     @Test
     public void testAdminPermissions() {
         assertTrue("The op'd player isn't an admin.", main.permission.isAdmin(creator.getOpPlayer()));
@@ -50,7 +50,7 @@ public class TestPermissionUtil {
         assertTrue("The op'd player can't create managed slots.", main.permission.canCreateManaged(creator.getOpPlayer()));
         assertTrue("The op'd player can't create item slot with type of 'testingItem'.", main.permission.canCreateItemsType(creator.getOpPlayer(), "testingItem"));
     }
-    
+
     @Test
     public void testNoPermissions() {
         assertFalse("The non-op is an admin.", main.permission.isAdmin(creator.getNotOpPlayer()));

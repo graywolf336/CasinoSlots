@@ -267,7 +267,7 @@ public class TestInstanceCreator {
             when(mockNotOpPlayer.hasPermission(Matchers.isA(Permission.class))).thenReturn(false);
             when(mockNotOpPlayer.isOp()).thenReturn(false);
             when(mockNotOpPlayer.getInventory()).thenReturn(new MockPlayerInventory());
-            
+
             // Init our second command sender, but this time is an instance of a player
             mockOpPlayerSender = mockOpPlayer;
             when(mockOpPlayerSender.getServer()).thenReturn(mockServer);
@@ -333,7 +333,7 @@ public class TestInstanceCreator {
     public Player getOpPlayer() {
         return this.mockOpPlayer;
     }
-    
+
     public Player getNotOpPlayer() {
         return this.mockNotOpPlayer;
     }

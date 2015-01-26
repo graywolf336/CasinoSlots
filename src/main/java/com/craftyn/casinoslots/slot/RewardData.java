@@ -28,19 +28,20 @@ public class RewardData {
     // Sends reward to player
     public void send(Player player, Reward reward, Type type) {
 
-        if(reward.message != null) {
-            plugin.sendMessage(player, reward.message);
+        if(reward.getMessage() != null && !reward.getMessage().isEmpty()) {
+            plugin.sendMessage(player, reward.getMessage());
         }
 
-        if(reward.money != null) {
-            if(reward.money < 0)
-                plugin.getEconomy().withdrawPlayer(player.getName(), Math.abs(reward.money));
-            else
-                plugin.getEconomy().depositPlayer(player.getName(), reward.money);
+        if(reward.getMoney() != null) {
+            if(reward.getMoney() < 0) {
+                plugin.getEconomy().withdrawPlayer(player.getName(), Math.abs(reward.getMoney()));
+            } else {
+                plugin.getEconomy().depositPlayer(player.getName(), reward.getMoney());
+            }
         }
 
-        if(reward.action != null && !reward.action.isEmpty()) {
-            executeAction(reward.action, player, type, reward);
+        if(reward.getAction() != null && !reward.getAction().isEmpty()) {
+            executeAction(reward.getAction(), player, type, reward);
         }
     }
 
@@ -258,21 +259,17 @@ public class RewardData {
                 }
 
                 //Generate the command
-                String command = action.substring(8);
-                command = command.replaceAll("[cost]", type.getCost().toString());
-                command = command.replaceAll("[moneywon]", reward.money.toString());
-                command = command.replaceAll("[player]", p.getDisplayName());
-                command = command.replaceAll("[type]", type.getName());
+                String command = action.substring(8)
+                		.replace("[cost]", type.getCost().toString())
+                		.replace("[moneywon]", reward.getMoney().toString())
+                		.replace("[player]", p.getDisplayName())
+                		.replace("[type]", type.getName());
 
-                //Check to make sure the command isn't actually null
-                if (!command.isEmpty()) {
-                    //Set the sender of the command as the console
-                    plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
-                    continue;
+                plugin.debug("Command for " + type.getName() + ": " + command);
+                if(command.isEmpty()) {
+                	plugin.error("A command action for " + type.getName() + " is empty, check your config.yml.");
                 }else {
-                    // if it is, then return an error in the console and don't do anything.
-                    plugin.error("Couldn't find a command to do for " + type.getName() + ", please check your config.yml file.");
-                    continue;
+                	plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
                 }
             }
 
@@ -285,15 +282,19 @@ public class RewardData {
                 }
 
                 //Set the message to broadcast to everything after "broadcast ", which is 10.
-                String msg = action.substring(10);
-                msg = msg.replaceAll("[cost]", type.getCost().toString());
-                msg = msg.replaceAll("[moneywon]", reward.money.toString());
-                msg = msg.replaceAll("[player]", p.getDisplayName());
-                msg = msg.replaceAll("[type]", type.getName());
-                msg = ChatColor.translateAlternateColorCodes('&', msg);
+                String msg = ChatColor.translateAlternateColorCodes('&', action.substring(10)
+                		.replace("[cost]", type.getCost().toString())
+                		.replace("[moneywon]", reward.getMoney().toString())
+                		.replace("[player]", p.getDisplayName())
+                		.replace("[type]", type.getName()));
 
-                //Broadcast the message
-                plugin.getServer().broadcastMessage(msg);
+                plugin.debug("Broadcast message for " + type.getName() + ": " + msg);
+                if(msg.isEmpty()) {
+                	plugin.error("The broadcast message for " + type.getName() + " is empy.");
+                }else {
+                	//Broadcast the message
+                    plugin.getServer().broadcastMessage(msg);
+                }
             }
         }
     }

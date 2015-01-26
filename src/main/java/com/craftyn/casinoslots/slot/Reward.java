@@ -3,9 +3,9 @@ package com.craftyn.casinoslots.slot;
 import java.util.List;
 
 public class Reward {
-    protected String message;
-    protected Double money;
-    protected List<String> action;
+    private String message;
+    private Double money;
+    private List<String> action;
 
     // Initializes a Reward object
     public Reward(String message, Double money, List<String> action) {

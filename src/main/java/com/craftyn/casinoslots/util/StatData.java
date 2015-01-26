@@ -8,13 +8,19 @@ import com.craftyn.casinoslots.CasinoSlots;
 
 public class StatData {
     private CasinoSlots plugin;
-    private HashMap<String, Stat> stats = new HashMap<String, Stat>();
-    public Integer globalSpins, globalWins, globalLosts;
-    public Double globalWon, globalLost;
+    private HashMap<String, Stat> stats;
+    public int globalSpins, globalWins, globalLosts;
+    public double globalWon, globalLost;
 
     // Initialize StatData
     public StatData(CasinoSlots plugin) {
         this.plugin = plugin;
+        this.stats = new HashMap<String, Stat>();
+        this.globalSpins = 0;
+        this.globalWins = 0;
+        this.globalLosts = 0;
+        this.globalWon = 0;
+        this.globalLost = 0;
     }
 
     // Returns collection of all stats
@@ -74,8 +80,6 @@ public class StatData {
     // Load all stats
     public void loadStats() {
         if(plugin.configData.trackStats) {
-            this.stats = new HashMap<String, Stat>();
-
             this.globalSpins = 0;
             this.globalWins = 0;
             this.globalLosts = 0;

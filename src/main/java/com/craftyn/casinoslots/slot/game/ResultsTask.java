@@ -85,20 +85,20 @@ public class ResultsTask implements Runnable {
                 stat = game.getPlugin().statsData.getStat(name);
                 if(!results.isEmpty()) {
                     stat.addWon(won, cost);
-                    game.getPlugin().statsData.addWonStat(stat);
+                    game.getPlugin().statsData.addStat(stat);
                 }else {
                     stat.addLost(won, cost);
-                    game.getPlugin().statsData.addLostStat(stat);
+                    game.getPlugin().statsData.addStat(stat);
                 }
             } else {
                 game.getPlugin().debug("The player has won an amount of: " + won);
                 game.getPlugin().debug("The player has lost an amount of: " + cost);
                 if(!results.isEmpty()) {
                     stat = new Stat(name, 1, 1, 0, won, cost);
-                    game.getPlugin().statsData.addWonStat(stat);
+                    game.getPlugin().statsData.addStat(stat);
                 }else {
                     stat = new Stat(name, 1, 0, 1, won, cost);
-                    game.getPlugin().statsData.addLostStat(stat);
+                    game.getPlugin().statsData.addStat(stat);
                 }
             }
             game.getPlugin().configData.saveStats();

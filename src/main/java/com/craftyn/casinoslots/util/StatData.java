@@ -35,61 +35,31 @@ public class StatData {
         return stats.containsKey(type);
     }
 
-    // Adds a stat when the player has won
-    public void addWonStat(Stat stat) {
-
-        String type = stat.getType();
-        Integer wins = stat.getWins();
-        Integer losts = stat.getLosts();
-        Double won = stat.getWon();
-        Double lost = stat.getLost();
-
-        if(plugin.configData.inDebug()) plugin.debug("Adding a new stat for " + type + ":");
-        if(plugin.configData.inDebug()) plugin.debug("   type: " + type);
-        if(plugin.configData.inDebug()) plugin.debug("   spins: " + stat.getSpins());
-        if(plugin.configData.inDebug()) plugin.debug("   wins: " + wins);
-        if(plugin.configData.inDebug()) plugin.debug("   losts: " + losts);
-        if(plugin.configData.inDebug()) plugin.debug("   won: " + won);
-        if(plugin.configData.inDebug()) plugin.debug("   lost: " + lost);
-
-        this.stats.put(type, stat);
-
-        this.globalSpins += 1;
-        this.globalWins += 1;
-        this.globalWon += won;
-        this.globalLost += lost;
-
+    // Adds the stats
+    public void addStat(Stat stat) {
+        this.stats.put(stat.getType(), stat);
+        calculateGlobal();
     }
-
-    // Adds a stat when the player has lost
-    public void addLostStat(Stat stat) {
-
-        String type = stat.getType();
-        Integer wins = stat.getWins();
-        Integer losts = stat.getLosts();
-        Double won = stat.getWon();
-        Double lost = stat.getLost();
-
-        if(plugin.configData.inDebug()) plugin.debug("Adding a new stat for " + type + ":");
-        if(plugin.configData.inDebug()) plugin.debug("   type: " + type);
-        if(plugin.configData.inDebug()) plugin.debug("   spins: " + stat.getSpins());
-        if(plugin.configData.inDebug()) plugin.debug("   wins: " + wins);
-        if(plugin.configData.inDebug()) plugin.debug("   losts: " + losts);
-        if(plugin.configData.inDebug()) plugin.debug("   won: " + won);
-        if(plugin.configData.inDebug()) plugin.debug("   lost: " + lost);
-
-        this.stats.put(type, stat);
-
-        this.globalSpins += 1;
-        this.globalLosts += 1;
-        this.globalWon += won;
-        this.globalLost += lost;
-
+    
+    //Recalculate the global stats
+    private void calculateGlobal() {
+    	this.globalSpins = 0;
+    	this.globalWins = 0;
+        this.globalLosts = 0;
+        this.globalWon = (double) 0;
+        this.globalLost = (double) 0;
+        
+    	for(Stat s : this.stats.values()) {
+        	this.globalSpins += s.getSpins();
+        	this.globalWins += s.getWins();
+            this.globalLosts += s.getLosts();
+            this.globalWon += s.getWon();
+            this.globalLost += s.getLost();
+    	}
     }
 
     // Loads a stat
     private void loadStat(String type) {
-
         String path = "types." + type +".";
 
         Integer spins = plugin.configData.stats.getInt(path + "spins", 0);
@@ -97,31 +67,13 @@ public class StatData {
         Integer losts = plugin.configData.stats.getInt(path + "losts", 0);
         Double won = plugin.configData.stats.getDouble(path + "won", 0);
         Double lost = plugin.configData.stats.getDouble(path + "lost", 0);
-
-        if(plugin.configData.inDebug()) plugin.debug("We added a stat for " + type + ":");
-        if(plugin.configData.inDebug()) plugin.debug("   type: " + type);
-        if(plugin.configData.inDebug()) plugin.debug("   spins: " + spins);
-        if(plugin.configData.inDebug()) plugin.debug("   wins: " + wins);
-        if(plugin.configData.inDebug()) plugin.debug("   losts: " + losts);
-        if(plugin.configData.inDebug()) plugin.debug("   won: " + won);
-        if(plugin.configData.inDebug()) plugin.debug("   lost: " + lost);
-
-        this.globalSpins += spins;
-        this.globalWins += wins;
-        this.globalLosts += losts;
-        this.globalWon += won;
-        this.globalLost += lost;
-
-        Stat stat = new Stat(type, spins, wins, losts, won, lost);
-
-        this.stats.put(type, stat);
+        
+        this.stats.put(type, new Stat(type, spins, wins, losts, won, lost));
     }
 
     // Load all stats
     public void loadStats() {
-
         if(plugin.configData.trackStats) {
-
             this.stats = new HashMap<String, Stat>();
 
             this.globalSpins = 0;
@@ -129,28 +81,19 @@ public class StatData {
             this.globalLosts = 0;
             this.globalWon = 0.0;
             this.globalLost = 0.0;
-            Integer i = 0;
 
             if(plugin.configData.stats.isConfigurationSection("types")) {
                 Set<String> types = plugin.configData.stats.getConfigurationSection("types").getKeys(false);
                 for(String type : types) {
                     loadStat(type);
-                    i++;
                 }
             }
-            plugin.log("Loaded statistics for " + i + " types.");
-            if(plugin.configData.inDebug()) plugin.debug("The global is: ");
-            if(plugin.configData.inDebug()) plugin.debug("   spins: " + globalSpins);
-            if(plugin.configData.inDebug()) plugin.debug("   wins: " + globalWins);
-            if(plugin.configData.inDebug()) plugin.debug("   losts: " + globalLosts);
-            if(plugin.configData.inDebug()) plugin.debug("   won: " + globalWon);
-            if(plugin.configData.inDebug()) plugin.debug("   lost: " + globalLost);
-
+            
+            calculateGlobal();
+            
+            plugin.log("Loaded statistics for " + this.stats.size() + " types.");
         }else {
             plugin.log("Not tracking statistics.");
         }
     }
-
-
-
 }

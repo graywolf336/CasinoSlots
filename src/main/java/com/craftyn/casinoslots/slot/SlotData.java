@@ -15,6 +15,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.google.common.collect.Sets;
 
 public class SlotData {
     private CasinoSlots plugin;
@@ -235,8 +236,7 @@ public class SlotData {
 
     // Creates the slot machine in the world
     public void createReel(Player player, BlockFace face, SlotMachine slot) {
-
-        Block center = player.getTargetBlock(null, 0);
+        Block center = player.getTargetBlock(Sets.newHashSet(Material.AIR), 0);
         ArrayList<Block> blocks = new ArrayList<Block>();
 
         slot.setReelChunk(center.getChunk().getX() + "," + center.getChunk().getZ());

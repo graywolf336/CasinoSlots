@@ -262,7 +262,8 @@ public class RewardData {
                 String command = action.substring(8)
                 		.replace("[cost]", type.getCost().toString())
                 		.replace("[moneywon]", reward.getMoney().toString())
-                		.replace("[player]", p.getDisplayName())
+                		.replace("[player]", p.getName())
+                		.replace("[playername]", p.getDisplayName())
                 		.replace("[type]", type.getName());
 
                 plugin.debug("Command for " + type.getName() + ": " + command);

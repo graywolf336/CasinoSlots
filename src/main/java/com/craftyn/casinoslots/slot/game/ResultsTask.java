@@ -162,10 +162,8 @@ public class ResultsTask implements Runnable {
 
         //Play some sounds on rewards!
         Location location = game.getSlot().getController().getLocation();
-        if(game.getPlugin().enableSounds) {
-            game.getPlayer().playSound(location, Sound.NOTE_PIANO, 2F, 0.85F);
-            game.getPlayer().playSound(location, Sound.NOTE_PIANO, 2F, 0.95F);
-        }
+        game.getPlayer().playSound(location, Sound.NOTE_PIANO, 2F, 0.85F);
+        game.getPlayer().playSound(location, Sound.NOTE_PIANO, 2F, 0.95F);
         
         return results;
     }

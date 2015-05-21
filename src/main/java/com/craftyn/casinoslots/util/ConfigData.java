@@ -42,6 +42,9 @@ public class ConfigData {
             config.options().copyDefaults(true);
             config.set("options.config-version", 1.0);
         }
+        
+        //save the configuration if we changed it here
+        plugin.saveConfig();
 
         setGlobals();
 

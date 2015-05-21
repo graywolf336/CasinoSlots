@@ -33,7 +33,7 @@ public class CasinoSlots extends JavaPlugin {
     private int updateCheckTask;
 
     public String pluginVer;
-    public boolean useTowny = false, useWorldGuard = false, enableSounds = true;
+    public boolean useTowny = false, useWorldGuard = false;
 
     private PlayerListener playerListener = new PlayerListener(this);
     private BlockListener blockListener = new BlockListener(this);
@@ -83,33 +83,25 @@ public class CasinoSlots extends JavaPlugin {
         }
 
         configData.load();
-        saveConfig();
 
-        if(configData.getBukkitVersion() < 2377) {
-            enableSounds = false;
-            error("Disabling sound support because your config value for the version is lower than the Recommended Build which enabled sounds.");
-        }
-
-        if(configData.inDebug()) debug("Use World Guard checks? " + useWorldGuard);
+        debug("Use World Guard:" + useWorldGuard);
         if(useWorldGuard) {
             checkWorldGuard();
             if(worldGuard == null) {
                 useWorldGuard = false;
                 error("World Guard was not found even though you had it enabled, disabling checks.");
-                if(configData.inDebug()) debug("Use World Guard checks now? " + useWorldGuard);
             }else {
                 log("World Guard checking enabled.");
             }
         }
 
-        if(configData.inDebug()) debug("Use Towny checks? " + useTowny);
-        if(configData.inDebug()) debug("Based upon the above {^} what is below? {V}");
+        debug("Use Towny: " + useTowny);
         if(useTowny) {
             checkTowny();
+            
             if(towny == null) {
                 useTowny = false;
                 error("Towny was not found even though you had it enabled, disabling checks.");
-                if(configData.inDebug()) debug("Use Towny checks now? " + useTowny);
             }else {
                 townyChecks = new TownyChecks(this);
                 log("Towny checking enabled.");
@@ -155,7 +147,8 @@ public class CasinoSlots extends JavaPlugin {
     public void reloadUpdateCheck() {
         getServer().getScheduler().cancelTask(updateCheckTask);
         update = new Update(this);
-        debug("Updating checking is enabled: " + getConfig().getBoolean("options.update-checking.enabled"));
+        debug("Check for updates: " + getConfig().getBoolean("options.update-checking.enabled"));
+        
         if(getConfig().getBoolean("options.update-checking.enabled")) {
             try {
                 updateCheckTask = getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {

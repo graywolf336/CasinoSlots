@@ -8,6 +8,8 @@ A majorly updated version of AnCasino started by Darazo
 ### Update: 2.6.0 ###
 * Added the ability to add name and lore to items, thanks to NeatMonster
 * Cleaned up some code
+* Fixed `[player]` using the display name of the player *instead* of the real name, which made commands not work.
+* Added `[playername]` which uses the display name.
 * TODO: Adding better api, such as events
 
 ### Update: 2.5.7 ###

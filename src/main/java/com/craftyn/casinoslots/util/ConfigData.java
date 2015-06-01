@@ -133,11 +133,6 @@ public class ConfigData {
         }
     }
 
-    /** Returns the int in the config about the version of bukkit they want to use. */
-    public int getBukkitVersion() {
-        return config.getInt("options.bukkit-version", 2377);
-    }
-
     // Save slots data
     public void saveSlots() {
         Collection<SlotMachine> slots = plugin.slotData.getSlots();

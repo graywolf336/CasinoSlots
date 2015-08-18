@@ -11,7 +11,7 @@ public class CasinoReload extends AnCommand {
      * 
      * @param plugin The main plugin class
      * @param args The other arguments passed along with 'reload'
-     * @param player The one who did the command
+     * @param sender The one who did the command
      */
     public CasinoReload(CasinoSlots plugin, String[] args, CommandSender sender) {
         super(plugin, args, sender);

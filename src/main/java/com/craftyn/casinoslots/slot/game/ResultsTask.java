@@ -35,34 +35,34 @@ public class ResultsTask implements Runnable {
 
         ArrayList<Reward> results = getResults();
 
-        if(!results.isEmpty()) {
+        if (!results.isEmpty()) {
             SlotMachine slot = game.getSlot();
 
-            if(!(slot.getSign() == null)) {
+            if (!(slot.getSign() == null)) {
                 Block b = slot.getSign();
                 if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
                     Sign sign = (Sign) b.getState();
                     sign.setLine(3, player.getDisplayName());
                     sign.update(true);
-                }else {
+                } else {
                     game.getPlugin().error("The block stored for the sign is NOT a sign, please remove it.");
                 }
             }
 
             // Send the rewards
-            for(Reward reward : results) {
+            for (Reward reward : results) {
                 game.getPlugin().rewardData.send(player, reward, type);
                 won += reward.getMoney();
                 game.getPlugin().debug("The player has won an amount of: " + won);
             }
 
             // Managed
-            if(slot.isManaged()) {
+            if (slot.isManaged()) {
 
                 slot.withdraw(won);
                 game.getPlugin().slotData.saveSlot(slot);
                 Double max = game.getPlugin().typeData.getMaxPrize(type.getName());
-                if(slot.getFunds() < max) {
+                if (slot.getFunds() < max) {
                     slot.setEnabled(false);
                 }
             }
@@ -75,26 +75,26 @@ public class ResultsTask implements Runnable {
         }
 
         // Register statistics
-        if(game.getPlugin().configData.trackStats) {
+        if (game.getPlugin().configData.trackStats) {
             Stat stat;
 
             //Already have some stats for this type
-            if(game.getPlugin().statsData.isStat(name)) {
+            if (game.getPlugin().statsData.isStat(name)) {
                 stat = game.getPlugin().statsData.getStat(name);
-                if(!results.isEmpty()) {
+                if (!results.isEmpty()) {
                     stat.addWon(won, cost);
                     game.getPlugin().statsData.addStat(stat);
-                }else {
+                } else {
                     stat.addLost(won, cost);
                     game.getPlugin().statsData.addStat(stat);
                 }
             } else {
                 game.getPlugin().debug("The player has won an amount of: " + won);
                 game.getPlugin().debug("The player has lost an amount of: " + cost);
-                if(!results.isEmpty()) {
+                if (!results.isEmpty()) {
                     stat = new Stat(name, 1, 1, 0, won, cost);
                     game.getPlugin().statsData.addStat(stat);
-                }else {
+                } else {
                     stat = new Stat(name, 1, 0, 1, won, cost);
                     game.getPlugin().statsData.addStat(stat);
                 }
@@ -112,39 +112,39 @@ public class ResultsTask implements Runnable {
         ArrayList<Block> blocks = game.getSlot().getBlocks();
 
         // checks horizontal matches
-        for(int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             Reward reward;
             ArrayList<String> currentId = new ArrayList<String>();
             List<Block> current = null;
 
-            if(i < 3) {
+            if (i < 3) {
                 int start = 0 + 3 * i;
                 int end = 3 + 3 * i;
                 current = blocks.subList(start, end);
-            }else {
+            } else {
                 //diagonals
-                if(game.getPlugin().configData.allowDiagonals) {
+                if (game.getPlugin().configData.allowDiagonals) {
                     current = new ArrayList<Block>();
-                    for(int j = 0; j < 3; j++) {
-                        if(i == 3) {
-                            current.add(blocks.get(j*4));
-                        }else {
-                            current.add(blocks.get(2+(2*j)));
+                    for (int j = 0; j < 3; j++) {
+                        if (i == 3) {
+                            current.add(blocks.get(j * 4));
+                        } else {
+                            current.add(blocks.get(2 + 2 * j));
                         }
                     }
-                }else {
+                } else {
                     // Break loop if diagonals are disabled
                     break;
                 }
             }
 
-            for(Block b : current) {
+            for (Block b : current) {
                 currentId.add(b.getTypeId() + ":" + b.getData());
             }
 
             // Check for matches, deploy rewards
             Set<String> currentSet = new HashSet<String>(currentId);
-            if(currentSet.size() == 1) {
+            if (currentSet.size() == 1) {
 
                 // Added for the damage value blocks and rewards
                 int id = current.get(0).getTypeId();
@@ -162,10 +162,9 @@ public class ResultsTask implements Runnable {
 
         //Play some sounds on rewards!
         Location location = game.getSlot().getController().getLocation();
-        game.getPlayer().playSound(location, Sound.NOTE_PIANO, 2F, 0.85F);
-        game.getPlayer().playSound(location, Sound.NOTE_PIANO, 2F, 0.95F);
-        
+        game.getPlayer().playSound(location, Sound.NOTE_PIANO, 0.9F, 0.85F);
+        game.getPlayer().playSound(location, Sound.NOTE_PIANO, 0.9F, 0.95F);
+
         return results;
     }
-
 }

@@ -35,7 +35,11 @@ public class Type {
         return this.cost;
     }
 
-    /** Gets the item that this type costs to use. */
+    /**
+     * Gets the item that this type costs to use.
+     * 
+     * @return the item cost
+     */
     public String getItemCost() {
         return this.itemCost;
     }
@@ -69,7 +73,11 @@ public class Type {
         this.cost = cost;
     }
 
-    /** Sets the item that this slot costs to use. */
+    /**
+     * Sets the item that this slot costs to use.
+     * 
+     * @param itemCost the item to set as the cost
+     */
     public void setItemCost(String itemCost) {
         this.itemCost = itemCost;
     }

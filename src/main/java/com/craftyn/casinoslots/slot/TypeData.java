@@ -46,9 +46,7 @@ public class TypeData {
         plugin.saveConfig();
     }
 
-    /**
-     * Provides a way to refresh the types information.
-     */
+    /** Provides a way to refresh the types information. */
     public void reloadTypes() {
         types.clear();
         loadTypes();
@@ -218,7 +216,12 @@ public class TypeData {
         return max;
     }
 
-    /** Sets the item cost that this type also costs, in addition to economy money and saves the config. */
+    /**
+     * Sets the item cost that this type also costs, in addition to economy money and saves the config.
+     * 
+     * @param type the {@link Type} of machine
+     * @param itemCost the item cost
+     */
     public void setItemCost(Type type, String itemCost) {
         String path = "types." + type.getName() + ".itemCost";
         plugin.configData.config.set(path, itemCost);

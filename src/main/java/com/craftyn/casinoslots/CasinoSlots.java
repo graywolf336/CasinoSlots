@@ -163,7 +163,11 @@ public class CasinoSlots extends JavaPlugin {
         }
     }
 
-    /** Returns the instance of the update checking class. */
+    /**
+     * Returns the instance of the update checking class.
+     * 
+     * @return instance of {@link Update}
+     */
     public Update getUpdate() {
         return this.update;
     }
@@ -233,12 +237,20 @@ public class CasinoSlots extends JavaPlugin {
         return (economy != null);
     }
 
-    /** Returns the instance of the economy. */
+    /**
+     * Returns the instance of the economy.
+     * 
+     * @return the {@link Economy} instance
+     */
     public Economy getEconomy() {
         return this.economy;
     }
 
-    /** Returns the instance of World Guard. */
+    /**
+     * Returns the instance of World Guard.
+     * 
+     * @return the {@link WorldGuardPlugin} instance
+     */
     public WorldGuardPlugin getWorldGuard() {
         return worldGuard;
     }

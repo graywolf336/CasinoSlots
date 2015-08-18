@@ -1,9 +1,9 @@
-[CasinoSlots](http://ci.graywolf336.com/job/CasinoSlots/) - [JavaDoc](http://ci.graywolf336.com/job/CasinoSlots/javadoc/)
+[CasinoSlots](https://ci.craftyn.com/job/CasinoSlots/) - [JavaDoc](https://ci.craftyn.com/job/CasinoSlots/javadoc/)
 ====
 
 A majorly updated version of AnCasino started by Darazo
 
-[![Build Status](http://ci.graywolf336.com/job/CasinoSlots/badge/icon)](http://ci.graywolf336.com/job/CasinoSlots/)
+[![Build Status](https://ci.craftyn.com/job/CasinoSlots/badge/icon)](https://ci.craftyn.com/job/CasinoSlots/)
 
 ### Update: 2.6.0 ###
 * Added the ability to add name and lore to items, thanks to NeatMonster

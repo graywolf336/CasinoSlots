@@ -90,7 +90,7 @@ public class TownyChecks {
      * Since the Towny check was enabled, we need to check if the player is the owner of the block and the other two.
      * 
      * @param check The center block to check.
-     * @param face
+     * @param face the face the block is facing
      * @param player The name of the player to check, normal case.
      * @return True if the player can "build", false if not.
      */

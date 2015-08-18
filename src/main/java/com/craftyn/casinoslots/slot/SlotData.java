@@ -323,7 +323,12 @@ public class SlotData {
         }
     }
 
-    /** Gets the slot machine the player is creating, if nothing then will be null. */
+    /**
+     * Gets the slot machine the player is creating, if nothing then will be null.
+     * 
+     * @param player the player who is creating
+     * @return the {@link SlotMachine} they are creating
+     */
     public SlotMachine getCreatingSlot(String player) {
         return this.creatingSlots.get(player);
     }
@@ -337,7 +342,12 @@ public class SlotData {
         }
     }
 
-    /** Gets the slot machine the player is punching a controller block for. */
+    /**
+     * Gets the slot machine the player is punching a controller block for.
+     * 
+     * @param player the player who is creating
+     * @return the {@link SlotMachine} the player is creating
+     */
     public SlotMachine getPlacingSlot(String player) {
         return this.placingController.get(player);
     }
@@ -351,7 +361,12 @@ public class SlotData {
         }
     }
 
-    /** Gets the slot machine the player is punching signs for. */
+    /**
+     * Gets the slot machine the player is punching signs for.
+     * 
+     * @param player the player who is creating
+     * @return the {@link SlotMachine} they are creating
+     */
     public SlotMachine getSignPunchingSlot(String player) {
         return this.punchingSign.get(player);
     }

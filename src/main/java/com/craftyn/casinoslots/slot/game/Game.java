@@ -12,7 +12,6 @@ import com.craftyn.casinoslots.slot.Type;
 public class Game {
     private CasinoSlots plugin;
     protected BukkitScheduler scheduler;
-
     private SlotMachine slot;
     private Player player;
 
@@ -21,7 +20,6 @@ public class Game {
         this.slot = slot;
         this.player = player;
         this.plugin = plugin;
-
     }
 
     public CasinoSlots getPlugin() {
@@ -48,17 +46,17 @@ public class Game {
 
         this.scheduler = plugin.getServer().getScheduler();
         Integer[] task = new Integer[3];
-        Long[] delay = {60L, 80L, 100L};
+        Long[] delay = { 60L, 80L, 100L };
 
         if (slot.isManaged()) {
-            if(slot.getFunds() >= plugin.typeData.getMaxPrize(slot.getType())) {
+            if (slot.getFunds() >= plugin.typeData.getMaxPrize(slot.getType())) {
                 slot.setEnabled(true);
-            }else {
+            } else {
                 slot.setEnabled(false);
             }
         }
 
-        if(!slot.isEnabled()) {
+        if (!slot.isEnabled()) {
             plugin.sendMessage(player, "This slot machine is currently disabled. Deposit more funds to enable.");
             return;
         }
@@ -67,7 +65,7 @@ public class Game {
         if (!slot.isItem()) {
             Double cost = getType().getCost();
             plugin.getEconomy().withdrawPlayer(player.getName(), cost);
-            if(slot.isManaged()) {
+            if (slot.isManaged()) {
                 slot.deposit(cost);
                 plugin.slotData.saveSlot(slot);
             }
@@ -75,28 +73,25 @@ public class Game {
 
         // Start playing
         slot.toggleBusy();
-        if(!slot.isItem()) {
+        if (!slot.isItem()) {
             plugin.sendMessage(player, getType().getMessages().get("start"));
-        }else {
+        } else {
             int itemAmt = slot.getItemAmount();
             Material itemMat = new ItemStack(slot.getItem()).getType();
             if (itemAmt == 1) {
                 plugin.sendMessage(player, itemAmt + " " + itemMat.toString().toLowerCase() + " removed from your inventory.");
-            }else {
+            } else {
                 plugin.sendMessage(player, itemAmt + " " + itemMat.toString().toLowerCase() + "es removed from your inventory.");
             }
         }
 
-
         // Initiate tasks
-        for(Integer i = 0; i < 3; i++) {
+        for (Integer i = 0; i < 3; i++) {
             task[i] = scheduler.scheduleSyncRepeatingTask(plugin, new RotateTask(this, i), 0L, 6L);
-            scheduler.scheduleSyncDelayedTask(plugin, new StopRotateTask(this, task[i]), delay[2-i]);
+            scheduler.scheduleSyncDelayedTask(plugin, new StopRotateTask(this, task[i]), delay[2 - i]);
         }
 
         // Results task
         scheduler.scheduleSyncDelayedTask(plugin, new ResultsTask(this), delay[2]);
-
     }
-
 }

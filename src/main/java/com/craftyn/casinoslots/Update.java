@@ -19,7 +19,7 @@ public class Update {
 
     // Static information for querying the API
     private static final String BUKKIT_API_QUERY = "https://api.curseforge.com/servermods/files?projectIds=" + projectID;
-    private static final String CI_DEV_API_QUERY = "http://ci.graywolf336.com/job/CasinoSlots/lastSuccessfulBuild/api/json";
+    private static final String CI_DEV_API_QUERY = "https://ci.craftyn.com/job/CasinoSlots/lastSuccessfulBuild/api/json";
     private boolean needed = false;
 
     // The url for the new file and file version
@@ -144,17 +144,29 @@ public class Update {
         }
     }
 
-    /** Returns true if there is an update needed, false if not. */
+    /**
+     * Returns true if there is an update needed, false if not.
+     * 
+     * @return Whether an update is available
+     */
     public boolean isAvailable() {
         return this.needed;
     }
 
-    /** Returns the new version. */
+    /**
+     * Returns the new version.
+     * 
+     * @return The string name of the new version
+     */
     public String getNewVersion() {
         return this.version;
     }
 
-    /** Returns the new file url. */
+    /**
+     * Returns the new file url.
+     * 
+     * @return New file's url
+     */
     public String getFileUrl() {
         return this.fileUrl;
     }

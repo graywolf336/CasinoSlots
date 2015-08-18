@@ -91,7 +91,7 @@ public class Permissions {
      * The player must either have:
      * <ul>
      * 	<li>{@link isAdmin}</li>
-     *  <li>casinoslots.create.managed.{@value type}</li>
+     *  <li>casinoslots.create.managed.(type)</li>
      *  <li>casinoslots.create.managed.*</li>
      *  <li>casinoslots.create.managed</li>
      *  <li>casinoslots.create.*</li>
@@ -112,7 +112,7 @@ public class Permissions {
      * The player must either have:
      * <ul>
      * 	<li>{@link isAdmin}</li>
-     *  <li>casinoslots.create.items.{@value type}</li>
+     *  <li>casinoslots.create.items.(type)</li>
      *  <li>casinoslots.create.items.*</li>
      *  <li>casinoslots.create.items</li>
      *  <li>casinoslots.create.*</li>

@@ -62,6 +62,8 @@ public class ConfigData {
     /**
      * Reload all the configs from disk.
      * 
+     * <p>
+     * 
      * This method reloads the config.yml, sets the slots config to null and then loads it again, and sets the stats file to null and then loads it again.
      */
     public void reloadConfigs() {
@@ -81,9 +83,7 @@ public class ConfigData {
         stats = YamlConfiguration.loadConfiguration(statsFile);
     }
 
-    /**
-     * This reloads all the global variables, like debugging, prefix, tracking stats, etc.
-     */
+    /** This reloads all the global variables, like debugging, prefix, tracking stats, etc. */
     public void reloadGlobals() {
         this.prefixColor = config.getString("options.chat.plugin-prefix-color");
         this.prefix = config.getString("options.chat.plugin-prefix");
@@ -193,7 +193,8 @@ public class ConfigData {
 
     /**
      * For the command to add a new type, the parameter it takes is for the name of the new type.
-     * @param name
+     * 
+     * @param name the name of the type
      */
     public void setTypeDefaults(String name) {
         config.set("types."+ name +".cost", 100);

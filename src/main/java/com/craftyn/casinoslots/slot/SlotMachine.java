@@ -15,15 +15,18 @@ public class SlotMachine {
     private ArrayList<Block> blocks;
     private Block controller, sign = null;
     private Double funds;
+    
     /**
      * Instantiates a new slot machine, usually from the config.
      *
+     * @param pl                The {@link CasinoSlots} instance
      * @param name       		The name of the slot machine.
      * @param type       		The type of the slot machine being created.
      * @param owner      		The owner of the slot machine.
      * @param world      		The world in which the slot machine exists.
      * @param reelchunk			The chunk in which the controller block is in.
      * @param controllerchunk	The chunk in which the controller block is in.
+     * @param sign              The sign block
      * @param managed    		If it is managed or not (true or false).
      * @param blocks     		An ArrayList of the blocks of the slot machine.
      * @param controller 		The block of the controller.
@@ -54,6 +57,7 @@ public class SlotMachine {
     /**
      * Instantiates a new slot machine, usually from a command.
      *
+     * @param pl       The {@link CasinoSlots} instance
      * @param name     The name of the slot machine as a string.
      * @param type     The type of the slot machine being created as a string.
      * @param owner    The owner of the slot machine as a string.
@@ -235,12 +239,20 @@ public class SlotMachine {
         this.funds -= amount;
     }
 
-    /** Sets the enabled state. */
+    /**
+     * Sets the enabled state.
+     * 
+     * @param enabled The new enabledment state
+     */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
-    /** Sets the use of the slot machine. */
+    /**
+     * Sets the use of the slot machine.
+     * 
+     * @return Whether the machine is busy.
+     */
     public boolean toggleBusy() {
         this.busy = !this.busy;
         return this.busy;

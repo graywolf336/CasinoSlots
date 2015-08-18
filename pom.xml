@@ -19,8 +19,8 @@
 	</issueManagement>
 
 	<ciManagement>
-		<system>jenkins</system>
-		<url>http://ci.graywolf336.com/job/CasinoSlots/</url>
+		<system>Jenkins</system>
+		<url>https://ci.craftyn.com/job/CasinoSlots/</url>
 	</ciManagement>
 
 	<scm>
@@ -52,7 +52,7 @@
 
 		<repository>
 			<id>graywolf336-repo</id>
-			<url>http://repo.graywolf336.com/content/groups/public</url>
+			<url>https://repo2.craftyn.com/repository/internal/</url>
 		</repository>
 	</repositories>
 
@@ -81,7 +81,7 @@
 		<dependency>
 			<groupId>com.palmergames.bukkit</groupId>
 			<artifactId>Towny</artifactId>
-			<version>0.89.0.1</version>
+			<version>0.89.2.27</version>
 		</dependency>
 
 		<!-- Start of Test Dependencies -->
@@ -239,14 +239,13 @@
 	<distributionManagement>
 		<repository>
 			<id>repo-release</id>
-			<name>repo.graywolf336.com Releases</name>
-			<url>http://repo.graywolf336.com/content/repositories/releases/</url>
+			<name>CasinoSlots Releases</name>
+			<url>https://repo2.craftyn.com/repository/internal/</url>
 		</repository>
-
 		<snapshotRepository>
 			<id>repo-snapshot</id>
-			<name>repo.graywolf336.com Snapshots</name>
-			<url>http://repo.graywolf336.com/content/repositories/snapshots/</url>
+			<name>CasinoSlots Snapshots</name>
+			<url>https://repo2.craftyn.com/repository/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>

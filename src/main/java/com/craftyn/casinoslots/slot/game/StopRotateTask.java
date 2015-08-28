@@ -1,10 +1,6 @@
 package com.craftyn.casinoslots.slot.game;
 
-import org.bukkit.Instrument;
-import org.bukkit.Location;
-import org.bukkit.Note;
-import org.bukkit.Note.Tone;
-import org.bukkit.Sound;
+import com.craftyn.casinoslots.util.Util;
 
 public class StopRotateTask implements Runnable {
     private Game game;
@@ -18,9 +14,7 @@ public class StopRotateTask implements Runnable {
 
     // The task itself
     public void run() {
-        Location location = game.getSlot().getController().getLocation();
         game.scheduler.cancelTask(task);
-        game.getPlayer().playNote(location, Instrument.PIANO, new Note((byte) 0, Tone.C, false));
-        game.getPlayer().getWorld().playSound(game.getPlayer().getLocation(), Sound.NOTE_PIANO, 100F, 0.75F);
+        Util.playGameSound(game.getSlot().getController().getLocation());
     }
 }

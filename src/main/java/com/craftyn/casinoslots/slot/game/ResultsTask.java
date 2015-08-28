@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Instrument;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Note;
-import org.bukkit.Sound;
+import org.bukkit.Note.Tone;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -18,6 +17,7 @@ import com.craftyn.casinoslots.slot.Reward;
 import com.craftyn.casinoslots.slot.SlotMachine;
 import com.craftyn.casinoslots.slot.Type;
 import com.craftyn.casinoslots.util.Stat;
+import com.craftyn.casinoslots.util.Util;
 
 public class ResultsTask implements Runnable {
     private Game game;
@@ -163,7 +163,11 @@ public class ResultsTask implements Runnable {
         }
 
         //Play some sounds on rewards!
-        game.getPlayer().playNote(game.getSlot().getController().getLocation(), Instrument.PIANO, new Note(1).sharped());
+        game.getPlugin().getServer().getScheduler().runTaskLater(game.getPlugin(), new Runnable() {
+            public void run() {
+                Util.playNoteBlockSound(game.getSlot().getController().getLocation(), Instrument.PIANO, new Note((byte) 1, Tone.C, false));
+            }
+        }, 15);
 
         return results;
     }

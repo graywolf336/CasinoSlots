@@ -2,6 +2,7 @@ package com.craftyn.casinoslots;
 
 import net.milkbowl.vault.economy.Economy;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -180,8 +181,7 @@ public class CasinoSlots extends JavaPlugin {
      */
     public void sendMessage(Player player, String message) {
         message = configData.prefixColor + configData.prefix + configData.chatColor + " " + message;
-        message = message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
-        player.sendMessage(message);
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
     /**
@@ -192,8 +192,7 @@ public class CasinoSlots extends JavaPlugin {
      */
     public void sendMessage(CommandSender sender, String message) {
         message = configData.prefixColor + configData.prefix + configData.chatColor + " " + message;
-        message = message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
-        sender.sendMessage(message);
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
     public void debug(String message) {

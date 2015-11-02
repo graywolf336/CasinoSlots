@@ -46,11 +46,6 @@
 		</repository>
 
 		<repository>
-			<id>sk89q-repo</id>
-			<url>http://maven.sk89q.com/repo/</url>
-		</repository>
-
-		<repository>
 			<id>graywolf336-repo</id>
 			<url>https://repo2.craftyn.com/repository/internal/</url>
 		</repository>

@@ -6,8 +6,7 @@ website: http://dev.bukkit.org/bukkit-plugins/casino-slots/
 version: maven-version-number
 description: Real slot machines for your server.
 load: POSTWORLD
-depend: [Vault]
-softdepend: [Multiverse-Core, Towny, WorldEdit, WorldGuard]
+softdepend: [Vault, Multiverse-Core, Towny, WorldEdit, WorldGuard]
 commands:
     casino:
         description: CasinoSlots

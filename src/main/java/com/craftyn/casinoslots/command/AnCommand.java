@@ -17,6 +17,7 @@ public abstract class AnCommand {
     public AnCommand(CasinoSlots plugin, String[] args, Player player) {
         this.plugin = plugin;
         this.args = args;
+        this.sender = player;
         this.player = player;
     }
 
@@ -35,6 +36,8 @@ public abstract class AnCommand {
 
     // Returns true if player owns this slot machine
     public Boolean isOwner(SlotMachine slot) {
+        if(slot == null) throw new IllegalArgumentException("The slot passed in to check owner of is null!");
+        
         if(!(sender instanceof Player)) return true; //The console
 
         if(PermissionUtil.isAdmin(player) || slot.getOwner().equalsIgnoreCase(player.getName()))

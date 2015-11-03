@@ -26,7 +26,7 @@ public class RewardData {
     }
 
     // Sends reward to player
-    public void send(Player player, Reward reward, Type type) {
+    public void send(SlotMachine slot, Player player, Reward reward, Type type) {
 
         if(reward.getMessage() != null && !reward.getMessage().isEmpty()) {
             plugin.sendMessage(player, reward.getMessage());
@@ -34,9 +34,18 @@ public class RewardData {
 
         if(reward.getMoney() != null) {
             if(reward.getMoney() < 0) {
-                plugin.getEconomy().withdrawPlayer(player.getName(), Math.abs(reward.getMoney()));
+                plugin.getEconomy().withdrawPlayer(player, Math.abs(reward.getMoney()));
             } else {
-                plugin.getEconomy().depositPlayer(player.getName(), reward.getMoney());
+                plugin.getEconomy().depositPlayer(player, reward.getMoney());
+            }
+            
+            //Take the money from the slot machine, if it is managed
+            if(slot.isManaged()) {
+                if(reward.getMoney() < 0) {
+                    slot.deposit(Math.abs(reward.getMoney()));
+                }else {
+                    slot.withdraw(reward.getMoney());
+                }
             }
         }
 

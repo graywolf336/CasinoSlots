@@ -53,7 +53,7 @@ public class ResultsTask implements Runnable {
 
             // Send the rewards
             for (Reward reward : results) {
-                game.getPlugin().getRewardData().send(player, reward, type);
+                game.getPlugin().getRewardData().send(slot, player, reward, type);
                 won += reward.getMoney();
                 game.getPlugin().debug("The player has won an amount of: " + won);
             }

@@ -1,5 +1,6 @@
 package com.craftyn.casinoslots.command;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
@@ -22,6 +23,11 @@ public class CasinoWithdraw extends AnCommand {
 
                 // Can access slot
                 if(isOwner(slot)) {
+                    if(slot.isBusy()) {
+                        sendMessage(ChatColor.RED + "You can't withdraw money while the machine is in use!");
+                        return true;
+                    }
+                    
                     String Line3 = args[2];
                     double amount;
                     try {

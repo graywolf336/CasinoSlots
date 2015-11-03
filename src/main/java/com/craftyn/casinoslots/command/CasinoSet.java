@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
 import com.craftyn.casinoslots.slot.Type;
+import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoSet extends AnCommand {
 
@@ -14,7 +15,7 @@ public class CasinoSet extends AnCommand {
     }
 
     public Boolean process() {
-        if(!plugin.permission.isAdmin(player)) {
+        if(!PermissionUtil.isAdmin(player)) {
             noPermission();
             return true;
         }
@@ -34,12 +35,12 @@ public class CasinoSet extends AnCommand {
                     sendMessage("Usage:");
                     sendMessage("  /casino set type <slotname> <type>");
                 }else if(args[1].equalsIgnoreCase("debug")) {
-                    if(plugin.configData.inDebug()) {
-                        plugin.configData.debug = false;
+                    if(plugin.getConfigData().inDebug()) {
+                        plugin.getConfigData().debug = false;
                         sendMessage("Debugging disabled.");
                         return true;
                     }else {
-                        plugin.configData.debug = true;
+                        plugin.getConfigData().debug = true;
                         sendMessage("Debugging enabled.");
                         return true;
                     }
@@ -54,9 +55,9 @@ public class CasinoSet extends AnCommand {
                 if (args[1].equalsIgnoreCase("sign")) {
 
                     // Slot exists
-                    if(plugin.slotData.isSlot(args[2])) {
-                        SlotMachine slot = plugin.slotData.getSlot(args[2]);
-                        plugin.slotData.togglePunchingSign(player.getName(), slot);
+                    if(plugin.getSlotData().isSlot(args[2])) {
+                        SlotMachine slot = plugin.getSlotData().getSlot(args[2]);
+                        plugin.getSlotData().togglePunchingSign(player.getName(), slot);
                         sendMessage("Please punch the sign that you want us to know about.");
                     }else {
                         // Slot does not exist
@@ -80,14 +81,14 @@ public class CasinoSet extends AnCommand {
                 if (args[1].equalsIgnoreCase("type")) {
 
                     // Slot exists
-                    if(plugin.slotData.isSlot(args[2])) {
-                        if(plugin.typeData.isType(args[3])) {
-                            SlotMachine slot = plugin.slotData.getSlot(args[2]);
+                    if(plugin.getSlotData().isSlot(args[2])) {
+                        if(plugin.getTypeData().isType(args[3])) {
+                            SlotMachine slot = plugin.getSlotData().getSlot(args[2]);
                             String typeName = args[3];
 
                             String oldType = slot.getType();
                             slot.setType(typeName);
-                            plugin.slotData.saveSlot(slot);
+                            plugin.getSlotData().saveSlot(slot);
                             sendMessage("Type successfully changed from '" + oldType + "' to '" + typeName + "'.");
 
                         }else {
@@ -99,13 +100,13 @@ public class CasinoSet extends AnCommand {
                         sendMessage("Invalid slot machine.");
                     }
                 }else if (args[1].equalsIgnoreCase("itemcost")) {
-                    if(plugin.typeData.isType(args[2])) {//verify it is a valid type
+                    if(plugin.getTypeData().isType(args[2])) {//verify it is a valid type
                         String[] item = args[3].split("\\,");
                         if(item.length == 2 || item.length == 3) {//verify the length of the given item
                             if(!args[3].equalsIgnoreCase("0")) {//the given item is not air.
-                                Type t = plugin.typeData.getType(args[2]);
+                                Type t = plugin.getTypeData().getType(args[2]);
                                 t.setItemCost(args[3]);
-                                plugin.typeData.setItemCost(t, args[3]);
+                                plugin.getTypeData().setItemCost(t, args[3]);
                                 sendMessage("itemCost successfully set for the type " + t.getName() + ".");
                             }else {
                                 //can not be air

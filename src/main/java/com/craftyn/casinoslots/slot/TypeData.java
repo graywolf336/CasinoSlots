@@ -35,14 +35,14 @@ public class TypeData {
         String name = type.getName();
         types.put(name, type);
 
-        plugin.configData.config.set("types." + type.getName() +".cost", type.getCost());
-        plugin.configData.config.set("types." + type.getName() +".create-cost", type.getCreateCost());
+        plugin.getConfigData().config.set("types." + type.getName() +".cost", type.getCost());
+        plugin.getConfigData().config.set("types." + type.getName() +".create-cost", type.getCreateCost());
         plugin.saveConfig();
     }
 
     public void removeType(String type) {
         types.remove(type);
-        plugin.configData.config.set("types." + type, null);
+        plugin.getConfigData().config.set("types." + type, null);
         plugin.saveConfig();
     }
 
@@ -62,11 +62,11 @@ public class TypeData {
         this.types = new HashMap<String, Type>();
         Integer i = 0;
 
-        if(plugin.configData.config.isConfigurationSection("types")) {
-            Set<String> types = plugin.configData.config.getConfigurationSection("types").getKeys(false);
+        if(plugin.getConfigData().config.isConfigurationSection("types")) {
+            Set<String> types = plugin.getConfigData().config.getConfigurationSection("types").getKeys(false);
             if(!types.isEmpty()) {
                 for(String name : types) {
-                    if (!plugin.configData.config.contains("types." + name + ".messages")) {
+                    if (!plugin.getConfigData().config.contains("types." + name + ".messages")) {
                         plugin.log("Please make sure your slots in the config file contains 'messages:'.");
                         //If there are no "messages", disables the plugin and forces them to check their config
                         plugin.error("[CasinoSlots]" + " PLEASE CHECK ONE OF YOUR CONFIG FILES");
@@ -87,13 +87,13 @@ public class TypeData {
     private void loadType(String name) {
         String path = "types." + name +".";
 
-        Double cost = plugin.configData.config.getDouble(path + "cost");
-        String itemCost = plugin.configData.config.getString(path + "itemCost", "0");
-        Double createCost = plugin.configData.config.getDouble(path + "create-cost");
+        Double cost = plugin.getConfigData().config.getDouble(path + "cost");
+        String itemCost = plugin.getConfigData().config.getString(path + "itemCost", "0");
+        Double createCost = plugin.getConfigData().config.getDouble(path + "create-cost");
         ArrayList<String> reel = getReel(name);
 
         Map<String, String> messages = getMessages(name);
-        List<String> helpMessages = plugin.configData.config.getStringList(path + "messages.help");
+        List<String> helpMessages = plugin.getConfigData().config.getStringList(path + "messages.help");
         Map<String, Reward> rewards = getRewards(name);
 
         Type type = new Type(name, cost, itemCost, createCost, reel, messages, helpMessages, rewards);
@@ -102,7 +102,7 @@ public class TypeData {
 
     // Returns the parsed reel of a type
     private ArrayList<String> getReel(String type) {
-        List<String> reel = plugin.configData.config.getStringList("types." + type + ".reel");
+        List<String> reel = plugin.getConfigData().config.getStringList("types." + type + ".reel");
 
         ArrayList<String> parsedReel = new ArrayList<String>();
         for(String m : reel) {
@@ -139,17 +139,17 @@ public class TypeData {
 
         String path = "types." + type + ".rewards." + blockId + ".";
 
-        String message = plugin.configData.config.getString(path + "message", "Award given!");
-        Double money = plugin.configData.config.getDouble(path + "money", 0.0);
+        String message = plugin.getConfigData().config.getString(path + "message", "Award given!");
+        Double money = plugin.getConfigData().config.getDouble(path + "money", 0.0);
         List<String> action = null;
 
-        if(plugin.configData.config.isSet(path + "action")) {
-            if(plugin.configData.config.isList(path + "action")) {
+        if(plugin.getConfigData().config.isSet(path + "action")) {
+            if(plugin.getConfigData().config.isList(path + "action")) {
                 plugin.debug("The reward does have the 'action' as a list, so store and get it.");
-                action = plugin.configData.config.getStringList(path + "action");
+                action = plugin.getConfigData().config.getStringList(path + "action");
             }else {
                 plugin.debug("The reward does have the 'action' but it is only a string, so we get it as a string and store it as a list");
-                String a = plugin.configData.config.getString(path + "action");
+                String a = plugin.getConfigData().config.getString(path + "action");
                 action = Arrays.asList(a);
             }
         }
@@ -160,7 +160,7 @@ public class TypeData {
 
     // Returns Map of all rewards for this type
     public Map<String, Reward> getRewards(String type) {
-        Set<String> ids = plugin.configData.config.getConfigurationSection("types." + type +".rewards").getKeys(false);
+        Set<String> ids = plugin.getConfigData().config.getConfigurationSection("types." + type +".rewards").getKeys(false);
         Map<String, Reward> rewards = new HashMap<String, Reward>();
 
         for(String itemId : ids) {
@@ -183,13 +183,13 @@ public class TypeData {
     // Returns map of messages
     private HashMap<String, String> getMessages(String type) {
         HashMap<String, String> messages = new HashMap<String, String>();
-        Double cost = plugin.configData.config.getDouble("types." + type +".cost");
+        Double cost = plugin.getConfigData().config.getDouble("types." + type +".cost");
 
-        messages.put("noPermission", plugin.configData.config.getString("types." + type +".messages.insufficient-permission", "You don't have permission to use this slot."));
-        messages.put("noFunds", plugin.configData.config.getString("types." + type +".messages.insufficient-funds", "You can't afford to use this."));
-        messages.put("inUse", plugin.configData.config.getString("types." + type +".messages.in-use", "This slot machine is already in use."));
-        messages.put("noWin", plugin.configData.config.getString("types." + type +".messages.no-win", "No luck this time."));
-        messages.put("start", plugin.configData.config.getString("types." + type +".messages.start", "[cost] removed from your account. Lets roll!"));
+        messages.put("noPermission", plugin.getConfigData().config.getString("types." + type +".messages.insufficient-permission", "You don't have permission to use this slot."));
+        messages.put("noFunds", plugin.getConfigData().config.getString("types." + type +".messages.insufficient-funds", "You can't afford to use this."));
+        messages.put("inUse", plugin.getConfigData().config.getString("types." + type +".messages.in-use", "This slot machine is already in use."));
+        messages.put("noWin", plugin.getConfigData().config.getString("types." + type +".messages.no-win", "No luck this time."));
+        messages.put("start", plugin.getConfigData().config.getString("types." + type +".messages.start", "[cost] removed from your account. Lets roll!"));
 
         // Parse shortcodes
         for(Map.Entry<String, String> entry : messages.entrySet()) {
@@ -224,7 +224,7 @@ public class TypeData {
      */
     public void setItemCost(Type type, String itemCost) {
         String path = "types." + type.getName() + ".itemCost";
-        plugin.configData.config.set(path, itemCost);
+        plugin.getConfigData().config.set(path, itemCost);
         plugin.saveConfig();
     }
 
@@ -233,26 +233,26 @@ public class TypeData {
         List<String> reel = Arrays.asList("42,10", "41,5", "57,2");
         List<String> help = Arrays.asList("Instructions:", "Get 3 in a row to win.", "3 iron blocks: $250", "3 gold blocks: $500", "3 diamond blocks: $1200");
 
-        plugin.configData.config.set(path + "cost", 100);
-        plugin.configData.config.set(path + "create-cost", 1000);
-        plugin.configData.config.set(path + "reel", reel);
+        plugin.getConfigData().config.set(path + "cost", 100);
+        plugin.getConfigData().config.set(path + "create-cost", 1000);
+        plugin.getConfigData().config.set(path + "reel", reel);
 
         path = path + "rewards.";
 
-        plugin.configData.config.set(path + "42.message", "Winner!");
-        plugin.configData.config.set(path + "42.money", 250);
-        plugin.configData.config.set(path + "41.message", "Winner!");
-        plugin.configData.config.set(path + "41.money", 500);
-        plugin.configData.config.set(path + "57.message", "Winner!");
-        plugin.configData.config.set(path + "57.money", 1200);
+        plugin.getConfigData().config.set(path + "42.message", "Winner!");
+        plugin.getConfigData().config.set(path + "42.money", 250);
+        plugin.getConfigData().config.set(path + "41.message", "Winner!");
+        plugin.getConfigData().config.set(path + "41.money", 500);
+        plugin.getConfigData().config.set(path + "57.message", "Winner!");
+        plugin.getConfigData().config.set(path + "57.money", 1200);
 
         path = "types." + name + ".messages.";
 
-        plugin.configData.config.set(path + "insufficient-funds", "You can't afford to use this.");
-        plugin.configData.config.set(path + "in-use", "This slot machine is already in use.");
-        plugin.configData.config.set(path + "no-win", "No luck this time.");
-        plugin.configData.config.set(path + "start", "[cost] removed from your account. Let's roll!");
-        plugin.configData.config.set(path + "help", help);
+        plugin.getConfigData().config.set(path + "insufficient-funds", "You can't afford to use this.");
+        plugin.getConfigData().config.set(path + "in-use", "This slot machine is already in use.");
+        plugin.getConfigData().config.set(path + "no-win", "No luck this time.");
+        plugin.getConfigData().config.set(path + "start", "[cost] removed from your account. Let's roll!");
+        plugin.getConfigData().config.set(path + "help", help);
 
         plugin.saveConfig();
         loadType(name);

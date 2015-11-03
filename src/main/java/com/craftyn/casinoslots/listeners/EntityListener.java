@@ -27,7 +27,7 @@ public class EntityListener implements Listener {
             b = event.blockList().get(x);
 
             // Look for match in slots
-            for(SlotMachine slot : plugin.slotData.getSlots()) {
+            for(SlotMachine slot : plugin.getSlotData().getSlots()) {
 
                 for(Block current : slot.getBlocks()) {
 

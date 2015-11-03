@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
+import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoToggle extends AnCommand {
 
@@ -15,7 +16,7 @@ public class CasinoToggle extends AnCommand {
     public Boolean process() {
         // Admin permission
         if(player != null) {
-            if(!plugin.permission.isAdmin(player)) {
+            if(!PermissionUtil.isAdmin(player)) {
                 noPermission();
                 return true;
             }
@@ -27,8 +28,8 @@ public class CasinoToggle extends AnCommand {
             return true;
         }
         // Slot exists
-        if(plugin.slotData.isSlot(args[1])) {
-            SlotMachine slot = plugin.slotData.getSlot(args[1]);
+        if(plugin.getSlotData().isSlot(args[1])) {
+            SlotMachine slot = plugin.getSlotData().getSlot(args[1]);
             slot.toggleBusy();
             senderSendMessage("Slot machine toggled.");
             return true;

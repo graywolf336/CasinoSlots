@@ -3,6 +3,7 @@ package com.craftyn.casinoslots.command;
 import org.bukkit.command.CommandSender;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.craftyn.casinoslots.util.PermissionUtil;
 import com.craftyn.casinoslots.util.Stat;
 
 public class CasinoStats extends AnCommand {
@@ -16,14 +17,14 @@ public class CasinoStats extends AnCommand {
 
         // Permissions
         if(player != null) {
-            if(!plugin.permission.isAdmin(player)) {
+            if(!PermissionUtil.isAdmin(player)) {
                 noPermission();
                 return true;
             }
         }
 
         senderSendMessage("Statistics for registered types:");
-        for(Stat stat : plugin.statsData.getStats()) {
+        for(Stat stat : plugin.getStatData().getStats()) {
 
             String type = stat.getType();
             Integer spins = stat.getSpins();

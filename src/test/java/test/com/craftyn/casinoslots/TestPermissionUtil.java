@@ -15,6 +15,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import test.com.craftyn.casinoslots.util.TestInstanceCreator;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.craftyn.casinoslots.util.PermissionUtil;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ CasinoSlots.class, PluginDescriptionFile.class })
@@ -38,25 +39,20 @@ public class TestPermissionUtil {
     }
 
     @Test
-    public void verifyPermissionClassExists() {
-        assertNotNull("The permission class is null.", main.permission);
-    }
-
-    @Test
     public void testAdminPermissions() {
-        assertTrue("The op'd player isn't an admin.", main.permission.isAdmin(creator.getOpPlayer()));
-        assertTrue("The op'd player can't create slot machines.", main.permission.canCreate(creator.getOpPlayer()));
-        assertTrue("The op'd player can't create a slot machine with a type of 'testing'.", main.permission.canCreate(creator.getOpPlayer(), "testing"));
-        assertTrue("The op'd player can't create managed slots.", main.permission.canCreateManaged(creator.getOpPlayer()));
-        assertTrue("The op'd player can't create item slot with type of 'testingItem'.", main.permission.canCreateItemsType(creator.getOpPlayer(), "testingItem"));
+        assertTrue("The op'd player isn't an admin.", PermissionUtil.isAdmin(creator.getOpPlayer()));
+        assertTrue("The op'd player can't create slot machines.", PermissionUtil.canCreate(creator.getOpPlayer()));
+        assertTrue("The op'd player can't create a slot machine with a type of 'testing'.", PermissionUtil.canCreate(creator.getOpPlayer(), "testing"));
+        assertTrue("The op'd player can't create managed slots.", PermissionUtil.canCreateManaged(creator.getOpPlayer()));
+        assertTrue("The op'd player can't create item slot with type of 'testingItem'.", PermissionUtil.canCreateItemsType(creator.getOpPlayer(), "testingItem"));
     }
 
     @Test
     public void testNoPermissions() {
-        assertFalse("The non-op is an admin.", main.permission.isAdmin(creator.getNotOpPlayer()));
-        assertFalse("The non-op player can create slot machines.", main.permission.canCreate(creator.getNotOpPlayer()));
-        assertFalse("The non-op player can create a slot machine with a type of 'testing'.", main.permission.canCreate(creator.getNotOpPlayer(), "testing"));
-        assertFalse("The non-op player can create managed slots.", main.permission.canCreateManaged(creator.getNotOpPlayer()));
-        assertFalse("The non-op player can create item slot with type of 'testingItem'.", main.permission.canCreateItemsType(creator.getNotOpPlayer(), "testingItem"));
+        assertFalse("The non-op is an admin.", PermissionUtil.isAdmin(creator.getNotOpPlayer()));
+        assertFalse("The non-op player can create slot machines.", PermissionUtil.canCreate(creator.getNotOpPlayer()));
+        assertFalse("The non-op player can create a slot machine with a type of 'testing'.", PermissionUtil.canCreate(creator.getNotOpPlayer(), "testing"));
+        assertFalse("The non-op player can create managed slots.", PermissionUtil.canCreateManaged(creator.getNotOpPlayer()));
+        assertFalse("The non-op player can create item slot with type of 'testingItem'.", PermissionUtil.canCreateItemsType(creator.getNotOpPlayer(), "testingItem"));
     }
 }

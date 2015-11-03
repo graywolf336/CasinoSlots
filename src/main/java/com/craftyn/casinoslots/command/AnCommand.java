@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
+import com.craftyn.casinoslots.util.PermissionUtil;
 
 public abstract class AnCommand {
     protected CasinoSlots plugin;
@@ -36,7 +37,7 @@ public abstract class AnCommand {
     public Boolean isOwner(SlotMachine slot) {
         if(!(sender instanceof Player)) return true; //The console
 
-        if(plugin.permission.isAdmin(player) || slot.getOwner().equalsIgnoreCase(player.getName()))
+        if(PermissionUtil.isAdmin(player) || slot.getOwner().equalsIgnoreCase(player.getName()))
             return true;
         else
             return false;

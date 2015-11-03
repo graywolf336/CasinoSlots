@@ -17,8 +17,8 @@ public class CasinoDeposit extends AnCommand {
         if(args.length == 3) {
 
             // Slot exists
-            if(plugin.slotData.isSlot(args[1])) {
-                SlotMachine slot = plugin.slotData.getSlot(args[1]);
+            if(plugin.getSlotData().isSlot(args[1])) {
+                SlotMachine slot = plugin.getSlotData().getSlot(args[1]);
 
                 // Can access slot
                 if(isOwner(slot)) {
@@ -45,7 +45,7 @@ public class CasinoDeposit extends AnCommand {
                         plugin.getEconomy().withdrawPlayer(player.getName(), amount);
                         sendMessage(amount +  " deposited to " + args[1] + ".");
                         sendMessage(args[1] + " now has " + slot.getFunds() + " in it's account.");
-                        plugin.slotData.saveSlot(slot);
+                        plugin.getSlotData().saveSlot(slot);
                     }
                 }
                 // No access

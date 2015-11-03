@@ -54,9 +54,9 @@ public class ConfigData {
         slotsFile = new File(plugin.getDataFolder(), "slots.yml");
         slots = YamlConfiguration.loadConfiguration(slotsFile);
 
-        plugin.typeData.loadTypes();
-        plugin.slotData.loadSlots();
-        plugin.statsData.loadStats();
+        plugin.getTypeData().loadTypes();
+        plugin.getSlotData().loadSlots();
+        plugin.getStatData().loadStats();
     }
 
     /**
@@ -135,7 +135,7 @@ public class ConfigData {
 
     // Save slots data
     public void saveSlots() {
-        Collection<SlotMachine> slots = plugin.slotData.getSlots();
+        Collection<SlotMachine> slots = plugin.getSlotData().getSlots();
 
         if(slots != null && !slots.isEmpty()) {
             for (SlotMachine slot : slots) {
@@ -160,7 +160,7 @@ public class ConfigData {
 
     // Save stats data
     public void saveStats() {
-        Collection<Stat> stats = plugin.statsData.getStats();
+        Collection<Stat> stats = plugin.getStatData().getStats();
         if(stats != null && !stats.isEmpty()) {
             for(Stat stat : stats) {
                 String path = "types." + stat.getType() +".";
@@ -172,11 +172,11 @@ public class ConfigData {
             }
         }
 
-        this.stats.set("global.spins", plugin.statsData.globalSpins);
-        this.stats.set("global.wins", plugin.statsData.globalWins);
-        this.stats.set("global.losts", plugin.statsData.globalLosts);
-        this.stats.set("global.won", plugin.statsData.globalWon);
-        this.stats.set("global.lost", plugin.statsData.globalLost);
+        this.stats.set("global.spins", plugin.getStatData().globalSpins);
+        this.stats.set("global.wins", plugin.getStatData().globalWins);
+        this.stats.set("global.losts", plugin.getStatData().globalLosts);
+        this.stats.set("global.won", plugin.getStatData().globalWon);
+        this.stats.set("global.lost", plugin.getStatData().globalLost);
 
         try {
             if(debug) plugin.debug("Saving the stats.yml.");

@@ -84,8 +84,8 @@ public class SlotData {
 
         this.slots.remove(slot.getName());
         slot.getController().setType(Material.AIR);
-        plugin.configData.slots.set("slots." + slot.getName(), null);
-        plugin.configData.saveSlots();
+        plugin.getConfigData().slots.set("slots." + slot.getName(), null);
+        plugin.getConfigData().saveSlots();
     }
 
     /**
@@ -101,8 +101,8 @@ public class SlotData {
     public void loadSlots() {
         int i = 0;
         this.slots = new HashMap<String, SlotMachine>();
-        if(plugin.configData.slots.isConfigurationSection("slots")) {
-            Set<String> slots = plugin.configData.slots.getConfigurationSection("slots").getKeys(false);
+        if(plugin.getConfigData().slots.isConfigurationSection("slots")) {
+            Set<String> slots = plugin.getConfigData().slots.getConfigurationSection("slots").getKeys(false);
             if(!slots.isEmpty()) {
                 for(String name : slots) {
                     loadSlot(name);
@@ -135,21 +135,21 @@ public class SlotData {
             sXyz = sign.getX() + "," + sign.getY() + "," + sign.getZ();
         }
 
-        plugin.configData.slots.set(path + "name", slot.getName());
-        plugin.configData.slots.set(path + "type", slot.getType());
-        plugin.configData.slots.set(path + "owner", slot.getOwner());
-        plugin.configData.slots.set(path + "world", slot.getWorld());
-        plugin.configData.slots.set(path + "sign", sXyz);
-        plugin.configData.slots.set(path + "managed", slot.isManaged());
-        plugin.configData.slots.set(path + "funds", slot.getFunds());
-        plugin.configData.slots.set(path + "item", slot.isItem());
-        plugin.configData.slots.set(path + "itemID", slot.getItem());
-        plugin.configData.slots.set(path + "itemAmt", slot.getItemAmount());
-        plugin.configData.slots.set(path + "controller", cXyz);
-        plugin.configData.slots.set(path + "location", xyz);
+        plugin.getConfigData().slots.set(path + "name", slot.getName());
+        plugin.getConfigData().slots.set(path + "type", slot.getType());
+        plugin.getConfigData().slots.set(path + "owner", slot.getOwner());
+        plugin.getConfigData().slots.set(path + "world", slot.getWorld());
+        plugin.getConfigData().slots.set(path + "sign", sXyz);
+        plugin.getConfigData().slots.set(path + "managed", slot.isManaged());
+        plugin.getConfigData().slots.set(path + "funds", slot.getFunds());
+        plugin.getConfigData().slots.set(path + "item", slot.isItem());
+        plugin.getConfigData().slots.set(path + "itemID", slot.getItem());
+        plugin.getConfigData().slots.set(path + "itemAmt", slot.getItemAmount());
+        plugin.getConfigData().slots.set(path + "controller", cXyz);
+        plugin.getConfigData().slots.set(path + "location", xyz);
 
 
-        plugin.configData.saveSlots();
+        plugin.getConfigData().saveSlots();
     }
 
     // Loads a slot machine into memory
@@ -157,14 +157,14 @@ public class SlotData {
 
         String path = "slots." + name + ".";
 
-        String type = plugin.configData.slots.getString(path + "type");
-        String owner = plugin.configData.slots.getString(path + "owner");
-        String world = plugin.configData.slots.getString(path + "world");
-        Boolean managed = plugin.configData.slots.getBoolean(path + "managed");
-        Double funds = plugin.configData.slots.getDouble(path + "funds");
-        Boolean item = plugin.configData.slots.getBoolean(path + "item", false);
-        int itemID = plugin.configData.slots.getInt(path + "itemID", 0);
-        int itemAmt = plugin.configData.slots.getInt(path + "itemAmt", 0);
+        String type = plugin.getConfigData().slots.getString(path + "type");
+        String owner = plugin.getConfigData().slots.getString(path + "owner");
+        String world = plugin.getConfigData().slots.getString(path + "world");
+        Boolean managed = plugin.getConfigData().slots.getBoolean(path + "managed");
+        Double funds = plugin.getConfigData().slots.getDouble(path + "funds");
+        Boolean item = plugin.getConfigData().slots.getBoolean(path + "item", false);
+        int itemID = plugin.getConfigData().slots.getInt(path + "itemID", 0);
+        int itemAmt = plugin.getConfigData().slots.getInt(path + "itemAmt", 0);
         ArrayList<Block> blocks = getBlocks(name);
         Block controller = getController(name);
         Block sign = getSign(name);
@@ -180,9 +180,9 @@ public class SlotData {
     // Gets reel blocks location from disk
     private ArrayList<Block> getBlocks(String name) {
 
-        List<String> xyz = plugin.configData.slots.getStringList("slots." + name + ".location");
+        List<String> xyz = plugin.getConfigData().slots.getStringList("slots." + name + ".location");
         ArrayList<Block> blocks = new ArrayList<Block>();
-        World world = Bukkit.getWorld(plugin.configData.slots.getString("slots." + name + ".world", "world"));
+        World world = Bukkit.getWorld(plugin.getConfigData().slots.getString("slots." + name + ".world", "world"));
 
         if (world == null) {
             plugin.error("The world for the slot '" + name + "' was null, please fix this and restart the server.");
@@ -203,8 +203,8 @@ public class SlotData {
     // Gets controller block from disk
     private Block getController(String name) {
 
-        String location = plugin.configData.slots.getString("slots." + name + ".controller");
-        World world = Bukkit.getWorld(plugin.configData.slots.getString("slots." + name + ".world"));
+        String location = plugin.getConfigData().slots.getString("slots." + name + ".controller");
+        World world = Bukkit.getWorld(plugin.getConfigData().slots.getString("slots." + name + ".world"));
         String[] b = location.split("\\,");
         Location loc = new Location(world, Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]));
 
@@ -212,13 +212,13 @@ public class SlotData {
     }
 
     private Block getSign(String name) {
-        String location = plugin.configData.slots.getString("slots." + name + ".sign");
+        String location = plugin.getConfigData().slots.getString("slots." + name + ".sign");
 
         if(location == null) {
             return null;
         }
 
-        World world = Bukkit.getWorld(plugin.configData.slots.getString("slots." + name + ".world"));
+        World world = Bukkit.getWorld(plugin.getConfigData().slots.getString("slots." + name + ".world"));
         String[] b = location.split("\\,");
         Location loc = new Location(world, Integer.parseInt(b[0]), Integer.parseInt(b[1]), Integer.parseInt(b[2]));
 
@@ -249,7 +249,7 @@ public class SlotData {
         }
 
         for(Block b : blocks) {
-            if(plugin.configData.inDebug()) {
+            if(plugin.getConfigData().inDebug()) {
                 if(blocks.get(0) == b || blocks.get(1) == b || blocks.get(2) == b) {
                     b.setType(Material.DIAMOND_BLOCK);
                 }else if(blocks.get(3) == b || blocks.get(4) == b || blocks.get(5) == b) {

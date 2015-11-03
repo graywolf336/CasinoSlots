@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
+import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoRemove extends AnCommand {
 
@@ -16,7 +17,7 @@ public class CasinoRemove extends AnCommand {
 
         // Permissions
         if(player != null) {
-            if(!plugin.permission.canCreate(player)) {
+            if(!PermissionUtil.canCreate(player)) {
                 noPermission();
                 return true;
             }
@@ -26,12 +27,12 @@ public class CasinoRemove extends AnCommand {
         if(args.length == 2) {
 
             // Slot exists
-            if(plugin.slotData.isSlot(args[1])) {
-                SlotMachine slot = plugin.slotData.getSlot(args[1]);
+            if(plugin.getSlotData().isSlot(args[1])) {
+                SlotMachine slot = plugin.getSlotData().getSlot(args[1]);
 
                 // Can access slot
                 if(isOwner(slot)) {
-                    plugin.slotData.removeSlot(slot);
+                    plugin.getSlotData().removeSlot(slot);
                     senderSendMessage("Slot machine removed.");
                 }
                 // No access

@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
+import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoAdd extends AnCommand {
 
@@ -20,23 +21,23 @@ public class CasinoAdd extends AnCommand {
     public Boolean process() {
 
         // Permissions
-        if(!plugin.permission.canCreate(player)) {
+        if(!PermissionUtil.canCreate(player)) {
             noPermission();
             return true;
         }
 
         //Check for simple player things before they try to add a slot
         if(plugin.useTowny) {
-            if(plugin.configData.onlyTowns) {
-                if(!plugin.townyChecks.checkTown(player)) {
-                    plugin.sendMessage(player, plugin.configData.noTown);
+            if(plugin.getConfigData().onlyTowns) {
+                if(!plugin.getTownyChecks().checkTown(player)) {
+                    plugin.sendMessage(player, plugin.getConfigData().noTown);
                     return true;
                 }
             }
 
-            if(plugin.configData.onlyMayors) {
-                if(!plugin.townyChecks.checkMayor(player)) {
-                    plugin.sendMessage(player, plugin.configData.noMayor);
+            if(plugin.getConfigData().onlyMayors) {
+                if(!plugin.getTownyChecks().checkMayor(player)) {
+                    plugin.sendMessage(player, plugin.getConfigData().noMayor);
                     return true;
                 }
             }
@@ -46,7 +47,7 @@ public class CasinoAdd extends AnCommand {
         if(args.length >= 2 && args.length <= 3) {
 
             // Slot does not exist
-            if(!plugin.slotData.isSlot(args[1])) {
+            if(!plugin.getSlotData().isSlot(args[1])) {
 
                 this.name = args[1];
 
@@ -56,11 +57,11 @@ public class CasinoAdd extends AnCommand {
                     type = "default";
                 }
 
-                else if(plugin.typeData.isType(args[2])) {
+                else if(plugin.getTypeData().isType(args[2])) {
                     String typeName = args[2];
 
                     // Has type permission
-                    if(!plugin.permission.canCreate(player, typeName)) {
+                    if(!PermissionUtil.canCreate(player, typeName)) {
                         sendMessage("Invalid type " + typeName);
                         return true;
                     }
@@ -78,7 +79,7 @@ public class CasinoAdd extends AnCommand {
                 owner = player.getName();
 
                 // Creation cost
-                Double createCost = plugin.typeData.getType(type).getCreateCost();
+                Double createCost = plugin.getTypeData().getType(type).getCreateCost();
                 if(plugin.getEconomy().has(owner, createCost)) {
                     plugin.getEconomy().withdrawPlayer(owner, createCost);
                 }
@@ -92,7 +93,7 @@ public class CasinoAdd extends AnCommand {
 
                 //Good to start punching the blocks to create the slot.
                 SlotMachine slot = new SlotMachine(plugin, name, type, owner, world, false, false, 0, 0);
-                plugin.slotData.toggleCreatingSlots(player.getName(), slot);
+                plugin.getSlotData().toggleCreatingSlots(player.getName(), slot);
                 sendMessage("Punch a block to serve as the base for this slot machine.");
             }
 

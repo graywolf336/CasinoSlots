@@ -3,6 +3,7 @@ package com.craftyn.casinoslots.command;
 import org.bukkit.command.CommandSender;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoVer extends AnCommand {
 
@@ -14,7 +15,7 @@ public class CasinoVer extends AnCommand {
 
         // Admin permission
         if(player != null) {
-            if(!plugin.permission.isAdmin(player)) {
+            if(!PermissionUtil.isAdmin(player)) {
                 noPermission();
                 return true;
             }

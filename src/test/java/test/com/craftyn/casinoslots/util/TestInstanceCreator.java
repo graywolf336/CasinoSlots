@@ -286,7 +286,7 @@ public class TestInstanceCreator {
 
             // Enable it and turn on debugging
             main.onEnable();
-            main.configData.debug = true;
+            main.getConfigData().debug = true;
 
             return true;
         } catch (Exception e) {

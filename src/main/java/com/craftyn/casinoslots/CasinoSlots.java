@@ -19,7 +19,6 @@ import com.craftyn.casinoslots.slot.RewardData;
 import com.craftyn.casinoslots.slot.SlotData;
 import com.craftyn.casinoslots.slot.TypeData;
 import com.craftyn.casinoslots.util.ConfigData;
-import com.craftyn.casinoslots.util.Permissions;
 import com.craftyn.casinoslots.util.StatData;
 import com.craftyn.casinoslots.util.TownyChecks;
 import com.palmergames.bukkit.towny.Towny;
@@ -42,13 +41,12 @@ public class CasinoSlots extends JavaPlugin {
     private EntityListener entity = new EntityListener(this);
     private AnCommandExecutor commandExecutor = new AnCommandExecutor(this);
 
-    public ConfigData configData = new ConfigData(this);
-    public SlotData slotData = new SlotData(this);
-    public TypeData typeData = new TypeData(this);
-    public StatData statsData = new StatData(this);
-    public RewardData rewardData = new RewardData(this);
-    public Permissions permission = new Permissions();
-    public TownyChecks townyChecks = null;
+    private ConfigData configData = new ConfigData(this);
+    private SlotData slotData = new SlotData(this);
+    private TypeData typeData = new TypeData(this);
+    private StatData statsData = new StatData(this);
+    private RewardData rewardData = new RewardData(this);
+    private TownyChecks townyChecks = null;
 
     public void onDisable() {
         if (economy != null) {
@@ -61,7 +59,6 @@ public class CasinoSlots extends JavaPlugin {
             this.typeData = null;
             this.statsData = null;
             this.rewardData = null;
-            this.permission = null;
             this.townyChecks = null;
 
             this.towny = null;
@@ -251,6 +248,60 @@ public class CasinoSlots extends JavaPlugin {
      * @return the {@link WorldGuardPlugin} instance
      */
     public WorldGuardPlugin getWorldGuard() {
-        return worldGuard;
+        return this.worldGuard;
+    }
+    
+    /**
+     * Returns the instance of the {@link ConfigData}.
+     * 
+     * @return the {@link ConfigData} instance
+     */
+    public ConfigData getConfigData() {
+        return this.configData;
+    }
+    
+    /**
+     * Returns the instance of the {@link SlotData}.
+     * 
+     * @return the {@link SlotData} instance
+     */
+    public SlotData getSlotData() {
+        return this.slotData;
+    }
+    
+    /**
+     * Returns the instance of the {@link TypeData}.
+     * 
+     * @return the {@link TypeData} instance
+     */
+    public TypeData getTypeData() {
+        return this.typeData;
+    }
+    
+    /**
+     * Returns the instance of the {@link StatData}.
+     * 
+     * @return the {@link StatData} instance
+     */
+    public StatData getStatData() {
+        return this.statsData;
+    }
+    
+    /**
+     * Returns the instance of the {@link RewardData}.
+     * 
+     * @return the {@link RewardData} instance
+     */
+    public RewardData getRewardData() {
+        return this.rewardData;
+    }
+    
+    /**
+     * Returns the instance of the {@link TownyChecks}.
+     * 
+     * @return the {@link TownyChecks} instance
+     */
+    public TownyChecks getTownyChecks() {
+        return this.townyChecks;
     }
 }

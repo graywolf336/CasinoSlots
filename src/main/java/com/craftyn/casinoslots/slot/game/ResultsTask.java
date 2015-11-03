@@ -53,7 +53,7 @@ public class ResultsTask implements Runnable {
 
             // Send the rewards
             for (Reward reward : results) {
-                game.getPlugin().rewardData.send(player, reward, type);
+                game.getPlugin().getRewardData().send(player, reward, type);
                 won += reward.getMoney();
                 game.getPlugin().debug("The player has won an amount of: " + won);
             }
@@ -62,8 +62,8 @@ public class ResultsTask implements Runnable {
             if (slot.isManaged()) {
 
                 slot.withdraw(won);
-                game.getPlugin().slotData.saveSlot(slot);
-                Double max = game.getPlugin().typeData.getMaxPrize(type.getName());
+                game.getPlugin().getSlotData().saveSlot(slot);
+                Double max = game.getPlugin().getTypeData().getMaxPrize(type.getName());
                 if (slot.getFunds() < max) {
                     slot.setEnabled(false);
                 }
@@ -77,31 +77,31 @@ public class ResultsTask implements Runnable {
         }
 
         // Register statistics
-        if (game.getPlugin().configData.trackStats) {
+        if (game.getPlugin().getConfigData().trackStats) {
             Stat stat;
 
             //Already have some stats for this type
-            if (game.getPlugin().statsData.isStat(name)) {
-                stat = game.getPlugin().statsData.getStat(name);
+            if (game.getPlugin().getStatData().isStat(name)) {
+                stat = game.getPlugin().getStatData().getStat(name);
                 if (!results.isEmpty()) {
                     stat.addWon(won, cost);
-                    game.getPlugin().statsData.addStat(stat);
+                    game.getPlugin().getStatData().addStat(stat);
                 } else {
                     stat.addLost(won, cost);
-                    game.getPlugin().statsData.addStat(stat);
+                    game.getPlugin().getStatData().addStat(stat);
                 }
             } else {
                 game.getPlugin().debug("The player has won an amount of: " + won);
                 game.getPlugin().debug("The player has lost an amount of: " + cost);
                 if (!results.isEmpty()) {
                     stat = new Stat(name, 1, 1, 0, won, cost);
-                    game.getPlugin().statsData.addStat(stat);
+                    game.getPlugin().getStatData().addStat(stat);
                 } else {
                     stat = new Stat(name, 1, 0, 1, won, cost);
-                    game.getPlugin().statsData.addStat(stat);
+                    game.getPlugin().getStatData().addStat(stat);
                 }
             }
-            game.getPlugin().configData.saveStats();
+            game.getPlugin().getConfigData().saveStats();
         }
 
         // All done
@@ -125,7 +125,7 @@ public class ResultsTask implements Runnable {
                 current = blocks.subList(start, end);
             } else {
                 //diagonals
-                if (game.getPlugin().configData.allowDiagonals) {
+                if (game.getPlugin().getConfigData().allowDiagonals) {
                     current = new ArrayList<Block>();
                     for (int j = 0; j < 3; j++) {
                         if (i == 3) {

@@ -3,6 +3,7 @@ package com.craftyn.casinoslots.command;
 import org.bukkit.command.CommandSender;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class Casino extends AnCommand {
 
@@ -22,7 +23,7 @@ public class Casino extends AnCommand {
             return true;
         }
 
-        if(plugin.permission.isAdmin(player)) {
+        if(PermissionUtil.isAdmin(player)) {
             sendMessage("Command guide:");
             sendMessage("  /casino add - Add a new slot machine");
             sendMessage("  /casino addmanaged - Add a new managed slot machine");
@@ -40,7 +41,7 @@ public class Casino extends AnCommand {
             sendMessage("  /casino version - To get the current version of the plugin.");
         }
 
-        else if(plugin.permission.canCreate(player)) {
+        else if(PermissionUtil.canCreate(player)) {
             sendMessage("Command guide:");
             sendMessage("  /casino add - Add a new slot machine");
             sendMessage("  /casino addmanaged - Add a new managed slot machine");
@@ -52,7 +53,7 @@ public class Casino extends AnCommand {
             sendMessage("  /casino withdraw - Withdraw money from a managed slot");
         }
 
-        else if(plugin.permission.canCreateManaged(player)) {
+        else if(PermissionUtil.canCreateManaged(player)) {
             sendMessage("Command guide:");
             sendMessage("  /casino addmanaged - Add a new managed slot machine");
             sendMessage("  /casino deposit - Deposit money to a managed slot");

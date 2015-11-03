@@ -3,6 +3,7 @@ package com.craftyn.casinoslots.command;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoType extends AnCommand {
 
@@ -14,7 +15,7 @@ public class CasinoType extends AnCommand {
     public Boolean process() {
 
         // Permissions
-        if(!plugin.permission.isAdmin(player)) {
+        if(!PermissionUtil.isAdmin(player)) {
             noPermission();
             return true;
         }
@@ -32,12 +33,12 @@ public class CasinoType extends AnCommand {
         // Add type command
         if(args[1].equalsIgnoreCase("add")) {
 
-            if(plugin.typeData.isType(args[2])) {
+            if(plugin.getTypeData().isType(args[2])) {
                 sendMessage("Type " + args[2] +" already exists.");
             }
 
             else {
-                plugin.typeData.newType(args[2]);
+                plugin.getTypeData().newType(args[2]);
                 sendMessage("Type " + args[2] + " created! Configure it to your needs in config.yml before using it.");
             }
         }
@@ -50,8 +51,8 @@ public class CasinoType extends AnCommand {
         // Remove type command
         else if(args[1].equalsIgnoreCase("remove")) {
 
-            if(plugin.typeData.isType(args[2])) {
-                plugin.typeData.removeType(args[2]);
+            if(plugin.getTypeData().isType(args[2])) {
+                plugin.getTypeData().removeType(args[2]);
                 sendMessage("Type " + args[2] + " removed. Make sure to update any slot machines using this type.");
             }
             else {

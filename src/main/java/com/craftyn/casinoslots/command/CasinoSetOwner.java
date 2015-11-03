@@ -17,8 +17,8 @@ public class CasinoSetOwner extends AnCommand {
         if(args.length == 3) {
 
             // Slot exists
-            if(plugin.slotData.isSlot(args[1])) {
-                SlotMachine slot = plugin.slotData.getSlot(args[1]);
+            if(plugin.getSlotData().isSlot(args[1])) {
+                SlotMachine slot = plugin.getSlotData().getSlot(args[1]);
 
                 // Can access slot
                 if(isOwner(slot)) {

@@ -19,6 +19,7 @@ import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
 import com.craftyn.casinoslots.slot.Type;
 import com.craftyn.casinoslots.slot.game.Game;
+import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class PlayerListener implements Listener {
     private CasinoSlots plugin;
@@ -46,33 +47,33 @@ public class PlayerListener implements Listener {
 
             Player player = event.getPlayer();
 
-            if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isCreatingSlots(player.getName())) {
+            if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.getSlotData().isCreatingSlots(player.getName())) {
                 // Creating slots
                 BlockFace face = event.getBlockFace();
 
                 if(face != BlockFace.DOWN && face != BlockFace.UP) {
                     if(plugin.useTowny) {
-                        if(!plugin.townyChecks.checkSlotsTowny(b, face, player.getName())) {
-                            SlotMachine slot = plugin.slotData.getCreatingSlot(player.getName());
-                            plugin.slotData.toggleCreatingSlots(player.getName(), slot);
-                            plugin.sendMessage(player, plugin.configData.noOwnership);
+                        if(!plugin.getTownyChecks().checkSlotsTowny(b, face, player.getName())) {
+                            SlotMachine slot = plugin.getSlotData().getCreatingSlot(player.getName());
+                            plugin.getSlotData().toggleCreatingSlots(player.getName(), slot);
+                            plugin.sendMessage(player, plugin.getConfigData().noOwnership);
                             return;
                         }
                     }
 
                     if(plugin.useWorldGuard) {
                         if(!plugin.getWorldGuard().canBuild(player, b)) {
-                            SlotMachine slot = plugin.slotData.getCreatingSlot(player.getName());
-                            plugin.slotData.toggleCreatingSlots(player.getName(), slot);
+                            SlotMachine slot = plugin.getSlotData().getCreatingSlot(player.getName());
+                            plugin.getSlotData().toggleCreatingSlots(player.getName(), slot);
                             player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
                             return;
                         }
                     }
 
-                    SlotMachine slot = plugin.slotData.getCreatingSlot(player.getName());
-                    plugin.slotData.createReel(player, face, slot);
-                    plugin.slotData.toggleCreatingSlots(player.getName(), slot);
-                    plugin.slotData.togglePlacingController(player.getName(), slot);
+                    SlotMachine slot = plugin.getSlotData().getCreatingSlot(player.getName());
+                    plugin.getSlotData().createReel(player, face, slot);
+                    plugin.getSlotData().toggleCreatingSlots(player.getName(), slot);
+                    plugin.getSlotData().togglePlacingController(player.getName(), slot);
                     plugin.sendMessage(player, "Punch a block to serve as the controller for this slot machine.");
                     event.setCancelled(true);
                     return;
@@ -80,58 +81,58 @@ public class PlayerListener implements Listener {
                     plugin.sendMessage(player, "Only sides of blocks are valid targets for this operation.");
                     return;
                 }
-            }else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPlacingController(player.getName())) {
+            }else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.getSlotData().isPlacingController(player.getName())) {
                 // Placing controller
 
                 if(plugin.useTowny) {
-                    if(!plugin.townyChecks.checkSingleTowny(b, player.getName())) {
-                        SlotMachine slot = plugin.slotData.getPlacingSlot(player.getName());
-                        plugin.slotData.togglePlacingController(player.getName(), slot);
-                        plugin.sendMessage(player, plugin.configData.noOwnership);
+                    if(!plugin.getTownyChecks().checkSingleTowny(b, player.getName())) {
+                        SlotMachine slot = plugin.getSlotData().getPlacingSlot(player.getName());
+                        plugin.getSlotData().togglePlacingController(player.getName(), slot);
+                        plugin.sendMessage(player, plugin.getConfigData().noOwnership);
                         return;
                     }
                 }
 
                 if(plugin.useWorldGuard) {
                     if(!plugin.getWorldGuard().canBuild(player, b)) {
-                        SlotMachine slot = plugin.slotData.getPlacingSlot(player.getName());
-                        plugin.slotData.togglePlacingController(player.getName(), slot);
+                        SlotMachine slot = plugin.getSlotData().getPlacingSlot(player.getName());
+                        plugin.getSlotData().togglePlacingController(player.getName(), slot);
                         player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
                         return;
                     }
                 }
 
-                SlotMachine slot = plugin.slotData.getPlacingSlot(player.getName());
+                SlotMachine slot = plugin.getSlotData().getPlacingSlot(player.getName());
                 slot.setController(b);
-                plugin.slotData.togglePlacingController(player.getName(), slot);
-                plugin.slotData.addSlot(slot);
-                plugin.slotData.saveSlot(slot);
+                plugin.getSlotData().togglePlacingController(player.getName(), slot);
+                plugin.getSlotData().addSlot(slot);
+                plugin.getSlotData().saveSlot(slot);
                 plugin.sendMessage(player, "Slot machine set up successfully!");
                 event.setCancelled(true);
                 return;
-            }else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.slotData.isPunchingSign(player.getName())) {
+            }else if(event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.getSlotData().isPunchingSign(player.getName())) {
                 //setting the sign
 
                 if(plugin.useTowny) {
-                    if(!plugin.townyChecks.checkSingleTowny(b, player.getName())) {
-                        SlotMachine slot = plugin.slotData.getSignPunchingSlot(player.getName());
-                        plugin.slotData.togglePunchingSign(player.getName(), slot);
-                        plugin.sendMessage(player, plugin.configData.noOwnership);
+                    if(!plugin.getTownyChecks().checkSingleTowny(b, player.getName())) {
+                        SlotMachine slot = plugin.getSlotData().getSignPunchingSlot(player.getName());
+                        plugin.getSlotData().togglePunchingSign(player.getName(), slot);
+                        plugin.sendMessage(player, plugin.getConfigData().noOwnership);
                         return;
                     }
                 }
 
                 if(plugin.useWorldGuard) {
                     if(!plugin.getWorldGuard().canBuild(player, b)) {
-                        SlotMachine slot = plugin.slotData.getSignPunchingSlot(player.getName());
-                        plugin.slotData.togglePunchingSign(player.getName(), slot);
+                        SlotMachine slot = plugin.getSlotData().getSignPunchingSlot(player.getName());
+                        plugin.getSlotData().togglePunchingSign(player.getName(), slot);
                         player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
                         return;
                     }
                 }
 
                 if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
-                    SlotMachine slot = plugin.slotData.getSignPunchingSlot(player.getName());
+                    SlotMachine slot = plugin.getSlotData().getSignPunchingSlot(player.getName());
 
                     Sign sign = (Sign) b.getState();
                     sign.setLine(0, "The Last");
@@ -140,11 +141,11 @@ public class PlayerListener implements Listener {
 
                     slot.setSign(b);
 
-                    plugin.slotData.saveSlot(slot);
+                    plugin.getSlotData().saveSlot(slot);
 
                     plugin.sendMessage(player, "Successfully stored the location of the sign!");
 
-                    plugin.slotData.togglePunchingSign(player.getName(), slot);
+                    plugin.getSlotData().togglePunchingSign(player.getName(), slot);
                     event.setCancelled(true);
                 }else {
                     plugin.sendMessage(player, "Please make sure you are punching a sign on the wall or sign standing up. Try again.");
@@ -157,11 +158,11 @@ public class PlayerListener implements Listener {
             if(b.getType() == Material.NOTE_BLOCK) {
 
                 // Look for matching controller block
-                for(SlotMachine slot : plugin.slotData.getSlots()) {
+                for(SlotMachine slot : plugin.getSlotData().getSlots()) {
 
                     // Match found
                     if(b.equals(slot.getController())) {
-                        Type type = plugin.typeData.getType(slot.getType());
+                        Type type = plugin.getTypeData().getType(slot.getType());
 
                         //Checks if the type given is null or not and informs the player and the console.
                         if (typeIsNull(player, type)) return;
@@ -170,7 +171,7 @@ public class PlayerListener implements Listener {
                         if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
                             //  Player has permission
-                            if(plugin.permission.canUse(player, type)) {
+                            if(PermissionUtil.canUse(player, type)) {
 
                                 // Slot is not busy
                                 if(!slot.isBusy()) {
@@ -284,9 +285,9 @@ public class PlayerListener implements Listener {
 
                         // Right click event
                         else if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                            if(plugin.permission.isOwner(player, slot) || plugin.permission.isAdmin(player)) {
+                            if(PermissionUtil.isOwner(player, slot) || PermissionUtil.isAdmin(player)) {
                                 if (slot.isManaged()) {
-                                    if(slot.getFunds() >= plugin.typeData.getMaxPrize(slot.getType())) {
+                                    if(slot.getFunds() >= plugin.getTypeData().getMaxPrize(slot.getType())) {
                                         slot.setEnabled(true);
                                     }else {
                                         slot.setEnabled(false);
@@ -303,7 +304,7 @@ public class PlayerListener implements Listener {
                                         plugin.sendMessage(player, "    Enabled: " + ChatColor.RED + slot.isEnabled().toString());
                                     }
                                     plugin.sendMessage(player, "    Funds: " + slot.getFunds() + " " + plugin.getEconomy().currencyNamePlural());
-                                    plugin.sendMessage(player, "    Funds required: " + plugin.typeData.getMaxPrize(slot.getType()));
+                                    plugin.sendMessage(player, "    Funds required: " + plugin.getTypeData().getMaxPrize(slot.getType()));
                                 }
                                 plugin.sendMessage(player, "    Item: " + slot.isItem().toString());
                                 if(slot.isItem()) {

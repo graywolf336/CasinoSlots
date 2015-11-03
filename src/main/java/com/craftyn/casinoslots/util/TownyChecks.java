@@ -28,7 +28,7 @@ public class TownyChecks {
      * @return True if the player is part of a town (or admin), false if not.
      */
     public boolean checkTown(Player player) {
-        if(plugin.permission.isAdmin(player)) return true;
+        if(PermissionUtil.isAdmin(player)) return true;
         Resident res = null;
 
         try {
@@ -49,7 +49,7 @@ public class TownyChecks {
      * @return True if the player is a king (or admin), false if not.
      */
     public boolean checkMayor(Player player) {
-        if(plugin.permission.isAdmin(player)) return true;
+        if(PermissionUtil.isAdmin(player)) return true;
         Resident res = null;
 
         try {
@@ -78,7 +78,7 @@ public class TownyChecks {
             resC = tbC.getResident();
         } catch (NotRegisteredException e) {return false;}
 
-        if(plugin.configData.inDebug()) plugin.debug("The single block we're check resident is: " + resC.getName());
+        plugin.debug("The single block we're check resident is: " + resC.getName());
 
         if(res.equals(resC))
             return true;
@@ -100,48 +100,48 @@ public class TownyChecks {
         TownBlock tbC = TownyUniverse.getTownBlock(check.getLocation());
         TownBlock tbR = TownyUniverse.getTownBlock(check.getRelative(getDirection(face, "left"), 2).getLocation());
 
-        if(plugin.configData.inDebug()) plugin.debug("Does the left block have a town: " + tbL.hasTown());
-        if(plugin.configData.inDebug()) plugin.debug("Does the center block have a town: " + tbC.hasTown());
-        if(plugin.configData.inDebug()) plugin.debug("Does the right block have a town: " + tbR.hasTown());
+        plugin.debug("Does the left block have a town: " + tbL.hasTown());
+        plugin.debug("Does the center block have a town: " + tbC.hasTown());
+        plugin.debug("Does the right block have a town: " + tbR.hasTown());
 
         if(tbL == null || tbC == null || tbR == null)
             return false;
 
         try {
             res = TownyUniverse.getDataSource().getResident(player);
-            if(plugin.configData.inDebug()) plugin.debug("Got the Towny Resident for the player: " + player);
+            plugin.debug("Got the Towny Resident for the player: " + player);
         } catch (NotRegisteredException e) {
-            if(plugin.configData.inDebug()) plugin.debug("The player's resident isn't registered: " + player);
+            plugin.debug("The player's resident isn't registered: " + player);
             return false;
         }
 
         try {
             resL = tbL.getResident();
-            if(plugin.configData.inDebug()) plugin.debug("Got the resident for the left block.");
+            plugin.debug("Got the resident for the left block.");
         }catch (NotRegisteredException e) {
-            if(plugin.configData.inDebug()) plugin.debug("The left block isn't registered.");
+            plugin.debug("The left block isn't registered.");
             return false;
         }
 
         try {
             resC = tbC.getResident();
-            if(plugin.configData.inDebug()) plugin.debug("Got the resident for the center block.");
+            plugin.debug("Got the resident for the center block.");
         }catch (NotRegisteredException e) {
-            if(plugin.configData.inDebug()) plugin.debug("The center block isn't registered.");
+            plugin.debug("The center block isn't registered.");
             return false;
         }
 
         try {
             resR = tbR.getResident();
-            if(plugin.configData.inDebug()) plugin.debug("Got the resident for the right block.");
+            plugin.debug("Got the resident for the right block.");
         }catch (NotRegisteredException e) {
-            if(plugin.configData.inDebug()) plugin.debug("The right block isn't registered.");
+            plugin.debug("The right block isn't registered.");
             return false;
         }
-
-        if(plugin.configData.inDebug()) plugin.debug("The left block resident is: " + resL.getName());
-        if(plugin.configData.inDebug()) plugin.debug("The center block resident is: " + resC.getName());
-        if(plugin.configData.inDebug()) plugin.debug("The right block resident is: " + resR.getName());
+        
+        plugin.debug("The left block resident is: " + resL.getName());
+        plugin.debug("The center block resident is: " + resC.getName());
+        plugin.debug("The right block resident is: " + resR.getName());
 
         if(res.equals(resL) && res.equals(resC) && res.equals(resR))
             return true;

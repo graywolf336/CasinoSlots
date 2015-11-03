@@ -69,26 +69,26 @@ public class StatData {
     private void loadStat(String type) {
         String path = "types." + type + ".";
 
-        Integer spins = plugin.configData.stats.getInt(path + "spins", 0);
-        Integer wins = plugin.configData.stats.getInt(path + "wins", 0);
-        Integer losts = plugin.configData.stats.getInt(path + "losts", 0);
-        Double won = plugin.configData.stats.getDouble(path + "won", 0);
-        Double lost = plugin.configData.stats.getDouble(path + "lost", 0);
+        Integer spins = plugin.getConfigData().stats.getInt(path + "spins", 0);
+        Integer wins = plugin.getConfigData().stats.getInt(path + "wins", 0);
+        Integer losts = plugin.getConfigData().stats.getInt(path + "losts", 0);
+        Double won = plugin.getConfigData().stats.getDouble(path + "won", 0);
+        Double lost = plugin.getConfigData().stats.getDouble(path + "lost", 0);
 
         this.stats.put(type, new Stat(type, spins, wins, losts, won, lost));
     }
 
     // Load all stats
     public void loadStats() {
-        if (plugin.configData.trackStats) {
+        if (plugin.getConfigData().trackStats) {
             this.globalSpins = 0;
             this.globalWins = 0;
             this.globalLosts = 0;
             this.globalWon = 0.0;
             this.globalLost = 0.0;
 
-            if (plugin.configData.stats.isConfigurationSection("types")) {
-                Set<String> types = plugin.configData.stats.getConfigurationSection("types").getKeys(false);
+            if (plugin.getConfigData().stats.isConfigurationSection("types")) {
+                Set<String> types = plugin.getConfigData().stats.getConfigurationSection("types").getKeys(false);
                 for (String type : types) {
                     loadStat(type);
                 }

@@ -33,7 +33,7 @@ public class Game {
 
     // Returns the type of the active slot machine
     public Type getType() {
-        return plugin.typeData.getType(slot.getType());
+        return plugin.getTypeData().getType(slot.getType());
     }
 
     // Returns the game's player
@@ -49,7 +49,7 @@ public class Game {
         Long[] delay = { 60L, 80L, 100L };
 
         if (slot.isManaged()) {
-            if (slot.getFunds() >= plugin.typeData.getMaxPrize(slot.getType())) {
+            if (slot.getFunds() >= plugin.getTypeData().getMaxPrize(slot.getType())) {
                 slot.setEnabled(true);
             } else {
                 slot.setEnabled(false);
@@ -67,7 +67,7 @@ public class Game {
             plugin.getEconomy().withdrawPlayer(player.getName(), cost);
             if (slot.isManaged()) {
                 slot.deposit(cost);
-                plugin.slotData.saveSlot(slot);
+                plugin.getSlotData().saveSlot(slot);
             }
         }
 

@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
 import com.craftyn.casinoslots.slot.Type;
+import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoList extends AnCommand {
 
@@ -17,7 +18,7 @@ public class CasinoList extends AnCommand {
 
         // Admin permission
         if(player != null) {
-            if(!plugin.permission.canCreate(player)) {
+            if(!PermissionUtil.canCreate(player)) {
                 noPermission();
                 return true;
             }
@@ -30,7 +31,7 @@ public class CasinoList extends AnCommand {
             if(args[1].equalsIgnoreCase("slots")) {
 
                 senderSendMessage("Registered slot machines:");
-                for(SlotMachine slot : plugin.slotData.getSlots()) {
+                for(SlotMachine slot : plugin.getSlotData().getSlots()) {
 
                     // If not admin, list only owned by player
                     if(isOwner(slot)) {
@@ -45,10 +46,10 @@ public class CasinoList extends AnCommand {
             else if(args[1].equalsIgnoreCase("types")) {
 
                 senderSendMessage("Available types:");
-                for(Type type : plugin.typeData.getTypes()) {
+                for(Type type : plugin.getTypeData().getTypes()) {
                     if(player == null) {
                         senderSendMessage(type.getName() + " - cost: " + type.getCost());
-                    }else if(plugin.permission.canCreate(player, type)) {
+                    }else if(PermissionUtil.canCreate(player, type)) {
                         // If not admin, list only permitted types
                         senderSendMessage(type.getName() + " - cost: " + type.getCost());
                     }

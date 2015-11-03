@@ -22,12 +22,12 @@ public class BlockListener implements Listener {
         if(plugin.isEnabled()) {
 
             // Slot protection enabled
-            if(plugin.configData.protection) {
+            if(plugin.getConfigData().protection) {
 
                 Block b = event.getBlock();
 
                 // Look for match in slots
-                for(SlotMachine slot : plugin.slotData.getSlots()) {
+                for(SlotMachine slot : plugin.getSlotData().getSlots()) {
 
                     for(Block current : slot.getBlocks()) {
 

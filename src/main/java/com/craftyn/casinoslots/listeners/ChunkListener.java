@@ -22,7 +22,7 @@ public class ChunkListener implements Listener {
         int x = c.getX();
         int z = c.getZ();
 
-        for(SlotMachine slot : plugin.slotData.getSlots()) {
+        for(SlotMachine slot : plugin.getSlotData().getSlots()) {
             String reelChunk = slot.getReelChunk();
             String conChunk = slot.getControllerChunk();
 
@@ -41,10 +41,10 @@ public class ChunkListener implements Listener {
             if (w.equalsIgnoreCase(world)) {
                 if (x == rX && z == rZ) {
                     event.setCancelled(true);
-                    if(plugin.configData.displayChunk || plugin.configData.debug) plugin.log("Kept chunk: (" + x + ", " + z + " " + world + ") for CasinoSlot - " + slot.getName() + " - loaded.");
+                    if(plugin.getConfigData().displayChunk || plugin.getConfigData().debug) plugin.log("Kept chunk: (" + x + ", " + z + " " + world + ") for CasinoSlot - " + slot.getName() + " - loaded.");
                 }else if (x == cX && z == cZ) {
                     event.setCancelled(true);
-                    if(plugin.configData.displayChunk || plugin.configData.debug) plugin.log("Kept chunk: (" + x + ", " + z + " " + world + ") for CasinoSlot - " + slot.getName() + " - loaded.");
+                    if(plugin.getConfigData().displayChunk || plugin.getConfigData().debug) plugin.log("Kept chunk: (" + x + ", " + z + " " + world + ") for CasinoSlot - " + slot.getName() + " - loaded.");
                 }else {
                     continue;
                 }

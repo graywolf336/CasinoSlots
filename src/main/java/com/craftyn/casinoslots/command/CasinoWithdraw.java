@@ -47,7 +47,7 @@ public class CasinoWithdraw extends AnCommand {
                         return true;
                     }else {
                         slot.withdraw(amount);
-                        plugin.getEconomy().depositPlayer(player.getName(), amount);
+                        plugin.getEconomy().depositPlayer(player, amount);
                         sendMessage(amount +  " withdrew from " + args[1] + ".");
                         sendMessage(args[1] + " now has " + slot.getFunds() + " in it.");
                         plugin.getSlotData().saveSlot(slot);

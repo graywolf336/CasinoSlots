@@ -33,7 +33,7 @@ public class Game {
 
     // Returns the type of the active slot machine
     public Type getType() {
-        return plugin.getTypeData().getType(slot.getType());
+        return slot.getType();
     }
 
     // Returns the game's player

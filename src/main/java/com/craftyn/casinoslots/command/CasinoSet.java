@@ -86,8 +86,8 @@ public class CasinoSet extends AnCommand {
                             SlotMachine slot = plugin.getSlotData().getSlot(args[2]);
                             String typeName = args[3];
 
-                            String oldType = slot.getType();
-                            slot.setType(typeName);
+                            String oldType = slot.getType().getName();
+                            slot.setType(plugin.getTypeData().getType(typeName));
                             plugin.getSlotData().saveSlot(slot);
                             sendMessage("Type successfully changed from '" + oldType + "' to '" + typeName + "'.");
 

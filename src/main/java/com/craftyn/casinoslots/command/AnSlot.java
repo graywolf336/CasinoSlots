@@ -9,9 +9,6 @@ import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class AnSlot extends AnCommand {
 
-    private SlotMachine slot;
-    private Type type;
-
     // Command for managing slot machines
     public AnSlot(CasinoSlots plugin, String[] args, Player player) {
         super(plugin, args, player);
@@ -31,13 +28,14 @@ public class AnSlot extends AnCommand {
             return true;
         }
 
+        SlotMachine slot;
         // Valid slot machine
         if(plugin.getSlotData().isSlot(args[1])) {
             sendMessage("Invalid slot machine " + args[1]);
             return true;
         }
         else {
-            this.slot = plugin.getSlotData().getSlot(args[1]);
+            slot = plugin.getSlotData().getSlot(args[1]);
         }
 
         // Slot owner
@@ -48,20 +46,16 @@ public class AnSlot extends AnCommand {
 
         // Edit slot type
         if(args[2].equalsIgnoreCase("type") && args.length == 4) {
-
             if(plugin.getTypeData().isType(args[3])) {
-                this.type = plugin.getTypeData().getType(args[3]);
+                Type type = plugin.getTypeData().getType(args[3]);
 
                 if(PermissionUtil.canCreate(player, type)) {
-                    String name = player.getName();
-                    Double cost = type.getCreateCost();
-
-                    if(plugin.getEconomy().has(name, cost)) {
-                        plugin.getEconomy().withdrawPlayer(name, cost);
-                        slot.setType(type.getName());
+                    if(plugin.getEconomy().has(player, type.getCreateCost())) {
+                        plugin.getEconomy().withdrawPlayer(player, type.getCreateCost());
+                        slot.setType(type);
                     }
                     else {
-                        sendMessage("You don't have enough money. Cost: " + cost);
+                        sendMessage("You don't have enough money. Cost: " + type.getCreateCost());
                     }
 
                 }
@@ -78,7 +72,7 @@ public class AnSlot extends AnCommand {
         // Set slot managed
         else if(args[2].equalsIgnoreCase("setmanaged") && args.length == 3) {
 
-            if(PermissionUtil.canCreateManagedType(player, slot.getType())) {
+            if(PermissionUtil.canCreateManagedType(player, slot.getType().getName())) {
 
                 if(slot.isManaged()) {
                     slot.setManaged(false);
@@ -106,7 +100,7 @@ public class AnSlot extends AnCommand {
             Double amount = Double.parseDouble(args[3]);
 
             // Insufficient funds
-            if(!plugin.getEconomy().has(player.getName(), amount)) {
+            if(!plugin.getEconomy().has(player, amount)) {
                 sendMessage("You can't afford to deposit this much.");
             }
             else {
@@ -117,7 +111,7 @@ public class AnSlot extends AnCommand {
                 }
 
                 slot.deposit(amount);
-                plugin.getEconomy().withdrawPlayer(player.getName(), amount);
+                plugin.getEconomy().withdrawPlayer(player, amount);
                 sendMessage("Deposited " + amount +" to " + slot.getName());
             }
         }
@@ -138,7 +132,7 @@ public class AnSlot extends AnCommand {
             }
 
             slot.withdraw(amount);
-            plugin.getEconomy().depositPlayer(player.getName(), amount);
+            plugin.getEconomy().depositPlayer(player, amount);
             sendMessage("Withdrew " + amount +" from " + slot.getName());
         }
 

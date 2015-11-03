@@ -4,14 +4,10 @@ import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
+import com.craftyn.casinoslots.slot.Type;
 import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoAdd extends AnCommand {
-
-    private String name;
-    private String type;
-    private String owner;
-    private String world;
 
     // Command for adding unmanaged slot machine
     public CasinoAdd(CasinoSlots plugin, String[] args, Player player) {
@@ -19,7 +15,6 @@ public class CasinoAdd extends AnCommand {
     }
 
     public Boolean process() {
-
         // Permissions
         if(!PermissionUtil.canCreate(player)) {
             noPermission();
@@ -48,58 +43,43 @@ public class CasinoAdd extends AnCommand {
 
             // Slot does not exist
             if(!plugin.getSlotData().isSlot(args[1])) {
+                Type type;
 
-                this.name = args[1];
-
-                // Valid type
+                // Check to see if the type is valid
                 if(args.length < 3) {
-
-                    type = "default";
-                }
-
-                else if(plugin.getTypeData().isType(args[2])) {
-                    String typeName = args[2];
-
-                    // Has type permission
-                    if(!PermissionUtil.canCreate(player, typeName)) {
-                        sendMessage("Invalid type " + typeName);
+                    type = plugin.getTypeData().getType("default");
+                } else if(plugin.getTypeData().isType(args[2])) {
+                    if(PermissionUtil.canCreate(player, args[2])) {
+                        type = plugin.getTypeData().getType(args[2]);
+                    } else {
+                        sendMessage("You do not have permission to create a machine with the type: " + args[2]);
                         return true;
                     }
-                    else {
-                        type = typeName;
-                    }
-                }
-
-                // Invalid type
-                else {
+                } else {
+                    // Invalid type
                     sendMessage("Invalid type " + args[2]);
                     return true;
                 }
-
-                owner = player.getName();
-
+                
                 // Creation cost
-                Double createCost = plugin.getTypeData().getType(type).getCreateCost();
-                if(plugin.getEconomy().has(owner, createCost)) {
-                    plugin.getEconomy().withdrawPlayer(owner, createCost);
-                }
-                else {
+                Double createCost = type.getCreateCost();
+                if(plugin.getEconomy().has(player, createCost)) {
+                    plugin.getEconomy().withdrawPlayer(player, createCost);
+                } else {
                     sendMessage(player.getName());
-                    sendMessage("You can't afford to create this slot machine. Cost: " + createCost);
+                    sendMessage("You do not have enough to afford to create this slot machine. The cost is: " + createCost);
                     return true;
                 }
 
-                world = player.getWorld().getName();
-
                 //Good to start punching the blocks to create the slot.
-                SlotMachine slot = new SlotMachine(plugin, name, type, owner, world, false, false, 0, 0);
+                SlotMachine slot = new SlotMachine(plugin, args[1], type, player.getName(), player.getWorld().getName(), false, false, 0, 0);
                 plugin.getSlotData().toggleCreatingSlots(player.getName(), slot);
                 sendMessage("Punch a block to serve as the base for this slot machine.");
             }
 
             // Slot exists
             else {
-                sendMessage("Slot machine " + args[1] +" already registered.");
+                sendMessage("A slot machine by the name of \"" + args[1] + "\" is already registered.");
             }
         }
 

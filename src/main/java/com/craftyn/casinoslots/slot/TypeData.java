@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Material;
+import org.bukkit.material.MaterialData;
+
 import com.craftyn.casinoslots.CasinoSlots;
 
 public class TypeData {
@@ -95,8 +98,24 @@ public class TypeData {
         Map<String, String> messages = getMessages(name);
         List<String> helpMessages = plugin.getConfigData().config.getStringList(path + "messages.help");
         Map<String, Reward> rewards = getRewards(name);
+        
+        String controllerDefinition = plugin.getConfigData().config.getString(path + "controller", "noteblock");
+        MaterialData controller;
+        
+        try {
+            String[] controllerSplit = controllerDefinition.split(":");
+            controller = new MaterialData(Material.matchMaterial(controllerSplit[0]));
+            
+            if(controllerSplit.length >= 2) {
+                controller.setData(Byte.valueOf(controllerSplit[1]));
+            }
+        }catch(Exception e) {
+            plugin.severe("Unable to load the custom controller definition for the slot type " + name + ". The following is not valid: " + controllerDefinition);
+            controller = new MaterialData(Material.NOTE_BLOCK);
+        }
 
-        Type type = new Type(name, cost, itemCost, createCost, reel, messages, helpMessages, rewards);
+        plugin.debug("The controller for the type " + name + " is: " + controller.getItemType().toString() + ":" + controller.getData());
+        Type type = new Type(name, cost, itemCost, createCost, reel, messages, helpMessages, rewards, controller);
         this.types.put(name, type);
     }
 
@@ -202,8 +221,8 @@ public class TypeData {
     }
 
     // Returns value of the highest money reward
-    public Double getMaxPrize(String type) {
-        Map<String, Reward> rewards = getRewards(type);
+    public Double getMaxPrize(Type type) {
+        Map<String, Reward> rewards = getRewards(type.getName());
         Double max = 0.0;
 
         for(Map.Entry<String, Reward> entry : rewards.entrySet()) {

@@ -63,7 +63,7 @@ public class ResultsTask implements Runnable {
 
                 slot.withdraw(won);
                 game.getPlugin().getSlotData().saveSlot(slot);
-                Double max = game.getPlugin().getTypeData().getMaxPrize(type.getName());
+                Double max = game.getPlugin().getTypeData().getMaxPrize(type);
                 if (slot.getFunds() < max) {
                     slot.setEnabled(false);
                 }

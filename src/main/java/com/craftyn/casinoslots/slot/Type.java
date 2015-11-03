@@ -4,16 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.material.MaterialData;
+
 public class Type {
-    private String name, itemCost = String.valueOf(0);
+    private String name, itemCost = "0";
     private Double cost = Double.valueOf(0), createCost = Double.valueOf(0);
     private ArrayList<String> reel;
     private Map<String, String> messages;
     private List<String> helpMessages;
     private Map<String, Reward> rewards;
+    private MaterialData controllerData;
 
     // Initialize new type
-    public Type(String name, Double cost, String itemCost, Double createCost, ArrayList<String> reel, Map<String, String> messages, List<String> helpMessages, Map<String, Reward> rewards) {
+    public Type(String name, Double cost, String itemCost, Double createCost, ArrayList<String> reel, Map<String, String> messages, List<String> helpMessages, Map<String, Reward> rewards, MaterialData controllerData) {
         this.name = name;
         this.cost = cost;
         this.itemCost = itemCost;
@@ -22,7 +25,7 @@ public class Type {
         this.messages = messages;
         this.helpMessages = helpMessages;
         this.rewards = rewards;
-
+        this.controllerData = controllerData;
     }
 
     // Returns type name
@@ -46,6 +49,15 @@ public class Type {
 
     public Double getCreateCost() {
         return this.createCost;
+    }
+    
+    /**
+     * Gets the controller's block data
+     * 
+     * @return the controller's data
+     */
+    public MaterialData getControllerData() {
+        return this.controllerData;
     }
 
     // Returns type reel

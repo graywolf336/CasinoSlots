@@ -5,14 +5,10 @@ import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
+import com.craftyn.casinoslots.slot.Type;
 import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoAddManaged extends AnCommand {
-
-    private String name;
-    private String type;
-    private String owner;
-    private String world;
 
     /**
      * Instantiates a new managed CasinoSlot.
@@ -49,8 +45,7 @@ public class CasinoAddManaged extends AnCommand {
 
             // Slot does not exist
             if(!plugin.getSlotData().isSlot(args[1])) {
-
-                this.name = args[1];
+                Type type;
 
                 // Valid type
                 if(plugin.getTypeData().isType(args[2])) {
@@ -58,8 +53,7 @@ public class CasinoAddManaged extends AnCommand {
 
                     // Has type permission
                     if(PermissionUtil.canCreateManagedType(player, typeName)) {
-                        this.type = typeName;
-                        this.owner = player.getName();
+                        type = plugin.getTypeData().getType(typeName);
                     } else {
                         plugin.sendMessage(player, ChatColor.RED + "You do not have permission to create a managed slot.");
                         return true;
@@ -73,18 +67,16 @@ public class CasinoAddManaged extends AnCommand {
                 }
 
                 // Creation cost
-                Double createCost = plugin.getTypeData().getType(type).getCreateCost();
-                if(plugin.getEconomy().has(owner, createCost)) {
-                    plugin.getEconomy().withdrawPlayer(owner, createCost);
+                Double createCost = type.getCreateCost();
+                if(plugin.getEconomy().has(player, createCost)) {
+                    plugin.getEconomy().withdrawPlayer(player, createCost);
                 } else {
                     sendMessage("You can't afford to create this slot machine. Cost: " + createCost);
                     return true;
                 }
 
-                world = player.getWorld().getName();
-
                 //Good to start punching the blocks to create the slot.
-                SlotMachine slot = new SlotMachine(plugin, name, type, owner, world, true, false, 0, 0);
+                SlotMachine slot = new SlotMachine(plugin, args[1], type, player.getName(), player.getWorld().getName(), true, false, 0, 0);
                 plugin.getSlotData().toggleCreatingSlots(player.getName(), slot);
                 plugin.sendMessage(player, "Punch a block to serve as the base for this slot machine.");
             }

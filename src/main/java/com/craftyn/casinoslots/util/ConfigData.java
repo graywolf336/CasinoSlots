@@ -141,7 +141,7 @@ public class ConfigData {
             for (SlotMachine slot : slots) {
                 String path = "slots." + slot.getName() + ".";
                 this.slots.set(path + "name", slot.getName());
-                this.slots.set(path + "type", slot.getType());
+                this.slots.set(path + "type", slot.getType().getName());
                 this.slots.set(path + "owner", slot.getOwner());
                 this.slots.set(path + "world", slot.getWorld());
                 this.slots.set(path + "managed", slot.isManaged());

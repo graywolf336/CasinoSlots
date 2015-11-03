@@ -5,13 +5,10 @@ import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.slot.SlotMachine;
+import com.craftyn.casinoslots.slot.Type;
 import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoAddItem extends AnCommand {
-
-    private String name, type, owner, world;
-    private int cmditemID, cmditemAMT;
-
     // Command for adding unmanaged slot machine
     public CasinoAddItem (CasinoSlots plugin, String[] args, Player player) {
         super(plugin, args, player);
@@ -40,7 +37,7 @@ public class CasinoAddItem extends AnCommand {
 
             // Slot does not exist
             if(!plugin.getSlotData().isSlot(args[1])) {
-                this.name = args[1];
+                Type type;
 
                 // Valid type
                 if(plugin.getTypeData().isType(args[2])) {
@@ -48,8 +45,7 @@ public class CasinoAddItem extends AnCommand {
 
                     // Has type permission
                     if(PermissionUtil.canCreateItemsType(player, typeName)) {
-                        this.type = typeName;
-                        this.owner = player.getName();
+                        type = plugin.getTypeData().getType(typeName);
                     } else {//doesn't have permission
                         plugin.sendMessage(player, ChatColor.RED + "You do not have permission to create an item slot.");
                         return true;
@@ -61,6 +57,7 @@ public class CasinoAddItem extends AnCommand {
                 }
 
                 //see if the itemID is an int
+                int cmditemID;
                 try {
                     cmditemID = Integer.parseInt(args[3]);
                 } catch (NumberFormatException e) {
@@ -69,6 +66,7 @@ public class CasinoAddItem extends AnCommand {
                 }
 
                 //see if the amount is an int
+                int cmditemAMT;
                 try {
                     cmditemAMT = Integer.parseInt(args[4]);
                 } catch (NumberFormatException e) {
@@ -77,18 +75,16 @@ public class CasinoAddItem extends AnCommand {
                 }
 
                 // Creation cost
-                Double createCost = plugin.getTypeData().getType(type).getCreateCost();
-                if(plugin.getEconomy().has(owner, createCost)) {
-                    plugin.getEconomy().withdrawPlayer(owner, createCost);
+                Double createCost = type.getCreateCost();
+                if(plugin.getEconomy().has(player, createCost)) {
+                    plugin.getEconomy().withdrawPlayer(player, createCost);
                 } else {
                     sendMessage("You can't afford to create this slot machine. Cost: " + createCost);
                     return true;
                 }
 
-                world = player.getWorld().getName();
-
                 //Good to start punching the blocks to create the slot.
-                SlotMachine slot = new SlotMachine(plugin, name, type, owner, world, false, true, cmditemID, cmditemAMT);
+                SlotMachine slot = new SlotMachine(plugin, args[1], type, player.getName(), player.getWorld().getName(), false, true, cmditemID, cmditemAMT);
                 plugin.getSlotData().toggleCreatingSlots(player.getName(), slot);
                 plugin.sendMessage(player, "Punch a block to serve as the base for this slot machine.");
             }

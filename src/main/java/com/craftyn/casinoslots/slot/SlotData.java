@@ -154,10 +154,17 @@ public class SlotData {
 
     // Loads a slot machine into memory
     private void loadSlot(String name) {
-
         String path = "slots." + name + ".";
-
-        String type = plugin.getConfigData().slots.getString(path + "type");
+        
+        String typeName = plugin.getConfigData().slots.getString(path + "type");
+        Type type = plugin.getTypeData().getType(typeName);
+        
+        if(type == null) {
+            plugin.severe("Failed to load the slot machine \"" + name + "\" since type \"" + typeName + "\" isn't defined.");
+            return;
+        }
+        
+        
         String owner = plugin.getConfigData().slots.getString(path + "owner");
         String world = plugin.getConfigData().slots.getString(path + "world");
         Boolean managed = plugin.getConfigData().slots.getBoolean(path + "managed");

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.material.MaterialData;
 
 import com.craftyn.casinoslots.CasinoSlots;
 
 public class SlotMachine {
     private CasinoSlots plugin;
-    private String name, type, owner, world, reelChunk, controllerChunk;
+    private Type type;
+    private String name, owner, world, reelChunk, controllerChunk;
     private Boolean managed, busy = false, enabled = true, item;
     private int itemID, itemAMT;
     private ArrayList<Block> blocks;
@@ -35,7 +37,7 @@ public class SlotMachine {
      * @param itemID     		The item id that it accepts (should be set to 0 if false).
      * @param itemAmount 		The amount of the item that it takes from the player.
      */
-    public SlotMachine(CasinoSlots pl, String name, String type, String owner, String world, String reelChunk, String controllerChunk, Block sign, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
+    public SlotMachine(CasinoSlots pl, String name, Type type, String owner, String world, String reelChunk, String controllerChunk, Block sign, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
 
         this.plugin = pl;
         this.name = name;
@@ -67,7 +69,7 @@ public class SlotMachine {
      * @param itemId   The item id that it accepts (should be set to 0 if false).
      * @param itemAmt  The amount of the item that it takes from the player.
      */
-    public SlotMachine(CasinoSlots pl, String name, String type, String owner, String world, Boolean managed, Boolean item, int itemId, int itemAmt) {
+    public SlotMachine(CasinoSlots pl, String name, Type type, String owner, String world, Boolean managed, Boolean item, int itemId, int itemAmt) {
 
         this.plugin = pl;
         this.name = name;
@@ -90,8 +92,12 @@ public class SlotMachine {
         return this.name;
     }
 
-    // Returns type name of slot machine
-    public String getType() {
+    /**
+     * Gets the {@link Type} of machine this is.
+     * 
+     * @return the {@link Type}
+     */
+    public Type getType() {
         return this.type;
     }
 
@@ -183,7 +189,10 @@ public class SlotMachine {
     // Sets controller block
     public void setController(Block c) {
         this.controller = c;
-        c.setType(Material.NOTE_BLOCK);
+        
+        MaterialData d = this.type.getControllerData();
+        this.controller.setTypeIdAndData(d.getItemTypeId(), d.getData(), false);
+        
         setControllerChunk(c.getChunk().getX() + "," + c.getChunk().getZ());
     }
 
@@ -210,32 +219,27 @@ public class SlotMachine {
     }
 
     // Sets type
-    public void setType(String type) {
-        plugin.debug("We set the type of slot, did it save?");
+    public void setType(Type type) {
         this.type = type;
     }
 
     // Sets managed
     public void setManaged(Boolean managed) {
-        plugin.debug("We set that it is managed, did it save?");
         this.managed = managed;
     }
 
     // Sets owner
     public void setOwner(String owner) {
-        plugin.debug("We set the owner, did it save?");
         this.owner = owner;
     }
 
     // Deposit the amount into the slot machine
     public void deposit(Double amount) {
-        plugin.debug("We deposited some money to the slot, did it save?");
         this.funds += amount;
     }
 
     // Withdraw the amount from the slot machine
     public void withdraw(Double amount) {
-        plugin.debug("We withdrew some money from the slot, did it save?");
         this.funds -= amount;
     }
 

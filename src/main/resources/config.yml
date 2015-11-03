@@ -30,7 +30,7 @@ types:
   default:
     cost: 100
     create-cost: 1000
-    controller: "stained_clay:5"
+    controller: note_block
     reel:
     - 42,21
     - 41,12
@@ -74,7 +74,7 @@ types:
   actionslot:
     cost: 150
     create-cost: 1000
-    controller: note_block
+    controller: "stained_clay:5"
     reel:
     - 35,3,2
     - 46,1

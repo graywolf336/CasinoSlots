@@ -36,6 +36,13 @@ public class PlayerListener implements Listener {
                 event.getPlayer().sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + plugin.getUpdate().getFileUrl());
             }
         }
+        
+        //Update the owners of the slot machines when they login
+        for(SlotMachine s : plugin.getSlotData().getSlots()) {
+            if(s.getOwnerId().equals(event.getPlayer().getUniqueId())) {
+                s.setOwner(event.getPlayer().getName());
+            }
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

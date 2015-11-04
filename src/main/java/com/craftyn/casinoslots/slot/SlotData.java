@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -99,19 +100,20 @@ public class SlotData {
 
     // Loads all slot machines into memory
     public void loadSlots() {
-        int i = 0;
         this.slots = new HashMap<String, SlotMachine>();
+        boolean save = false;
         if(plugin.getConfigData().slots.isConfigurationSection("slots")) {
             Set<String> slots = plugin.getConfigData().slots.getConfigurationSection("slots").getKeys(false);
             if(!slots.isEmpty()) {
                 for(String name : slots) {
-                    loadSlot(name);
-                    i++;
+                    boolean result = loadSlot(name);
+                    if(!save && result) save = true;
                 }
             }
         }
 
-        plugin.log("Loaded " + i + " slot machines.");
+        plugin.log("Loaded " + this.slots.size() + " slot machines.");
+        if(save) plugin.getConfigData().saveSlots();
     }
 
     // Writes slot machine data to disk
@@ -137,6 +139,7 @@ public class SlotData {
 
         plugin.getConfigData().slots.set(path + "name", slot.getName());
         plugin.getConfigData().slots.set(path + "type", slot.getType());
+        plugin.getConfigData().slots.set(path + "ownerid", slot.getOwnerId().toString());
         plugin.getConfigData().slots.set(path + "owner", slot.getOwner());
         plugin.getConfigData().slots.set(path + "world", slot.getWorld());
         plugin.getConfigData().slots.set(path + "sign", sXyz);
@@ -153,7 +156,8 @@ public class SlotData {
     }
 
     // Loads a slot machine into memory
-    private void loadSlot(String name) {
+    private boolean loadSlot(String name) {
+        boolean save = false;
         String path = "slots." + name + ".";
         
         String typeName = plugin.getConfigData().slots.getString(path + "type");
@@ -161,11 +165,21 @@ public class SlotData {
         
         if(type == null) {
             plugin.severe("Failed to load the slot machine \"" + name + "\" since type \"" + typeName + "\" isn't defined.");
-            return;
+            return save;
         }
         
-        
         String owner = plugin.getConfigData().slots.getString(path + "owner");
+        
+        UUID ownerid = null;
+        
+        try {
+            ownerid = UUID.fromString(plugin.getConfigData().slots.getString(path + "ownerid"));
+        }catch(Exception e) {
+            plugin.log("Trying to load the " + owner + "'s uuid for their slot machine " + name);
+            ownerid = plugin.getServer().getOfflinePlayer(owner).getUniqueId();
+            save = true;
+        }
+        
         String world = plugin.getConfigData().slots.getString(path + "world");
         Boolean managed = plugin.getConfigData().slots.getBoolean(path + "managed");
         Double funds = plugin.getConfigData().slots.getDouble(path + "funds");
@@ -180,8 +194,10 @@ public class SlotData {
         String rChunk = getRchunk(blocks);
         String cChunk = getCchunk(controller);
 
-        SlotMachine slot = new SlotMachine(plugin, name, type, owner, world, rChunk, cChunk, sign, managed, blocks, controller, funds, item, itemID, itemAmt);
+        SlotMachine slot = new SlotMachine(plugin, name, type, ownerid, owner, world, rChunk, cChunk, sign, managed, blocks, controller, funds, item, itemID, itemAmt);
         addSlot(slot);
+        
+        return save;
     }
 
     // Gets reel blocks location from disk

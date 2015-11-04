@@ -40,7 +40,7 @@ public abstract class AnCommand {
         
         if(!(sender instanceof Player)) return true; //The console
 
-        if(PermissionUtil.isAdmin(player) || slot.getOwner().equalsIgnoreCase(player.getName()))
+        if(PermissionUtil.isAdmin(player) || slot.getOwnerId().equals(player.getUniqueId()))
             return true;
         else
             return false;

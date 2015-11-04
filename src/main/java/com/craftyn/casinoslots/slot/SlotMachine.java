@@ -1,8 +1,8 @@
 package com.craftyn.casinoslots.slot;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.material.MaterialData;
 
@@ -11,6 +11,7 @@ import com.craftyn.casinoslots.CasinoSlots;
 public class SlotMachine {
     private CasinoSlots plugin;
     private Type type;
+    private UUID ownerId;
     private String name, owner, world, reelChunk, controllerChunk;
     private Boolean managed, busy = false, enabled = true, item;
     private int itemID, itemAMT;
@@ -24,6 +25,7 @@ public class SlotMachine {
      * @param pl                The {@link CasinoSlots} instance
      * @param name       		The name of the slot machine.
      * @param type       		The type of the slot machine being created.
+     * @param ownerId           The UUID of the owner of the slot machine.
      * @param owner      		The owner of the slot machine.
      * @param world      		The world in which the slot machine exists.
      * @param reelChunk			The chunk in which the controller block is in.
@@ -37,11 +39,11 @@ public class SlotMachine {
      * @param itemID     		The item id that it accepts (should be set to 0 if false).
      * @param itemAmount 		The amount of the item that it takes from the player.
      */
-    public SlotMachine(CasinoSlots pl, String name, Type type, String owner, String world, String reelChunk, String controllerChunk, Block sign, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
-
+    public SlotMachine(CasinoSlots pl, String name, Type type, UUID ownerId, String owner, String world, String reelChunk, String controllerChunk, Block sign, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
         this.plugin = pl;
         this.name = name;
         this.type = type;
+        this.ownerId = ownerId;
         this.owner = owner;
         this.world = world;
         this.reelChunk = reelChunk;
@@ -69,11 +71,11 @@ public class SlotMachine {
      * @param itemId   The item id that it accepts (should be set to 0 if false).
      * @param itemAmt  The amount of the item that it takes from the player.
      */
-    public SlotMachine(CasinoSlots pl, String name, Type type, String owner, String world, Boolean managed, Boolean item, int itemId, int itemAmt) {
-
+    public SlotMachine(CasinoSlots pl, String name, Type type, UUID ownerId, String owner, String world, Boolean managed, Boolean item, int itemId, int itemAmt) {
         this.plugin = pl;
         this.name = name;
         this.type = type;
+        this.ownerId = ownerId;
         this.owner = owner;
         this.world = world;
         this.managed = managed;
@@ -100,10 +102,23 @@ public class SlotMachine {
     public Type getType() {
         return this.type;
     }
+    
+    /**
+     * Gets the UUID of the Owner.
+     * 
+     * @return the {@link UUID} of the owner.
+     */
+    public UUID getOwnerId() {
+        return this.ownerId;
+    }
 
     // Returns owner of slot machine
     public String getOwner() {
         return this.owner;
+    }
+    
+    public void setOwner(String name) {
+        this.owner = name;
     }
 
     // Returns if slot machine is managed
@@ -226,11 +241,6 @@ public class SlotMachine {
     // Sets managed
     public void setManaged(Boolean managed) {
         this.managed = managed;
-    }
-
-    // Sets owner
-    public void setOwner(String owner) {
-        this.owner = owner;
     }
 
     // Deposit the amount into the slot machine

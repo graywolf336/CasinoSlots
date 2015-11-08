@@ -99,7 +99,7 @@ public class TypeData {
         List<String> helpMessages = plugin.getConfigData().config.getStringList(path + "messages.help");
         Map<String, Reward> rewards = getRewards(name);
         
-        String controllerDefinition = plugin.getConfigData().config.getString(path + "controller", "noteblock");
+        String controllerDefinition = plugin.getConfigData().config.getString(path + "controller", "note_block");
         MaterialData controller;
         
         try {

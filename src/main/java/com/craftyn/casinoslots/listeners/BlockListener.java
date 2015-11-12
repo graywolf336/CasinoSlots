@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.slot.SlotMachine;
+import com.craftyn.casinoslots.classes.SlotMachine;
 
 public class BlockListener implements Listener {
     private CasinoSlots plugin;
@@ -27,7 +27,7 @@ public class BlockListener implements Listener {
                 Block b = event.getBlock();
 
                 // Look for match in slots
-                for(SlotMachine slot : plugin.getSlotData().getSlots()) {
+                for(SlotMachine slot : plugin.getSlotManager().getSlots()) {
 
                     for(Block current : slot.getBlocks()) {
 

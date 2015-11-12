@@ -10,7 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.slot.SlotMachine;
+import com.craftyn.casinoslots.classes.SlotMachine;
 
 public class ConfigData {
     private CasinoSlots plugin;
@@ -54,8 +54,8 @@ public class ConfigData {
         slotsFile = new File(plugin.getDataFolder(), "slots.yml");
         slots = YamlConfiguration.loadConfiguration(slotsFile);
 
-        plugin.getTypeData().loadTypes();
-        plugin.getSlotData().loadSlots();
+        plugin.getTypeManager().loadTypes();
+        plugin.getSlotManager().loadSlots();
         plugin.getStatData().loadStats();
     }
 
@@ -135,7 +135,7 @@ public class ConfigData {
 
     // Save slots data
     public void saveSlots() {
-        Collection<SlotMachine> slots = plugin.getSlotData().getSlots();
+        Collection<SlotMachine> slots = plugin.getSlotManager().getSlots();
 
         if(slots != null && !slots.isEmpty()) {
             for (SlotMachine slot : slots) {

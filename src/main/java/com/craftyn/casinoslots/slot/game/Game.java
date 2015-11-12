@@ -6,8 +6,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.slot.SlotMachine;
-import com.craftyn.casinoslots.slot.Type;
+import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.Type;
 
 public class Game {
     private CasinoSlots plugin;
@@ -49,7 +49,7 @@ public class Game {
         Long[] delay = { 60L, 80L, 100L };
 
         if (slot.isManaged()) {
-            if (slot.getFunds() >= plugin.getTypeData().getMaxPrize(slot.getType())) {
+            if (slot.getFunds() >= plugin.getTypeManager().getMaxPrize(slot.getType())) {
                 slot.setEnabled(true);
             } else {
                 slot.setEnabled(false);
@@ -64,10 +64,10 @@ public class Game {
         // Cost
         if (!slot.isItem()) {
             Double cost = getType().getCost();
-            plugin.getEconomy().withdrawPlayer(player.getName(), cost);
+            plugin.getEconomy().withdrawPlayer(player, cost);
             if (slot.isManaged()) {
                 slot.deposit(cost);
-                plugin.getSlotData().saveSlot(slot);
+                plugin.getSlotManager().saveSlot(slot);
             }
         }
 

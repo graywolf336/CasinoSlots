@@ -3,8 +3,8 @@ package com.craftyn.casinoslots.command;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.slot.SlotMachine;
-import com.craftyn.casinoslots.slot.Type;
+import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class AnSlot extends AnCommand {
@@ -30,12 +30,12 @@ public class AnSlot extends AnCommand {
 
         SlotMachine slot;
         // Valid slot machine
-        if(plugin.getSlotData().isSlot(args[1])) {
+        if(plugin.getSlotManager().isSlot(args[1])) {
             sendMessage("Invalid slot machine " + args[1]);
             return true;
         }
         else {
-            slot = plugin.getSlotData().getSlot(args[1]);
+            slot = plugin.getSlotManager().getSlot(args[1]);
         }
 
         // Slot owner
@@ -46,8 +46,8 @@ public class AnSlot extends AnCommand {
 
         // Edit slot type
         if(args[2].equalsIgnoreCase("type") && args.length == 4) {
-            if(plugin.getTypeData().isType(args[3])) {
-                Type type = plugin.getTypeData().getType(args[3]);
+            if(plugin.getTypeManager().isType(args[3])) {
+                Type type = plugin.getTypeManager().getType(args[3]);
 
                 if(PermissionUtil.canCreate(player, type)) {
                     if(plugin.getEconomy().has(player, type.getCreateCost())) {
@@ -91,7 +91,7 @@ public class AnSlot extends AnCommand {
 
         // Set slot controller
         else if(args[2].equalsIgnoreCase("setcontroller") && args.length == 3) {
-            plugin.getSlotData().togglePlacingController(player.getName(), slot);
+            plugin.getSlotManager().togglePlacingController(player.getName(), slot);
             sendMessage("Punch a new block to serve as this slot machine's controller.");
         }
 
@@ -105,7 +105,7 @@ public class AnSlot extends AnCommand {
             }
             else {
                 // Enable if needed
-                if((slot.getFunds() + amount) > plugin.getTypeData().getMaxPrize(slot.getType())) {
+                if((slot.getFunds() + amount) > plugin.getTypeManager().getMaxPrize(slot.getType())) {
                     slot.setEnabled(true);
                     sendMessage("Sufficient funds. Slot machine enabled.");
                 }
@@ -127,7 +127,7 @@ public class AnSlot extends AnCommand {
             }
 
             // Disable if necessary
-            if((slot.getFunds() - amount) < plugin.getTypeData().getMaxPrize(slot.getType())) {
+            if((slot.getFunds() - amount) < plugin.getTypeManager().getMaxPrize(slot.getType())) {
                 slot.setEnabled(false);
             }
 
@@ -143,8 +143,8 @@ public class AnSlot extends AnCommand {
         }
 
         // Save the slot machine
-        plugin.getSlotData().addSlot(slot);
-        plugin.getSlotData().saveSlot(slot);
+        plugin.getSlotManager().addSlot(slot);
+        plugin.getSlotManager().saveSlot(slot);
         plugin.getConfigData().saveSlots();
 
         return true;

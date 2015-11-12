@@ -28,8 +28,8 @@ public class CasinoReload extends AnCommand {
         }
 
         plugin.getConfigData().reloadConfigs();
-        plugin.getTypeData().reloadTypes();
-        plugin.getSlotData().reloadSlots();
+        plugin.getTypeManager().reloadTypes();
+        plugin.getSlotManager().reloadSlots();
         plugin.reloadUpdateCheck();
 
         if(plugin.getConfigData().inDebug()) senderSendMessage("Debugging enabled.");

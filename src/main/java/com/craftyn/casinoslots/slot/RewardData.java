@@ -16,7 +16,11 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.craftyn.casinoslots.classes.Reward;
+import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.Type;
 
+@Deprecated
 public class RewardData {
     private CasinoSlots plugin;
     private static final Random random = new Random();

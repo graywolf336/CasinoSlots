@@ -33,12 +33,12 @@ public class CasinoType extends AnCommand {
         // Add type command
         if(args[1].equalsIgnoreCase("add")) {
 
-            if(plugin.getTypeData().isType(args[2])) {
+            if(plugin.getTypeManager().isType(args[2])) {
                 sendMessage("Type " + args[2] +" already exists.");
             }
 
             else {
-                plugin.getTypeData().newType(args[2]);
+                plugin.getTypeManager().newType(args[2]);
                 sendMessage("Type " + args[2] + " created! Configure it to your needs in config.yml before using it.");
             }
         }
@@ -51,8 +51,8 @@ public class CasinoType extends AnCommand {
         // Remove type command
         else if(args[1].equalsIgnoreCase("remove")) {
 
-            if(plugin.getTypeData().isType(args[2])) {
-                plugin.getTypeData().removeType(args[2]);
+            if(plugin.getTypeManager().isType(args[2])) {
+                plugin.getTypeManager().removeType(args[2]);
                 sendMessage("Type " + args[2] + " removed. Make sure to update any slot machines using this type.");
             }
             else {

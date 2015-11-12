@@ -3,7 +3,7 @@ package com.craftyn.casinoslots.command;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.slot.SlotMachine;
+import com.craftyn.casinoslots.classes.SlotMachine;
 
 public class CasinoSetOwner extends AnCommand {
 
@@ -17,8 +17,8 @@ public class CasinoSetOwner extends AnCommand {
         if(args.length == 3) {
 
             // Slot exists
-            if(plugin.getSlotData().isSlot(args[1])) {
-                SlotMachine slot = plugin.getSlotData().getSlot(args[1]);
+            if(plugin.getSlotManager().isSlot(args[1])) {
+                SlotMachine slot = plugin.getSlotManager().getSlot(args[1]);
 
                 // Can access slot
                 if(isOwner(slot)) {

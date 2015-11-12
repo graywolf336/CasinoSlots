@@ -12,13 +12,15 @@ import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.craftyn.casinoslots.classes.Reward;
+import com.craftyn.casinoslots.classes.Type;
 
-public class TypeData {
+public class TypeManager {
     private CasinoSlots plugin;
     private HashMap<String, Type> types;
 
     // Initialize TypeData
-    public TypeData(CasinoSlots plugin) {
+    public TypeManager(CasinoSlots plugin) {
         this.plugin = plugin;
         this.types = new HashMap<String, Type>();
     }

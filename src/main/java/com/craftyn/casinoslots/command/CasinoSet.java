@@ -3,8 +3,8 @@ package com.craftyn.casinoslots.command;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.slot.SlotMachine;
-import com.craftyn.casinoslots.slot.Type;
+import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoSet extends AnCommand {
@@ -55,9 +55,9 @@ public class CasinoSet extends AnCommand {
                 if (args[1].equalsIgnoreCase("sign")) {
 
                     // Slot exists
-                    if(plugin.getSlotData().isSlot(args[2])) {
-                        SlotMachine slot = plugin.getSlotData().getSlot(args[2]);
-                        plugin.getSlotData().togglePunchingSign(player.getName(), slot);
+                    if(plugin.getSlotManager().isSlot(args[2])) {
+                        SlotMachine slot = plugin.getSlotManager().getSlot(args[2]);
+                        plugin.getSlotManager().togglePunchingSign(player.getName(), slot);
                         sendMessage("Please punch the sign that you want us to know about.");
                     }else {
                         // Slot does not exist
@@ -81,14 +81,14 @@ public class CasinoSet extends AnCommand {
                 if (args[1].equalsIgnoreCase("type")) {
 
                     // Slot exists
-                    if(plugin.getSlotData().isSlot(args[2])) {
-                        if(plugin.getTypeData().isType(args[3])) {
-                            SlotMachine slot = plugin.getSlotData().getSlot(args[2]);
+                    if(plugin.getSlotManager().isSlot(args[2])) {
+                        if(plugin.getTypeManager().isType(args[3])) {
+                            SlotMachine slot = plugin.getSlotManager().getSlot(args[2]);
                             String typeName = args[3];
 
                             String oldType = slot.getType().getName();
-                            slot.setType(plugin.getTypeData().getType(typeName));
-                            plugin.getSlotData().saveSlot(slot);
+                            slot.setType(plugin.getTypeManager().getType(typeName));
+                            plugin.getSlotManager().saveSlot(slot);
                             sendMessage("Type successfully changed from '" + oldType + "' to '" + typeName + "'.");
 
                         }else {
@@ -100,13 +100,13 @@ public class CasinoSet extends AnCommand {
                         sendMessage("Invalid slot machine.");
                     }
                 }else if (args[1].equalsIgnoreCase("itemcost")) {
-                    if(plugin.getTypeData().isType(args[2])) {//verify it is a valid type
+                    if(plugin.getTypeManager().isType(args[2])) {//verify it is a valid type
                         String[] item = args[3].split("\\,");
                         if(item.length == 2 || item.length == 3) {//verify the length of the given item
                             if(!args[3].equalsIgnoreCase("0")) {//the given item is not air.
-                                Type t = plugin.getTypeData().getType(args[2]);
+                                Type t = plugin.getTypeManager().getType(args[2]);
                                 t.setItemCost(args[3]);
-                                plugin.getTypeData().setItemCost(t, args[3]);
+                                plugin.getTypeManager().setItemCost(t, args[3]);
                                 sendMessage("itemCost successfully set for the type " + t.getName() + ".");
                             }else {
                                 //can not be air

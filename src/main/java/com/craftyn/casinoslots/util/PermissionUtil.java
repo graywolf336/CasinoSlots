@@ -2,8 +2,8 @@ package com.craftyn.casinoslots.util;
 
 import org.bukkit.entity.Player;
 
-import com.craftyn.casinoslots.slot.SlotMachine;
-import com.craftyn.casinoslots.slot.Type;
+import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.Type;
 
 public class PermissionUtil {
     private static String admin = "casinoslots.admin";

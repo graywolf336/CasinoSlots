@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.slot.SlotMachine;
+import com.craftyn.casinoslots.classes.SlotMachine;
 
 public class ChunkListener implements Listener {
     private CasinoSlots plugin;
@@ -22,7 +22,7 @@ public class ChunkListener implements Listener {
         int x = c.getX();
         int z = c.getZ();
 
-        for(SlotMachine slot : plugin.getSlotData().getSlots()) {
+        for(SlotMachine slot : plugin.getSlotManager().getSlots()) {
             String reelChunk = slot.getReelChunk();
             String conChunk = slot.getControllerChunk();
 

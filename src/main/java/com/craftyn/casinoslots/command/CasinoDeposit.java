@@ -3,7 +3,7 @@ package com.craftyn.casinoslots.command;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.slot.SlotMachine;
+import com.craftyn.casinoslots.classes.SlotMachine;
 
 public class CasinoDeposit extends AnCommand {
 
@@ -17,8 +17,8 @@ public class CasinoDeposit extends AnCommand {
         if(args.length == 3) {
 
             // Slot exists
-            if(plugin.getSlotData().isSlot(args[1])) {
-                SlotMachine slot = plugin.getSlotData().getSlot(args[1]);
+            if(plugin.getSlotManager().isSlot(args[1])) {
+                SlotMachine slot = plugin.getSlotManager().getSlot(args[1]);
 
                 // Can access slot
                 if(isOwner(slot)) {
@@ -41,7 +41,7 @@ public class CasinoDeposit extends AnCommand {
                         plugin.getEconomy().withdrawPlayer(player, amount);
                         sendMessage(amount +  " deposited to " + args[1] + ".");
                         sendMessage(args[1] + " now has " + slot.getFunds() + " in it.");
-                        plugin.getSlotData().saveSlot(slot);
+                        plugin.getSlotManager().saveSlot(slot);
                     }else {
                         sendMessage("You can't deposit that much since you don't have that much.");
                         return true;

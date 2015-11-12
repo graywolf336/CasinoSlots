@@ -3,8 +3,8 @@ package com.craftyn.casinoslots.command;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.slot.SlotMachine;
-import com.craftyn.casinoslots.slot.Type;
+import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoAdd extends AnCommand {
@@ -42,15 +42,15 @@ public class CasinoAdd extends AnCommand {
         if(args.length >= 2 && args.length <= 3) {
 
             // Slot does not exist
-            if(!plugin.getSlotData().isSlot(args[1])) {
+            if(!plugin.getSlotManager().isSlot(args[1])) {
                 Type type;
 
                 // Check to see if the type is valid
                 if(args.length < 3) {
-                    type = plugin.getTypeData().getType("default");
-                } else if(plugin.getTypeData().isType(args[2])) {
+                    type = plugin.getTypeManager().getType("default");
+                } else if(plugin.getTypeManager().isType(args[2])) {
                     if(PermissionUtil.canCreate(player, args[2])) {
-                        type = plugin.getTypeData().getType(args[2]);
+                        type = plugin.getTypeManager().getType(args[2]);
                     } else {
                         sendMessage("You do not have permission to create a machine with the type: " + args[2]);
                         return true;
@@ -73,7 +73,7 @@ public class CasinoAdd extends AnCommand {
 
                 //Good to start punching the blocks to create the slot.
                 SlotMachine slot = new SlotMachine(plugin, args[1], type, player.getUniqueId(), player.getName(), player.getWorld().getName(), false, false, 0, 0);
-                plugin.getSlotData().toggleCreatingSlots(player.getName(), slot);
+                plugin.getSlotManager().toggleCreatingSlots(player.getName(), slot);
                 sendMessage("Punch a block to serve as the base for this slot machine.");
             }
 

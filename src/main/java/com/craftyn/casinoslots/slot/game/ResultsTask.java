@@ -13,9 +13,9 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
-import com.craftyn.casinoslots.slot.Reward;
-import com.craftyn.casinoslots.slot.SlotMachine;
-import com.craftyn.casinoslots.slot.Type;
+import com.craftyn.casinoslots.classes.Reward;
+import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.util.Stat;
 import com.craftyn.casinoslots.util.Util;
 
@@ -62,8 +62,8 @@ public class ResultsTask implements Runnable {
             if (slot.isManaged()) {
 
                 slot.withdraw(won);
-                game.getPlugin().getSlotData().saveSlot(slot);
-                Double max = game.getPlugin().getTypeData().getMaxPrize(type);
+                game.getPlugin().getSlotManager().saveSlot(slot);
+                Double max = game.getPlugin().getTypeManager().getMaxPrize(type);
                 if (slot.getFunds() < max) {
                     slot.setEnabled(false);
                 }

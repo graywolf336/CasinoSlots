@@ -16,8 +16,8 @@ import com.craftyn.casinoslots.listeners.ChunkListener;
 import com.craftyn.casinoslots.listeners.EntityListener;
 import com.craftyn.casinoslots.listeners.PlayerListener;
 import com.craftyn.casinoslots.slot.RewardData;
-import com.craftyn.casinoslots.slot.SlotData;
-import com.craftyn.casinoslots.slot.TypeData;
+import com.craftyn.casinoslots.slot.SlotManager;
+import com.craftyn.casinoslots.slot.TypeManager;
 import com.craftyn.casinoslots.util.ConfigData;
 import com.craftyn.casinoslots.util.StatData;
 import com.craftyn.casinoslots.util.TownyChecks;
@@ -42,8 +42,8 @@ public class CasinoSlots extends JavaPlugin {
     private AnCommandExecutor commandExecutor = new AnCommandExecutor(this);
 
     private ConfigData configData = new ConfigData(this);
-    private SlotData slotData = new SlotData(this);
-    private TypeData typeData = new TypeData(this);
+    private SlotManager slotManager = new SlotManager(this);
+    private TypeManager typeManager = new TypeManager(this);
     private StatData statsData = new StatData(this);
     private RewardData rewardData = new RewardData(this);
     private TownyChecks townyChecks = null;
@@ -55,8 +55,8 @@ public class CasinoSlots extends JavaPlugin {
             configData.saveStats();
 
             this.configData = null;
-            this.slotData = null;
-            this.typeData = null;
+            this.slotManager = null;
+            this.typeManager = null;
             this.statsData = null;
             this.rewardData = null;
             this.townyChecks = null;
@@ -261,21 +261,21 @@ public class CasinoSlots extends JavaPlugin {
     }
     
     /**
-     * Returns the instance of the {@link SlotData}.
+     * Returns the instance of the {@link SlotManager}.
      * 
-     * @return the {@link SlotData} instance
+     * @return the {@link SlotManager} instance
      */
-    public SlotData getSlotData() {
-        return this.slotData;
+    public SlotManager getSlotManager() {
+        return this.slotManager;
     }
     
     /**
-     * Returns the instance of the {@link TypeData}.
+     * Returns the instance of the {@link TypeManager}.
      * 
-     * @return the {@link TypeData} instance
+     * @return the {@link TypeManager} instance
      */
-    public TypeData getTypeData() {
-        return this.typeData;
+    public TypeManager getTypeManager() {
+        return this.typeManager;
     }
     
     /**

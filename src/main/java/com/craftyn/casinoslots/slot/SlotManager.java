@@ -16,9 +16,11 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.Type;
 import com.google.common.collect.Sets;
 
-public class SlotData {
+public class SlotManager {
     private CasinoSlots plugin;
     private HashMap<String, SlotMachine> slots = new HashMap<String, SlotMachine>();
 
@@ -26,7 +28,7 @@ public class SlotData {
     private HashMap<String, SlotMachine> placingController;
     private HashMap<String, SlotMachine> punchingSign;
 
-    public SlotData(CasinoSlots plugin) {
+    public SlotManager(CasinoSlots plugin) {
         this.plugin = plugin;
 
         this.creatingSlots = new HashMap<String, SlotMachine>();
@@ -161,7 +163,7 @@ public class SlotData {
         String path = "slots." + name + ".";
         
         String typeName = plugin.getConfigData().slots.getString(path + "type");
-        Type type = plugin.getTypeData().getType(typeName);
+        Type type = plugin.getTypeManager().getType(typeName);
         
         if(type == null) {
             plugin.severe("Failed to load the slot machine \"" + name + "\" since type \"" + typeName + "\" isn't defined.");

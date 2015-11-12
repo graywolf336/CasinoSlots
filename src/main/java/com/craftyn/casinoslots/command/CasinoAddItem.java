@@ -4,8 +4,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.slot.SlotMachine;
-import com.craftyn.casinoslots.slot.Type;
+import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoAddItem extends AnCommand {
@@ -36,16 +36,16 @@ public class CasinoAddItem extends AnCommand {
         if(args.length == 5) {
 
             // Slot does not exist
-            if(!plugin.getSlotData().isSlot(args[1])) {
+            if(!plugin.getSlotManager().isSlot(args[1])) {
                 Type type;
 
                 // Valid type
-                if(plugin.getTypeData().isType(args[2])) {
+                if(plugin.getTypeManager().isType(args[2])) {
                     String typeName = args[2];
 
                     // Has type permission
                     if(PermissionUtil.canCreateItemsType(player, typeName)) {
-                        type = plugin.getTypeData().getType(typeName);
+                        type = plugin.getTypeManager().getType(typeName);
                     } else {//doesn't have permission
                         plugin.sendMessage(player, ChatColor.RED + "You do not have permission to create an item slot.");
                         return true;
@@ -85,7 +85,7 @@ public class CasinoAddItem extends AnCommand {
 
                 //Good to start punching the blocks to create the slot.
                 SlotMachine slot = new SlotMachine(plugin, args[1], type, player.getUniqueId(), player.getName(), player.getWorld().getName(), false, true, cmditemID, cmditemAMT);
-                plugin.getSlotData().toggleCreatingSlots(player.getName(), slot);
+                plugin.getSlotManager().toggleCreatingSlots(player.getName(), slot);
                 plugin.sendMessage(player, "Punch a block to serve as the base for this slot machine.");
             }
 

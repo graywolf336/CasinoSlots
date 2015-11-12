@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.slot.SlotMachine;
+import com.craftyn.casinoslots.classes.SlotMachine;
 
 public class CasinoWithdraw extends AnCommand {
 
@@ -18,8 +18,8 @@ public class CasinoWithdraw extends AnCommand {
         if(args.length == 3) {
 
             // Slot exists
-            if(plugin.getSlotData().isSlot(args[1])) {
-                SlotMachine slot = plugin.getSlotData().getSlot(args[1]);
+            if(plugin.getSlotManager().isSlot(args[1])) {
+                SlotMachine slot = plugin.getSlotManager().getSlot(args[1]);
 
                 // Can access slot
                 if(isOwner(slot)) {
@@ -50,7 +50,7 @@ public class CasinoWithdraw extends AnCommand {
                         plugin.getEconomy().depositPlayer(player, amount);
                         sendMessage(amount +  " withdrew from " + args[1] + ".");
                         sendMessage(args[1] + " now has " + slot.getFunds() + " in it.");
-                        plugin.getSlotData().saveSlot(slot);
+                        plugin.getSlotManager().saveSlot(slot);
                     }
                 }
                 // No access

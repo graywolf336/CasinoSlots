@@ -105,7 +105,7 @@ public class AnSlot extends AnCommand {
             }
             else {
                 // Enable if needed
-                if((slot.getFunds() + amount) > plugin.getTypeManager().getMaxPrize(slot.getType())) {
+                if((slot.getFunds() + amount) > slot.getType().getMaxPrize()) {
                     slot.setEnabled(true);
                     sendMessage("Sufficient funds. Slot machine enabled.");
                 }
@@ -127,7 +127,7 @@ public class AnSlot extends AnCommand {
             }
 
             // Disable if necessary
-            if((slot.getFunds() - amount) < plugin.getTypeManager().getMaxPrize(slot.getType())) {
+            if((slot.getFunds() - amount) < slot.getType().getMaxPrize()) {
                 slot.setEnabled(false);
             }
 

@@ -49,7 +49,7 @@ public class Game {
         Long[] delay = { 60L, 80L, 100L };
 
         if (slot.isManaged()) {
-            if (slot.getFunds() >= plugin.getTypeManager().getMaxPrize(slot.getType())) {
+            if (slot.getFunds() >= slot.getType().getMaxPrize()) {
                 slot.setEnabled(true);
             } else {
                 slot.setEnabled(false);

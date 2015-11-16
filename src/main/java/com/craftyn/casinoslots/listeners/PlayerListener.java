@@ -296,7 +296,7 @@ public class PlayerListener implements Listener {
             else if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 if(PermissionUtil.isOwner(player, slot) || PermissionUtil.isAdmin(player)) {
                     if (slot.isManaged()) {
-                        if(slot.getFunds() >= plugin.getTypeManager().getMaxPrize(slot.getType())) {
+                        if(slot.getFunds() >= slot.getType().getMaxPrize()) {
                             slot.setEnabled(true);
                         }else {
                             slot.setEnabled(false);
@@ -313,7 +313,7 @@ public class PlayerListener implements Listener {
                             plugin.sendMessage(player, "    Enabled: " + ChatColor.RED + slot.isEnabled().toString());
                         }
                         plugin.sendMessage(player, "    Funds: " + slot.getFunds() + " " + plugin.getEconomy().currencyNamePlural());
-                        plugin.sendMessage(player, "    Funds required: " + plugin.getTypeManager().getMaxPrize(slot.getType()));
+                        plugin.sendMessage(player, "    Funds required: " + slot.getType().getMaxPrize());
                     }
                     plugin.sendMessage(player, "    Item: " + slot.isItem().toString());
                     if(slot.isItem()) {

@@ -128,6 +128,10 @@ public class Type {
         this.helpMessages = messages;
     }
     
+    public Map<String, Reward> getRewards() {
+        return this.rewards;
+    }
+    
     public void setRewards(Map<String, Reward> rewards) {
         this.rewards = rewards;
     }
@@ -135,6 +139,16 @@ public class Type {
     // Returns type reward of id
     public Reward getReward(String id) {
         return this.rewards.get(id);
+    }
+    
+    public double getMaxPrize() {
+        double max = 0.0;
+
+        for(Reward r : rewards.values())
+            if(r.getMoney() > max)
+                max = r.getMoney();
+                
+        return max;
     }
 
     public double sendRewards(List<String> results, Player player) {

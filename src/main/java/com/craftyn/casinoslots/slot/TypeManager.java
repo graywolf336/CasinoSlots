@@ -232,21 +232,6 @@ public class TypeManager {
         return messages;
     }
 
-    // Returns value of the highest money reward
-    public Double getMaxPrize(Type type) {
-        Map<String, Reward> rewards = getRewards(type);//TODO: Use the loaded types!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Double max = 0.0;
-
-        for(Map.Entry<String, Reward> entry : rewards.entrySet()) {
-            Reward reward = entry.getValue();
-            Double money = reward.getMoney();
-            if(money > max) {
-                max = money;
-            }
-        }
-        return max;
-    }
-
     /**
      * Sets the item cost that this type also costs, in addition to economy money and saves the config.
      * 

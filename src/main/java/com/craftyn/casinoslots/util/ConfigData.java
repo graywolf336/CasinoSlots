@@ -24,7 +24,7 @@ public class ConfigData {
     private File statsFile;
 
     public String prefixColor, chatColor, prefix;
-    public Boolean displayPrefix, trackStats, allowDiagonals, protection, debug, displayChunk;
+    public Boolean displayPrefix, trackStats, allowDiagonals, protection, debug = true, displayChunk;
 
     //towny stuff
     public Boolean onlyMayors, onlyTowns;
@@ -37,14 +37,16 @@ public class ConfigData {
 
     // Load all config data
     public void load() {
-        config = plugin.getConfig().getRoot();
+        this.config = this.plugin.getConfig();
+        boolean changed = false;
         if(config.getDouble("options.config-version", 0.9) != 1.0) {
             config.options().copyDefaults(true);
             config.set("options.config-version", 1.0);
+            changed = true;
         }
         
         //save the configuration if we changed it here
-        plugin.saveConfig();
+        if(changed) plugin.saveConfig();
 
         setGlobals();
 
@@ -53,10 +55,6 @@ public class ConfigData {
 
         slotsFile = new File(plugin.getDataFolder(), "slots.yml");
         slots = YamlConfiguration.loadConfiguration(slotsFile);
-
-        plugin.getTypeManager().loadTypes();
-        plugin.getSlotManager().loadSlots();
-        plugin.getStatData().loadStats();
     }
 
     /**

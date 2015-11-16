@@ -1,17 +1,23 @@
 package com.craftyn.casinoslots.classes;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Reward {
-    private String message;
-    private Double money;
-    private List<String> action;
+import com.craftyn.casinoslots.actions.Action;
 
-    // Initializes a Reward object
-    public Reward(String message, Double money, List<String> action) {
-        this.message = message;
+public class Reward {
+    private String message = "";
+    private double money = 0;
+    private List<Action> actions = new ArrayList<Action>();
+
+    public Reward(String message, double money, List<Action> actions) {
+        if(message != null)
+            this.message = message;
+        
+        if(actions != null)
+            this.actions = actions;
+
         this.money = money;
-        this.action = action;
     }
 
     // Returns reward message
@@ -20,12 +26,12 @@ public class Reward {
     }
 
     // Returns reward money
-    public Double getMoney() {
+    public double getMoney() {
         return this.money;
     }
 
     // Returns reward actions
-    public List<String> getAction() {
-        return this.action;
+    public List<Action> getActions() {
+        return this.actions;
     }
 }

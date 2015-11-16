@@ -5,7 +5,6 @@ import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.support.membermodification.MemberMatcher.constructor;
@@ -15,12 +14,16 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.economy.Economy;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -34,8 +37,12 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLogger;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.ServicePriority;
+import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
 import org.junit.Assert;
 import org.mockito.Matchers;
 import org.mockito.invocation.InvocationOnMock;
@@ -46,6 +53,7 @@ import org.powermock.core.MockGateway;
 import com.craftyn.casinoslots.CasinoSlots;
 
 public class TestInstanceCreator {
+    private Random r;
     private CasinoSlots main;
     private Server mockServer;
     private Player mockOpPlayer, mockNotOpPlayer;
@@ -57,12 +65,13 @@ public class TestInstanceCreator {
     public static final File pluginDirectory = new File(serverDirectory + File.separator + "plugins" + File.separator + "CasinoSlotsTest");
 
     public boolean setup() {
+        r = new Random();
         try {
             pluginDirectory.mkdirs();
             Assert.assertTrue(pluginDirectory.exists());
 
             MockGateway.MOCK_STANDARD_METHODS = false;
-
+            
             // Initialize the Mock server.
             mockServer = mock(Server.class);
             when(mockServer.getName()).thenReturn("UnitTestBukkit");
@@ -72,23 +81,49 @@ public class TestInstanceCreator {
             when(mockServer.getLogger()).thenReturn(Util.logger);
             when(mockServer.getWorldContainer()).thenReturn(worldsDirectory);
 
-            MockWorldFactory.makeNewMockWorld("world", Environment.NORMAL, WorldType.NORMAL);
+            //Mock up the economy
+            MockEconomy economy = mock(MockEconomy.class);
+
+            //Mock up the service provider for the economy
+            RegisteredServiceProvider<Economy> mockProvider = PowerMockito.spy(new RegisteredServiceProvider<Economy>(net.milkbowl.vault.economy.Economy.class, economy, ServicePriority.Highest, main));
+            when(mockProvider.getProvider()).thenReturn(economy);
+
+            //Mock up the services manager
+            ServicesManager mockServices = mock(ServicesManager.class);
+            when(mockServer.getServicesManager()).thenReturn(mockServices);
+            when(mockServices.getRegistration(net.milkbowl.vault.economy.Economy.class)).thenReturn(mockProvider);
+
+            World mockWorld = MockWorldFactory.makeNewMockWorld("world", Environment.NORMAL, WorldType.NORMAL);
 
             suppress(constructor(CasinoSlots.class));
             main = PowerMockito.spy(new CasinoSlots());
+            
+            //setup internal debugging
+            Field internalDebug = CasinoSlots.class.getDeclaredField("internalDebug");
+            internalDebug.setAccessible(true);
+            internalDebug.set(main, true);
 
-            PluginDescriptionFile pdf = PowerMockito.spy(new PluginDescriptionFile("CasinoSlots", "2.5.8-Test", "com.craftyn.casinoslots.CasinoSlots"));
+            PluginDescriptionFile pdf = PowerMockito.spy(new PluginDescriptionFile("CasinoSlots", "2.6.0-Test", "com.craftyn.casinoslots.CasinoSlots"));
             when(pdf.getPrefix()).thenReturn("CasinoSlots");
+            when(pdf.isDatabaseEnabled()).thenReturn(false);
             List<String> authors = new ArrayList<String>();
             authors.add("graywolf336");
             authors.add("Darazo");
             when(pdf.getAuthors()).thenReturn(authors);
-            when(main.getDescription()).thenReturn(pdf);
             when(main.getDataFolder()).thenReturn(pluginDirectory);
             when(main.isEnabled()).thenReturn(true);
             when(main.getLogger()).thenReturn(Util.logger);
             when(main.getServer()).thenReturn(mockServer);
-
+            when(main.getEconomy()).thenReturn(economy);
+            
+            Field description = JavaPlugin.class.getDeclaredField("description");
+            description.setAccessible(true);
+            description.set(main, pdf);
+            
+            Field classLoader = JavaPlugin.class.getDeclaredField("classLoader");
+            classLoader.setAccessible(true);
+            classLoader.set(main, getClass().getClassLoader());
+            
             Field configFile = JavaPlugin.class.getDeclaredField("configFile");
             configFile.setAccessible(true);
             configFile.set(main, new File(pluginDirectory, "config.yml"));
@@ -97,14 +132,12 @@ public class TestInstanceCreator {
             logger.setAccessible(true);
             logger.set(main, new PluginLogger(main));
 
-            doReturn(getClass().getClassLoader().getResourceAsStream("config.yml")).when(main).getResource("config.yml");
-
-            // Add the plugin to the list of loaded plugins
-            JavaPlugin[] plugins = new JavaPlugin[] { main };
+            when(main.getResource("config.yml")).thenReturn(getClass().getClassLoader().getResourceAsStream("config.yml"));
 
             // Mock the Plugin Manager
             PluginManager mockPluginManager = PowerMockito.mock(PluginManager.class);
-            when(mockPluginManager.getPlugins()).thenReturn(plugins);
+            when(mockPluginManager.getPlugins()).thenReturn(new JavaPlugin[] { main });
+            when(mockPluginManager.isPluginEnabled("Vault")).thenReturn(true);
             when(mockPluginManager.getPlugin("CasinoSlots")).thenReturn(main);
             when(mockPluginManager.getPermission(anyString())).thenReturn(null);
 
@@ -138,7 +171,6 @@ public class TestInstanceCreator {
                     return MockWorldFactory.getWorlds();
                 }
             });
-
             when(mockServer.getPluginManager()).thenReturn(mockPluginManager);
 
             when(mockServer.createWorld(Matchers.isA(WorldCreator.class))).thenAnswer(
@@ -157,11 +189,17 @@ public class TestInstanceCreator {
                             }
                             return MockWorldFactory.makeNewMockWorld(arg.name(), arg.environment(), arg.type());
                         }
-                    });
+                    }
+                    );
 
             when(mockServer.unloadWorld(anyString(), anyBoolean())).thenReturn(true);
 
             // add mock scheduler
+            final BukkitTask bt = mock(BukkitTask.class);
+            when(bt.getTaskId()).thenReturn(r.nextInt());
+            when(bt.getOwner()).thenReturn(main);
+            when(bt.isSync()).thenReturn(false);
+            
             BukkitScheduler mockScheduler = mock(BukkitScheduler.class);
             when(mockScheduler.scheduleSyncDelayedTask(any(Plugin.class), any(Runnable.class), anyLong())).
             thenAnswer(new Answer<Integer>() {
@@ -170,10 +208,10 @@ public class TestInstanceCreator {
                     try {
                         arg = (Runnable) invocation.getArguments()[1];
                     } catch (Exception e) {
-                        return null;
+                        return r.nextInt();
                     }
                     arg.run();
-                    return null;
+                    return r.nextInt();
                 }});
             when(mockScheduler.scheduleSyncDelayedTask(any(Plugin.class), any(Runnable.class))).
             thenAnswer(new Answer<Integer>() {
@@ -182,22 +220,22 @@ public class TestInstanceCreator {
                     try {
                         arg = (Runnable) invocation.getArguments()[1];
                     } catch (Exception e) {
-                        return null;
+                        return r.nextInt();
                     }
                     arg.run();
-                    return null;
+                    return r.nextInt();
                 }});
             when(mockScheduler.runTaskTimerAsynchronously(any(Plugin.class), any(Runnable.class), anyLong(), anyLong())).
-            thenAnswer(new Answer<Integer>() {
-                public Integer answer(InvocationOnMock invocation) throws Throwable {
+            thenAnswer(new Answer<BukkitTask>() {
+                public BukkitTask answer(InvocationOnMock invocation) throws Throwable {
                     Runnable arg;
                     try {
                         arg = (Runnable) invocation.getArguments()[1];
                     } catch (Exception e) {
-                        return null;
+                        return bt;
                     }
                     arg.run();
-                    return null;
+                    return bt;
                 }});
             when(mockServer.getScheduler()).thenReturn(mockScheduler);
 
@@ -256,6 +294,10 @@ public class TestInstanceCreator {
             when(mockOpPlayer.hasPermission(Matchers.isA(Permission.class))).thenReturn(true);
             when(mockOpPlayer.isOp()).thenReturn(true);
             when(mockOpPlayer.getInventory()).thenReturn(new MockPlayerInventory());
+            when(mockOpPlayer.getWorld()).thenReturn(mockWorld);
+            when(mockOpPlayer.getLocation()).thenReturn(new Location(mockWorld, 23, 70, -242));
+            when(mockServer.getPlayer("graywolf336")).thenReturn(mockOpPlayer);
+            when(mockServer.getPlayer(UUID.fromString("062c14ba-4c47-4757-911b-bbf9a60dab7b"))).thenReturn(mockOpPlayer);
 
             mockNotOpPlayer = mock(Player.class);
             when(mockNotOpPlayer.getUniqueId()).thenReturn(UUID.fromString("89ae2bf2-0705-435f-b5d6-c24533649540"));
@@ -267,6 +309,10 @@ public class TestInstanceCreator {
             when(mockNotOpPlayer.hasPermission(Matchers.isA(Permission.class))).thenReturn(false);
             when(mockNotOpPlayer.isOp()).thenReturn(false);
             when(mockNotOpPlayer.getInventory()).thenReturn(new MockPlayerInventory());
+            when(mockNotOpPlayer.getWorld()).thenReturn(mockWorld);
+            when(mockNotOpPlayer.getLocation()).thenReturn(new Location(mockWorld, 23, 70, -242));
+            when(mockServer.getPlayer("graywolf336")).thenReturn(mockNotOpPlayer);
+            when(mockServer.getPlayer(UUID.fromString("89ae2bf2-0705-435f-b5d6-c24533649540"))).thenReturn(mockNotOpPlayer);
 
             // Init our second command sender, but this time is an instance of a player
             mockOpPlayerSender = mockOpPlayer;
@@ -278,10 +324,8 @@ public class TestInstanceCreator {
             when(mockOpPlayerSender.hasPermission(Matchers.isA(Permission.class))).thenReturn(true);
             when(mockOpPlayerSender.addAttachment(main)).thenReturn(null);
             when(mockOpPlayerSender.isOp()).thenReturn(true);
-
+            
             Bukkit.setServer(mockServer);
-
-            // Load Jail
             main.onLoad();
 
             // Enable it and turn on debugging
@@ -344,11 +388,11 @@ public class TestInstanceCreator {
 
     private void deleteFolder(File folder) {
         File[] files = folder.listFiles();
-        if(files != null) {
-            for(File f: files) {
-                if(f.isDirectory()) {
+        if (files != null) {
+            for (File f : files) {
+                if (f.isDirectory()) {
                     deleteFolder(f);
-                }else {
+                } else {
                     f.delete();
                 }
             }

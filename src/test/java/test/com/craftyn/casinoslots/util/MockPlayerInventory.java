@@ -14,7 +14,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 public class MockPlayerInventory implements PlayerInventory {
 
-    private int armorSize = 4, inventorySize = 36;
+    private int armorSize = 4, inventorySize = 36, heldSlot = 0;
     ItemStack[] armorContents = new ItemStack[armorSize];
     ItemStack[] inventoryContents = new ItemStack[inventorySize];
 
@@ -70,22 +70,30 @@ public class MockPlayerInventory implements PlayerInventory {
 
     @Override
     public ItemStack getItemInHand() {
-        return null;
+        return this.inventoryContents[this.heldSlot];
     }
 
     @Override
     public void setItemInHand(ItemStack itemStack) {
-
+        this.inventoryContents[this.heldSlot] = itemStack;
     }
 
     @Override
     public int getHeldItemSlot() {
-        return 0;
+        return this.heldSlot;
     }
 
     @Override
     public int clear(int i, int i2) {
-        return 0;
+        int count = 0;
+        for(int d = i; d > i2; d++) {
+            if(this.inventoryContents[d] != null) {
+                this.inventoryContents[d] = null;
+                count++;
+            }
+        }
+        
+        return count;
     }
 
     @Override
@@ -100,7 +108,7 @@ public class MockPlayerInventory implements PlayerInventory {
 
     @Override
     public String getName() {
-        return null;
+        return "MockInventory";
     }
 
     @Override
@@ -129,12 +137,12 @@ public class MockPlayerInventory implements PlayerInventory {
 
     @Override
     public HashMap<Integer, ItemStack> addItem(ItemStack... itemStacks) {
-        return null;
+        return new HashMap<Integer, ItemStack>();
     }
 
     @Override
     public HashMap<Integer, ItemStack> removeItem(ItemStack... itemStacks) {
-        return null;
+        return new HashMap<Integer, ItemStack>();
     }
 
     @Override
@@ -147,14 +155,27 @@ public class MockPlayerInventory implements PlayerInventory {
         this.inventoryContents = itemStacks;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean contains(int i) {
-        return false;
+        boolean contains = false;
+        
+        for(ItemStack item : inventoryContents)
+            if(item.getTypeId() == i)
+                return true;
+        
+        return contains;
     }
 
     @Override
     public boolean contains(Material material) {
-        return false;
+        boolean contains = false;
+        
+        for(ItemStack item : inventoryContents)
+            if(item.getType() == material)
+                return true;
+        
+        return contains;
     }
 
     @Override
@@ -296,6 +317,6 @@ public class MockPlayerInventory implements PlayerInventory {
 
     @Override
     public void setHeldItemSlot(int slot) {
-
+        this.heldSlot = slot;
     }
 }

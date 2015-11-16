@@ -43,7 +43,7 @@ types:
       '42':
         message: Winner - 3 iron blocks! An enchanted iron sword.
         money: 0.0
-        action: give 267,16,5 1
+        action: give iron_sword 1 16:5 name:Casino_Sword lore:Won_at_the_casino!
       '41':
         message: Winner - 3 gold blocks! $300 awarded.
         money: 300.0
@@ -84,7 +84,8 @@ types:
     - 45,1
     rewards:
       '35,3':
-        action: goblind
+        action:
+        - potion slow 1000 10
         message: Winne- You can't see now!
         money: 0.0
       '46':
@@ -92,10 +93,12 @@ types:
         message: Winne-
         money: 0.0
       '74':
-        action: drugup
+        action:
+        - potion confusion 20 45
+        - potion slow 10 20
         message: Winne- Kids, drugs are bad!
       '87':
-        action: fire
+        action: fire 10
         message: Winne- Fire hurts! Don't mess with it.
         money: 0.0
       '103':
@@ -104,8 +107,8 @@ types:
         money: 0.0
       '45':
         action:
-        - gocrazy
-        - command give [player] 336 1
+        - potion slow 1000 10
+        - command me thinks [player] is cool!
         message: Winner - A command has been executed!
         money: 0.0
     messages:

@@ -14,22 +14,14 @@ public class CasinoVer extends AnCommand {
     public Boolean process() {
 
         // Admin permission
-        if(player != null) {
-            if(!PermissionUtil.isAdmin(player)) {
+        if (player != null) {
+            if (!PermissionUtil.isAdmin(player)) {
                 noPermission();
                 return true;
             }
         }
 
-        if(args.length == 1) {
-            String ver = plugin.pluginVer;
-            senderSendMessage("Version " + ver);
-            return true;
-        }else {
-            senderSendMessage("Usage:");
-            senderSendMessage("    /casino ver");
-            senderSendMessage("    /casino version");
-            return true;
-        }
+        senderSendMessage("Version " + plugin.getDescription().getVersion());
+        return true;
     }
 }

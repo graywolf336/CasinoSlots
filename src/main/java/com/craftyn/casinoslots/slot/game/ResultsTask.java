@@ -35,7 +35,7 @@ public class ResultsTask implements Runnable {
         Double cost = type.getCost();
         Double won = 0.0;
 
-        ArrayList<Reward> results = getResults();
+        ArrayList<String> results = getResults();
 
         if (!results.isEmpty()) {
             SlotMachine slot = game.getSlot();
@@ -50,22 +50,15 @@ public class ResultsTask implements Runnable {
                     game.getPlugin().error("The block stored for the sign is NOT a sign, please remove it.");
                 }
             }
-
-            // Send the rewards
-            for (Reward reward : results) {
-                game.getPlugin().getRewardData().send(slot, player, reward, type);
-                won += reward.getMoney();
-                game.getPlugin().debug("The player has won an amount of: " + won);
-            }
-
-            // Managed
+            
+            won += type.sendRewards(results, player);
+            
+            //Take the money from the slot machine, if it is managed
             if (slot.isManaged()) {
-
-                slot.withdraw(won);
-                game.getPlugin().getSlotManager().saveSlot(slot);
-                Double max = game.getPlugin().getTypeManager().getMaxPrize(type);
-                if (slot.getFunds() < max) {
-                    slot.setEnabled(false);
+                if (won < 0) {
+                    slot.deposit(Math.abs(won));
+                } else {
+                    slot.withdraw(won);
                 }
             }
         }
@@ -109,13 +102,12 @@ public class ResultsTask implements Runnable {
     }
 
     // Gets the results
-    private ArrayList<Reward> getResults() {
-        ArrayList<Reward> results = new ArrayList<Reward>();
+    private ArrayList<String> getResults() {
+        ArrayList<String> results = new ArrayList<String>();
         ArrayList<Block> blocks = game.getSlot().getBlocks();
 
         // checks horizontal matches
         for (int i = 0; i < 5; i++) {
-            Reward reward;
             ArrayList<String> currentId = new ArrayList<String>();
             List<Block> current = null;
 
@@ -147,18 +139,7 @@ public class ResultsTask implements Runnable {
             // Check for matches, deploy rewards
             Set<String> currentSet = new HashSet<String>(currentId);
             if (currentSet.size() == 1) {
-
-                // Added for the damage value blocks and rewards
-                int id = current.get(0).getTypeId();
-                byte data = current.get(0).getData();
-                reward = game.getType().getReward(id + ":" + data);
-
-                // Break loop if and don't reward for something that doesn't have a reward.
-                if (reward == null) {
-                    break;
-                }
-
-                results.add(reward);
+                results.add(current.get(0).getTypeId() + ":" + current.get(0).getData());
             }
         }
 

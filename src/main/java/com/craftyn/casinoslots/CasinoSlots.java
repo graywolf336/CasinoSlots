@@ -3,6 +3,7 @@ package com.craftyn.casinoslots;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -10,12 +11,12 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.craftyn.casinoslots.actions.ActionFactory;
 import com.craftyn.casinoslots.command.AnCommandExecutor;
 import com.craftyn.casinoslots.listeners.BlockListener;
 import com.craftyn.casinoslots.listeners.ChunkListener;
 import com.craftyn.casinoslots.listeners.EntityListener;
 import com.craftyn.casinoslots.listeners.PlayerListener;
-import com.craftyn.casinoslots.slot.RewardData;
 import com.craftyn.casinoslots.slot.SlotManager;
 import com.craftyn.casinoslots.slot.TypeManager;
 import com.craftyn.casinoslots.util.ConfigData;
@@ -32,40 +33,26 @@ public class CasinoSlots extends JavaPlugin {
     private Update update;
     private int updateCheckTask;
 
-    public String pluginVer;
-    public boolean useTowny = false, useWorldGuard = false;
+    public boolean useTowny = false, useWorldGuard = false, internalDebug = false;
 
-    private PlayerListener playerListener = new PlayerListener(this);
-    private BlockListener blockListener = new BlockListener(this);
-    private ChunkListener chunkListener = new ChunkListener(this);
-    private EntityListener entity = new EntityListener(this);
-    private AnCommandExecutor commandExecutor = new AnCommandExecutor(this);
+    private PlayerListener playerListener;
+    private BlockListener blockListener;
+    private ChunkListener chunkListener;
+    private EntityListener entity;
+    private AnCommandExecutor commandExecutor;
 
-    private ConfigData configData = new ConfigData(this);
-    private SlotManager slotManager = new SlotManager(this);
-    private TypeManager typeManager = new TypeManager(this);
-    private StatData statsData = new StatData(this);
-    private RewardData rewardData = new RewardData(this);
+    private ConfigData configData;
+    private SlotManager slotManager;
+    private TypeManager typeManager;
+    private StatData statsData;
     private TownyChecks townyChecks = null;
-
-    public void onDisable() {
-        if (economy != null) {
-            //configData.save();
-            configData.saveSlots();
-            configData.saveStats();
-
-            this.configData = null;
-            this.slotManager = null;
-            this.typeManager = null;
-            this.statsData = null;
-            this.rewardData = null;
-            this.townyChecks = null;
-
-            this.towny = null;
-        }
-    }
+    
+    private ActionFactory actionFactory = null;
 
     public void onEnable() {
+        loadConfig();
+        
+        //Verify vault is installed before loading anything
         pm = this.getServer().getPluginManager();
         if(!pm.isPluginEnabled("Vault")) {
             error("Vault is required in order to use this plugin.");
@@ -79,7 +66,29 @@ public class CasinoSlots extends JavaPlugin {
                 return;
             }
         }
+        
+        //Load the ActionFactory first, since it throws an exception if something else wrong
+        try {
+            actionFactory = new ActionFactory();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.getLogger().severe("Failed to load the action definitions, please see the error above!");
+            pm.disablePlugin(this);
+            return;
+        }
+        
+        this.playerListener = new PlayerListener(this);
+        this.blockListener = new BlockListener(this);
+        this.chunkListener = new ChunkListener(this);
+        this.entity = new EntityListener(this);
+        this.commandExecutor = new AnCommandExecutor(this);
+        
+        this.configData = new ConfigData(this);
+        this.slotManager = new SlotManager(this);
+        this.typeManager = new TypeManager(this);
+        this.statsData = new StatData(this);
 
+        //Loads just the configuration, not the types, stats, or slots
         configData.load();
 
         debug("Use World Guard:" + useWorldGuard);
@@ -111,10 +120,61 @@ public class CasinoSlots extends JavaPlugin {
         pm.registerEvents(chunkListener, this);
         pm.registerEvents(entity, this);
 
-
-        getCommand("casino").setExecutor(commandExecutor);
-        pluginVer = getDescription().getVersion();
         reloadUpdateCheck();
+        
+        //Allow actions to be injected before we load anything 
+        this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+            public void run() {
+                getTypeManager().loadTypes();
+                getSlotManager().loadSlots();
+                getStatData().loadStats();
+            }
+        }, 5L);
+    }
+    
+    public void onDisable() {
+        if (economy != null) {
+            //configData.save();
+            configData.saveSlots();
+            configData.saveStats();
+
+            this.configData = null;
+            this.slotManager = null;
+            this.typeManager = null;
+            this.statsData = null;
+            this.townyChecks = null;
+
+            this.towny = null;
+        }
+    }
+    
+    private void loadConfig() {
+        //Only create the default config if it doesn't exist
+        saveDefaultConfig();
+        
+        //Append new key-value paris to the config
+        getConfig().options().copyDefaults(true);
+        
+        //Set the header and save
+        getConfig().options().header(getHeader());
+        saveConfig();
+    }
+    
+    private String getHeader() {
+        String sep = System.getProperty("line.separator");
+
+        return "###################" + sep
+                + "Jail v" + this.getDescription().getVersion() + " config file" + sep
+                + "Note: You -must- use spaces instead of tabs!" + sep +
+                "###################";
+    }
+    
+    public boolean onCommand(CommandSender sender, Command command, String cmdlabel, final String[] args) {
+        if(cmdlabel.equals("casino")) {
+            return this.commandExecutor.onCommand(sender, command, cmdlabel, args);
+        }else {
+            return false;
+        }
     }
 
     // Provides a way to shutdown the server from some other class
@@ -193,7 +253,7 @@ public class CasinoSlots extends JavaPlugin {
     }
 
     public void debug(String message) {
-        if(configData.inDebug())
+        if(configData.inDebug() || internalDebug)
             getLogger().info("[Debug] " + message);
     }
 
@@ -252,6 +312,15 @@ public class CasinoSlots extends JavaPlugin {
     }
     
     /**
+     * Returns the instance of the {@link ActionFactory}.
+     * 
+     * @return the {@link ActionFactory} instance
+     */
+    public ActionFactory getActionFactory() {
+        return this.actionFactory;
+    }
+    
+    /**
      * Returns the instance of the {@link ConfigData}.
      * 
      * @return the {@link ConfigData} instance
@@ -285,15 +354,6 @@ public class CasinoSlots extends JavaPlugin {
      */
     public StatData getStatData() {
         return this.statsData;
-    }
-    
-    /**
-     * Returns the instance of the {@link RewardData}.
-     * 
-     * @return the {@link RewardData} instance
-     */
-    public RewardData getRewardData() {
-        return this.rewardData;
     }
     
     /**

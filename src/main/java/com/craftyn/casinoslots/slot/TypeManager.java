@@ -12,17 +12,21 @@ import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.craftyn.casinoslots.actions.Action;
+import com.craftyn.casinoslots.actions.ActionFactory;
 import com.craftyn.casinoslots.classes.Reward;
 import com.craftyn.casinoslots.classes.Type;
 
 public class TypeManager {
     private CasinoSlots plugin;
     private HashMap<String, Type> types;
+    private ActionFactory actionFactory;
 
     // Initialize TypeData
     public TypeManager(CasinoSlots plugin) {
         this.plugin = plugin;
         this.types = new HashMap<String, Type>();
+        this.actionFactory = plugin.getActionFactory();
     }
 
     // Returns a type
@@ -91,17 +95,17 @@ public class TypeManager {
     // Load type into memory
     private void loadType(String name) {
         String path = "types." + name +".";
-
-        Double cost = plugin.getConfigData().config.getDouble(path + "cost");
-        String itemCost = plugin.getConfigData().config.getString(path + "itemCost", "0");
-        Double createCost = plugin.getConfigData().config.getDouble(path + "create-cost");
-        ArrayList<String> reel = getReel(name);
-
-        Map<String, String> messages = getMessages(name);
-        List<String> helpMessages = plugin.getConfigData().config.getStringList(path + "messages.help");
-        Map<String, Reward> rewards = getRewards(name);
         
-        String controllerDefinition = plugin.getConfigData().config.getString(path + "controller", "note_block");
+        Type type = new Type(plugin, name);
+        type.setCost(plugin.getConfig().getDouble(path + "cost"));
+        type.setItemCost(plugin.getConfig().getString(path + "itemCost", "0"));
+        type.setCreateCost(plugin.getConfig().getDouble(path + "create-cost", 100));
+        type.setReel(getReel(name));
+        type.setMessages(getMessages(name));
+        type.setHelpMessages(plugin.getConfig().getStringList(path + "messages.help"));
+        type.setRewards(getRewards(type));
+        
+        String controllerDefinition = plugin.getConfig().getString(path + "controller", "note_block");
         MaterialData controller;
         
         try {
@@ -115,9 +119,8 @@ public class TypeManager {
             plugin.severe("Unable to load the custom controller definition for the slot type " + name + ". The following is not valid: " + controllerDefinition);
             controller = new MaterialData(Material.NOTE_BLOCK);
         }
-
-        plugin.debug("The controller for the type " + name + " is: " + controller.getItemType().toString() + ":" + controller.getData());
-        Type type = new Type(name, cost, itemCost, createCost, reel, messages, helpMessages, rewards, controller);
+        
+        type.setControllerData(controller);
         this.types.put(name, type);
     }
 
@@ -147,41 +150,9 @@ public class TypeManager {
         return parsedReel;
     }
 
-    // Returns reward of id
-    public Reward getReward(String type, String id) {
-        // Split the id so that a damage value is optional
-        String blockId = String.valueOf(0);
-        String[] idSplit = id.split("\\,");
-        if (Integer.parseInt(idSplit[1]) == 0) {
-            blockId = idSplit[0];
-        }else {
-            blockId = id;
-        }
-
-        String path = "types." + type + ".rewards." + blockId + ".";
-
-        String message = plugin.getConfigData().config.getString(path + "message", "Award given!");
-        Double money = plugin.getConfigData().config.getDouble(path + "money", 0.0);
-        List<String> action = null;
-
-        if(plugin.getConfigData().config.isSet(path + "action")) {
-            if(plugin.getConfigData().config.isList(path + "action")) {
-                plugin.debug("The reward does have the 'action' as a list, so store and get it.");
-                action = plugin.getConfigData().config.getStringList(path + "action");
-            }else {
-                plugin.debug("The reward does have the 'action' but it is only a string, so we get it as a string and store it as a list");
-                String a = plugin.getConfigData().config.getString(path + "action");
-                action = Arrays.asList(a);
-            }
-        }
-
-        Reward reward = new Reward(message, money, action);
-        return reward;
-    }
-
     // Returns Map of all rewards for this type
-    public Map<String, Reward> getRewards(String type) {
-        Set<String> ids = plugin.getConfigData().config.getConfigurationSection("types." + type +".rewards").getKeys(false);
+    public Map<String, Reward> getRewards(Type type) {
+        Set<String> ids = plugin.getConfigData().config.getConfigurationSection("types." + type.getName() +".rewards").getKeys(false);
         Map<String, Reward> rewards = new HashMap<String, Reward>();
 
         for(String itemId : ids) {
@@ -195,10 +166,49 @@ public class TypeManager {
                 id = Integer.parseInt(itemSplit[0]);
             }
 
-            Reward reward = getReward(type, id + "," + data);
-            rewards.put(id + ":" + data, reward);
+            rewards.put(id + ":" + data, getReward(type, itemId));
         }
         return rewards;
+    }
+    
+    // Returns reward of id
+    private Reward getReward(Type type, String itemId) {
+        String path = "types." + type.getName() + ".rewards." + itemId + ".";
+
+        String message = plugin.getConfigData().config.getString(path + "message");
+        double money = plugin.getConfigData().config.getDouble(path + "money", 0.0);
+        List<Action> action = new ArrayList<Action>();
+
+        if(plugin.getConfigData().config.isSet(path + "action")) {
+            if(plugin.getConfigData().config.isList(path + "action")) {
+                List<String> configActions = plugin.getConfigData().config.getStringList(path + "action");
+                action = this.getActions(type, configActions);
+            }else {
+                String a = plugin.getConfigData().config.getString(path + "action");
+                action = this.getActions(type, Arrays.asList(a));
+            }
+        }
+
+        return new Reward(message, money, action);
+    }
+    
+    private List<Action> getActions(Type type, List<String> actions) {
+        List<Action> created = new ArrayList<Action>();
+        
+        for(String s : actions) {
+            String[] split = s.split(" ");
+            String[] args = new String[split.length - 1];
+            System.arraycopy(split, 1, args, 0, args.length);
+            
+            try{
+                Action a = this.actionFactory.getConstructedAction(split[0], plugin, type, args);
+                created.add(a);
+            }catch(Exception e) {
+                plugin.getLogger().severe(e.getClass().getSimpleName() + " occured causing us to not be able to load the action '" + split[0] + "' due to the error: " + e.getMessage());
+            }
+        }
+        
+        return created;
     }
 
     // Returns map of messages
@@ -224,7 +234,7 @@ public class TypeManager {
 
     // Returns value of the highest money reward
     public Double getMaxPrize(Type type) {
-        Map<String, Reward> rewards = getRewards(type.getName());
+        Map<String, Reward> rewards = getRewards(type);//TODO: Use the loaded types!!!!!!!!!!!!!!!!!!!!!!!!!!
         Double max = 0.0;
 
         for(Map.Entry<String, Reward> entry : rewards.entrySet()) {

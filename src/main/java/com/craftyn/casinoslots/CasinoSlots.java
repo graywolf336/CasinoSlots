@@ -164,7 +164,7 @@ public class CasinoSlots extends JavaPlugin {
         String sep = System.getProperty("line.separator");
 
         return "###################" + sep
-                + "Jail v" + this.getDescription().getVersion() + " config file" + sep
+                + "CasinoSlots v" + this.getDescription().getVersion() + " config file" + sep
                 + "Note: You -must- use spaces instead of tabs!" + sep +
                 "###################";
     }

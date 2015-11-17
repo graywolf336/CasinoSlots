@@ -15,7 +15,7 @@ import com.craftyn.casinoslots.exceptions.ClassConstructorIsntThreeException;
 import com.craftyn.casinoslots.exceptions.ClassDoesntExtendActionException;
 import com.craftyn.casinoslots.exceptions.UnknownActionException;
 
-public class ActionFactoryTests {
+public class TestActionFactory {
     private ActionFactory factory;
     
     @Before

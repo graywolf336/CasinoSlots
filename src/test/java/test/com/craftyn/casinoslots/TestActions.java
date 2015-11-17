@@ -25,7 +25,7 @@ import com.craftyn.casinoslots.exceptions.UnknownActionException;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ CasinoSlots.class, PluginDescriptionFile.class })
-public class ActionTests {
+public class TestActions {
     private static TestInstanceCreator creator;
     private static CasinoSlots main;
     private static Player player;

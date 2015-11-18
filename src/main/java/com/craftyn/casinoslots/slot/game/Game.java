@@ -8,6 +8,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.classes.SlotMachine;
 import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.enums.SlotMachineColumnType;
 
 public class Game {
     private CasinoSlots plugin;
@@ -45,8 +46,7 @@ public class Game {
     public void play() {
 
         this.scheduler = plugin.getServer().getScheduler();
-        Integer[] task = new Integer[3];
-        Long[] delay = { 60L, 80L, 100L };
+        int[] task = new int[3];
 
         if (slot.isManaged()) {
             if (slot.getFunds() >= slot.getType().getMaxPrize()) {
@@ -86,12 +86,12 @@ public class Game {
         }
 
         // Initiate tasks
-        for (Integer i = 0; i < 3; i++) {
-            task[i] = scheduler.scheduleSyncRepeatingTask(plugin, new RotateTask(this, i), 0L, 6L);
-            scheduler.scheduleSyncDelayedTask(plugin, new StopRotateTask(this, task[i]), delay[2 - i]);
+        for (SlotMachineColumnType c : SlotMachineColumnType.values()) {
+            task[c.getIndex()] = scheduler.scheduleSyncRepeatingTask(plugin, new RotateTask(this, c), 0L, 6L);
+            scheduler.scheduleSyncDelayedTask(plugin, new StopRotateTask(this, task[c.getIndex()]), c.getDelay());
         }
 
         // Results task
-        scheduler.scheduleSyncDelayedTask(plugin, new ResultsTask(this), delay[2]);
+        scheduler.scheduleSyncDelayedTask(plugin, new ResultsTask(this), SlotMachineColumnType.FIRST.getDelay());
     }
 }

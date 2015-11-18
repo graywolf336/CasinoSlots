@@ -33,7 +33,8 @@ public class CasinoSlots extends JavaPlugin {
     private Update update;
     private int updateCheckTask;
 
-    public boolean useTowny = false, useWorldGuard = false, internalDebug = false;
+    public boolean useTowny = false, useWorldGuard = false;
+    private boolean internalDebug = false;
 
     private PlayerListener playerListener;
     private BlockListener blockListener;
@@ -50,7 +51,7 @@ public class CasinoSlots extends JavaPlugin {
     private ActionFactory actionFactory = null;
 
     public void onEnable() {
-        loadConfig();
+        //loadConfig();
         
         //Verify vault is installed before loading anything
         pm = this.getServer().getPluginManager();

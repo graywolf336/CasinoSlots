@@ -4,7 +4,6 @@
 options:
   debug: false
   config-version: 1.0
-  bukkit-version: 2377 #Changing this to something lower will disable sounds
   track-statistics: true
   allow-diagonal-winnings: false
   enable-slot-protection: true
@@ -32,32 +31,29 @@ types:
     create-cost: 1000
     controller: note_block
     reel:
-    - 42,21
-    - 41,12
-    - 57,7
-    - 46,8
-    - 103,9
-    - 49,4
-    - 3,5
+    - iron_block 21
+    - gold_block 12
+    - diamond_block 7
+    - tnt 8
+    - melon_block 9
+    - obsidian 4
+    - dirt:1 5
     rewards:
-      '42':
+      iron_block:
         message: Winner - 3 iron blocks! An enchanted iron sword.
-        money: 0.0
-        action: give iron_sword 1 16:5 name:Casino_Sword lore:Won_at_the_casino!
-      '41':
+        action: give iron_sword 1 damage_all:5 name:Casino_Sword lore:Won_at_the_casino!
+      gold_block:
         message: Winner - 3 gold blocks! $300 awarded.
         money: 300.0
-      '57':
+      diamond_block:
         message: Winner - 3 diamond blocks! $750 awarded.
         money: 750.0
-      '46':
+      tnt:
         action: kill
         message: Winne-
-        money: 0.0
-      '103':
-        action: give 103 10
+      melon_block:
+        action: give melon_block 64
         message: Winner - 3 ..melons? Nom.
-        money: 0.0
     messages:
       insufficient-permission: Sorry, you can't play this slot.
       insufficient-funds: You can't afford to use this.
@@ -67,50 +63,46 @@ types:
       help:
       - 'Instructions:'
       - Get 3 in a row in order to win. $100 per spin.
-      - '3 iron blocks: $175'
+      - '3 iron blocks: A sharpness five enchanted iron sword!'
       - '3 gold blocks: $300'
       - '3 diamond blocks: $750'
-      - '3 melon blocks: stack of melons'
+      - '3 melon blocks: stack of melons!'
+      - '3 tnt blocks: death!'
   actionslot:
     cost: 150
     create-cost: 1000
     controller: "stained_clay:5"
     reel:
-    - 35,3,2
-    - 46,1
-    - 74,1
-    - 87,1
-    - 103,1
-    - 45,1
+    - wool:3 2
+    - tnt
+    - GLOWING_REDSTONE_ORE
+    - netherrack
+    - melon_block
+    - brick
     rewards:
-      '35,3':
+      'wool:3':
         action:
-        - potion slow 1000 10
+        - potion blindness 1000 10
         message: Winne- You can't see now!
-        money: 0.0
-      '46':
+      'tnt':
         action: kill
         message: Winne-
-        money: 0.0
-      '74':
+      'GLOWING_REDSTONE_ORE':
         action:
         - potion confusion 20 45
         - potion slow 10 20
         message: Winne- Kids, drugs are bad!
-      '87':
+      'netherrack':
         action: fire 10
         message: Winne- Fire hurts! Don't mess with it.
-        money: 0.0
-      '103':
+      'melon_block':
         action: give 103 3
         message: Winner - 3 ..melons? Nom.
-        money: 0.0
-      '45':
+      'brick':
         action:
         - potion slow 1000 10
         - command me thinks [player] is cool!
         message: Winner - A command has been executed!
-        money: 0.0
     messages:
       insufficient-permission: You can't play this one, that's too sad - we really wanted you to win.
       insufficient-funds: You can't afford to use this.
@@ -120,8 +112,8 @@ types:
       help:
       - 'Instructions:'
       - Get 3 in a row in order to win. $150 per spin.
-      - '3 tnt blocks: Death!'
-      - '3 on redstone lamps: You go Blind!'
-      - '3 melon blocks: stack of melons'
-      - '3 redstone: Get drugged'
-      - '3 nether brick: Catch on fire'
+      - '3 tnt blocks: death!'
+      - '3 wool blocks: blindness!'
+      - '3 melon blocks: 3 blocks of melons'
+      - '3 redstone: Strange potions effects'
+      - '3 netherrack: fire!'

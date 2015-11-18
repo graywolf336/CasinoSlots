@@ -8,6 +8,13 @@ import com.craftyn.casinoslots.classes.Reward;
 import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
+/**
+ * The smite action. Usage: - smite [times]
+ *
+ * @author graywolf336
+ * @since 3.0.0
+ * @version 1.0.0
+ */
 public class SmiteAction extends Action {
     private String name = "Smite";
     private CasinoSlots plugin;

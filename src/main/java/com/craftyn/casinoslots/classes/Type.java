@@ -14,7 +14,7 @@ public class Type {
     private CasinoSlots plugin;
     private String name, itemCost = "0";
     private double cost = 0, createCost = 0;
-    private ArrayList<String> reel;
+    private ArrayList<ReelBlock> reel;
     private Map<String, String> messages;
     private List<String> helpMessages;
     private Map<String, Reward> rewards;
@@ -26,7 +26,7 @@ public class Type {
     }
 
     // Initialize new type
-    public Type(CasinoSlots plugin, String name, double cost, String itemCost, double createCost, ArrayList<String> reel, Map<String, String> messages, List<String> helpMessages, Map<String, Reward> rewards, MaterialData controllerData) {
+    public Type(CasinoSlots plugin, String name, double cost, String itemCost, double createCost, ArrayList<ReelBlock> reel, Map<String, String> messages, List<String> helpMessages, Map<String, Reward> rewards, MaterialData controllerData) {
         this.plugin = plugin;
         this.name = name;
         this.cost = cost;
@@ -39,17 +39,29 @@ public class Type {
         this.controllerData = controllerData;
     }
 
-    /** Gets the name of this type. */
+    /**
+     * Gets the name of this type.
+     * 
+     * @return name of the Type
+     */
     public String getName() {
         return this.name;
     }
 
-    /** Gets the cost to play. */
+    /**
+     * Gets the cost to play.
+     * 
+     * @return cost to play
+     */
     public double getCost() {
         return this.cost;
     }
     
-    /** Sets the cost to play. */
+    /**
+     * Sets the cost to play.
+     * 
+     * @param cost amount of money needed to play
+     */
     public void setCost(double cost) {
         this.cost = cost;
     }
@@ -72,12 +84,20 @@ public class Type {
         this.itemCost = itemCost;
     }
 
-    /** Gets the amount it takes to create this type. */
+    /**
+     * Gets the amount it takes to create this type.
+     * 
+     * @return cost to create
+     */
     public double getCreateCost() {
         return this.createCost;
     }
     
-    /** Sets the amount it takes to create this type. */
+    /**
+     * Sets the amount it takes to create this type.
+     * 
+     * @param createCost amount of money needed to create
+     */
     public void setCreateCost(double createCost) {
         this.createCost = createCost;
     }
@@ -100,13 +120,21 @@ public class Type {
         this.controllerData = data;
     }
 
-    /** Gets the reel. */
-    public ArrayList<String> getReel() {
+    /**
+     * Gets the reel.
+     * 
+     * @return the list of {@link ReelBlock}'s which make up the reel.
+     */
+    public ArrayList<ReelBlock> getReel() {
         return this.reel;
     }
     
-    /** Sets the reel. */
-    public void setReel(ArrayList<String> reel) {
+    /**
+     * Sets the reel.
+     * 
+     * @param reel the {@link ReelBlocks} we will be using
+     */
+    public void setReel(ArrayList<ReelBlock> reel) {
         this.reel = reel;
     }
 

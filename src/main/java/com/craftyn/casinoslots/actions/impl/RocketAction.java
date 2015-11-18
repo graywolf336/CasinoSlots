@@ -9,6 +9,13 @@ import com.craftyn.casinoslots.classes.Reward;
 import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
+/**
+ * The rocket action. Usage: - rocket
+ *
+ * @author graywolf336
+ * @since 3.0.0
+ * @version 1.0.0
+ */
 public class RocketAction extends Action {
     private String name = "Rocket";
 

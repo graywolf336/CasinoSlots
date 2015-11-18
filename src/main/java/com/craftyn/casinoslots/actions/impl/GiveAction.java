@@ -15,6 +15,13 @@ import com.craftyn.casinoslots.classes.Reward;
 import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
+/**
+ * The command action. Usage: - give <item id|item id:damage value> <amount> [item meta...]
+ *
+ * @author graywolf336
+ * @since 3.0.0
+ * @version 1.0.0
+ */
 public class GiveAction extends Action {
     private String name = "Give";
     private ItemStack item;
@@ -22,7 +29,6 @@ public class GiveAction extends Action {
     @SuppressWarnings("deprecation")
     public GiveAction(CasinoSlots plugin, Type type, String... args) throws ActionLoadingException {
         super(plugin, type, args);
-        //give <item id|item id:damage value> <amount> [item meta...]
         for(String s : args)
             plugin.debug(s);
 
@@ -121,7 +127,7 @@ public class GiveAction extends Action {
                             enchant = Enchantment.getById(Integer.parseInt(name));
                         } catch (NumberFormatException e) {
                             try {
-                                enchant = Enchantment.getByName(name);
+                                enchant = Enchantment.getByName(name.toUpperCase());
 
                                 if (enchant == null)
                                     throw new Exception();

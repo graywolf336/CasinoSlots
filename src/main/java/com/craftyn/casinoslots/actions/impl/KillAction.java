@@ -12,7 +12,7 @@ import com.craftyn.casinoslots.exceptions.ActionLoadingException;
  * Represents the "kill" action.
  *
  * @author graywolf336
- * @since 2.6.0
+ * @since 3.0.0
  * @version 1.0.0
  */
 public class KillAction extends Action {

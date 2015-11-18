@@ -1,16 +1,18 @@
 [CasinoSlots](https://ci.craftyn.com/job/CasinoSlots/) - [JavaDoc](https://ci.craftyn.com/job/CasinoSlots/javadoc/)
 ====
 
-A majorly updated version of AnCasino started by Darazo
+Animated, customizable, block-based slot machines, including audio, inside of Minecraft!
 
 [![Build Status](https://ci.craftyn.com/job/CasinoSlots/badge/icon)](https://ci.craftyn.com/job/CasinoSlots/)
 
-### Update: 2.6.0 ###
+### Update: 3.0.0 ###
+* Drastically changed the internals and config locations (types.yml instead of types inside of config.yml)
 * Added the ability to add name and lore to items, thanks to NeatMonster
 * Cleaned up some code
 * Fixed `[player]` using the display name of the player *instead* of the real name, which made commands not work.
 * Added `[playername]` which uses the display name.
 * TODO: Adding better api, such as events
+* TODO: Translatable language
 
 ### Update: 2.5.7 ###
 * Fixed [player] sometimes not being replaced in broadcast and command actions

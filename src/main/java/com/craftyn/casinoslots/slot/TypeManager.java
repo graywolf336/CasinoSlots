@@ -14,6 +14,7 @@ import org.bukkit.material.MaterialData;
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.actions.Action;
 import com.craftyn.casinoslots.actions.ActionFactory;
+import com.craftyn.casinoslots.classes.ReelBlock;
 import com.craftyn.casinoslots.classes.Reward;
 import com.craftyn.casinoslots.classes.Type;
 
@@ -113,7 +114,7 @@ public class TypeManager {
             controller = new MaterialData(Material.matchMaterial(controllerSplit[0]));
             
             if(controllerSplit.length >= 2) {
-                controller.setData(Byte.valueOf(controllerSplit[1]));
+                controller.setData(Byte.parseByte(controllerSplit[1]));
             }
         }catch(Exception e) {
             plugin.severe("Unable to load the custom controller definition for the slot type " + name + ". The following is not valid: " + controllerDefinition);
@@ -125,26 +126,53 @@ public class TypeManager {
     }
 
     // Returns the parsed reel of a type
-    private ArrayList<String> getReel(String type) {
+    private ArrayList<ReelBlock> getReel(String type) {
         List<String> reel = plugin.getConfigData().config.getStringList("types." + type + ".reel");
 
-        ArrayList<String> parsedReel = new ArrayList<String>();
+        ArrayList<ReelBlock> parsedReel = new ArrayList<ReelBlock>();
         for(String m : reel) {
-            String[] mSplit = m.split("\\,");
-            int i = 1;
-            if (mSplit.length == 3) {
-                i = Integer.parseInt(mSplit[2]);
-            }else {
-                i = Integer.parseInt(mSplit[1]);
-            }
-
-            while(i > 0) {
+            if(m.contains(",")) {
+                //Old format: 35,3,2
+                //Old format: 46,1
+                
+                String[] mSplit = m.split("\\,");
+                int i = 1;
                 if (mSplit.length == 3) {
-                    parsedReel.add(mSplit[0] + ":" + mSplit[1]);
+                    i = Integer.parseInt(mSplit[2]);
                 }else {
-                    parsedReel.add(mSplit[0]);
+                    i = Integer.parseInt(mSplit[1]);
                 }
-                i--;
+                
+                while(i > 0) {
+                    if (mSplit.length == 3) {
+                        parsedReel.add(new ReelBlock(new MaterialData(Integer.parseInt(mSplit[0]), Byte.parseByte(mSplit[1]))));
+                    }else {
+                        parsedReel.add(new ReelBlock(new MaterialData(Integer.parseInt(mSplit[0]))));
+                    }
+                    i--;
+                }
+            }else {
+                //New Format: wool:3 2
+                String[] split = m.split(" ");
+                Material mat;
+                byte data = 0;
+                int amount = 1;
+                
+                //Parse the material piece
+                String[] matSplit = split[0].split(":");
+                mat = Material.matchMaterial(matSplit[0]);
+                if(matSplit.length == 2) {
+                    data = Byte.parseByte(matSplit[1]);
+                }
+                
+                if(split.length == 2) {
+                    amount = Integer.parseInt(split[1]);
+                }
+                
+                while(amount > 0) {
+                    parsedReel.add(new ReelBlock(new MaterialData(mat, data)));
+                    amount--;
+                }
             }
         }
         return parsedReel;
@@ -155,19 +183,39 @@ public class TypeManager {
         Set<String> ids = plugin.getConfigData().config.getConfigurationSection("types." + type.getName() +".rewards").getKeys(false);
         Map<String, Reward> rewards = new HashMap<String, Reward>();
 
-        for(String itemId : ids) {
-            int id = 1; //setting this to 1 just in case something is wrong
-            byte data = 0;
-            String[] itemSplit = itemId.split("\\,");
-            if (itemSplit.length == 2) {
-                id = Integer.parseInt(itemSplit[0]);
-                data = Byte.parseByte(itemSplit[1]);
-            }else {
-                id = Integer.parseInt(itemSplit[0]);
-            }
+        for(String m : ids) {
+            try {
+                if(m.contains(",")) {
+                    //Old format: 35,3
+                    int id = 1;
+                    byte data = 0;
+                    String[] itemSplit = m.split("\\,");
+                    if (itemSplit.length == 2) {
+                        id = Integer.parseInt(itemSplit[0]);
+                        data = Byte.parseByte(itemSplit[1]);
+                    }else {
+                        id = Integer.parseInt(itemSplit[0]);
+                    }
 
-            rewards.put(id + ":" + data, getReward(type, itemId));
+                    rewards.put(id + ":" + data, getReward(type, m));
+                }else {
+                    //New Format: wool:3
+                    String[] split = m.split(":");
+                    Material mat;
+                    byte data = 0;
+                    
+                    mat = Material.matchMaterial(split[0]);
+                    if(split.length == 2) {
+                        data = Byte.parseByte(split[1]);
+                    }
+                    
+                    rewards.put(mat.getId() + ":" + data, getReward(type, m));
+                }
+            }catch(Exception e) {
+                plugin.getLogger().severe(e.getClass().getSimpleName() + " occured causing us to not be able to load the reward '" + m + "' for the type '" + type.getName() + "': " + e.getMessage() + "\r\n\r\n");
+            }
         }
+        
         return rewards;
     }
     
@@ -204,7 +252,7 @@ public class TypeManager {
                 Action a = this.actionFactory.getConstructedAction(split[0], plugin, type, args);
                 created.add(a);
             }catch(Exception e) {
-                plugin.getLogger().severe(e.getClass().getSimpleName() + " occured causing us to not be able to load the action '" + split[0] + "' due to the error: " + e.getMessage());
+                plugin.getLogger().severe(e.getClass().getSimpleName() + " occured causing us to not be able to load the action '" + split[0] + "' due to the error: \r\n\r\n" + e.getMessage() + "\r\n");
             }
         }
         

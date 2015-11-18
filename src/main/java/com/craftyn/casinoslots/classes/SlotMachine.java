@@ -64,6 +64,7 @@ public class SlotMachine {
      * @param pl       The {@link CasinoSlots} instance
      * @param name     The name of the slot machine as a string.
      * @param type     The type of the slot machine being created as a string.
+     * @param ownerId  The UUID of the owner of the slot machine.
      * @param owner    The owner of the slot machine as a string.
      * @param world    The world in which the slot machine exists.
      * @param managed  If it is managed or not (true or false).

@@ -8,6 +8,13 @@ import com.craftyn.casinoslots.classes.Reward;
 import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
+/**
+ * The command action. Usage: - command The command goes here
+ *
+ * @author graywolf336
+ * @since 3.0.0
+ * @version 1.0.0
+ */
 public class CommandAction extends Action {
     private String name = "Command";
     private CasinoSlots plugin;

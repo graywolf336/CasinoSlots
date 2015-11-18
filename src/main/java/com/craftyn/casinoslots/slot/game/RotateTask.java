@@ -5,55 +5,46 @@ import java.util.Random;
 
 import org.bukkit.block.Block;
 
+import com.craftyn.casinoslots.classes.ReelBlock;
+import com.craftyn.casinoslots.enums.SlotMachineColumnType;
+
 public class RotateTask implements Runnable {
     private Game game;
-    private Integer i;
+    private SlotMachineColumnType column;
+    private Random generator;
 
     // Task for rotating one column
-    public RotateTask(Game game, Integer i) {
-
+    public RotateTask(Game game, SlotMachineColumnType column) {
         this.game = game;
-        this.i = i;
-
+        this.column = column;
+        this.generator = new Random();
     }
 
     // The task itself
     public void run() {
-        rotateColumn(i);
+        rotateColumn();
     }
 
     // Rotates one column one block
-    private void rotateColumn(Integer column) {
-
+    private void rotateColumn() {
         ArrayList<Block> blocks = game.getSlot().getBlocks();
 
         ArrayList<String> last = new ArrayList<String>();
-        last.add(blocks.get(column+6).getTypeId() + ":" + blocks.get(column+6).getData());
-        last.add(blocks.get(column+3).getTypeId() + ":" + blocks.get(column+3).getData());
+        last.add(blocks.get(column.getFirstRow()).getTypeId() + ":" + blocks.get(column.getFirstRow()).getData());
+        last.add(blocks.get(column.getSecondRow()).getTypeId() + ":" + blocks.get(column.getSecondRow()).getData());
 
         //Get the id and split it
-        int s1 = 1;
-        byte s2 = 0;
-        String id = getNext();
+        ReelBlock block = getNext();
 
         // Prevent silly-looking duplicate blocks
-        while(id.equalsIgnoreCase(last.get(0))) {
-            id = getNext();
+        while(block.toString().equalsIgnoreCase(last.get(0))) {
+            block = getNext();
         }
 
-        //Since the id is not the same (see above) we can go ahead and split it up
-        String[] mSplit = id.split("\\:");
-        if (mSplit.length == 2) {
-            s1 = Integer.parseInt(mSplit[0]);
-            s2 = Byte.parseByte(mSplit[1]);
-        }else {
-            s1 = Integer.parseInt(mSplit[0]);
-        }
+        // First block
+        blocks.get(column.getFirstRow()).setTypeIdAndData(block.getBlockData().getItemTypeId(), block.getBlockData().getData(), false);
 
-        // First column
-        blocks.get(column+6).setTypeIdAndData(s1, s2, false);
-
-        // Second Column
+        // Second block
         int c2ID = 1;
         byte c2Byte = 0;
         String[] column2 = last.get(0).split("\\:");
@@ -63,9 +54,9 @@ public class RotateTask implements Runnable {
         }else {
             c2ID = Integer.parseInt(column2[0]);
         }
-        blocks.get(column+3).setTypeIdAndData(c2ID, c2Byte, false);
+        blocks.get(column.getSecondRow()).setTypeIdAndData(c2ID, c2Byte, false);
 
-        // Third Column
+        // Third block
         int c3ID = 1;
         byte c3Byte = 0;
         String[] column3 = last.get(1).split("\\:");
@@ -75,28 +66,13 @@ public class RotateTask implements Runnable {
         }else {
             c3ID = Integer.parseInt(column3[0]);
         }
-        blocks.get(column).setTypeIdAndData(c3ID, c3Byte, false);
+        blocks.get(column.getThirdRow()).setTypeIdAndData(c3ID, c3Byte, false);
 
     }
 
     // Gets the next block in the reel
-    private String getNext() {
-
-        ArrayList<String> reel = game.getType().getReel();
-
-        Random generator = new Random();
-        int id = generator.nextInt(reel.size());
-
-        String nextID = reel.get(id);
-        String[] idSplit = nextID.split("\\:");
-
-        if (idSplit.length == 2) {
-            return nextID;
-        }else {
-            String newID;
-            newID = Integer.parseInt(idSplit[0]) + ":0";
-
-            return newID;
-        }
+    private ReelBlock getNext() {
+        int id = generator.nextInt(game.getType().getReel().size());
+        return game.getType().getReel().get(id);
     }
 }

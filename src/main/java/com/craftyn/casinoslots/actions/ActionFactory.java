@@ -25,6 +25,13 @@ import com.craftyn.casinoslots.exceptions.ClassConstructorIsntThreeException;
 import com.craftyn.casinoslots.exceptions.ClassDoesntExtendActionException;
 import com.craftyn.casinoslots.exceptions.UnknownActionException;
 
+/**
+ * The action factory which handles all the registering and getting of actions for rewards.
+ *
+ * @author graywolf336
+ * @since 3.0.0
+ * @version 1.0.0
+ */
 public class ActionFactory {
     private HashMap<String, Constructor<?>> actions;
 
@@ -58,9 +65,9 @@ public class ActionFactory {
      * @throws UnknownActionException Thrown if the action doesn't exist.
      * @throws InstantiationException Thrown if the action's class couldn't be constructed.
      * @throws IllegalAccessException Thrown if the action's constructor is private.
-     * @throws IllegalArgumentException
-     * @throws InvocationTargetException
-     * @throws ActionLoadingException 
+     * @throws IllegalArgumentException Thrown if the action's constructor isn't defined correctly.
+     * @throws InvocationTargetException Thrown if the action's constructor throws an exception which we don't know about
+     * @throws ActionLoadingException Thrown when the action can't load successfully, couldn't parse the arguments is generally what it means.
      */
     public Action getConstructedAction(String name, CasinoSlots plugin, Type type, String... args) throws UnknownActionException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, ActionLoadingException {
         Constructor<?> c = this.getAction(name);

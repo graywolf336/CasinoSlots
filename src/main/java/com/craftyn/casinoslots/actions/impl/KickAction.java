@@ -9,11 +9,10 @@ import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
 /**
- * The Kick action. Usage: - kick the message goes here
- * ["You cheated the Casino!"]
+ * The Kick action. Usage: - kick the message goes here ["You cheated the Casino!"]
  *
  * @author graywolf336
- * @since 2.6.0
+ * @since 3.0.0
  * @version 1.0.0
  */
 public class KickAction extends Action {

@@ -25,11 +25,11 @@ public class Update {
     // The url for the new file and file version
     private String fileUrl = "", version = "";
 
-    public Update(CasinoSlots plugin) {
+    protected Update(CasinoSlots plugin) {
         this.plugin = plugin;
     }
 
-    public void query() {
+    protected void query() {
         String channel = plugin.getConfig().getString("options.update-checking.channel");
         URL url = null;
 

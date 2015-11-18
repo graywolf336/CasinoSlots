@@ -4,10 +4,10 @@ import com.craftyn.casinoslots.util.Util;
 
 public class StopRotateTask implements Runnable {
     private Game game;
-    private Integer task;
+    private int task;
 
     // Task for stopping a reel
-    public StopRotateTask(Game game, Integer task) {
+    public StopRotateTask(Game game, int task) {
         this.game = game;
         this.task = task;
     }

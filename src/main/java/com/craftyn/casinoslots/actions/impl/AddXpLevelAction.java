@@ -12,7 +12,7 @@ import com.craftyn.casinoslots.exceptions.ActionLoadingException;
  * The AddXpLevel action. Usage: - addxplvl amount [0]
  *
  * @author graywolf336
- * @since 2.6.0
+ * @since 3.0.0
  * @version 1.0.0
  */
 public class AddXpLevelAction extends Action {

@@ -11,6 +11,13 @@ import com.craftyn.casinoslots.classes.Reward;
 import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
+/**
+ * The slap action. Usage: - slap
+ *
+ * @author graywolf336
+ * @since 3.0.0
+ * @version 1.0.0
+ */
 public class SlapAction extends Action {
     private String name = "Slap";
     private Random random;

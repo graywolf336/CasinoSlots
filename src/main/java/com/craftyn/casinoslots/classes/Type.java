@@ -132,7 +132,7 @@ public class Type {
     /**
      * Sets the reel.
      * 
-     * @param reel the {@link ReelBlocks} we will be using
+     * @param reel the {@link ReelBlock} we will be using
      */
     public void setReel(ArrayList<ReelBlock> reel) {
         this.reel = reel;

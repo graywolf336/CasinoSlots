@@ -16,7 +16,7 @@ import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
 /**
- * The command action. Usage: - give <item id|item id:damage value> <amount> [item meta...]
+ * The command action. Usage: <pre>- give [item id|item id:damage value] [amount] (item meta...)</pre>
  *
  * @author graywolf336
  * @since 3.0.0

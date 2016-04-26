@@ -15,21 +15,21 @@ import com.craftyn.casinoslots.classes.SlotType;
 public interface IAction {
     /**
      * The name of the action, the user friendly name.
-     * 
+     *
      * @return name of the action
      */
     public String getName();
 
     /**
      * Determines if the action is valid or not.
-     * 
+     *
      * @return whether the action is valid or not.
      */
     public boolean isValid();
 
     /**
      * Executes/runs the action.
-     * 
+     *
      * @param type the {@link SlotType} this action is being run for
      * @param reward the {@link Reward} this action is being run for
      * @param player the {@link Player} this action is being run for

@@ -23,8 +23,8 @@ public class SmiteAction extends Action {
     public SmiteAction(CasinoSlots plugin, String... args) throws ActionLoadingException {
         super(plugin, args);
         this.plugin = plugin;
-        
-        if(args.length < 1)
+
+        if (args.length < 1)
             throw new ActionLoadingException("The arguments for the '" + this.getName() + "' action are not valid, requires at least one argument.");
 
         try {
@@ -53,7 +53,7 @@ public class SmiteAction extends Action {
     public String getName() {
         return this.name;
     }
-    
+
     public String toString() {
         return this.name.toLowerCase() + " " + times;
     }

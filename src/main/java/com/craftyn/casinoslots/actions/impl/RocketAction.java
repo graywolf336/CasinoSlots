@@ -35,7 +35,7 @@ public class RocketAction extends Action {
     public String getName() {
         return this.name;
     }
-    
+
     public String toString() {
         return this.name.toLowerCase();
     }

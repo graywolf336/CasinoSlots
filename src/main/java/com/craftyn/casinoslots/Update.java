@@ -52,7 +52,7 @@ public class Update {
             final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String response = reader.readLine();
 
-            if(channel.equalsIgnoreCase("dev")) {
+            if (channel.equalsIgnoreCase("dev")) {
                 // Parse the object from the response from the CI server
                 JSONObject obj = (JSONObject) JSONValue.parse(response);
                 // Get the latest build number
@@ -60,7 +60,7 @@ public class Update {
                 // Get the current running version
                 String[] ver = plugin.getDescription().getVersion().split("-b");
                 // Let them know they're on a custom version when on build #0.
-                if(ver[ver.length - 1].equalsIgnoreCase("0")) {
+                if (ver[ver.length - 1].equalsIgnoreCase("0")) {
                     plugin.getLogger().info("You are using a custom version, you can disable update checking.");
                 }
 
@@ -71,13 +71,13 @@ public class Update {
                 needed = number > curr;
 
                 // Alert the console that an update is needed, if it is needed
-                if(needed) {
+                if (needed) {
                     this.version = obj.get("fullDisplayName").toString();
                     this.fileUrl = obj.get("url").toString();
                     plugin.getLogger().info("New development version of CasinoSlots is available: " + this.version);
                     plugin.getLogger().info(this.fileUrl);
                 }
-            }else {
+            } else {
                 // Parse the array of files from the query's response
                 JSONArray array = (JSONArray) JSONValue.parse(response);
 
@@ -93,7 +93,7 @@ public class Update {
                     plugin.debug(remoteVer + " verus " + currentVer);
                     this.needed = this.versionCompare(remoteVer, currentVer) > 0;
 
-                    if(needed) {
+                    if (needed) {
                         this.version = latest.get("name").toString();
                         this.fileUrl = latest.get("fileUrl").toString();
                         plugin.getLogger().info("New stable version of CasinoSlots is available: " + this.version);
@@ -111,17 +111,18 @@ public class Update {
 
     /**
      * Compares two version strings.
-     * 
+     *
      * Use this instead of String.compareTo() for a non-lexicographical
      * comparison that works for version strings. e.g. "1.10".compareTo("1.6").
-     * 
+     *
      * @note It does not work if "1.10" is supposed to be equal to "1.10.0".
-     * 
+     *
      * @param str1 a string of ordinal numbers separated by decimal points.
      * @param str2 a string of ordinal numbers separated by decimal points.
-     * @return The result is a negative integer if str1 is _numerically_ less than str2.
-     *         The result is a positive integer if str1 is _numerically_ greater than str2.
-     *         The result is zero if the strings are _numerically_ equal.
+     * @return The result is a negative integer if str1 is _numerically_ less
+     *         than str2. The result is a positive integer if str1 is
+     *         _numerically_ greater than str2. The result is zero if the
+     *         strings are _numerically_ equal.
      */
     private Integer versionCompare(String str1, String str2) {
         String[] vals1 = str1.split("\\.");
@@ -146,7 +147,7 @@ public class Update {
 
     /**
      * Returns true if there is an update needed, false if not.
-     * 
+     *
      * @return Whether an update is available
      */
     public boolean isAvailable() {
@@ -155,7 +156,7 @@ public class Update {
 
     /**
      * Returns the new version.
-     * 
+     *
      * @return The string name of the new version
      */
     public String getNewVersion() {
@@ -164,7 +165,7 @@ public class Update {
 
     /**
      * Returns the new file url.
-     * 
+     *
      * @return New file's url
      */
     public String getFileUrl() {

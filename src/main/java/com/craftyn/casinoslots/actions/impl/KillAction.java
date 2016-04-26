@@ -34,7 +34,7 @@ public class KillAction extends Action {
     public String getName() {
         return this.name;
     }
-    
+
     public String toString() {
         return this.name.toLowerCase();
     }

@@ -55,10 +55,10 @@ public class ActionFactory {
 
         return actions.get(name);
     }
-    
+
     /**
      * Returns a constructed {@link Action}.
-     * 
+     *
      * @param name The name of the action.
      * @param type The instance of the {@link SlotType} this action is used in.
      * @param args The arguments to be passed into the {@link Action}.
@@ -72,14 +72,14 @@ public class ActionFactory {
      */
     public Action getConstructedAction(String name, SlotType type, String... args) throws UnknownActionException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, ActionLoadingException {
         Constructor<?> c = this.getAction(name);
-        
+
         try {
-            return (Action)c.newInstance(plugin, type, args);
-        }catch(InvocationTargetException e) {
-            if(e.getTargetException() instanceof ActionLoadingException) {
-                throw (ActionLoadingException)e.getTargetException();
+            return (Action) c.newInstance(plugin, type, args);
+        } catch (InvocationTargetException e) {
+            if (e.getTargetException() instanceof ActionLoadingException) {
+                throw (ActionLoadingException) e.getTargetException();
             }
-            
+
             throw e;
         }
     }
@@ -125,15 +125,15 @@ public class ActionFactory {
             throw new ClassDoesntExtendActionException(actionClass.getName() + "(" + name + ")");
 
         Constructor<?> constructor = actionClass.getConstructors()[0];
-        if(constructor.getParameterCount() != 2)
+        if (constructor.getParameterCount() != 2)
             throw new ClassConstructorIsntTwoException(actionClass.getName() + "(" + name + ")", constructor.getParameterCount());
-        
-        if(!constructor.getParameterTypes()[0].getName().equals("com.craftyn.casinoslots.CasinoSlots"))
+
+        if (!constructor.getParameterTypes()[0].getName().equals("com.craftyn.casinoslots.CasinoSlots"))
             throw new ActionClassConstructorParameterNotExpectedTypeException(actionClass.getName() + "(" + name + ")", 0);
-        
-        if(!constructor.getParameterTypes()[1].getName().equals("[Ljava.lang.String;"))
+
+        if (!constructor.getParameterTypes()[1].getName().equals("[Ljava.lang.String;"))
             throw new ActionClassConstructorParameterNotExpectedTypeException(actionClass.getName() + "(" + name + ")", 2);
-        
+
         return actions.put(name, actionClass.getConstructors()[0]);
     }
 }

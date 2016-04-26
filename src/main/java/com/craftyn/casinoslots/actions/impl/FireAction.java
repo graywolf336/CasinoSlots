@@ -23,8 +23,8 @@ public class FireAction extends Action {
 
     public FireAction(CasinoSlots plugin, String... args) throws ActionLoadingException {
         super(plugin, args);
-        
-        if(args.length < 1)
+
+        if (args.length < 1)
             throw new ActionLoadingException("The arguments for the '" + this.getName() + "' action are not valid, requires at least one argument.");
 
         try {

@@ -30,7 +30,7 @@ public class BroadcastAction extends Action {
 
         for (String s : args)
             this.message += " " + s;
-        
+
         this.message = this.message.trim();
 
         if (this.message.isEmpty())

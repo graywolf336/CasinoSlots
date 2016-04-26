@@ -240,13 +240,22 @@ public class MockPlayerInventory implements PlayerInventory {
         this.inventoryContents = itemStacks;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean contains(int i) {
+        for(ItemStack item : this.getContents())
+            if(item.getTypeId() == i)
+                return true;
+        
         return false;
     }
 
     @Override
     public boolean contains(Material material) {
+        for(ItemStack item : this.getContents())
+            if(item.getType() == material)
+                return true;
+        
         return false;
     }
 

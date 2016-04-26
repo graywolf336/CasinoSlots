@@ -15,23 +15,23 @@ public class OldSlotMachine {
     private ArrayList<Block> blocks;
     private Block controller, sign = null;
     private Double funds;
-    
+
     /**
      * Instantiates a new slot machine, usually from the config.
      *
-     * @param name       		The name of the slot machine.
-     * @param type       		The type of the slot machine being created.
-     * @param ownerId           The UUID of the owner of the slot machine.
-     * @param owner      		The owner of the slot machine.
-     * @param world      		The world in which the slot machine exists.
-     * @param sign              The sign block
-     * @param managed    		If it is managed or not (true or false).
-     * @param blocks     		An ArrayList of the blocks of the slot machine.
-     * @param controller 		The block of the controller.
-     * @param funds      		Amount of money that the slot machine has.
-     * @param item       		If it is an item slot or not (true or false).
-     * @param itemID     		The item id that it accepts (should be set to 0 if false).
-     * @param itemAmount 		The amount of the item that it takes from the player.
+     * @param name The name of the slot machine.
+     * @param type The type of the slot machine being created.
+     * @param ownerId The UUID of the owner of the slot machine.
+     * @param owner The owner of the slot machine.
+     * @param world The world in which the slot machine exists.
+     * @param sign The sign block
+     * @param managed If it is managed or not (true or false).
+     * @param blocks An ArrayList of the blocks of the slot machine.
+     * @param controller The block of the controller.
+     * @param funds Amount of money that the slot machine has.
+     * @param item If it is an item slot or not (true or false).
+     * @param itemID The item id that it accepts (should be set to 0 if false).
+     * @param itemAmount The amount of the item that it takes from the player.
      */
     public OldSlotMachine(String name, SlotType type, UUID ownerId, String owner, String world, Block sign, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
         this.name = name;
@@ -52,15 +52,15 @@ public class OldSlotMachine {
     /**
      * Instantiates a new slot machine, usually from a command.
      *
-     * @param name     The name of the slot machine as a string.
-     * @param type     The type of the slot machine being created as a string.
-     * @param ownerId  The UUID of the owner of the slot machine.
-     * @param owner    The owner of the slot machine as a string.
-     * @param world    The world in which the slot machine exists.
-     * @param managed  If it is managed or not (true or false).
-     * @param item     If it is an item slot or not (true or false).
-     * @param itemId   The item id that it accepts (should be set to 0 if false).
-     * @param itemAmt  The amount of the item that it takes from the player.
+     * @param name The name of the slot machine as a string.
+     * @param type The type of the slot machine being created as a string.
+     * @param ownerId The UUID of the owner of the slot machine.
+     * @param owner The owner of the slot machine as a string.
+     * @param world The world in which the slot machine exists.
+     * @param managed If it is managed or not (true or false).
+     * @param item If it is an item slot or not (true or false).
+     * @param itemId The item id that it accepts (should be set to 0 if false).
+     * @param itemAmt The amount of the item that it takes from the player.
      */
     public OldSlotMachine(String name, SlotType type, UUID ownerId, String owner, String world, Boolean managed, Boolean item, int itemId, int itemAmt) {
         this.name = name;
@@ -74,7 +74,7 @@ public class OldSlotMachine {
         this.itemID = itemId;
         this.itemAMT = itemAmt;
 
-        if(isManaged()) {
+        if (isManaged()) {
             enabled = false;
         }
     }
@@ -86,16 +86,16 @@ public class OldSlotMachine {
 
     /**
      * Gets the {@link SlotType} of machine this is.
-     * 
+     *
      * @return the {@link SlotType}
      */
     public SlotType getType() {
         return this.type;
     }
-    
+
     /**
      * Gets the UUID of the Owner.
-     * 
+     *
      * @return the {@link UUID} of the owner.
      */
     public UUID getOwnerId() {
@@ -106,7 +106,7 @@ public class OldSlotMachine {
     public String getOwner() {
         return this.owner;
     }
-    
+
     public void setOwner(String name) {
         this.owner = name;
     }
@@ -172,7 +172,7 @@ public class OldSlotMachine {
     // Sets controller block
     public void setController(Block c) {
         this.controller = c;
-        
+
         MaterialData d = this.type.getControllerData();
         this.controller.setTypeIdAndData(d.getItemTypeId(), d.getData(), false);
     }
@@ -203,7 +203,7 @@ public class OldSlotMachine {
 
     /**
      * Sets the enabled state.
-     * 
+     *
      * @param enabled The new enabledment state
      */
     public void setEnabled(boolean enabled) {
@@ -212,7 +212,7 @@ public class OldSlotMachine {
 
     /**
      * Sets the use of the slot machine.
-     * 
+     *
      * @return Whether the machine is busy.
      */
     public boolean toggleBusy() {

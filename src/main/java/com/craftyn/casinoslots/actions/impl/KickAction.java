@@ -25,8 +25,8 @@ public class KickAction extends Action {
 
         for (String s : args)
             message += (!message.isEmpty() ? " " : "") + s;
-        
-        if(message.isEmpty())
+
+        if (message.isEmpty())
             message = "&4You cheated the Casino!";
     }
 
@@ -42,7 +42,7 @@ public class KickAction extends Action {
     public String getName() {
         return this.name;
     }
-    
+
     public String toString() {
         return this.name.toLowerCase() + " " + message;
     }

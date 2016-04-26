@@ -2,7 +2,7 @@ package com.craftyn.casinoslots.exceptions;
 
 /**
  * Thrown when trying to get an action when it isn't defined.
- * 
+ *
  * @version 1.0.0
  * @author graywolf336
  * @since 2.6.0

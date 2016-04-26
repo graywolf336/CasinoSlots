@@ -103,7 +103,7 @@ public class TpToAction extends Action {
     public String getName() {
         return this.name;
     }
-    
+
     public String toString() {
         return this.name.toLowerCase() + " " + (changeWorld ? "" : loc.getWorld().getName()) + " " + loc.getX() + " " + loc.getY() + " " + loc.getZ() + " " + loc.getYaw() + " " + loc.getPitch();
     }

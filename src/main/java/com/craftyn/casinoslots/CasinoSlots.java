@@ -52,10 +52,10 @@ public class CasinoSlots extends JavaPlugin {
     private SlotManager slotManager;
     private StatData statsData;
     private TownyChecks townyChecks = null;
-    
+
     private ActionFactory actionFactory = null;
     private TypeManager typeManager;
-    
+
     public void onLoad() {
         this.loadConfig();
         Settings.setPlugin(this);
@@ -66,19 +66,19 @@ public class CasinoSlots extends JavaPlugin {
     public void onEnable() {
         //Verify vault is installed before loading anything
         pm = this.getServer().getPluginManager();
-        if(!pm.isPluginEnabled("Vault")) {
+        if (!pm.isPluginEnabled("Vault")) {
             error("Vault is required in order to use this plugin.");
             error("dev.bukkit.org/server-mods/vault/");
             pm.disablePlugin(this);
             return;
         } else {
-            if(!setupEconomy()) {
+            if (!setupEconomy()) {
                 error("An economy plugin is required in order to use this plugin.");
                 pm.disablePlugin(this);
                 return;
             }
         }
-        
+
         //Load the ActionFactory first, since it throws an exception if something else wrong
         try {
             this.actionFactory = new ActionFactory(this);
@@ -88,10 +88,10 @@ public class CasinoSlots extends JavaPlugin {
             pm.disablePlugin(this);
             return;
         }
-        
+
         try {
             this.typeManager = new TypeManager(this);
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             this.getLogger().severe("Failed to load the type definitions, please see the error above!");
             pm.disablePlugin(this);
@@ -102,7 +102,7 @@ public class CasinoSlots extends JavaPlugin {
         this.blockListener = new BlockListener(this);
         this.entity = new EntityListener(this);
         this.commandExecutor = new AnCommandExecutor(this);
-        
+
         this.configData = new ConfigData(this);
         this.slotManager = new SlotManager(this);
         this.statsData = new StatData(this);
@@ -111,24 +111,24 @@ public class CasinoSlots extends JavaPlugin {
         configData.load();
 
         debug("Use World Guard:" + useWorldGuard);
-        if(useWorldGuard) {
+        if (useWorldGuard) {
             checkWorldGuard();
-            if(worldGuard == null) {
+            if (worldGuard == null) {
                 useWorldGuard = false;
                 error("World Guard was not found even though you had it enabled, disabling checks.");
-            }else {
+            } else {
                 log("World Guard checking enabled.");
             }
         }
 
         debug("Use Towny: " + useTowny);
-        if(useTowny) {
+        if (useTowny) {
             checkTowny();
-            
-            if(towny == null) {
+
+            if (towny == null) {
                 useTowny = false;
                 error("Towny was not found even though you had it enabled, disabling checks.");
-            }else {
+            } else {
                 townyChecks = new TownyChecks(this);
                 log("Towny checking enabled.");
             }
@@ -139,8 +139,8 @@ public class CasinoSlots extends JavaPlugin {
         pm.registerEvents(entity, this);
 
         reloadUpdateCheck();
-        
-        //Allow actions to be injected before we load anything 
+
+        //Allow actions to be injected before we load anything
         this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             public void run() {
                 //getTypeManager().loadTypes();
@@ -149,7 +149,7 @@ public class CasinoSlots extends JavaPlugin {
             }
         }, 5L);
     }
-    
+
     public void onDisable() {
         if (economy != null) {
             //configData.save();
@@ -164,10 +164,10 @@ public class CasinoSlots extends JavaPlugin {
 
             this.towny = null;
         }
-        
+
         this.saveConfig();
     }
-    
+
     private void loadSerializableClasses() {
         ConfigurationSerialization.registerClass(SimpleLocation.class, "CasinoSlotsSimpleLocation");
         ConfigurationSerialization.registerClass(Reel.class, "CasinoSlotsReel");
@@ -176,19 +176,19 @@ public class CasinoSlots extends JavaPlugin {
         ConfigurationSerialization.registerClass(SlotMachineOwner.class, "CasinoSlotsSlotMachineOwner");
         ConfigurationSerialization.registerClass(SlotMachine.class, "CasinoSlotsSlotMachine");
     }
-    
+
     private void loadConfig() {
         //Only create the default config if it doesn't exist
         this.saveDefaultConfig();
-        
+
         //Append new key-value paris to the config
         getConfig().options().copyDefaults(true);
-        
+
         //Set the header and save
         getConfig().options().header(getHeader());
         saveConfig();
     }
-    
+
     private String getHeader() {
         String sep = System.getProperty("line.separator");
 
@@ -197,11 +197,11 @@ public class CasinoSlots extends JavaPlugin {
                 + "Note: You -must- use spaces instead of tabs!" + sep +
                 "###################";
     }
-    
+
     public boolean onCommand(CommandSender sender, Command command, String cmdlabel, final String[] args) {
-        if(cmdlabel.equals("casino")) {
+        if (cmdlabel.equals("casino")) {
             return this.commandExecutor.onCommand(sender, command, cmdlabel, args);
-        }else {
+        } else {
             return false;
         }
     }
@@ -210,7 +210,7 @@ public class CasinoSlots extends JavaPlugin {
     public void disablePlugin() {
         if (pm == null) {
             log("Sorry couldn't disable the plugin for some odd reason. :(");
-        }else {
+        } else {
             pm.disablePlugin(this);
         }
     }
@@ -226,7 +226,7 @@ public class CasinoSlots extends JavaPlugin {
     private void checkTowny() {
         Plugin pl = pm.getPlugin("Towny");
         if (pl != null && pl instanceof Towny) {
-            towny = (Towny)pl;
+            towny = (Towny) pl;
         }
     }
 
@@ -235,8 +235,8 @@ public class CasinoSlots extends JavaPlugin {
         getServer().getScheduler().cancelTask(updateCheckTask);
         update = new Update(this);
         debug("Check for updates: " + getConfig().getBoolean("options.update-checking.enabled"));
-        
-        if(getConfig().getBoolean("options.update-checking.enabled")) {
+
+        if (getConfig().getBoolean("options.update-checking.enabled")) {
             try {
                 updateCheckTask = getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
                     public void run() {
@@ -252,7 +252,7 @@ public class CasinoSlots extends JavaPlugin {
 
     /**
      * Returns the instance of the update checking class.
-     * 
+     *
      * @return instance of {@link Update}
      */
     public Update getUpdate() {
@@ -267,10 +267,10 @@ public class CasinoSlots extends JavaPlugin {
      */
     public void sendMessage(Player player, String message) {
         message = Settings.CHAT_COLOR.asString() + message;
-        if(Settings.CHAT_USE_PREFIX.asBoolean()) {
+        if (Settings.CHAT_USE_PREFIX.asBoolean()) {
             message = Settings.CHAT_PREFIX.asString() + " " + message;
         }
-        
+
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
@@ -282,15 +282,15 @@ public class CasinoSlots extends JavaPlugin {
      */
     public void sendMessage(CommandSender sender, String message) {
         message = Settings.CHAT_COLOR.asString() + message;
-        if(Settings.CHAT_USE_PREFIX.asBoolean()) {
+        if (Settings.CHAT_USE_PREFIX.asBoolean()) {
             message = Settings.CHAT_PREFIX.asString() + " " + message;
         }
-        
+
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
     public void debug(String message) {
-        if(Settings.inDebug() || internalDebug)
+        if (Settings.inDebug() || internalDebug)
             getLogger().info("[Debug] " + message);
     }
 
@@ -314,7 +314,7 @@ public class CasinoSlots extends JavaPlugin {
 
     /**
      * Logs a properly formatted message to the console with the severe prefix.
-     * 
+     *
      * @param message The warning message to log.
      */
     public void severe(String message) {
@@ -327,12 +327,12 @@ public class CasinoSlots extends JavaPlugin {
         if (economyProvider != null) {
             economy = economyProvider.getProvider();
         }
-        return (economy != null);
+        return economy != null;
     }
 
     /**
      * Returns the instance of the economy.
-     * 
+     *
      * @return the {@link Economy} instance
      */
     public Economy getEconomy() {
@@ -341,61 +341,61 @@ public class CasinoSlots extends JavaPlugin {
 
     /**
      * Returns the instance of World Guard.
-     * 
+     *
      * @return the {@link WorldGuardPlugin} instance
      */
     public WorldGuardPlugin getWorldGuard() {
         return this.worldGuard;
     }
-    
+
     /**
      * Returns the instance of the {@link ActionFactory}.
-     * 
+     *
      * @return the {@link ActionFactory} instance
      */
     public ActionFactory getActionFactory() {
         return this.actionFactory;
     }
-    
+
     /**
      * Returns the instance of the {@link ConfigData}.
-     * 
+     *
      * @return the {@link ConfigData} instance
      */
     public ConfigData getConfigData() {
         return this.configData;
     }
-    
+
     /**
      * Returns the instance of the {@link SlotManager}.
-     * 
+     *
      * @return the {@link SlotManager} instance
      */
     public SlotManager getSlotManager() {
         return this.slotManager;
     }
-    
+
     /**
      * Returns the instance of the {@link TypeManager}.
-     * 
+     *
      * @return the {@link TypeManager} instance
      */
     public TypeManager getTypeManager() {
         return this.typeManager;
     }
-    
+
     /**
      * Returns the instance of the {@link StatData}.
-     * 
+     *
      * @return the {@link StatData} instance
      */
     public StatData getStatData() {
         return this.statsData;
     }
-    
+
     /**
      * Returns the instance of the {@link TownyChecks}.
-     * 
+     *
      * @return the {@link TownyChecks} instance
      */
     public TownyChecks getTownyChecks() {

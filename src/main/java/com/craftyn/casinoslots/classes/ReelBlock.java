@@ -4,7 +4,8 @@ import org.bukkit.block.Block;
 import org.bukkit.material.MaterialData;
 
 /**
- * Representation of the blocks which go into a reel in a slot machine, containing the block's data.
+ * Representation of the blocks which go into a reel in a slot machine,
+ * containing the block's data.
  *
  * @author graywolf336
  * @since 3.0.0
@@ -12,7 +13,7 @@ import org.bukkit.material.MaterialData;
  */
 public class ReelBlock {
     private MaterialData data;
-    
+
     /**
      * Creates a new {@link ReelBlock}.
      *

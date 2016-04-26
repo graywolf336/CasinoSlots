@@ -16,7 +16,11 @@ import com.craftyn.casinoslots.classes.SlotType;
 import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
 /**
- * The command action. Usage: <pre>- give [item id|item id:damage value] [amount] (item meta...)</pre>
+ * The command action. Usage:
+ * 
+ * <pre>
+ * - give [item id|item id:damage value] [amount] (item meta...)
+ * </pre>
  *
  * @author graywolf336
  * @since 3.0.0
@@ -30,7 +34,7 @@ public class GiveAction extends Action {
     @SuppressWarnings("deprecation")
     public GiveAction(CasinoSlots plugin, String... args) throws ActionLoadingException {
         super(plugin, args);
-        for(String s : args) {
+        for (String s : args) {
             originalItem += (!originalItem.isEmpty() ? " " : "") + s;
             plugin.debug(s);
         }
@@ -44,9 +48,9 @@ public class GiveAction extends Action {
                 throw new ActionLoadingException("The amount for the item passed into '" + this.getName() + "' action is not a valid number.");
             }
 
-            if(args[0].contains(","))
+            if (args[0].contains(","))
                 throw new ActionLoadingException("You're using an old version of the give action, please update: https://github.com/graywolf336/CasinoSlots/wiki");
-            
+
             if (args[0].contains(":")) {
                 String[] materialParts = args[0].split(":");
 
@@ -172,7 +176,7 @@ public class GiveAction extends Action {
     public String getName() {
         return this.name;
     }
-    
+
     public String toString() {
         return this.name.toLowerCase() + " " + originalItem;
     }

@@ -11,7 +11,7 @@ import org.junit.Test;
 import com.craftyn.casinoslots.actions.ActionFactory;
 import com.craftyn.casinoslots.actions.impl.AddXpAction;
 import com.craftyn.casinoslots.exceptions.ActionClassConstructorParameterNotExpectedTypeException;
-import com.craftyn.casinoslots.exceptions.ClassConstructorIsntThreeException;
+import com.craftyn.casinoslots.exceptions.ClassConstructorIsntTwoException;
 import com.craftyn.casinoslots.exceptions.ClassDoesntExtendActionException;
 import com.craftyn.casinoslots.exceptions.UnknownActionException;
 
@@ -20,7 +20,7 @@ public class TestActionFactory {
     
     @Before
     public void setUp() throws Exception {
-        factory = new ActionFactory();
+        factory = new ActionFactory(null);
         assertNotNull("The factory is null?!?!", factory);
     }
 
@@ -36,7 +36,7 @@ public class TestActionFactory {
     }
     
     @Test(expected=ClassDoesntExtendActionException.class)
-    public void classNotExtendedTest() throws ClassDoesntExtendActionException, ClassConstructorIsntThreeException, ActionClassConstructorParameterNotExpectedTypeException {
+    public void classNotExtendedTest() throws ClassDoesntExtendActionException, ClassConstructorIsntTwoException, ActionClassConstructorParameterNotExpectedTypeException {
         factory.addAction("doesntextend", this.getClass());
     }
     
@@ -48,10 +48,9 @@ public class TestActionFactory {
         Constructor<?> actual = factory.getAction("addxp");
         
         assertEquals("The addxp action constructor isn't the expected value.", expected, actual);
-        assertEquals("The constructor in the factory isn't the expected count.", 3, actual.getParameterCount());
+        assertEquals("The constructor in the factory isn't the expected count.", 2, actual.getParameterCount());
         assertEquals("com.craftyn.casinoslots.CasinoSlots", actual.getParameterTypes()[0].getName());
-        assertEquals("com.craftyn.casinoslots.classes.Type", actual.getParameterTypes()[1].getName());
-        assertEquals("[Ljava.lang.String;", actual.getParameterTypes()[2].getName());
+        assertEquals("[Ljava.lang.String;", actual.getParameterTypes()[1].getName());
     }
     
     @Test

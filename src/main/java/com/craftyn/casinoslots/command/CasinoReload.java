@@ -3,6 +3,7 @@ package com.craftyn.casinoslots.command;
 import org.bukkit.command.CommandSender;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.craftyn.casinoslots.enums.Settings;
 import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoReload extends AnCommand {
@@ -27,12 +28,13 @@ public class CasinoReload extends AnCommand {
             }
         }
 
+        plugin.reloadConfig();
         plugin.getConfigData().reloadConfigs();
         plugin.getTypeManager().reloadTypes();
         plugin.getSlotManager().reloadSlots();
         plugin.reloadUpdateCheck();
 
-        if(plugin.getConfigData().inDebug()) senderSendMessage("Debugging enabled.");
+        if(Settings.inDebug()) senderSendMessage("Debugging enabled.");
         senderSendMessage("Configuration reloaded");
         return true;
     }

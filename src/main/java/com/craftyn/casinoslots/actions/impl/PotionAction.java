@@ -7,7 +7,7 @@ import org.bukkit.potion.PotionEffectType;
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.actions.Action;
 import com.craftyn.casinoslots.classes.Reward;
-import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.classes.SlotType;
 import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
 /**
@@ -33,9 +33,9 @@ public class PotionAction extends Action {
     private static final int DEFAULT_POTION_DURATION = Integer.MAX_VALUE;
     private PotionEffect potion;
     
-    public PotionAction(CasinoSlots plugin, Type type, String... args) throws ActionLoadingException {
-        super(plugin, type, args);
-        String exceptionMsg = "The arguments for the '" + this.getName() + "' action for " + type.getName() + " are not valid.";
+    public PotionAction(CasinoSlots plugin, String... args) throws ActionLoadingException {
+        super(plugin, args);
+        String exceptionMsg = "The arguments for the '" + this.getName() + "' action are not valid.";
         
         switch(args.length) {
             case 1:
@@ -82,7 +82,7 @@ public class PotionAction extends Action {
                 PotionEffectType effect3 = getType(args[0]);
                 
                 if(effect3 == null)
-                    throw new ActionLoadingException(exceptionMsg);
+                    throw new ActionLoadingException(exceptionMsg + " (Invalid Potion Type)");
                 
                 potion = new PotionEffect(effect3, this.getDuration(args[2]), this.getAmplification(args[1]));
                 break;
@@ -95,12 +95,16 @@ public class PotionAction extends Action {
         return potion != null;
     }
 
-    public boolean execute(Type type, Reward reward, Player player) {
+    public boolean execute(SlotType type, Reward reward, Player player) {
         return player.addPotionEffect(potion, true);
     }
 
     public String getName() {
         return this.name;
+    }
+    
+    public String toString() {
+        return this.name.toLowerCase() + " " + potion.getType().getName().toLowerCase() + " " + potion.getAmplifier() + " " + (potion.getDuration() / TICKS_PER_SECOND);
     }
     
     @SuppressWarnings("deprecation")

@@ -3,8 +3,8 @@ package com.craftyn.casinoslots.command;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.classes.SlotMachine;
-import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.classes.OldSlotMachine;
+import com.craftyn.casinoslots.classes.SlotType;
 import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class AnSlot extends AnCommand {
@@ -28,7 +28,7 @@ public class AnSlot extends AnCommand {
             return true;
         }
 
-        SlotMachine slot;
+        OldSlotMachine slot;
         // Valid slot machine
         if(plugin.getSlotManager().isSlot(args[1])) {
             sendMessage("Invalid slot machine " + args[1]);
@@ -46,8 +46,8 @@ public class AnSlot extends AnCommand {
 
         // Edit slot type
         if(args[2].equalsIgnoreCase("type") && args.length == 4) {
-            if(plugin.getTypeManager().isType(args[3])) {
-                Type type = plugin.getTypeManager().getType(args[3]);
+            if(plugin.getTypeManager().isValidType(args[3])) {
+                SlotType type = plugin.getTypeManager().getType(args[3]);
 
                 if(PermissionUtil.canCreate(player, type)) {
                     if(plugin.getEconomy().has(player, type.getCreateCost())) {

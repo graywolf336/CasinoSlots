@@ -1,42 +1,37 @@
 package com.craftyn.casinoslots.classes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 
-import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.actions.Action;
+import com.craftyn.casinoslots.util.Util;
 
-public class Type {
-    private CasinoSlots plugin;
+/**
+ * Represents the type a slot machine can be.
+ * 
+ * @author graywolf336
+ * @version 3.0
+ * @since 1.0
+ */
+@SerializableAs(value="CasinoSlotsSlotType")
+public class SlotType implements ConfigurationSerializable {
     private String name, itemCost = "0";
     private double cost = 0, createCost = 0;
-    private ArrayList<ReelBlock> reel;
-    private Map<String, String> messages;
-    private List<String> helpMessages;
-    private Map<String, Reward> rewards;
+    private SlotMachineMessages messages;
+    private Map<MaterialData, Reward> rewards;
     private MaterialData controllerData;
+    private List<Reel> reel;
     
-    public Type(CasinoSlots plugin, String name) {
-        this.plugin = plugin;
+    public SlotType(String name) {
         this.name = name;
-    }
-
-    // Initialize new type
-    public Type(CasinoSlots plugin, String name, double cost, String itemCost, double createCost, ArrayList<ReelBlock> reel, Map<String, String> messages, List<String> helpMessages, Map<String, Reward> rewards, MaterialData controllerData) {
-        this.plugin = plugin;
-        this.name = name;
-        this.cost = cost;
-        this.itemCost = itemCost;
-        this.createCost = createCost;
-        this.reel = reel;
-        this.messages = messages;
-        this.helpMessages = helpMessages;
-        this.rewards = rewards;
-        this.controllerData = controllerData;
+        this.messages = new SlotMachineMessages();
     }
 
     /**
@@ -123,44 +118,35 @@ public class Type {
     /**
      * Gets the reel.
      * 
-     * @return the list of {@link ReelBlock}'s which make up the reel.
+     * @return the list of {@link Reel}'s which make up the reel.
      */
-    public ArrayList<ReelBlock> getReel() {
+    public List<Reel> getReel() {
         return this.reel;
     }
     
     /**
      * Sets the reel.
      * 
-     * @param reel the {@link ReelBlock} we will be using
+     * @param reel the {@link Reel} we will be using
      */
-    public void setReel(ArrayList<ReelBlock> reel) {
+    public void setReel(List<Reel> reel) {
         this.reel = reel;
     }
-
-    // Returns map of type messages
-    public Map<String, String> getMessages() {
+    
+    /**
+     * Gets the {@link SlotMachineMessages messages} for the slot machine. 
+     * 
+     * @return the {@link SlotMachineMessages} instance with all the messages.
+     */
+    public SlotMachineMessages getMessages() {
         return this.messages;
     }
     
-    public void setMessages(Map<String, String> messages) {
-        this.messages = messages;
-    }
-
-    // Returns help messages
-    public List<String> getHelpMessages() {
-        return this.helpMessages;
-    }
-    
-    public void setHelpMessages(List<String> messages) {
-        this.helpMessages = messages;
-    }
-    
-    public Map<String, Reward> getRewards() {
+    public Map<MaterialData, Reward> getRewards() {
         return this.rewards;
     }
     
-    public void setRewards(Map<String, Reward> rewards) {
+    public void setRewards(Map<MaterialData, Reward> rewards) {
         this.rewards = rewards;
     }
 
@@ -189,7 +175,8 @@ public class Type {
                 
                 //Make sure we don't send the same message more than once anymore!
                 if(!re.getMessage().isEmpty() && !messagesSent.contains(re.getMessage())) {
-                    plugin.sendMessage(player, re.getMessage());
+                    //TODO: THIS
+                    //plugin.sendMessage(player, re.getMessage());
                     messagesSent.add(re.getMessage());
                 }
                 
@@ -203,11 +190,39 @@ public class Type {
         }
         
         if (won < 0) {
-            plugin.getEconomy().withdrawPlayer(player, Math.abs(won));
+            //TODO: THIS
+            //plugin.getEconomy().withdrawPlayer(player, Math.abs(won));
         } else {
-            plugin.getEconomy().depositPlayer(player, won);
+            //TODO: THIS
+            //plugin.getEconomy().depositPlayer(player, won);
         }
         
         return won;
+    }
+
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        
+        map.put("name", this.name);
+        map.put("cost_usage", String.valueOf(this.cost));
+        map.put("cost_create", String.valueOf(this.createCost));
+        map.put("controller", Util.materialDataToString(this.controllerData));
+        map.put("reel", this.reel);
+        map.put("messages", this.messages);
+        
+        return map;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static SlotType deserialize(Map<String, Object> map) {
+        SlotType t = new SlotType((String)map.get("name"));
+        
+        t.setCost(Double.valueOf((String)map.get("cost_usage")));
+        t.setCreateCost(Double.valueOf((String)map.get("cost_create")));
+        t.setControllerData(Util.parseMaterialDataFromString((String) map.get("controller")));
+        t.setReel((List<Reel>)map.get("reel"));
+        t.messages = (SlotMachineMessages)map.get("messages");
+        
+        return t;
     }
 }

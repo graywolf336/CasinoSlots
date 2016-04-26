@@ -6,7 +6,7 @@ import org.bukkit.util.Vector;
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.actions.Action;
 import com.craftyn.casinoslots.classes.Reward;
-import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.classes.SlotType;
 import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
 /**
@@ -19,20 +19,24 @@ import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 public class RocketAction extends Action {
     private String name = "Rocket";
 
-    public RocketAction(CasinoSlots plugin, Type type, String... args) throws ActionLoadingException {
-        super(plugin, type, args);
+    public RocketAction(CasinoSlots plugin, String... args) throws ActionLoadingException {
+        super(plugin, args);
     }
 
     public boolean isValid() {
         return true;
     }
 
-    public boolean execute(Type type, Reward reward, Player player) {
+    public boolean execute(SlotType type, Reward reward, Player player) {
         player.setVelocity(new Vector(0, 30, 0));
         return true;
     }
 
     public String getName() {
         return this.name;
+    }
+    
+    public String toString() {
+        return this.name.toLowerCase();
     }
 }

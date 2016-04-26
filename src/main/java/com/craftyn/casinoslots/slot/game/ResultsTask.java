@@ -13,9 +13,9 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
-import com.craftyn.casinoslots.classes.Reward;
-import com.craftyn.casinoslots.classes.SlotMachine;
-import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.classes.OldSlotMachine;
+import com.craftyn.casinoslots.classes.SlotType;
+import com.craftyn.casinoslots.enums.Settings;
 import com.craftyn.casinoslots.util.Stat;
 import com.craftyn.casinoslots.util.Util;
 
@@ -29,7 +29,7 @@ public class ResultsTask implements Runnable {
 
     public void run() {
 
-        Type type = game.getType();
+        SlotType type = game.getType();
         Player player = game.getPlayer();
         String name = type.getName();
         Double cost = type.getCost();
@@ -38,7 +38,7 @@ public class ResultsTask implements Runnable {
         ArrayList<String> results = getResults();
 
         if (!results.isEmpty()) {
-            SlotMachine slot = game.getSlot();
+            OldSlotMachine slot = game.getSlot();
 
             if (!(slot.getSign() == null)) {
                 Block b = slot.getSign();
@@ -65,12 +65,11 @@ public class ResultsTask implements Runnable {
 
         // No win
         else {
-            game.getPlugin().debug("The player has won an amount of: " + won);
-            game.getPlugin().sendMessage(player, type.getMessages().get("noWin"));
+            game.getPlugin().sendMessage(player, type.getMessages().getLost());
         }
 
         // Register statistics
-        if (game.getPlugin().getConfigData().trackStats) {
+        if (Settings.SLOTS_TRACK_STATS.asBoolean()) {
             Stat stat;
 
             //Already have some stats for this type
@@ -117,7 +116,7 @@ public class ResultsTask implements Runnable {
                 current = blocks.subList(start, end);
             } else {
                 //diagonals
-                if (game.getPlugin().getConfigData().allowDiagonals) {
+                if (Settings.SLOTS_ALLOW_DIAGONAL_WINNINGS.asBoolean()) {
                     current = new ArrayList<Block>();
                     for (int j = 0; j < 3; j++) {
                         if (i == 3) {

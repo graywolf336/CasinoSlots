@@ -1,20 +1,22 @@
 package test.com.craftyn.casinoslots.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_9_R1.inventory.CraftItemStack;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 public class MockPlayerInventory implements PlayerInventory {
-
-    private int armorSize = 4, inventorySize = 36, heldSlot = 0;
+    private int armorSize = 4, inventorySize = 36, heldSlot = 0, maxStackSize = 64;
     ItemStack[] armorContents = new ItemStack[armorSize];
     ItemStack[] inventoryContents = new ItemStack[inventorySize];
 
@@ -86,13 +88,13 @@ public class MockPlayerInventory implements PlayerInventory {
     @Override
     public int clear(int i, int i2) {
         int count = 0;
-        for(int d = i; d > i2; d++) {
-            if(this.inventoryContents[d] != null) {
+        for (int d = i; d > i2; d++) {
+            if (this.inventoryContents[d] != null) {
                 this.inventoryContents[d] = null;
                 count++;
             }
         }
-        
+
         return count;
     }
 
@@ -136,18 +138,101 @@ public class MockPlayerInventory implements PlayerInventory {
     }
 
     @Override
-    public HashMap<Integer, ItemStack> addItem(ItemStack... itemStacks) {
-        return new HashMap<Integer, ItemStack>();
+    public HashMap<Integer, ItemStack> addItem(ItemStack... items) {
+        HashMap<Integer, ItemStack> leftover = new HashMap<Integer, ItemStack>();
+
+        for (int i = 0; i < items.length; i++) {
+            ItemStack item = items[i];
+
+            for (;;) {
+                int firstPartial = firstPartial(item);
+                if (firstPartial == -1) {
+                    int firstFree = firstEmpty();
+                    if (firstFree == -1) {
+                        leftover.put(Integer.valueOf(i), item);
+                        break;
+                    }
+
+                    if (item.getAmount() > this.getMaxStackSize()) {
+                        CraftItemStack stack = CraftItemStack.asCraftCopy(item);
+                        stack.setAmount(getMaxStackSize());
+                        setItem(firstFree, stack);
+                        item.setAmount(item.getAmount() - getMaxStackSize());
+                    } else {
+                        setItem(firstFree, item);
+                        break;
+                    }
+                } else {
+                    ItemStack partialItem = getItem(firstPartial);
+
+                    int amount = item.getAmount();
+                    int partialAmount = partialItem.getAmount();
+                    int maxAmount = partialItem.getMaxStackSize();
+
+                    if (amount + partialAmount <= maxAmount) {
+                        partialItem.setAmount(amount + partialAmount);
+
+                        setItem(firstPartial, partialItem);
+                        break;
+                    }
+
+                    partialItem.setAmount(maxAmount);
+
+                    setItem(firstPartial, partialItem);
+                    item.setAmount(amount + partialAmount - maxAmount);
+                }
+            }
+        }
+
+        return leftover;
     }
 
     @Override
-    public HashMap<Integer, ItemStack> removeItem(ItemStack... itemStacks) {
-        return new HashMap<Integer, ItemStack>();
+    public HashMap<Integer, ItemStack> removeItem(ItemStack... items) {
+        HashMap<Integer, ItemStack> leftover = new HashMap<Integer, ItemStack>();
+
+        for (int i = 0; i < items.length; i++) {
+            ItemStack item = items[i];
+
+            int toDelete = item.getAmount();
+
+            do {
+                int first = first(item, false);
+                if (first == -1) {
+                    item.setAmount(toDelete);
+                    leftover.put(Integer.valueOf(i), item);
+                    break;
+                }
+
+                ItemStack itemStack = getItem(first);
+                int amount = itemStack.getAmount();
+                if (amount <= toDelete) {
+                    toDelete -= amount;
+
+                    clear(first);
+                } else {
+                    itemStack.setAmount(amount - toDelete);
+                    setItem(first, itemStack);
+                    toDelete = 0;
+                }
+            } while (toDelete > 0);
+        }
+        return leftover;
     }
 
     @Override
     public ItemStack[] getContents() {
-        return this.inventoryContents;
+        List<ItemStack> contents = new ArrayList<ItemStack>();
+        
+        for(int content = 0; content < this.inventorySize; content++) {
+            contents.add(this.inventoryContents[content]);
+        }
+        
+        for(int armor = 0; armor < this.armorSize; armor++) {
+            contents.add(this.armorContents[armor]);
+        }
+        
+        return contents.toArray(new ItemStack[contents.size()]);
     }
 
     @Override
@@ -155,27 +240,14 @@ public class MockPlayerInventory implements PlayerInventory {
         this.inventoryContents = itemStacks;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean contains(int i) {
-        boolean contains = false;
-        
-        for(ItemStack item : inventoryContents)
-            if(item.getTypeId() == i)
-                return true;
-        
-        return contains;
+        return false;
     }
 
     @Override
     public boolean contains(Material material) {
-        boolean contains = false;
-        
-        for(ItemStack item : inventoryContents)
-            if(item.getType() == material)
-                return true;
-        
-        return contains;
+        return false;
     }
 
     @Override
@@ -213,24 +285,77 @@ public class MockPlayerInventory implements PlayerInventory {
         return null;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public int first(int i) {
-        return 0;
+    public int first(int materialId) {
+        ItemStack[] inventory = getStorageContents();
+        for (int i = 0; i < inventory.length; i++) {
+            ItemStack item = inventory[i];
+            if (item != null && item.getTypeId() == materialId) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public int first(Material material) {
-        return 0;
+        return first(material.getId());
     }
 
     @Override
     public int first(ItemStack itemStack) {
-        return 0;
+        return first(itemStack, true);
+    }
+
+    private int first(ItemStack item, boolean withAmount) {
+        if (item == null) {
+            return -1;
+        }
+
+        ItemStack[] inventory = getStorageContents();
+
+        for (int i = 0; i < inventory.length; i++) {
+            if (inventory[i] != null) {
+                if (withAmount ? item.equals(inventory[i]) : item.isSimilar(inventory[i])) {
+                    return i;
+                }
+            }
+        }
+
+        return -1;
     }
 
     @Override
     public int firstEmpty() {
-        return 0;
+        ItemStack[] inventory = getStorageContents();
+        for (int i = 0; i < inventory.length; i++) {
+            if (inventory[i] == null) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private int firstPartial(ItemStack item) {
+        ItemStack[] inventory = getStorageContents();
+        ItemStack filteredItem = CraftItemStack.asCraftCopy(item);
+
+        if (item == null) {
+            return -1;
+        }
+
+        for (int i = 0; i < inventory.length; i++) {
+            ItemStack cItem = inventory[i];
+
+            if (cItem != null && cItem.getAmount() < cItem.getMaxStackSize() && cItem.isSimilar(filteredItem)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -249,13 +374,15 @@ public class MockPlayerInventory implements PlayerInventory {
     }
 
     @Override
-    public void clear(int i) {
-        inventoryContents[i] = null;
+    public void clear(int index) {
+        setItem(index, null);
     }
 
     @Override
     public void clear() {
-
+        for (int i = 0; i < getSize(); i++) {
+            clear(i);
+        }
     }
 
     @Override
@@ -265,12 +392,12 @@ public class MockPlayerInventory implements PlayerInventory {
 
     @Override
     public String getTitle() {
-        return null;
+        return "MockInventory";
     }
 
     @Override
     public InventoryType getType() {
-        return null;
+        return InventoryType.PLAYER;
     }
 
     @Override
@@ -280,12 +407,12 @@ public class MockPlayerInventory implements PlayerInventory {
 
     @Override
     public int getMaxStackSize() {
-        return 0;
+        return this.maxStackSize;
     }
 
     @Override
-    public void setMaxStackSize(int i) {
-
+    public void setMaxStackSize(int size) {
+        this.maxStackSize = size;
     }
 
     @Override
@@ -315,8 +442,43 @@ public class MockPlayerInventory implements PlayerInventory {
                 + ",\"armorContents\":" + makeMap(getArmorContents()) + "}";
     }
 
-    @Override
     public void setHeldItemSlot(int slot) {
         this.heldSlot = slot;
+    }
+
+    public Location getLocation() {
+        return null;
+    }
+
+    public ItemStack getItemInMainHand() {
+        return null;
+    }
+
+    public ItemStack getItemInOffHand() {
+        return null;
+    }
+
+    public void setItemInMainHand(ItemStack item) {
+
+    }
+
+    public void setItemInOffHand(ItemStack item) {
+
+    }
+
+    public void setExtraContents(ItemStack[] contents) {
+
+    }
+
+    public ItemStack[] getExtraContents() {
+        return null;
+    }
+
+    public void setStorageContents(ItemStack[] contents) {
+
+    }
+
+    public ItemStack[] getStorageContents() {
+        return getContents();
     }
 }

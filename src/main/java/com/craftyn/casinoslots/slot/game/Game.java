@@ -6,18 +6,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.classes.SlotMachine;
-import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.classes.OldSlotMachine;
+import com.craftyn.casinoslots.classes.SlotType;
 import com.craftyn.casinoslots.enums.SlotMachineColumnType;
+import com.craftyn.casinoslots.util.Util;
 
 public class Game {
     private CasinoSlots plugin;
     protected BukkitScheduler scheduler;
-    private SlotMachine slot;
+    private OldSlotMachine slot;
     private Player player;
 
     // Initializes a new game object
-    public Game(SlotMachine slot, Player player, CasinoSlots plugin) {
+    public Game(OldSlotMachine slot, Player player, CasinoSlots plugin) {
         this.slot = slot;
         this.player = player;
         this.plugin = plugin;
@@ -28,12 +29,12 @@ public class Game {
     }
 
     // Returns the active slot machine
-    public SlotMachine getSlot() {
+    public OldSlotMachine getSlot() {
         return this.slot;
     }
 
     // Returns the type of the active slot machine
-    public Type getType() {
+    public SlotType getType() {
         return slot.getType();
     }
 
@@ -74,7 +75,7 @@ public class Game {
         // Start playing
         slot.toggleBusy();
         if (!slot.isItem()) {
-            plugin.sendMessage(player, getType().getMessages().get("start"));
+            plugin.sendMessage(player, Util.colorizeAndTokenize(getType(), getType().getMessages().getStart()));
         } else {
             int itemAmt = slot.getItemAmount();
             Material itemMat = new ItemStack(slot.getItem()).getType();

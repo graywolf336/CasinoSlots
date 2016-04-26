@@ -1,119 +1,14 @@
-# Instructions for this configuration file can be found at the BukkitDev page:
-# http://dev.bukkit.org/server-mods/casino-slots/pages/info/config/
-# If you change the config-version, the defaults will be added. You have been warned.
-options:
-  debug: false
-  config-version: 1.0
-  track-statistics: true
-  allow-diagonal-winnings: false
-  enable-slot-protection: true
-  enable-chunk-messages: false
-  enable-worldguard-check: false
-  towny-checks:
-    enabled: false
-    only-mayors: true
-    no-mayor: You must be a mayor to create a Casino Slot.
-    only-towns: true
-    no-town: To create a slot you must be part of a town.
-    no-ownership: You don't own the plot where that would be at, please make sure you are the owner and then try again.
-  chat:
-    display-plugin-prefix: true
-    plugin-prefix: '[Casino]'
-    plugin-prefix-color: '&c&o'
-    chat-color: '&a'
+system:
+  debug: true
   update-checking:
     enabled: true
-    channel: bukkit # or dev
-    time: 120 #minutes
-types:
-  default:
-    cost: 100
-    create-cost: 1000
-    controller: note_block
-    reel:
-    - iron_block 21
-    - gold_block 12
-    - diamond_block 7
-    - tnt 8
-    - melon_block 9
-    - obsidian 4
-    - dirt:1 5
-    rewards:
-      iron_block:
-        message: Winner - 3 iron blocks! An enchanted iron sword.
-        action: give iron_sword 1 damage_all:5 name:Casino_Sword lore:Won_at_the_casino!
-      gold_block:
-        message: Winner - 3 gold blocks! $300 awarded.
-        money: 300.0
-      diamond_block:
-        message: Winner - 3 diamond blocks! $750 awarded.
-        money: 750.0
-      tnt:
-        action: kill
-        message: Winne-
-      melon_block:
-        action: give melon_block 64
-        message: Winner - 3 ..melons? Nom.
-    messages:
-      insufficient-permission: Sorry, you can't play this slot.
-      insufficient-funds: You can't afford to use this.
-      in-use: This slot machine is already in use.
-      no-win: No luck this time.
-      start: '[cost] removed from your account. Let''s roll!'
-      help:
-      - 'Instructions:'
-      - Get 3 in a row in order to win. $100 per spin.
-      - '3 iron blocks: A sharpness five enchanted iron sword!'
-      - '3 gold blocks: $300'
-      - '3 diamond blocks: $750'
-      - '3 melon blocks: stack of melons!'
-      - '3 tnt blocks: death!'
-  actionslot:
-    cost: 150
-    create-cost: 1000
-    controller: "stained_clay:5"
-    reel:
-    - wool:3 2
-    - tnt
-    - GLOWING_REDSTONE_ORE
-    - netherrack
-    - melon_block
-    - brick
-    rewards:
-      'wool:3':
-        action:
-        - potion blindness 1000 10
-        message: Winne- You can't see now!
-      'tnt':
-        action: kill
-        message: Winne-
-      'GLOWING_REDSTONE_ORE':
-        action:
-        - potion confusion 20 45
-        - potion slow 10 20
-        message: Winne- Kids, drugs are bad!
-      'netherrack':
-        action: fire 10
-        message: Winne- Fire hurts! Don't mess with it.
-      'melon_block':
-        action: give 103 3
-        message: Winner - 3 ..melons? Nom.
-      'brick':
-        action:
-        - potion slow 1000 10
-        - command me thinks [player] is cool!
-        message: Winner - A command has been executed!
-    messages:
-      insufficient-permission: You can't play this one, that's too sad - we really wanted you to win.
-      insufficient-funds: You can't afford to use this.
-      in-use: This slot machine is already in use.
-      no-win: No luck this time.
-      start: '[cost] removed from your account. Let''s roll!'
-      help:
-      - 'Instructions:'
-      - Get 3 in a row in order to win. $150 per spin.
-      - '3 tnt blocks: death!'
-      - '3 wool blocks: blindness!'
-      - '3 melon blocks: 3 blocks of melons'
-      - '3 redstone: Strange potions effects'
-      - '3 netherrack: fire!'
+    channel: 'bukkit'
+    time: 'dev'
+slots:
+  track-statistics: true
+  allow-diagonal-winnings: false
+  enable-protection: true
+chat:
+  use-prefix: true
+  prefix: '&c&o[Casino]&r'
+  color: '&a'

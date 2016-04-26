@@ -18,10 +18,10 @@ import com.craftyn.casinoslots.actions.impl.RocketAction;
 import com.craftyn.casinoslots.actions.impl.SlapAction;
 import com.craftyn.casinoslots.actions.impl.SmiteAction;
 import com.craftyn.casinoslots.actions.impl.TpToAction;
-import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.classes.SlotType;
 import com.craftyn.casinoslots.exceptions.ActionClassConstructorParameterNotExpectedTypeException;
 import com.craftyn.casinoslots.exceptions.ActionLoadingException;
-import com.craftyn.casinoslots.exceptions.ClassConstructorIsntThreeException;
+import com.craftyn.casinoslots.exceptions.ClassConstructorIsntTwoException;
 import com.craftyn.casinoslots.exceptions.ClassDoesntExtendActionException;
 import com.craftyn.casinoslots.exceptions.UnknownActionException;
 
@@ -33,11 +33,13 @@ import com.craftyn.casinoslots.exceptions.UnknownActionException;
  * @version 1.0.0
  */
 public class ActionFactory {
+    private static CasinoSlots plugin;
     private HashMap<String, Constructor<?>> actions;
 
-    public ActionFactory() throws ClassDoesntExtendActionException, ClassConstructorIsntThreeException, ActionClassConstructorParameterNotExpectedTypeException {
-        actions = new HashMap<String, Constructor<?>>();
-        loadActions();
+    public ActionFactory(CasinoSlots plug) throws ClassDoesntExtendActionException, ClassConstructorIsntTwoException, ActionClassConstructorParameterNotExpectedTypeException {
+        plugin = plug;
+        this.actions = new HashMap<String, Constructor<?>>();
+        this.loadActions();
     }
 
     /**
@@ -58,8 +60,7 @@ public class ActionFactory {
      * Returns a constructed {@link Action}.
      * 
      * @param name The name of the action.
-     * @param plugin The instance of the {@link CasinoSlots} plugin.
-     * @param type The instance of the {@link Type} this action is used in.
+     * @param type The instance of the {@link SlotType} this action is used in.
      * @param args The arguments to be passed into the {@link Action}.
      * @return The constructed {@link Action} instance.
      * @throws UnknownActionException Thrown if the action doesn't exist.
@@ -69,7 +70,7 @@ public class ActionFactory {
      * @throws InvocationTargetException Thrown if the action's constructor throws an exception which we don't know about
      * @throws ActionLoadingException Thrown when the action can't load successfully, couldn't parse the arguments is generally what it means.
      */
-    public Action getConstructedAction(String name, CasinoSlots plugin, Type type, String... args) throws UnknownActionException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, ActionLoadingException {
+    public Action getConstructedAction(String name, SlotType type, String... args) throws UnknownActionException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, ActionLoadingException {
         Constructor<?> c = this.getAction(name);
         
         try {
@@ -93,7 +94,7 @@ public class ActionFactory {
         return actions.containsKey(name);
     }
 
-    private void loadActions() throws ClassDoesntExtendActionException, ClassConstructorIsntThreeException, ActionClassConstructorParameterNotExpectedTypeException {
+    private void loadActions() throws ClassDoesntExtendActionException, ClassConstructorIsntTwoException, ActionClassConstructorParameterNotExpectedTypeException {
         addAction("addxp", AddXpAction.class);
         addAction("addxplvl", AddXpLevelAction.class);
         addAction("broadcast", BroadcastAction.class);
@@ -114,26 +115,23 @@ public class ActionFactory {
      *
      * @param name the name of the action, what is prepended on the actions array on a type.
      * @param actionClass The class for the action.
-     * @return The first constructor of the class, assumes it is "CasinoSlot plugin, Type type, String... args".
+     * @return The first constructor of the class, assumes it is "CasinoSlot plugin, String... args".
      * @throws ClassDoesntExtendActionException Thrown when the class doesn't implement {@link IAction}.
-     * @throws ClassConstructorIsntThreeException Thrown when the class's first constructor doesn't contain three parameters.
+     * @throws ClassConstructorIsntTwoException Thrown when the class's first constructor doesn't contain two parameters.
      * @throws ActionClassConstructorParameterNotExpectedTypeException Thrown when one of the parameters in the constructor isn't the expected type.
      */
-    public Constructor<?> addAction(String name, Class<?> actionClass) throws ClassDoesntExtendActionException, ClassConstructorIsntThreeException, ActionClassConstructorParameterNotExpectedTypeException {
+    public Constructor<?> addAction(String name, Class<?> actionClass) throws ClassDoesntExtendActionException, ClassConstructorIsntTwoException, ActionClassConstructorParameterNotExpectedTypeException {
         if (!Action.class.isAssignableFrom(actionClass))
             throw new ClassDoesntExtendActionException(actionClass.getName() + "(" + name + ")");
 
         Constructor<?> constructor = actionClass.getConstructors()[0];
-        if(constructor.getParameterCount() != 3)
-            throw new ClassConstructorIsntThreeException(actionClass.getName() + "(" + name + ")");
+        if(constructor.getParameterCount() != 2)
+            throw new ClassConstructorIsntTwoException(actionClass.getName() + "(" + name + ")", constructor.getParameterCount());
         
         if(!constructor.getParameterTypes()[0].getName().equals("com.craftyn.casinoslots.CasinoSlots"))
             throw new ActionClassConstructorParameterNotExpectedTypeException(actionClass.getName() + "(" + name + ")", 0);
         
-        if(!constructor.getParameterTypes()[1].getName().equals("com.craftyn.casinoslots.classes.Type"))
-            throw new ActionClassConstructorParameterNotExpectedTypeException(actionClass.getName() + "(" + name + ")", 1);
-        
-        if(!constructor.getParameterTypes()[2].getName().equals("[Ljava.lang.String;"))
+        if(!constructor.getParameterTypes()[1].getName().equals("[Ljava.lang.String;"))
             throw new ActionClassConstructorParameterNotExpectedTypeException(actionClass.getName() + "(" + name + ")", 2);
         
         return actions.put(name, actionClass.getConstructors()[0]);

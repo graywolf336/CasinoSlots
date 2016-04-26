@@ -3,6 +3,7 @@ package test.com.craftyn.casinoslots.util;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -31,6 +32,8 @@ import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.craftbukkit.v1_9_R1.inventory.CraftItemFactory;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
@@ -41,6 +44,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 import org.junit.Assert;
@@ -49,9 +53,12 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.MockGateway;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.craftyn.casinoslots.enums.Settings;
 
+@PrepareForTest({ CraftItemFactory.class })
 public class TestInstanceCreator {
     private Random r;
     private CasinoSlots main;
@@ -72,6 +79,9 @@ public class TestInstanceCreator {
 
             MockGateway.MOCK_STANDARD_METHODS = false;
             
+            this.setupEnchantments();
+            this.setupPotionEffectTypes();
+            
             // Initialize the Mock server.
             mockServer = mock(Server.class);
             when(mockServer.getName()).thenReturn("UnitTestBukkit");
@@ -80,6 +90,9 @@ public class TestInstanceCreator {
             Logger.getLogger("Minecraft").setParent(Util.logger);
             when(mockServer.getLogger()).thenReturn(Util.logger);
             when(mockServer.getWorldContainer()).thenReturn(worldsDirectory);
+            when(mockServer.getItemFactory()).thenReturn(CraftItemFactory.instance());
+            when(mockServer.broadcastMessage(anyString())).thenReturn(r.nextInt());
+            when(mockServer.dispatchCommand(anyObject(), anyString())).thenReturn(true);
 
             //Mock up the economy
             MockEconomy economy = mock(MockEconomy.class);
@@ -296,6 +309,8 @@ public class TestInstanceCreator {
             when(mockOpPlayer.getInventory()).thenReturn(new MockPlayerInventory());
             when(mockOpPlayer.getWorld()).thenReturn(mockWorld);
             when(mockOpPlayer.getLocation()).thenReturn(new Location(mockWorld, 23, 70, -242));
+            when(mockOpPlayer.addPotionEffect(anyObject(), anyBoolean())).thenReturn(true);
+            when(mockOpPlayer.addPotionEffect(anyObject())).thenReturn(true);
             when(mockServer.getPlayer("graywolf336")).thenReturn(mockOpPlayer);
             when(mockServer.getPlayer(UUID.fromString("062c14ba-4c47-4757-911b-bbf9a60dab7b"))).thenReturn(mockOpPlayer);
 
@@ -311,7 +326,9 @@ public class TestInstanceCreator {
             when(mockNotOpPlayer.getInventory()).thenReturn(new MockPlayerInventory());
             when(mockNotOpPlayer.getWorld()).thenReturn(mockWorld);
             when(mockNotOpPlayer.getLocation()).thenReturn(new Location(mockWorld, 23, 70, -242));
-            when(mockServer.getPlayer("graywolf336")).thenReturn(mockNotOpPlayer);
+            when(mockNotOpPlayer.addPotionEffect(anyObject(), anyBoolean())).thenReturn(true);
+            when(mockNotOpPlayer.addPotionEffect(anyObject())).thenReturn(true);
+            when(mockServer.getPlayer("goose160")).thenReturn(mockNotOpPlayer);
             when(mockServer.getPlayer(UUID.fromString("89ae2bf2-0705-435f-b5d6-c24533649540"))).thenReturn(mockNotOpPlayer);
 
             // Init our second command sender, but this time is an instance of a player
@@ -327,10 +344,10 @@ public class TestInstanceCreator {
             
             Bukkit.setServer(mockServer);
             main.onLoad();
+            Settings.DEBUG.setValue(true);
 
             // Enable it and turn on debugging
             main.onEnable();
-            main.getConfigData().debug = true;
 
             return true;
         } catch (Exception e) {
@@ -399,5 +416,67 @@ public class TestInstanceCreator {
         }
 
         folder.delete();
+    }
+    
+    private void setupEnchantments() {
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.ARROW_DAMAGE, "ARROW_DAMAGE"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.ARROW_FIRE, "ARROW_FIRE"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.ARROW_INFINITE, "ARROW_INFINITE"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.ARROW_KNOCKBACK, "ARROW_KNOCKBACK"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.DAMAGE_ALL, "DAMAGE_ALL"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.DAMAGE_ARTHROPODS, "DAMAGE_ARTHROPODS"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.DAMAGE_UNDEAD, "DAMAGE_UNDEAD"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.DEPTH_STRIDER, "DEPTH_STRIDER"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.DIG_SPEED, "DIG_SPEED"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.DURABILITY, "DURABILITY"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.FIRE_ASPECT, "FIRE_ASPECT"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.FROST_WALKER, "FROST_WALKER"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.KNOCKBACK, "KNOCKBACK"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.LOOT_BONUS_BLOCKS, "LOOT_BONUS_BLOCKS"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.LOOT_BONUS_MOBS, "LOOT_BONUS_MOBS"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.LUCK, "LUCK"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.LURE, "LURE"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.MENDING, "MENDING"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.OXYGEN, "OXYGEN"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, "PROTECTION_ENVIRONMENTAL"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.PROTECTION_EXPLOSIONS, "PROTECTION_EXPLOSIONS"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.PROTECTION_FALL, "PROTECTION_FALL"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.PROTECTION_FIRE, "PROTECTION_FIRE"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.PROTECTION_PROJECTILE, "PROTECTION_PROJECTILE"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.SILK_TOUCH, "SILK_TOUCH"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.THORNS, "THORNS"));
+        Enchantment.registerEnchantment(new TestEnchantment(Enchantment.WATER_WORKER, "WATER_WORKER"));
+        Enchantment.stopAcceptingRegistrations();
+    }
+    
+    private void setupPotionEffectTypes() {
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.SPEED, "SPEED", false, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.SLOW, "SLOW", false, 0.5));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.FAST_DIGGING, "FAST_DIGGING", false, 1.5));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.SLOW_DIGGING, "SLOW_DIGGING", false, 0.5));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.INCREASE_DAMAGE, "INCREASE_DAMAGE", false, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.HEAL, "HEAL", true, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.HARM, "HARM", true, 0.5));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.JUMP, "JUMP", false, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.CONFUSION, "CONFUSION", false, 0.25));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.REGENERATION, "REGENERATION", false, 0.25));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.DAMAGE_RESISTANCE, "DAMAGE_RESISTANCE", false, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.FIRE_RESISTANCE, "FIRE_RESISTANCE", false, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.WATER_BREATHING, "WATER_BREATHING", false, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.INVISIBILITY, "INVISIBILITY", false, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.BLINDNESS, "BLINDNESS", false, 0.25));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.NIGHT_VISION, "NIGHT_VISION", false, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.HUNGER, "HUNGER", false, 0.5));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.WEAKNESS, "WEAKNESS", false, 0.5));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.POISON, "POISON", false, 0.25));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.WITHER, "WITHER", false, 0.25));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.HEALTH_BOOST, "HEALTH_BOOST", false, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.ABSORPTION, "ABSORPTION", false, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.SATURATION, "SATURATION", true, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.GLOWING, "GLOWING", false, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.LEVITATION, "LEVITATION", false, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.LUCK, "LUCK", false, 1.0));
+        PotionEffectType.registerPotionEffectType(new TestPotionEffectType(PotionEffectType.UNLUCK, "UNLUCK", false, 1.0));
+        PotionEffectType.stopAcceptingRegistrations();
     }
 }

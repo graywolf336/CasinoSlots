@@ -5,8 +5,9 @@ import org.bukkit.entity.Player;
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.actions.Action;
 import com.craftyn.casinoslots.classes.Reward;
-import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.classes.SlotType;
 import com.craftyn.casinoslots.exceptions.ActionLoadingException;
+import com.craftyn.casinoslots.util.Util;
 
 /**
  * The broadcast action. Usage: - broadcast The message goes here
@@ -20,40 +21,39 @@ public class BroadcastAction extends Action {
     private CasinoSlots plugin;
     private String message = "";
 
-    public BroadcastAction(CasinoSlots plugin, Type type, String... args) throws ActionLoadingException {
-        super(plugin, type, args);
+    public BroadcastAction(CasinoSlots plugin, String... args) throws ActionLoadingException {
+        super(plugin, args);
         this.plugin = plugin;
 
         if (args.length < 1)
-            throw new ActionLoadingException("The arguments for the '" + this.getName() + "' action for " + type.getName() + " are not valid, requires at least one argument.");
+            throw new ActionLoadingException("The arguments for the '" + this.getName() + "' action are not valid, requires at least one argument.");
 
         for (String s : args)
-            message += " " + s;
+            this.message += " " + s;
+        
+        this.message = this.message.trim();
 
-        message = message.replace("[cost]", String.valueOf(type.getCost())).replace("[type]", type.getName()).trim();
-
-        if (message.isEmpty())
-            throw new ActionLoadingException("The arguments for the '" + this.getName() + "' action for " + type.getName() + " are not valid, the resulting message is empty.");
+        if (this.message.isEmpty())
+            throw new ActionLoadingException("The arguments for the '" + this.getName() + "' action are not valid, the resulting message is empty.");
     }
 
     public boolean isValid() {
-        return false;
+        //returning true here since we check above if the broadcast message is empty or not
+        return true;
     }
 
-    public boolean execute(Type type, Reward reward, Player player) {
-        String msg = new String(message)
-                .replace("[moneywon]", String.valueOf(reward.getMoney()))
-                .replace("[player]", player.getName())
-                .replace("[playername]", player.getDisplayName())
-                .replace("[playeruuid]", player.getUniqueId().toString());
+    public boolean execute(SlotType type, Reward reward, Player player) {
+        String msg = Util.colorizeAndTokenize(type, reward, player, message);
 
         plugin.debug("Broadcast message for " + type.getName() + ": " + msg);
-        int amount = plugin.getServer().broadcastMessage(msg);
-
-        return amount != 0;
+        return plugin.getServer().broadcastMessage(msg) != 0;
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public String toString() {
+        return this.name.toLowerCase() + " " + message;
     }
 }

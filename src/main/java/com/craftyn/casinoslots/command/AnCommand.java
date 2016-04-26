@@ -4,7 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.OldSlotMachine;
 import com.craftyn.casinoslots.util.PermissionUtil;
 
 public abstract class AnCommand {
@@ -35,7 +35,7 @@ public abstract class AnCommand {
     }
 
     // Returns true if player owns this slot machine
-    public Boolean isOwner(SlotMachine slot) {
+    public Boolean isOwner(OldSlotMachine slot) {
         if(slot == null) throw new IllegalArgumentException("The slot passed in to check owner of is null!");
         
         if(!(sender instanceof Player)) return true; //The console

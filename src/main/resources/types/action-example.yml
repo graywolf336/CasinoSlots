@@ -1,0 +1,72 @@
+type:
+  ==: CasinoSlotsSlotType
+  controller: stained_clay:5
+  name: action-example
+  cost_create: '1500'
+  cost_usage: '150'
+  reel:
+  - ==: CasinoSlotsReel
+    block_data: '3'
+    reward_actions:
+    - potion blindness 1000 10
+    count: '2'
+    block_type: wool
+    reward_message: Winner - You can't see now!
+    reward_money: '0'
+  - ==: CasinoSlotsReel
+    block_data: '0'
+    reward_actions:
+    - kill
+    count: '1'
+    block_type: tnt
+    reward_message: Winne-death!
+    reward_money: '0'
+  - ==: CasinoSlotsReel
+    block_data: '0'
+    reward_actions:
+    - potion confusion 20 45
+    - potion slow 10 20
+    count: '1'
+    block_type: glowing_redstone_ore
+    reward_message: Winne- Kids, drugs are bad!
+    reward_money: '0'
+  - ==: CasinoSlotsReel
+    block_data: '0'
+    reward_actions:
+    - fire 10
+    count: '1'
+    block_type: netherrack
+    reward_message: Winne- Fire hurts! Don't mess with it.
+    reward_money: '0'
+  - ==: CasinoSlotsReel
+    block_data: '0'
+    reward_actions:
+    - give melon_block 3
+    count: '1'
+    block_type: melon_block
+    reward_message: Winner - 3 Melons! Nom.
+    reward_money: '0'
+  - ==: CasinoSlotsReel
+    block_data: '0'
+    reward_actions:
+    - potion slow 1000 10
+    - command me thinks [player] is cool!
+    count: '1'
+    block_type: brick
+    reward_message: Winner - A command has been executed!
+    reward_money: '0'
+  messages:
+    ==: CasinoSlotsSlotMachineMessages
+    being_used: This slot machine is currently in use.
+    help:
+    - 'Instructions:'
+    - '    Get 3 in a row in order to win. [cost] per spin.'
+    - '    3 tnt blocks: death!'
+    - '    3 wool blocks: blindness!'
+    - '    3 melon blocks: 3 blocks of melons'
+    - '    3 redstone: Strange potions effects'
+    - '    3 netherrack: fire!'
+    player_cant_afford: You can't afford to use this.
+    lost: Better luck next time!
+    no_permission: You can't play this one, that's too sad - we really wanted you to win.
+    start: '[cost] was removed from your account. Let''s roll!'

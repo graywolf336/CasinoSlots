@@ -1,0 +1,43 @@
+type:
+  ==: CasinoSlotsSlotType
+  cost_usage: '150.54'
+  controller: note_block:0
+  name: testing
+  messages:
+    ==: CasinoSlotsSlotMachineMessages
+    help:
+    - 'Instructions:'
+    - '    Get 3 in a row in order to win. [cost] per spin.'
+    - '    3 Diamond Blocks: 1500'
+    - '    3 Gold Blocks: 1250'
+    - '    3 Iron Blocks: 1000'
+    lost: No luck this time.
+    being_used: This slot machine is currently in use.
+    player_cant_afford: You can't afford to use this.
+    start: '[cost] was removed from your account. Let''s roll!'
+    no_permission: Sorry, you can't play this slot.
+  cost_create: '1509849.99'
+  reel:
+  - ==: CasinoSlotsReel
+    block_type: diamond_block
+    count: '1'
+    block_data: '0'
+    reward_message: Go diamond go!
+    reward_money: '1500.0'
+    reward_actions: []
+  - ==: CasinoSlotsReel
+    block_type: gold_block
+    count: '1'
+    block_data: '0'
+    reward_message: Go gold forever!!
+    reward_money: '1250.0'
+    reward_actions:
+    - slap
+  - ==: CasinoSlotsReel
+    block_type: iron_block
+    count: '2'
+    block_data: '0'
+    reward_message: IRON!!!!!!!
+    reward_money: '1000.0'
+    reward_actions:
+    - give IRON_FENCE 16 SILK_TOUCH:1 name:Silky_Iron_Fence lore:This_fence_can_be_used|to_get_some_lovely_&3grass!

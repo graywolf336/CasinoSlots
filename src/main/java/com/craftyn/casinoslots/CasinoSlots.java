@@ -5,6 +5,7 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -12,9 +13,15 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.craftyn.casinoslots.actions.ActionFactory;
+import com.craftyn.casinoslots.classes.Reel;
+import com.craftyn.casinoslots.classes.SimpleLocation;
+import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.SlotMachineMessages;
+import com.craftyn.casinoslots.classes.SlotMachineOwner;
+import com.craftyn.casinoslots.classes.SlotType;
 import com.craftyn.casinoslots.command.AnCommandExecutor;
+import com.craftyn.casinoslots.enums.Settings;
 import com.craftyn.casinoslots.listeners.BlockListener;
-import com.craftyn.casinoslots.listeners.ChunkListener;
 import com.craftyn.casinoslots.listeners.EntityListener;
 import com.craftyn.casinoslots.listeners.PlayerListener;
 import com.craftyn.casinoslots.slot.SlotManager;
@@ -38,21 +45,25 @@ public class CasinoSlots extends JavaPlugin {
 
     private PlayerListener playerListener;
     private BlockListener blockListener;
-    private ChunkListener chunkListener;
     private EntityListener entity;
     private AnCommandExecutor commandExecutor;
 
     private ConfigData configData;
     private SlotManager slotManager;
-    private TypeManager typeManager;
     private StatData statsData;
     private TownyChecks townyChecks = null;
     
     private ActionFactory actionFactory = null;
+    private TypeManager typeManager;
+    
+    public void onLoad() {
+        this.loadConfig();
+        Settings.setPlugin(this);
+        this.loadSerializableClasses();
+        new CasinoSlotsStaticAPI(this);
+    }
 
     public void onEnable() {
-        //loadConfig();
-        
         //Verify vault is installed before loading anything
         pm = this.getServer().getPluginManager();
         if(!pm.isPluginEnabled("Vault")) {
@@ -70,7 +81,7 @@ public class CasinoSlots extends JavaPlugin {
         
         //Load the ActionFactory first, since it throws an exception if something else wrong
         try {
-            actionFactory = new ActionFactory();
+            this.actionFactory = new ActionFactory(this);
         } catch (Exception e) {
             e.printStackTrace();
             this.getLogger().severe("Failed to load the action definitions, please see the error above!");
@@ -78,15 +89,22 @@ public class CasinoSlots extends JavaPlugin {
             return;
         }
         
+        try {
+            this.typeManager = new TypeManager(this);
+        }catch(Exception e) {
+            e.printStackTrace();
+            this.getLogger().severe("Failed to load the type definitions, please see the error above!");
+            pm.disablePlugin(this);
+            return;
+        }
+
         this.playerListener = new PlayerListener(this);
         this.blockListener = new BlockListener(this);
-        this.chunkListener = new ChunkListener(this);
         this.entity = new EntityListener(this);
         this.commandExecutor = new AnCommandExecutor(this);
         
         this.configData = new ConfigData(this);
         this.slotManager = new SlotManager(this);
-        this.typeManager = new TypeManager(this);
         this.statsData = new StatData(this);
 
         //Loads just the configuration, not the types, stats, or slots
@@ -118,7 +136,6 @@ public class CasinoSlots extends JavaPlugin {
 
         pm.registerEvents(playerListener, this);
         pm.registerEvents(blockListener, this);
-        pm.registerEvents(chunkListener, this);
         pm.registerEvents(entity, this);
 
         reloadUpdateCheck();
@@ -126,9 +143,9 @@ public class CasinoSlots extends JavaPlugin {
         //Allow actions to be injected before we load anything 
         this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             public void run() {
-                getTypeManager().loadTypes();
-                getSlotManager().loadSlots();
-                getStatData().loadStats();
+                //getTypeManager().loadTypes();
+                //getSlotManager().loadSlots();
+                //getStatData().loadStats();
             }
         }, 5L);
     }
@@ -136,8 +153,8 @@ public class CasinoSlots extends JavaPlugin {
     public void onDisable() {
         if (economy != null) {
             //configData.save();
-            configData.saveSlots();
-            configData.saveStats();
+            //configData.saveSlots();
+            //configData.saveStats();
 
             this.configData = null;
             this.slotManager = null;
@@ -147,11 +164,22 @@ public class CasinoSlots extends JavaPlugin {
 
             this.towny = null;
         }
+        
+        this.saveConfig();
+    }
+    
+    private void loadSerializableClasses() {
+        ConfigurationSerialization.registerClass(SimpleLocation.class, "CasinoSlotsSimpleLocation");
+        ConfigurationSerialization.registerClass(Reel.class, "CasinoSlotsReel");
+        ConfigurationSerialization.registerClass(SlotMachineMessages.class, "CasinoSlotsSlotMachineMessages");
+        ConfigurationSerialization.registerClass(SlotType.class, "CasinoSlotsSlotType");
+        ConfigurationSerialization.registerClass(SlotMachineOwner.class, "CasinoSlotsSlotMachineOwner");
+        ConfigurationSerialization.registerClass(SlotMachine.class, "CasinoSlotsSlotMachine");
     }
     
     private void loadConfig() {
         //Only create the default config if it doesn't exist
-        saveDefaultConfig();
+        this.saveDefaultConfig();
         
         //Append new key-value paris to the config
         getConfig().options().copyDefaults(true);
@@ -238,7 +266,11 @@ public class CasinoSlots extends JavaPlugin {
      * @param message The message to send to the player
      */
     public void sendMessage(Player player, String message) {
-        message = configData.prefixColor + configData.prefix + configData.chatColor + " " + message;
+        message = Settings.CHAT_COLOR.asString() + message;
+        if(Settings.CHAT_USE_PREFIX.asBoolean()) {
+            message = Settings.CHAT_PREFIX.asString() + " " + message;
+        }
+        
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
@@ -249,12 +281,16 @@ public class CasinoSlots extends JavaPlugin {
      * @param message The message to send to the player
      */
     public void sendMessage(CommandSender sender, String message) {
-        message = configData.prefixColor + configData.prefix + configData.chatColor + " " + message;
+        message = Settings.CHAT_COLOR.asString() + message;
+        if(Settings.CHAT_USE_PREFIX.asBoolean()) {
+            message = Settings.CHAT_PREFIX.asString() + " " + message;
+        }
+        
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
     public void debug(String message) {
-        if(configData.inDebug() || internalDebug)
+        if(Settings.inDebug() || internalDebug)
             getLogger().info("[Debug] " + message);
     }
 

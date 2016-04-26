@@ -3,7 +3,7 @@ package com.craftyn.casinoslots.actions;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.classes.Reward;
-import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.classes.SlotType;
 
 /**
  * The interface for all actions which are to be used inside.
@@ -30,10 +30,10 @@ public interface IAction {
     /**
      * Executes/runs the action.
      * 
-     * @param type the {@link Type} this action is being run for
+     * @param type the {@link SlotType} this action is being run for
      * @param reward the {@link Reward} this action is being run for
      * @param player the {@link Player} this action is being run for
      * @return Whether the action executed successfully or not.
      */
-    public boolean execute(Type type, Reward reward, Player player);
+    public boolean execute(SlotType type, Reward reward, Player player);
 }

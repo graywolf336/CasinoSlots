@@ -8,7 +8,7 @@ import org.bukkit.util.Vector;
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.actions.Action;
 import com.craftyn.casinoslots.classes.Reward;
-import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.classes.SlotType;
 import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
 /**
@@ -22,8 +22,8 @@ public class SlapAction extends Action {
     private String name = "Slap";
     private Random random;
 
-    public SlapAction(CasinoSlots plugin, Type type, String... args) throws ActionLoadingException {
-        super(plugin, type, args);
+    public SlapAction(CasinoSlots plugin, String... args) throws ActionLoadingException {
+        super(plugin, args);
         random = new Random();
     }
 
@@ -31,7 +31,7 @@ public class SlapAction extends Action {
         return true;
     }
 
-    public boolean execute(Type type, Reward reward, Player player) {
+    public boolean execute(SlotType type, Reward reward, Player player) {
         Vector v = new Vector(random.nextDouble() * 2.0 - 1, random.nextDouble() * 1, random.nextDouble() * 2.0 - 1);
         player.setVelocity(v);
         return true;
@@ -39,5 +39,9 @@ public class SlapAction extends Action {
 
     public String getName() {
         return this.name;
+    }
+    
+    public String toString() {
+        return this.name.toLowerCase();
     }
 }

@@ -2,8 +2,8 @@ package com.craftyn.casinoslots.util;
 
 import org.bukkit.entity.Player;
 
-import com.craftyn.casinoslots.classes.SlotMachine;
-import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.classes.OldSlotMachine;
+import com.craftyn.casinoslots.classes.SlotType;
 
 public class PermissionUtil {
     private static String admin = "casinoslots.admin";
@@ -51,7 +51,7 @@ public class PermissionUtil {
      * @param type   The Type of the slot that the Player is attempting to create
      * @return       True if the player can create that slot, false if the player can't
      */
-    public static boolean canCreate(Player player, Type type) {
+    public static boolean canCreate(Player player, SlotType type) {
         return canCreate(player, type.getName());
     }
 
@@ -128,12 +128,12 @@ public class PermissionUtil {
     }
 
     // Returns true if the player can use the type
-    public static boolean canUse(Player player, Type type) {
+    public static boolean canUse(Player player, SlotType type) {
         String name = type.getName();
         return (isAdmin(player) || player.hasPermission(use + "." + name) || player.hasPermission(use + ".*") || player.hasPermission(use));
     }
 
-    public static boolean isOwner(Player player, SlotMachine slot) {
+    public static boolean isOwner(Player player, OldSlotMachine slot) {
         return (isAdmin(player) || slot.getOwner().equalsIgnoreCase(player.getName()));
     }
 }

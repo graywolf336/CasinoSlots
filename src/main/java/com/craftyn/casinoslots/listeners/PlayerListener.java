@@ -1,7 +1,5 @@
 package com.craftyn.casinoslots.listeners;
 
-import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,10 +14,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.classes.SlotMachine;
-import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.classes.OldSlotMachine;
+import com.craftyn.casinoslots.classes.SlotType;
 import com.craftyn.casinoslots.slot.game.Game;
 import com.craftyn.casinoslots.util.PermissionUtil;
+import com.craftyn.casinoslots.util.Util;
 
 public class PlayerListener implements Listener {
     private CasinoSlots plugin;
@@ -38,7 +37,7 @@ public class PlayerListener implements Listener {
         }
         
         //Update the owners of the slot machines when they login
-        for(SlotMachine s : plugin.getSlotManager().getSlots()) {
+        for(OldSlotMachine s : plugin.getSlotManager().getSlots()) {
             if(s.getOwnerId().equals(event.getPlayer().getUniqueId())) {
                 s.setOwner(event.getPlayer().getName());
             }
@@ -61,7 +60,7 @@ public class PlayerListener implements Listener {
                 if(face != BlockFace.DOWN && face != BlockFace.UP) {
                     if(plugin.useTowny) {
                         if(!plugin.getTownyChecks().checkSlotsTowny(b, face, player.getName())) {
-                            SlotMachine slot = plugin.getSlotManager().getCreatingSlot(player.getName());
+                            OldSlotMachine slot = plugin.getSlotManager().getCreatingSlot(player.getName());
                             plugin.getSlotManager().toggleCreatingSlots(player.getName(), slot);
                             plugin.sendMessage(player, plugin.getConfigData().noOwnership);
                             return;
@@ -70,14 +69,14 @@ public class PlayerListener implements Listener {
 
                     if(plugin.useWorldGuard) {
                         if(!plugin.getWorldGuard().canBuild(player, b)) {
-                            SlotMachine slot = plugin.getSlotManager().getCreatingSlot(player.getName());
+                            OldSlotMachine slot = plugin.getSlotManager().getCreatingSlot(player.getName());
                             plugin.getSlotManager().toggleCreatingSlots(player.getName(), slot);
                             player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
                             return;
                         }
                     }
 
-                    SlotMachine slot = plugin.getSlotManager().getCreatingSlot(player.getName());
+                    OldSlotMachine slot = plugin.getSlotManager().getCreatingSlot(player.getName());
                     plugin.getSlotManager().createReel(player, face, slot);
                     plugin.getSlotManager().toggleCreatingSlots(player.getName(), slot);
                     plugin.getSlotManager().togglePlacingController(player.getName(), slot);
@@ -93,7 +92,7 @@ public class PlayerListener implements Listener {
 
                 if(plugin.useTowny) {
                     if(!plugin.getTownyChecks().checkSingleTowny(b, player.getName())) {
-                        SlotMachine slot = plugin.getSlotManager().getPlacingSlot(player.getName());
+                        OldSlotMachine slot = plugin.getSlotManager().getPlacingSlot(player.getName());
                         plugin.getSlotManager().togglePlacingController(player.getName(), slot);
                         plugin.sendMessage(player, plugin.getConfigData().noOwnership);
                         return;
@@ -102,14 +101,14 @@ public class PlayerListener implements Listener {
 
                 if(plugin.useWorldGuard) {
                     if(!plugin.getWorldGuard().canBuild(player, b)) {
-                        SlotMachine slot = plugin.getSlotManager().getPlacingSlot(player.getName());
+                        OldSlotMachine slot = plugin.getSlotManager().getPlacingSlot(player.getName());
                         plugin.getSlotManager().togglePlacingController(player.getName(), slot);
                         player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
                         return;
                     }
                 }
 
-                SlotMachine slot = plugin.getSlotManager().getPlacingSlot(player.getName());
+                OldSlotMachine slot = plugin.getSlotManager().getPlacingSlot(player.getName());
                 slot.setController(b);
                 plugin.getSlotManager().togglePlacingController(player.getName(), slot);
                 plugin.getSlotManager().addSlot(slot);
@@ -122,7 +121,7 @@ public class PlayerListener implements Listener {
 
                 if(plugin.useTowny) {
                     if(!plugin.getTownyChecks().checkSingleTowny(b, player.getName())) {
-                        SlotMachine slot = plugin.getSlotManager().getSignPunchingSlot(player.getName());
+                        OldSlotMachine slot = plugin.getSlotManager().getSignPunchingSlot(player.getName());
                         plugin.getSlotManager().togglePunchingSign(player.getName(), slot);
                         plugin.sendMessage(player, plugin.getConfigData().noOwnership);
                         return;
@@ -131,7 +130,7 @@ public class PlayerListener implements Listener {
 
                 if(plugin.useWorldGuard) {
                     if(!plugin.getWorldGuard().canBuild(player, b)) {
-                        SlotMachine slot = plugin.getSlotManager().getSignPunchingSlot(player.getName());
+                        OldSlotMachine slot = plugin.getSlotManager().getSignPunchingSlot(player.getName());
                         plugin.getSlotManager().togglePunchingSign(player.getName(), slot);
                         player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
                         return;
@@ -139,7 +138,7 @@ public class PlayerListener implements Listener {
                 }
 
                 if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
-                    SlotMachine slot = plugin.getSlotManager().getSignPunchingSlot(player.getName());
+                    OldSlotMachine slot = plugin.getSlotManager().getSignPunchingSlot(player.getName());
 
                     Sign sign = (Sign) b.getState();
                     sign.setLine(0, "The Last");
@@ -161,8 +160,8 @@ public class PlayerListener implements Listener {
                 }
             }
             
-            SlotMachine slot = null;
-            for(SlotMachine s : plugin.getSlotManager().getSlots()) {
+            OldSlotMachine slot = null;
+            for(OldSlotMachine s : plugin.getSlotManager().getSlots()) {
                 if(b.equals(s.getController())) {
                     slot = s;
                     break;
@@ -174,7 +173,7 @@ public class PlayerListener implements Listener {
             //Checks if the type given is null or not and informs the player and the console.
             if (typeIsNull(player, slot.getType())) return;
 
-            Type type = slot.getType();
+            SlotType type = slot.getType();
             
             // Left click event
             if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
@@ -283,11 +282,11 @@ public class PlayerListener implements Listener {
                             }
                         }
                     } else {// Slot is busy
-                        plugin.sendMessage(player, type.getMessages().get("inUse"));
+                        plugin.sendMessage(player, type.getMessages().getBeingUsed());
                         return;
                     }
                 } else {// Player does not have type permission
-                    plugin.sendMessage(player, type.getMessages().get("noPermission"));
+                    plugin.sendMessage(player, type.getMessages().getNoPermission());
                     return;
                 }
             }// End Left click
@@ -324,21 +323,8 @@ public class PlayerListener implements Listener {
 
                 //Player isn't the owner of the slot, so display the help
                 else {
-                    //Get the amount of help messages
-                    int helpCount = type.getHelpMessages().size();
-                    List<String> message = type.getHelpMessages();
-
-                    //initiate the varible for the loop
-                    int counter = 0;
-
-                    //Start the loop for the HelpMessages
-                    while (counter < helpCount) {
-                        if (counter == 0) {
-                            plugin.sendMessage(player, message.get(counter));
-                        }else {
-                            plugin.sendMessage(player, "   " + message.get(counter));
-                        }
-                        counter++;
+                    for(String s : type.getMessages().getHelps()) {
+                        plugin.sendMessage(player, Util.colorizeAndTokenize(type, s));
                     }
                 }
             }
@@ -352,7 +338,7 @@ public class PlayerListener implements Listener {
      * @param type		The type that is being checked.
      * @return			True if the type is null or false if the type isn't null
      */
-    private boolean typeIsNull (Player player, Type type) {
+    private boolean typeIsNull (Player player, SlotType type) {
         // Check to see if the type is valid, if it's not then display an error to both the player and the console.
         if (type == null) {
             plugin.sendMessage(player, "Sorry, that seems to be a messed up CasinoSlot, please contact your server administrator.");
@@ -371,7 +357,7 @@ public class PlayerListener implements Listener {
      * @param slot The slot the player is wanting to roll.
      * @param player The player wanting to play!
      */
-    private void chargeAndPlay(Type type, SlotMachine slot, Player player) {
+    private void chargeAndPlay(SlotType type, OldSlotMachine slot, Player player) {
         // Player has enough money
         Double cost = type.getCost();
         if(plugin.getEconomy().has(player.getName(), cost)) {
@@ -380,7 +366,7 @@ public class PlayerListener implements Listener {
             game.play();
             return;
         }else {// Player does not have enough money
-            plugin.sendMessage(player, type.getMessages().get("noFunds"));
+            plugin.sendMessage(player, type.getMessages().getNoFunds());
             return;
         }
     }

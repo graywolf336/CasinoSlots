@@ -1,0 +1,74 @@
+type:
+  ==: CasinoSlotsSlotType
+  controller: note_block:0
+  name: default
+  cost_create: '1000'
+  cost_usage: '100'
+  reel:
+  - ==: CasinoSlotsReel
+    block_data: '0'
+    reward_actions:
+    - give iron_sword 1 damage_all:5 name:Casino_Sword lore:Won_at_the_casino!
+    count: '21'
+    block_type: iron_block
+    reward_message: Winner - 3 iron blocks! An enchanted iron sword.
+    reward_money: '0'
+  - ==: CasinoSlotsReel
+    block_data: '0'
+    reward_actions: []
+    count: '12'
+    block_type: gold_block
+    reward_message: Winner - 3 gold blocks! $300 awarded.
+    reward_money: '300.0'
+  - ==: CasinoSlotsReel
+    block_data: '0'
+    reward_actions: []
+    count: '7'
+    block_type: diamond_block
+    reward_message: Winner - 3 diamond blocks! $750 awarded.
+    reward_money: '750.0'
+  - ==: CasinoSlotsReel
+    block_data: '0'
+    reward_actions:
+    - kill
+    count: '8'
+    block_type: tnt
+    reward_message: Winne-
+    reward_money: '0'
+  - ==: CasinoSlotsReel
+    block_data: '0'
+    reward_actions:
+    - give melon_block 64
+    count: '9'
+    block_type: melon_block
+    reward_message: Winner - 64 Melons! Nom.
+    reward_money: '0'
+  - ==: CasinoSlotsReel
+    block_data: '0'
+    reward_actions: []
+    count: '4'
+    block_type: obsidian
+    reward_message: ''
+    reward_money: '0'
+  - ==: CasinoSlotsReel
+    block_data: '1'
+    reward_actions: []
+    count: '5'
+    block_type: dirt
+    reward_message: ''
+    reward_money: '0'
+  messages:
+    ==: CasinoSlotsSlotMachineMessages
+    being_used: This slot machine is currently in use.
+    help:
+    - 'Instructions:'
+    - '    Get 3 in a row in order to win. [cost] per spin.'
+    - '    3 iron blocks: A sharpness five enchanted iron sword!'
+    - '    3 gold blocks: $300'
+    - '    3 diamond blocks: $750'
+    - '    3 melon blocks: stack of melons!'
+    - '    3 tnt blocks: death!'
+    player_cant_afford: You can't afford to use this.
+    lost: Better luck next time!
+    no_permission: Sorry, you can't play this slot.
+    start: '[cost] was removed from your account. Let''s roll!'

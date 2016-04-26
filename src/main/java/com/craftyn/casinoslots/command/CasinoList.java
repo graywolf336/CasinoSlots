@@ -4,8 +4,8 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.classes.SlotMachine;
-import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.classes.OldSlotMachine;
+import com.craftyn.casinoslots.classes.SlotType;
 import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoList extends AnCommand {
@@ -31,7 +31,7 @@ public class CasinoList extends AnCommand {
             if(args[1].equalsIgnoreCase("slots")) {
 
                 senderSendMessage("Registered slot machines:");
-                for(SlotMachine slot : plugin.getSlotManager().getSlots()) {
+                for(OldSlotMachine slot : plugin.getSlotManager().getSlots()) {
 
                     // If not admin, list only owned by player
                     if(isOwner(slot)) {
@@ -46,7 +46,7 @@ public class CasinoList extends AnCommand {
             else if(args[1].equalsIgnoreCase("types")) {
 
                 senderSendMessage("Available types:");
-                for(Type type : plugin.getTypeManager().getTypes()) {
+                for(SlotType type : plugin.getTypeManager().getTypes()) {
                     if(player == null) {
                         senderSendMessage(type.getName() + " - cost: " + type.getCost());
                     }else if(PermissionUtil.canCreate(player, type)) {

@@ -10,7 +10,7 @@ import com.craftyn.casinoslots.actions.Action;
  *
  * @author graywolf336
  * @since 1.0.0
- * @version 2.0.0
+ * @version 2.5.0
  */
 public class Reward {
     private String message = "";
@@ -20,13 +20,22 @@ public class Reward {
     public Reward(String message, double money, List<Action> actions) {
         if (message != null)
             this.message = message;
-
+        
+        this.money = money;
+        
         if (actions != null)
             this.actions = actions;
-
-        this.money = money;
     }
 
+    /**
+     * Checks whether the message is there or not.
+     * 
+     * @return whether there is a message
+     */
+    public boolean hasMessage() {
+        return !message.isEmpty();
+    }
+    
     /**
      * The message to send to the player who won, it can be empty but not null.
      *
@@ -34,6 +43,15 @@ public class Reward {
      */
     public String getMessage() {
         return this.message;
+    }
+    
+    /**
+     * Checks whether there is money to give or not.
+     * 
+     * @return whether there is money
+     */
+    public boolean hasMoney() {
+        return this.money != 0;
     }
 
     /**
@@ -43,6 +61,15 @@ public class Reward {
      */
     public double getMoney() {
         return this.money;
+    }
+    
+    /**
+     * Checks whether there are any actions to execute or not.
+     * 
+     * @return whether there are actions or not
+     */
+    public boolean hasActions() {
+        return !this.actions.isEmpty();
     }
 
     /**

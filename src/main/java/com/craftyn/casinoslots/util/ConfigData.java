@@ -2,7 +2,6 @@ package com.craftyn.casinoslots.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.bukkit.configuration.Configuration;
@@ -10,7 +9,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.OldSlotMachine;
+import com.craftyn.casinoslots.enums.Settings;
 
 public class ConfigData {
     private CasinoSlots plugin;
@@ -22,9 +22,6 @@ public class ConfigData {
     private File configFile;
     private File slotsFile;
     private File statsFile;
-
-    public String prefixColor, chatColor, prefix;
-    public Boolean displayPrefix, trackStats, allowDiagonals, protection, debug = true, displayChunk;
 
     //towny stuff
     public Boolean onlyMayors, onlyTowns;
@@ -38,17 +35,6 @@ public class ConfigData {
     // Load all config data
     public void load() {
         this.config = this.plugin.getConfig();
-        boolean changed = false;
-        if(config.getDouble("options.config-version", 0.9) != 1.0) {
-            config.options().copyDefaults(true);
-            config.set("options.config-version", 1.0);
-            changed = true;
-        }
-        
-        //save the configuration if we changed it here
-        if(changed) plugin.saveConfig();
-
-        setGlobals();
 
         statsFile = new File(plugin.getDataFolder(), "stats.yml");
         stats = YamlConfiguration.loadConfiguration(statsFile);
@@ -83,43 +69,6 @@ public class ConfigData {
 
     /** This reloads all the global variables, like debugging, prefix, tracking stats, etc. */
     public void reloadGlobals() {
-        this.prefixColor = config.getString("options.chat.plugin-prefix-color");
-        this.prefix = config.getString("options.chat.plugin-prefix");
-        this.chatColor = config.getString("options.chat.chat-color");
-        this.displayPrefix = config.getBoolean("options.chat.display-plugin-prefix");
-
-        this.debug = config.getBoolean("options.debug");
-        this.trackStats = config.getBoolean("options.track-statistics");
-        this.allowDiagonals = config.getBoolean("options.allow-diagonal-winnings");
-        this.protection = config.getBoolean("options.enable-slot-protection");
-        this.displayChunk = config.getBoolean("options.enable-chunk-messages");
-
-        plugin.useWorldGuard = config.getBoolean("options.enable-worldguard-check", false);
-        plugin.useTowny = config.getBoolean("options.towny-checks.enabled", false);
-        if(plugin.useTowny) {
-            this.onlyMayors = config.getBoolean("options.towny-checks.only-mayors", true);
-            this.noMayor = config.getString("options.towny-checks.no-mayor", "You must be a mayor to create a Casino Slot.");
-            this.onlyTowns = config.getBoolean("options.towny-checks.only-towns", true);
-            this.noTown = config.getString("options.towny-checks.no-town", "To create a slot you must be part of a town.");
-            this.noOwnership = config.getString("options.towny-checks.no-ownership", "You don't own the plot where that would be at, please make sure you are the owner and then try again.");
-        }
-    }
-
-    // Set up global settings
-    private void setGlobals() {
-        this.prefixColor = config.getString("options.chat.plugin-prefix-color", "&c&o");
-        this.prefix = config.getString("options.chat.plugin-prefix", "[Casino]");
-        this.chatColor = config.getString("options.chat.chat-color", "&a");
-        this.displayPrefix = config.getBoolean("options.chat.display-plugin-prefix", true);
-
-        this.debug = config.getBoolean("options.debug", false);
-        if(inDebug()) plugin.debug("Debugging enabled.");
-
-        this.trackStats = config.getBoolean("options.track-statistics", true);
-        this.allowDiagonals = config.getBoolean("options.allow-diagonal-winnings", false);
-        this.protection = config.getBoolean("options.enable-slot-protection", true);
-        this.displayChunk = config.getBoolean("options.enable-chunk-messages", false);
-
         plugin.useWorldGuard = config.getBoolean("options.enable-worldguard-check", false);
         plugin.useTowny = config.getBoolean("options.towny-checks.enabled", false);
         if(plugin.useTowny) {
@@ -133,10 +82,10 @@ public class ConfigData {
 
     // Save slots data
     public void saveSlots() {
-        Collection<SlotMachine> slots = plugin.getSlotManager().getSlots();
+        Collection<OldSlotMachine> slots = plugin.getSlotManager().getSlots();
 
         if(slots != null && !slots.isEmpty()) {
-            for (SlotMachine slot : slots) {
+            for (OldSlotMachine slot : slots) {
                 String path = "slots." + slot.getName() + ".";
                 this.slots.set(path + "name", slot.getName());
                 this.slots.set(path + "type", slot.getType().getName());
@@ -149,11 +98,11 @@ public class ConfigData {
         }
 
         try {
-            if(debug) plugin.debug("Saving the slots.yml.");
+            if(Settings.DEBUG.asBoolean()) plugin.debug("Saving the slots.yml.");
             this.slots.save(slotsFile);
         } catch (IOException e) {
             plugin.severe("There was a problem saving your slots.yml file.");
-            if(debug) e.printStackTrace();
+            if(Settings.DEBUG.asBoolean()) e.printStackTrace();
         }
     }
 
@@ -178,46 +127,11 @@ public class ConfigData {
         this.stats.set("global.lost", plugin.getStatData().globalLost);
 
         try {
-            if(debug) plugin.debug("Saving the stats.yml.");
+            if(Settings.DEBUG.asBoolean()) plugin.debug("Saving the stats.yml.");
             this.stats.save(statsFile);
         } catch (IOException e) {
             plugin.severe("There was a problem saving your stats.yml file.");
-            if(debug) e.printStackTrace();
+            if(Settings.DEBUG.asBoolean()) e.printStackTrace();
         }
-    }
-
-    public boolean inDebug() {
-        return this.debug;
-    }
-
-    /**
-     * For the command to add a new type, the parameter it takes is for the name of the new type.
-     * 
-     * @param name the name of the type
-     */
-    public void setTypeDefaults(String name) {
-        config.set("types."+ name +".cost", 100);
-        config.set("types."+ name +".create-cost", 1000);
-
-        ArrayList<String> reel = new ArrayList<String>();
-        reel.add("42,10");
-        reel.add("41,5");
-        reel.add("57,2");
-        config.set("types."+ name +".reel", reel);
-
-        config.set("types."+ name +".rewards.42.message", "Winner");
-        config.set("types."+ name +".rewards.42.money", 100);
-        config.set("types."+ name +".rewards.41.message", "Winner");
-        config.set("types."+ name +".rewards.41.money", 150);
-        config.set("types."+ name +".rewards.57.message", "Winner");
-        config.set("types."+ name +".rewards.57.money", 300);
-
-        config.set("types."+ name +".messages.insufficient-funds", "Insufficient funds.");
-        config.set("types."+ name +".messages.in-use", "In use.");
-        config.set("types."+ name +".messages.no-win", "You didn't win.");
-        config.set("types."+ name +".messages.start", "Start.");
-        config.set("types."+ name +".messages.help", new ArrayList<String>());
-
-        plugin.saveConfig();
     }
 }

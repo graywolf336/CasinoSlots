@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import com.craftyn.casinoslots.CasinoSlots;
+import com.craftyn.casinoslots.enums.Settings;
 
 public class StatData {
     private CasinoSlots plugin;
@@ -80,7 +81,7 @@ public class StatData {
 
     // Load all stats
     public void loadStats() {
-        if (plugin.getConfigData().trackStats) {
+        if (Settings.SLOTS_TRACK_STATS.asBoolean()) {
             this.globalSpins = 0;
             this.globalWins = 0;
             this.globalLosts = 0;

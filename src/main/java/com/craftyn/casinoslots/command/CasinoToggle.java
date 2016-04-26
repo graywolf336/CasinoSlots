@@ -3,7 +3,7 @@ package com.craftyn.casinoslots.command;
 import org.bukkit.command.CommandSender;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.OldSlotMachine;
 import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoToggle extends AnCommand {
@@ -29,7 +29,7 @@ public class CasinoToggle extends AnCommand {
         }
         // Slot exists
         if(plugin.getSlotManager().isSlot(args[1])) {
-            SlotMachine slot = plugin.getSlotManager().getSlot(args[1]);
+            OldSlotMachine slot = plugin.getSlotManager().getSlot(args[1]);
             slot.toggleBusy();
             senderSendMessage("Slot machine toggled.");
             return true;

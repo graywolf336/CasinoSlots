@@ -16,33 +16,34 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.classes.SlotMachine;
-import com.craftyn.casinoslots.classes.Type;
+import com.craftyn.casinoslots.classes.OldSlotMachine;
+import com.craftyn.casinoslots.classes.SlotType;
+import com.craftyn.casinoslots.enums.Settings;
 import com.google.common.collect.Sets;
 
 public class SlotManager {
     private CasinoSlots plugin;
-    private HashMap<String, SlotMachine> slots = new HashMap<String, SlotMachine>();
+    private HashMap<String, OldSlotMachine> slots = new HashMap<String, OldSlotMachine>();
 
-    private HashMap<String, SlotMachine> creatingSlots;
-    private HashMap<String, SlotMachine> placingController;
-    private HashMap<String, SlotMachine> punchingSign;
+    private HashMap<String, OldSlotMachine> creatingSlots;
+    private HashMap<String, OldSlotMachine> placingController;
+    private HashMap<String, OldSlotMachine> punchingSign;
 
     public SlotManager(CasinoSlots plugin) {
         this.plugin = plugin;
 
-        this.creatingSlots = new HashMap<String, SlotMachine>();
-        this.placingController = new HashMap<String, SlotMachine>();
-        this.punchingSign = new HashMap<String, SlotMachine>();
+        this.creatingSlots = new HashMap<String, OldSlotMachine>();
+        this.placingController = new HashMap<String, OldSlotMachine>();
+        this.punchingSign = new HashMap<String, OldSlotMachine>();
     }
 
     // Returns a slot machine
-    public SlotMachine getSlot(String name) {
+    public OldSlotMachine getSlot(String name) {
         return this.slots.get(name);
     }
 
     // Returns collection of all slot machines
-    public Collection<SlotMachine> getSlots() {
+    public Collection<OldSlotMachine> getSlots() {
         return this.slots.values();
     }
 
@@ -60,7 +61,7 @@ public class SlotManager {
      * 
      * @param slot machine to add.
      */
-    public void addSlot(SlotMachine slot) {
+    public void addSlot(OldSlotMachine slot) {
         plugin.debug("Adding a slot machine: " + slot.getName());
         this.slots.put(slot.getName(), slot);
     }
@@ -80,7 +81,7 @@ public class SlotManager {
      * 
      * @param slot machine to remove
      */
-    public void removeSlot(SlotMachine slot) {
+    public void removeSlot(OldSlotMachine slot) {
         plugin.debug("Removing the slot machine: " + slot.getName());
         for(Block b : slot.getBlocks())
             b.setType(Material.AIR);
@@ -102,7 +103,7 @@ public class SlotManager {
 
     // Loads all slot machines into memory
     public void loadSlots() {
-        this.slots = new HashMap<String, SlotMachine>();
+        this.slots = new HashMap<String, OldSlotMachine>();
         boolean save = false;
         if(plugin.getConfigData().slots.isConfigurationSection("slots")) {
             Set<String> slots = plugin.getConfigData().slots.getConfigurationSection("slots").getKeys(false);
@@ -119,7 +120,7 @@ public class SlotManager {
     }
 
     // Writes slot machine data to disk
-    public void saveSlot(SlotMachine slot) {
+    public void saveSlot(OldSlotMachine slot) {
 
         String path = "slots." + slot.getName() + ".";
         ArrayList<String> xyz = new ArrayList<String>();
@@ -163,7 +164,7 @@ public class SlotManager {
         String path = "slots." + name + ".";
         
         String typeName = plugin.getConfigData().slots.getString(path + "type");
-        Type type = plugin.getTypeManager().getType(typeName);
+        SlotType type = plugin.getTypeManager().getType(typeName);
         
         if(type == null) {
             plugin.severe("Failed to load the slot machine \"" + name + "\" since type \"" + typeName + "\" isn't defined.");
@@ -192,11 +193,7 @@ public class SlotManager {
         Block controller = getController(name);
         Block sign = getSign(name);
 
-        //Get the chunks
-        String rChunk = getRchunk(blocks);
-        String cChunk = getCchunk(controller);
-
-        SlotMachine slot = new SlotMachine(plugin, name, type, ownerid, owner, world, rChunk, cChunk, sign, managed, blocks, controller, funds, item, itemID, itemAmt);
+        OldSlotMachine slot = new OldSlotMachine(name, type, ownerid, owner, world, sign, managed, blocks, controller, funds, item, itemID, itemAmt);
         addSlot(slot);
         
         return save;
@@ -250,21 +247,10 @@ public class SlotManager {
         return loc.getBlock();
     }
 
-    private String getRchunk(ArrayList<Block> blocks) {
-        Block b = blocks.get(1);
-        return b.getChunk().getX() + "," + b.getChunk().getZ();
-    }
-
-    private String getCchunk(Block c) {
-        return c.getChunk().getX() + "," + c.getChunk().getZ();
-    }
-
     // Creates the slot machine in the world
-    public void createReel(Player player, BlockFace face, SlotMachine slot) {
+    public void createReel(Player player, BlockFace face, OldSlotMachine slot) {
         Block center = player.getTargetBlock(Sets.newHashSet(Material.AIR), 0);
         ArrayList<Block> blocks = new ArrayList<Block>();
-
-        slot.setReelChunk(center.getChunk().getX() + "," + center.getChunk().getZ());
 
         for(int i = 0; i < 3; i++) {
             blocks.add(center.getRelative(getDirection(face, "left"), 2));
@@ -274,7 +260,7 @@ public class SlotManager {
         }
 
         for(Block b : blocks) {
-            if(plugin.getConfigData().inDebug()) {
+            if(Settings.inDebug()) {
                 if(blocks.get(0) == b || blocks.get(1) == b || blocks.get(2) == b) {
                     b.setType(Material.DIAMOND_BLOCK);
                 }else if(blocks.get(3) == b || blocks.get(4) == b || blocks.get(5) == b) {
@@ -340,7 +326,7 @@ public class SlotManager {
     }
 
     // Toggles creating slots
-    public void toggleCreatingSlots(String player, SlotMachine slot) {
+    public void toggleCreatingSlots(String player, OldSlotMachine slot) {
         if(this.creatingSlots.containsKey(player)) {
             this.creatingSlots.remove(player);
         } else {
@@ -352,14 +338,14 @@ public class SlotManager {
      * Gets the slot machine the player is creating, if nothing then will be null.
      * 
      * @param player the player who is creating
-     * @return the {@link SlotMachine} they are creating
+     * @return the {@link OldSlotMachine} they are creating
      */
-    public SlotMachine getCreatingSlot(String player) {
+    public OldSlotMachine getCreatingSlot(String player) {
         return this.creatingSlots.get(player);
     }
 
     // Toggles placing controller
-    public void togglePlacingController(String player, SlotMachine slot) {
+    public void togglePlacingController(String player, OldSlotMachine slot) {
         if(this.placingController.containsKey(player)) {
             this.placingController.remove(player);
         } else {
@@ -371,14 +357,14 @@ public class SlotManager {
      * Gets the slot machine the player is punching a controller block for.
      * 
      * @param player the player who is creating
-     * @return the {@link SlotMachine} the player is creating
+     * @return the {@link OldSlotMachine} the player is creating
      */
-    public SlotMachine getPlacingSlot(String player) {
+    public OldSlotMachine getPlacingSlot(String player) {
         return this.placingController.get(player);
     }
 
     // Toggles creating a sign for the slot
-    public void togglePunchingSign(String player, SlotMachine slot) {
+    public void togglePunchingSign(String player, OldSlotMachine slot) {
         if(this.punchingSign.containsKey(player)) {
             this.punchingSign.remove(player);
         }else {
@@ -390,9 +376,9 @@ public class SlotManager {
      * Gets the slot machine the player is punching signs for.
      * 
      * @param player the player who is creating
-     * @return the {@link SlotMachine} they are creating
+     * @return the {@link OldSlotMachine} they are creating
      */
-    public SlotMachine getSignPunchingSlot(String player) {
+    public OldSlotMachine getSignPunchingSlot(String player) {
         return this.punchingSign.get(player);
     }
 }

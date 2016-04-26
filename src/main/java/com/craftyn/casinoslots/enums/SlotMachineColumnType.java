@@ -4,7 +4,7 @@ package com.craftyn.casinoslots.enums;
  * Representation of the type of columns in a slot machine, containing the index and task delay.
  *
  * @author graywolf336
- * @since 2.6.0
+ * @since 3.0.0
  * @version 1.0.0
  */
 public enum SlotMachineColumnType {

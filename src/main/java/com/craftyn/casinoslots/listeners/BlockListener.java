@@ -7,7 +7,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import com.craftyn.casinoslots.CasinoSlots;
-import com.craftyn.casinoslots.classes.SlotMachine;
+import com.craftyn.casinoslots.classes.OldSlotMachine;
+import com.craftyn.casinoslots.enums.Settings;
 
 public class BlockListener implements Listener {
     private CasinoSlots plugin;
@@ -22,12 +23,12 @@ public class BlockListener implements Listener {
         if(plugin.isEnabled()) {
 
             // Slot protection enabled
-            if(plugin.getConfigData().protection) {
+            if(Settings.SLOTS_ENABLE_PROTECTION.asBoolean()) {
 
                 Block b = event.getBlock();
 
                 // Look for match in slots
-                for(SlotMachine slot : plugin.getSlotManager().getSlots()) {
+                for(OldSlotMachine slot : plugin.getSlotManager().getSlots()) {
 
                     for(Block current : slot.getBlocks()) {
 

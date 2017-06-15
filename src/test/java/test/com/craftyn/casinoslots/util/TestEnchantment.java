@@ -35,4 +35,12 @@ public class TestEnchantment extends Enchantment {
     public boolean canEnchantItem(ItemStack item) {
         return true;
     }
+
+    public boolean isTreasure() {
+        return false;
+    }
+
+    public boolean isCursed() {
+        return false;
+    }
 }

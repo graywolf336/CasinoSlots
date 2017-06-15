@@ -32,7 +32,7 @@ import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.craftbukkit.v1_9_R1.inventory.CraftItemFactory;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemFactory;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -118,7 +118,6 @@ public class TestInstanceCreator {
 
             PluginDescriptionFile pdf = PowerMockito.spy(new PluginDescriptionFile("CasinoSlots", "2.6.0-Test", "com.craftyn.casinoslots.CasinoSlots"));
             when(pdf.getPrefix()).thenReturn("CasinoSlots");
-            when(pdf.isDatabaseEnabled()).thenReturn(false);
             List<String> authors = new ArrayList<String>();
             authors.add("graywolf336");
             authors.add("Darazo");

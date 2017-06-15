@@ -2,6 +2,7 @@ package com.craftyn.casinoslots.slot;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -46,7 +47,7 @@ public class TypeManager {
         //If the types folder is empty, let's fill it with the default types
         if(types.isEmpty()) {
             try {
-                YamlConfiguration.loadConfiguration(plugin.getResource("types/default.yml")).save(new File(f, "default.yml"));
+                YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource("types/default.yml"))).save(new File(f, "default.yml"));
                 loadType(new File(f, "default.yml"));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -54,7 +55,7 @@ public class TypeManager {
             }
             
             try {
-                YamlConfiguration.loadConfiguration(plugin.getResource("types/action-example.yml")).save(new File(f, "action-example.yml"));
+                YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource("types/action-example.yml"))).save(new File(f, "action-example.yml"));
                 loadType(new File(f, "action-example.yml"));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -62,7 +63,7 @@ public class TypeManager {
             }
             
             try {
-                YamlConfiguration.loadConfiguration(plugin.getResource("types/testing.yml")).save(new File(f, "testing.yml"));
+                YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource("types/testing.yml"))).save(new File(f, "testing.yml"));
                 loadType(new File(f, "testing.yml"));
             } catch (IOException e) {
                 e.printStackTrace();

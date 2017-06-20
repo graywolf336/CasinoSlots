@@ -15,7 +15,7 @@ public class CasinoSet extends AnCommand {
         super(plugin, args, player);
     }
 
-    public Boolean process() {
+    public boolean process() {
         if(!PermissionUtil.isAdmin(player)) {
             noPermission();
             return true;

@@ -14,7 +14,7 @@ public class AnSlot extends AnCommand {
         super(plugin, args, player);
     }
 
-    public Boolean process() {
+    public boolean process() {
 
         //Permissions
         if(!PermissionUtil.isAdmin(player) && !PermissionUtil.canCreate(player)) {

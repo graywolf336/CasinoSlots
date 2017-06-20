@@ -11,7 +11,7 @@ public class Casino extends AnCommand {
         super(plugin, args, sender);
     }
 
-    public Boolean process() {
+    public boolean process() {
 
         if(player == null) {
             senderSendMessage("Command guide:");

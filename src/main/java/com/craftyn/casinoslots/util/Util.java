@@ -51,7 +51,7 @@ public class Util {
      * Verifies the file passed is a directory and creates it if it doesn't exist.
      * 
      * @param f the {@link File} to check against
-     * @param name the dispay name of the file.
+     * @param name the name of the file.
      * @return whether it is good to go or not.
      */
     public static boolean verifyDirectoryExists(File f, String name) {

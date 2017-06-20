@@ -30,7 +30,7 @@ public abstract class AnCommand {
     }
 
     // Processes command, handled by subclasses
-    public Boolean process() {
+    public boolean process() {
         return false;
     }
 

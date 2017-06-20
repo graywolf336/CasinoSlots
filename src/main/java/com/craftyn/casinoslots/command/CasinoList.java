@@ -14,7 +14,7 @@ public class CasinoList extends AnCommand {
         super(plugin, args, sender);
     }
 
-    public Boolean process() {
+    public boolean process() {
 
         // Admin permission
         if(player != null) {

@@ -14,7 +14,7 @@ public class CasinoAdd extends AnCommand {
         super(plugin, args, player);
     }
 
-    public Boolean process() {
+    public boolean process() {
         // Permissions
         if(!PermissionUtil.canCreate(player)) {
             noPermission();

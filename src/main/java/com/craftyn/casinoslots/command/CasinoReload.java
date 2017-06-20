@@ -4,10 +4,10 @@ import org.bukkit.command.CommandSender;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.enums.Settings;
+import com.craftyn.casinoslots.exceptions.TypesFolderException;
 import com.craftyn.casinoslots.util.PermissionUtil;
 
 public class CasinoReload extends AnCommand {
-
     /**
      * Is initiated by a /casino reload, which is intended to reload the config.
      * 
@@ -19,7 +19,7 @@ public class CasinoReload extends AnCommand {
         super(plugin, args, sender);
     }
 
-    public Boolean process() {
+    public boolean process() {
         // Permissions
         if(player != null) {
             if(!PermissionUtil.isAdmin(player)) {
@@ -30,7 +30,13 @@ public class CasinoReload extends AnCommand {
 
         plugin.reloadConfig();
         plugin.getConfigData().reloadConfigs();
-        plugin.getTypeManager().reloadTypes();
+
+        try {
+            plugin.getTypeManager().loadAllTheTypes(plugin);
+        } catch (TypesFolderException e) {
+            this.senderSendMessage("Failed to reload the Types.");
+        }
+
         plugin.getSlotManager().reloadSlots();
         plugin.reloadUpdateCheck();
 
@@ -38,5 +44,4 @@ public class CasinoReload extends AnCommand {
         senderSendMessage("Configuration reloaded");
         return true;
     }
-
 }

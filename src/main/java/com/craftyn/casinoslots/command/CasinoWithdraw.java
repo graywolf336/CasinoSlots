@@ -13,7 +13,7 @@ public class CasinoWithdraw extends AnCommand {
         super(plugin, args, player);
     }
 
-    public Boolean process() {
+    public boolean process() {
         // Correct command format
         if(args.length == 3) {
 

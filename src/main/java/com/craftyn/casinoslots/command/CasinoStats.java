@@ -13,7 +13,7 @@ public class CasinoStats extends AnCommand {
         super(plugin, args, sender);
     }
 
-    public Boolean process() {
+    public boolean process() {
 
         // Permissions
         if(player != null) {

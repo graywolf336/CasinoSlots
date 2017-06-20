@@ -21,7 +21,7 @@ public class CasinoAddManaged extends AnCommand {
         super(plugin, args, player);
     }
 
-    public Boolean process() {
+    public boolean process() {
 
         //Check for simple player things before they try to add a slot
         if(plugin.useTowny) {

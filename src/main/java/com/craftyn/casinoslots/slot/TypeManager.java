@@ -3,12 +3,10 @@ package com.craftyn.casinoslots.slot;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.material.MaterialData;
@@ -17,33 +15,40 @@ import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.classes.Reel;
 import com.craftyn.casinoslots.classes.SlotType;
 import com.craftyn.casinoslots.exceptions.TypesFolderException;
-import com.craftyn.casinoslots.exceptions.UnknownActionException;
 import com.craftyn.casinoslots.util.Util;
 
 public class TypeManager {
     private HashMap<String, SlotType> types;
     
-    public TypeManager(CasinoSlots plugin) throws TypesFolderException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, UnknownActionException, IOException {
+    public TypeManager(CasinoSlots plugin) throws TypesFolderException {
         this.types = new HashMap<String, SlotType>();
         this.loadAllTheTypes(plugin);
-        this.saveCurrentType(plugin);
     }
-    
-    @SuppressWarnings("deprecation")
-    private void loadAllTheTypes(CasinoSlots plugin) throws TypesFolderException {
+
+    public void loadAllTheTypes(CasinoSlots plugin) throws TypesFolderException {
         File f = new File(plugin.getDataFolder() + File.separator + "types");
-        
+
         if(Util.verifyDirectoryExists(f, "types")) {
             for (String name : f.list()) {
-                if (!name.startsWith(".")) {
-                    plugin.debug("The type's name: " + name);
-                    //loadArena(new File(directory.getAbsolutePath() + File.separator + name));
+                if (name.startsWith(".")) {
+                    continue;
+                }
+
+                File type = new File(f, name);
+                if (type.isHidden() || type.isDirectory()) {
+                    continue;
+                }
+
+                if (this.loadType(type)) {
+                    plugin.debug("Successfully loaded " + name + "'s type!");
+                } else {
+                    plugin.error("Failed to load the type in the file: " + type.getPath());
                 }
             }
         }else {
             throw new TypesFolderException();
         }
-        
+
         //If the types folder is empty, let's fill it with the default types
         if(types.isEmpty()) {
             try {
@@ -53,7 +58,7 @@ public class TypeManager {
                 e.printStackTrace();
                 plugin.getLogger().severe("Failed to save the default type!");
             }
-            
+
             try {
                 YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource("types/action-example.yml"))).save(new File(f, "action-example.yml"));
                 loadType(new File(f, "action-example.yml"));
@@ -61,7 +66,7 @@ public class TypeManager {
                 e.printStackTrace();
                 plugin.getLogger().severe("Failed to save the default type!");
             }
-            
+
             try {
                 YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource("types/testing.yml"))).save(new File(f, "testing.yml"));
                 loadType(new File(f, "testing.yml"));
@@ -71,17 +76,37 @@ public class TypeManager {
             }
         }
     }
-    
+
     private boolean loadType(File file) {
-        YamlConfiguration type = YamlConfiguration.loadConfiguration(file);
-        return false;
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        if (!config.contains("type")) {
+            return false;
+        }
+
+        try {
+            SlotType t = (SlotType) config.get("type");
+            this.types.put(t.getName(), t);
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
     }
-    
-    public boolean reloadTypes() {
-        throw new NotImplementedException();
+
+    public Collection<SlotType> getTypes() {
+        return this.types.values();
     }
-    
-    private boolean saveCurrentType(CasinoSlots plugin) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, UnknownActionException, IOException {
+
+    public SlotType getType(String name) {
+        return this.types.get(name);
+    }
+
+    public boolean isValidType(String name) {
+        return this.types.containsKey(name);
+    }
+
+    public boolean saveTestingType(CasinoSlots plugin) throws IOException {
         SlotType type = new SlotType("testing");
         type.setCost(150.54);
         type.setCreateCost(1509849.99);
@@ -128,17 +153,5 @@ public class TypeManager {
         this.types.put(type.getName(), type);
         
         return true;
-    }
-    
-    public Collection<SlotType> getTypes() {
-        return this.types.values();
-    }
-    
-    public SlotType getType(String name) {
-        return this.types.get(name);
-    }
-    
-    public boolean isValidType(String name) {
-        return this.types.containsKey(name);
     }
 }

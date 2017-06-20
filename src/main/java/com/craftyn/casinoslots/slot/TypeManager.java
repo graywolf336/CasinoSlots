@@ -26,6 +26,10 @@ public class TypeManager {
     }
 
     public void loadAllTheTypes(CasinoSlots plugin) throws TypesFolderException {
+        if(!this.types.isEmpty()) {
+            this.types = new HashMap<String, SlotType>();
+        }
+
         File f = new File(plugin.getDataFolder() + File.separator + "types");
 
         if(Util.verifyDirectoryExists(f, "types")) {

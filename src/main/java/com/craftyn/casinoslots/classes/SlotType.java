@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 import org.bukkit.util.NumberConversions;
 
+import com.craftyn.casinoslots.CasinoSlotsStaticAPI;
 import com.craftyn.casinoslots.actions.Action;
 import com.craftyn.casinoslots.util.Util;
 
@@ -33,6 +34,7 @@ public class SlotType implements ConfigurationSerializable {
     public SlotType(String name) {
         this.name = name;
         this.messages = new SlotMachineMessages();
+        this.rewards = new HashMap<MaterialData, Reward>();
     }
 
     /**
@@ -176,8 +178,7 @@ public class SlotType implements ConfigurationSerializable {
 
                 //Make sure we don't send the same message more than once anymore!
                 if (!re.getMessage().isEmpty() && !messagesSent.contains(re.getMessage())) {
-                    //TODO: THIS
-                    //plugin.sendMessage(player, re.getMessage());
+                    CasinoSlotsStaticAPI.sendMessageToPlayer(player, re.getMessage());
                     messagesSent.add(re.getMessage());
                 }
 
@@ -191,11 +192,9 @@ public class SlotType implements ConfigurationSerializable {
         }
 
         if (won < 0) {
-            //TODO: THIS
-            //plugin.getEconomy().withdrawPlayer(player, Math.abs(won));
+            CasinoSlotsStaticAPI.getEconomy().withdrawPlayer(player, Math.abs(won));
         } else {
-            //TODO: THIS
-            //plugin.getEconomy().depositPlayer(player, won);
+            CasinoSlotsStaticAPI.getEconomy().depositPlayer(player, won);
         }
 
         return won;

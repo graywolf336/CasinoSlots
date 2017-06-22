@@ -322,7 +322,7 @@ public class CasinoSlots extends JavaPlugin {
     }
 
     // Registers economy with Vault
-    private Boolean setupEconomy() {
+    private boolean setupEconomy() {
         RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         if (economyProvider != null) {
             economy = economyProvider.getProvider();

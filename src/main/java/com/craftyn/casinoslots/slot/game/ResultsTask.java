@@ -32,8 +32,8 @@ public class ResultsTask implements Runnable {
         SlotType type = game.getType();
         Player player = game.getPlayer();
         String name = type.getName();
-        Double cost = type.getCost();
-        Double won = 0.0;
+        double cost = type.getCost();
+        double won = 0.0;
 
         ArrayList<String> results = getResults();
 

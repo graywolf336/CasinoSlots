@@ -61,14 +61,14 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.12-R0.1-SNAPSHOT</version>
+			<version>1.12.2-R0.1-SNAPSHOT</version>
 			<type>jar</type>
 		</dependency>
 
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.12-R0.1-SNAPSHOT</version>
+			<version>1.12.2-R0.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
@@ -83,16 +83,16 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.sk89q</groupId>
-			<artifactId>worldguard</artifactId>
-			<version>6.1</version>
+			<groupId>com.sk89q.worldguard</groupId>
+			<artifactId>worldguard-legacy</artifactId>
+			<version>6.2</version>
 			<type>jar</type>
 		</dependency>
 
 		<dependency>
 			<groupId>com.palmergames.bukkit</groupId>
 			<artifactId>Towny</artifactId>
-			<version>0.91.4.7</version>
+			<version>0.92.0.0</version>
 		</dependency>
 
 		<!-- Start of Test Dependencies -->

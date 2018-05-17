@@ -1,4 +1,4 @@
-package com.craftyn.casinoslots.command;
+package com.craftyn.casinoslots.oldcommands;
 
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;

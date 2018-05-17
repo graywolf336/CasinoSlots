@@ -26,11 +26,7 @@ public class StatData {
 
     // Returns collection of all stats
     public Collection<Stat> getStats() {
-        if (!this.stats.isEmpty()) {
-            return this.stats.values();
-        } else {
-            return null;
-        }
+    	return this.stats.values();
     }
 
     // Returns stats of a type

@@ -1,5 +1,7 @@
 package com.craftyn.casinoslots.command;
 
+import java.util.Collection;
+
 import org.bukkit.command.CommandSender;
 
 import com.craftyn.casinoslots.CasinoSlots;
@@ -24,6 +26,13 @@ public class CasinoStats extends AnCommand {
         }
 
         senderSendMessage("Statistics for registered types:");
+        Collection<Stat> stats = plugin.getStatData().getStats();
+        
+        if (stats.isEmpty()) {
+        	this.senderSendMessage("  No statistics yet.");
+        	return true;
+        }
+
         for(Stat stat : plugin.getStatData().getStats()) {
 
             String type = stat.getType();

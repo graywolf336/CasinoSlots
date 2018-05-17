@@ -94,6 +94,34 @@ public class MockWorldFactory {
                 return new File(TestInstanceCreator.serverDirectory, thiss.getName());
             }
         });
+        when(mockWorld.getBlockAt(any(int.class), any(int.class), any(int.class))).thenAnswer(new Answer<Block>() {
+            @SuppressWarnings("deprecation")
+            public Block answer(InvocationOnMock invocation) throws Throwable {
+                int x, y, z;
+                try {
+                    x = (int) invocation.getArguments()[0];
+                    y = (int) invocation.getArguments()[0];
+                    z = (int) invocation.getArguments()[0];
+                } catch (Exception e) {
+                    return null;
+                }
+                Material blockType = Material.AIR;
+                Block mockBlock = mock(Block.class);
+                if (y < 64) {
+                    blockType = Material.DIRT;
+                }
+
+                when(mockBlock.getType()).thenReturn(blockType);
+                when(mockBlock.getTypeId()).thenReturn(blockType.getId());
+                when(mockBlock.getWorld()).thenReturn(mockWorld);
+                when(mockBlock.getX()).thenReturn(x);
+                when(mockBlock.getY()).thenReturn(y);
+                when(mockBlock.getZ()).thenReturn(z);
+                when(mockBlock.getLocation()).thenReturn(new Location(mockWorld, x, y, z));
+                when(mockBlock.isEmpty()).thenReturn(blockType == Material.AIR);
+                return mockBlock;
+            }
+        });
         when(mockWorld.getBlockAt(any(Location.class))).thenAnswer(new Answer<Block>() {
             @SuppressWarnings("deprecation")
             public Block answer(InvocationOnMock invocation) throws Throwable {

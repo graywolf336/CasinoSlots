@@ -152,7 +152,7 @@ public class SimpleLocation implements ConfigurationSerializable {
      * @return the {@link Block} at this location.
      */
     public Block getBlock() {
-        return this.hasValidWorld() ? this.getLocation().getBlock() : null;
+        return this.hasValidWorld() ? this.getWorld().getBlockAt((int) this.x, (int) this.y, (int) this.z) : null;
     }
 
     @Override

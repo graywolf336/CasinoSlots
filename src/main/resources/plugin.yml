@@ -26,5 +26,5 @@ permissions:
                 description: User permissions for slot management
                 default: op
             casinoslots.manage:
-                descripton: User permission to manage slots
+                description: User permission to manage slots
                 default: op

@@ -55,6 +55,10 @@ public class CasinoSlots extends JavaPlugin {
 
     private ActionFactory actionFactory = null;
     private TypeManager typeManager;
+    
+    public CasinoSlots() {
+    	super();
+    }
 
     public void onLoad() {
         this.loadConfig();
@@ -110,7 +114,7 @@ public class CasinoSlots extends JavaPlugin {
         //Loads just the configuration, not the types, stats, or slots
         configData.load();
 
-        debug("Use World Guard:" + useWorldGuard);
+        debug("Use World Guard: " + useWorldGuard);
         if (useWorldGuard) {
             checkWorldGuard();
             if (worldGuard == null) {

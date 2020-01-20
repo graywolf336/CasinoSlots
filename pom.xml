@@ -42,11 +42,6 @@
 		</repository>
 
 		<repository>
-			<id>gray-snapshot</id>
-			<url>https://repo2.craftyn.com/repository/graywolf336-snapshots/</url>
-		</repository>
-
-		<repository>
 			<id>sk89q-repo</id>
 			<url>http://maven.sk89q.com/repo/</url>
 		</repository>
@@ -66,9 +61,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
-			<version>1.12.2-R0.1-SNAPSHOT</version>
+			<groupId>com.github.azbh111</groupId>
+			<artifactId>craftbukkit-1.12.2</artifactId>
+			<version>R</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
